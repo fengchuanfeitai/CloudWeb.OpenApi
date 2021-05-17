@@ -1,3 +1,4 @@
+using CloudWeb.IServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using CloudWeb.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,30 @@ namespace CloudWeb.OpenApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //services.AddLogging(logger => { logger.AddConsole(); });
+
+            //依赖注入
+            services.AddScoped<IServiceTag, UserService>();
+            //swagger依赖
+            services.AddSwaggerGen(options =>
+            {
+                //从xml注释生成xml文档
+                options.IncludeXmlComments("../doc/CloudWeb.OpenApi/OpenApi.xml");
+                options.SwaggerDoc("v2", new OpenApiInfo
+                {
+
+                    Title = "",
+                    Version = "v2",
+                    Description = "",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "",
+                        Url = new Uri("http://wwa/cs.com")
+                    },
+                    License = new OpenApiLicense { Name = "" }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +73,10 @@ namespace CloudWeb.OpenApi
             {
                 endpoints.MapControllers();
             });
+
+            //swagger配置
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v2/swagger.json", "book chapter service"));
         }
     }
 }

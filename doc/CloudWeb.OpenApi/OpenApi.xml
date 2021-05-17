@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CloudWeb.OpenApi</name>
+    </assembly>
+    <members>
+        <member name="T:CloudWeb.OpenApi.Controllers.UserController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.UserController},CloudWeb.IServers.IUserService)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.UserController.PostUserAsync(CloudWeb.Dto.UserDto)">
+            <summary>
+            修改
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,13 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DocumentationFile>../doc/CloudWeb.OpenApi/OpenApi.xml</DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="JWT" Version="8.2.2" />
     <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
@@ -17,6 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CloudWeb.Dto\CloudWeb.Dto.csproj" />
+    <ProjectReference Include="..\CloudWeb.Services\CloudWeb.Services.csproj" />
+    <ProjectReference Include="..\OpenApi.IServers\CloudWeb.IServices.csproj" />
   </ItemGroup>
 
 
