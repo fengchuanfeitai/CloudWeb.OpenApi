@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CloudWeb.IServices
 {
-    interface IServiceTag
+    public interface IServiceTag
     {
     }
 }
