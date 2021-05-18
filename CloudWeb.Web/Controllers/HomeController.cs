@@ -1,4 +1,5 @@
-﻿using CloudWeb.Web.Models;
+﻿using CloudWeb.Util;
+using CloudWeb.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -33,5 +34,20 @@ namespace CloudWeb.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult VerifyImage()
+        {
+            var validate = new ValidateCodeUtil();
+            string code = validate.CreateValidateCode(4);
+            byte[] bytes = validate.CreateValidateGraphic(code);
+            //验证码写入cookie
+            return File(bytes, @"image/jpeg");
+        }
+
     }
 }

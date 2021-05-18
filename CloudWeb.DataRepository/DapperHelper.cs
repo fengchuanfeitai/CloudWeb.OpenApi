@@ -23,12 +23,25 @@ namespace CloudWeb.DataRepository
         //数据库访问对象
         public IDbConnection Connection { get; protected set; }
 
+        public string ConnectionString = "";
+
         public DapperHelper()
+        {
+            //创建连接对象
+            ConnectionString = ConfigurationManager.ConnectionStrings[ConnectionStr].ConnectionString;
+        }
+
+        /// <summary>
+        /// sqlserver连接方法
+        /// </summary>
+        /// <returns></returns>
+        public SqlConnection SqlConnection()
         {
             try
             {
-                //创建连接对象
-                Connection = new SqlConnection(ConfigurationManager.ConnectionStrings[ConnectionStr].ConnectionString);
+                var connection = new SqlConnection(ConnectionString);
+                connection.Open();
+                return connection;
             }
             catch (Exception ex)
             {
@@ -130,6 +143,37 @@ namespace CloudWeb.DataRepository
             {
                 PrintSqlAndParam(sql, false, param);
                 return await SqlMapper.QueryFirstOrDefaultAsync<T>(Connection, sql, param, transaction, commandTimeout, commandType);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(string.Concat("QueryError: ", ex));
+                throw;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        /// <summary>
+        /// 异步查询集合方法
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="param">参数对象</param>
+        /// <param name="transaction">事务：默认为null</param>
+        /// <param name="commandTimeout">超时时间：默认null</param>
+        /// <param name="commandType">查询类型</param>
+        /// <returns></returns>
+        public T QueryFirstOrDefault<T>(string sql, dynamic param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+        {
+            if (transaction == null)
+                transaction = _transaction;
+
+            OpenConnection();
+            try
+            {
+                PrintSqlAndParam(sql, false, param);
+                return SqlMapper.QueryFirstOrDefault<T>(Connection, sql, param, transaction, commandTimeout, commandType);
             }
             catch (Exception ex)
             {

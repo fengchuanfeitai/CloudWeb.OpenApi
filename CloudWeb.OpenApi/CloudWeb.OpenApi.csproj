@@ -7,23 +7,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DocumentationFile>../doc/CloudWeb.OpenApi/OpenApi.xml</DocumentationFile>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\netcoreapp3.1\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="JWT" Version="8.2.2" />
     <PackageReference Include="log4net" Version="2.0.12" />
+    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Filters\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CloudWeb.Dto\CloudWeb.Dto.csproj" />
     <ProjectReference Include="..\CloudWeb.Services\CloudWeb.Services.csproj" />
     <ProjectReference Include="..\OpenApi.IServers\CloudWeb.IServices.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Web\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
 
 

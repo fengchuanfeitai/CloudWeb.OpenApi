@@ -1,8 +1,85 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+<style type="text/css">
+    body {
+        background-image: url(/Content/images/right_bg.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+</style>
+<!-- 顶部开始 -->
+<div class="container" style="background-image:url(/Content/images/top_bg.png);background-repeat:no-repeat; background-size:100% 100%;">
+    <div class="logo"><a href="/Menu/Home"><font style="color:#175143;font-size:18px;font-weight:bold;font-family:'Microsoft YaHei';"></font></a></div>
+    <div class="left_open">
+        <i title="展开左侧栏" class="iconfont">&#xe66e;</i>
+    </div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item to-index"><span style="color:#175143;font-weight:bold;font-family:'Microsoft YaHei';">欢迎您， </span></li>
+        <li class="layui-nav-item to-index">
+            <i title="退出" class="icon iconfont" style="color:#f2d800">&#xe650;</i>
+            <a href="@Url.Action("Logout", "Auth")">
+                <font style="color:#f2d800;font-size:12px;font-family:'Microsoft YaHei';">退出</font>
+            </a>
+        </li>
+    </ul>
 </div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<!-- 左侧菜单开始 -->
+<div class="left-nav" style="background-image:url(/Content/images/left_bg.png);background-repeat:no-repeat; background-size:100% 100%;width:170px">
+    <div id="side-nav">
+        <ul id="nav">
+
+            @*@{ var p = Model.Where(e => e.Level == 1);}
+
+                @foreach (var m in p)
+                {
+                    var menu = Model.Where(e => e.Level == 2 && e.ParentId == m.MenuId);*@
+            <li class="nav-first-li">
+                <a class="nav-first-li-a" href="javascript:;">
+                    @*<i class="layui-icon">&#xe60c;</i>*@
+                    <i class="icon iconfont" style="color:#26b576"></i>
+                    <cite>用户</cite>
+                </a>
+
+                @*@foreach (var list in menu)
+                    {*@
+                <ul class="sub-menu">
+                    <li class="nav-second-li">
+                        <a class="nav-second-li-a" _href="">
+                            @*<i class="iconfont">&#xe61c;</i>*@
+                            <i class="icon iconfont">&#xe601;</i>
+                            <cite>fdas</cite>
+                        </a>
+                    </li>
+                </ul>
+                @*}*@
+
+            </li>
+            @*  *@}
+        </ul>
+
+    </div>
+</div>
+<!-- <div class="x-slide_left"></div> -->
+<!-- 左侧菜单结束 -->
+<!-- 右侧主体开始 -->
+
+<div class="page-content" style="right:10px">
+    <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false" style="margin:0px;box-shadow:0px 0px 15px #6a8e66;">
+        <ul class="layui-tab-title">
+            <li allowClose="false">我的桌面</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <iframe src='about:blank' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-bg"></div>
+<!-- 右侧主体结束 -->
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+@*<div class="footer">
+        <div class="copyright">Copyright ©2017 x-admin v2.3 All Rights Reserved</div>
+    </div>*@

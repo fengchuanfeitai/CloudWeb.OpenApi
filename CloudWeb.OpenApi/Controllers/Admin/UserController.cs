@@ -1,6 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
-using CloudWeb.IServers;
+using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CloudWeb.OpenApi.Controllers
+namespace CloudWeb.OpenApi.Controllers.Admin
 {
     /// <summary>
     /// 
@@ -31,8 +31,8 @@ namespace CloudWeb.OpenApi.Controllers
 
         [HttpGet]
 
-        
-        public Task<IEnumerable<UserDto>> GetUsersAsync() => _service.GetAllAsync();
+
+        public IEnumerable<UserDto> GetUsersAsync() => _service.GetAllAsync();
 
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace CloudWeb.OpenApi.Controllers
                 return BadRequest();
             }
 
-            await _service.AddAsync(user);
+            _service.AddAsync(user);
 
             return CreatedAtRoute(nameof(GetUserByIdAsync), new { id = user.Id });
         }
@@ -57,8 +57,7 @@ namespace CloudWeb.OpenApi.Controllers
         [HttpGet("{id}", Name = nameof(GetUserByIdAsync))]
         public async Task<IActionResult> GetUserByIdAsync(int id)
         {
-            UserDto user = await _service.FindAsync(id);
-
+            UserDto user = _service.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -74,16 +73,16 @@ namespace CloudWeb.OpenApi.Controllers
             if (id == null || user == null)
                 return BadRequest();
 
-            if (await _service.FindAsync(id) == null)
+            if (_service.FindAsync(id) == null)
                 return NotFound();
 
-            await _service.UpdateAsync(user);
+            _service.UpdateAsync(user);
             return new NoContentResult();
         }
 
         //delete api/bookchapters/4
         [HttpDelete("{id}")]
 
-        public async Task DeleteAsync(int id) => await _service.RemoveAsync(id);
+        public async Task DeleteAsync(dynamic[] ids) => _service.RemoveAsync(ids);
     }
 }
