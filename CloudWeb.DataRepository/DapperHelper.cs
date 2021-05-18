@@ -33,7 +33,7 @@ namespace CloudWeb.DataRepository
             catch (Exception ex)
             {
                 //打印错误连接日志
-                _log.Error(string.Concat("MySqlConnectionError: ", ex));
+                _log.Error(string.Concat("SqlConnectionError: ", ex));
                 throw;
             }
         }

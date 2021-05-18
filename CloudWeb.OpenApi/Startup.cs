@@ -42,8 +42,8 @@ namespace CloudWeb.OpenApi
                 options.SwaggerDoc("v2", new OpenApiInfo
                 {
 
-                    Title = "",
-                    Version = "v2",
+                    Title = "仿真实验云后台接口文档",
+                    Version = "v1",
                     Description = "",
                     Contact = new OpenApiContact
                     {
@@ -76,7 +76,7 @@ namespace CloudWeb.OpenApi
 
             //swagger配置
             app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v2/swagger.json", "book chapter service"));
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "CloudWeb OpenApi service"));
         }
     }
 }
