@@ -181,4 +181,8 @@
     <ProjectReference Include="..\CloudWeb.Util\CloudWeb.Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Scripts\user\" />
+  </ItemGroup>
+
 </Project>
