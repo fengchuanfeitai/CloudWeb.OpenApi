@@ -45,8 +45,10 @@ namespace CloudWeb.Web.Controllers
             var validate = new ValidateCodeUtil();
             string code = validate.CreateValidateCode(4);
             byte[] bytes = validate.CreateValidateGraphic(code);
+
+            var file = File(bytes, @"image/jpeg");
             //验证码写入cookie
-            return File(bytes, @"image/jpeg");
+            return file;
         }
 
     }
