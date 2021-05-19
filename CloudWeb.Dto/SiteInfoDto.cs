@@ -1,4 +1,5 @@
-﻿using CloudWeb.Dto.Common;
+﻿
+using CloudWeb.Dto.Common;
 
 namespace CloudWeb.Dto
 {

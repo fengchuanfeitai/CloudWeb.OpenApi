@@ -59,7 +59,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
             }
 
             _siteInfoService.UpdateAsync(dto);
-            return 
+            return new ObjectResult(dto);
         }
     }
 }
