@@ -1,11 +1,8 @@
 ﻿using CloudWeb.Dto;
-using CloudWeb.Dto.Common;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CloudWeb.OpenApi.Controllers.Admin
@@ -43,6 +40,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpPost]
         public async Task<IActionResult> PostUserAsync([FromBody] UserDto user)
         {
+            _logger.LogInformation("aaa");
             if (user == null)
             {
                 return BadRequest();

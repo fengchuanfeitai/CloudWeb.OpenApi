@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using log4net;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,7 +7,9 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using Microsoft.Extensions.Logging;
 namespace CloudWeb.DataRepository
 {
     /// <summary>
@@ -19,16 +20,21 @@ namespace CloudWeb.DataRepository
         //数据库连接字符串
         private readonly string ConnectionStr = "SqlConnectionStr";
         //初始化日志
-        private ILog _log = LogManager.GetLogger(typeof(DapperHelper));
+        private readonly ILogger<DapperHelper> _logger;
         //数据库访问对象
         public IDbConnection Connection { get; protected set; }
 
         public string ConnectionString = "";
 
-        public DapperHelper()
+        var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+        var configurationRoot = builder.Build();
+        var motherNameSection = configurationRoot.GetSection("mother").GetSection("name");
+
+        public DapperHelper(ILogger<DapperHelper> logger)
         {
+            _logger = logger;
             //创建连接对象
-            ConnectionString = ConfigurationManager.ConnectionStrings[ConnectionStr].ConnectionString;
+            ConnectionString = configuration.GetConnectionString("SqlConnectionStr");
         }
 
         /// <summary>
@@ -283,7 +289,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally

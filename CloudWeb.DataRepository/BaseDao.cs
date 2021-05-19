@@ -11,7 +11,6 @@ namespace CloudWeb.DataRepository
         DapperHelper dapper = new DapperHelper();
         IDbConnection conn = null;
 
-        public string sql = "";
         public BaseDao()
         {
             //调用数据库

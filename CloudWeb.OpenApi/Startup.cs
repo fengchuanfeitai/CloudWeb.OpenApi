@@ -15,27 +15,54 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Extensions.PlatformAbstractions;
+using CloudWeb.OpenApi.Filters;
+using Autofac;
+using CloudWeb.OpenApi.Core.Aop;
+using CloudWeb.Util;
 
 namespace CloudWeb.OpenApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public ILifetimeScope AutofacContainer { get; private set; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+        .SetBasePath(env.ContentRootPath)
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+        .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
+
+        //添加autofac的DI配置容器
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            //注册IUserService和UserService接口及对应的实现类
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            //注册aop拦截器 
+            //将业务层程序集名称传了进去，给业务层接口和实现做了注册，也给业务层各方法开启了代理
+            builder.AddAopService(ServiceExtensions.GetAssemblyName());
+        }  //依赖注入
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                //注册统一结果返回，异常过滤器
+                options.Filters.Add<ApiResultFilter>();
+                options.Filters.Add<ApiExceptionFilter>();
+            });
 
-            //services.AddLogging(logger => { logger.AddConsole(); });
 
-            //依赖注入
-            services.AddScoped<IUserService, UserService>();
+            //注册跨域策略
+            services.AddCorsPolicy(Configuration);
+
+            //services.AddJwtService(Configuration);
             //swagger依赖
             services.AddSwaggerGen(options =>
             {
@@ -63,33 +90,24 @@ namespace CloudWeb.OpenApi
                 options.IncludeXmlComments(entityXmlPath);
                 //options.IncludeXmlComments("../doc/CloudWeb.OpenApi/OpenApi.xml");
 
-                var security = new Dictionary<string, IEnumerable<string>> { { "Bearer", new string[] { } }, };
-                //options.AddSecurityRequirement(security);//添加一个必须的全局安全信息，和AddSecurityDefinition方法指定的方案名称要一致，这里是Bearer。
-                //options.AddSecurityDefinition("Bearer", new ApiKeyScheme
-                //{
-                //    Description = "JWT授权(数据将在请求头中进行传输) 参数结构: \"Authorization: Bearer {token}\"",
-                //    Name = "Authorization",//jwt默认的参数名称
-                //    In = "header",//jwt默认存放Authorization信息的位置(请求头中)
-                //    Type = "apiKey"
-                //});
             });
 
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowAnyOrigin", policy =>
-                {
-                    policy.AllowAnyOrigin()//允许任何源
-                    .AllowAnyMethod()//允许任何方式
-                    .AllowAnyHeader()//允许任何头
-                    .AllowCredentials();//允许cookie
-                });
-                c.AddPolicy("AllowSpecificOrigin", policy =>
-                {
-                    policy.WithOrigins("http://localhost:8083")
-                    .WithMethods("GET", "POST", "PUT", "DELETE")
-                    .WithHeaders("authorization");
-                });
-            });
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowAnyOrigin", policy =>
+            //    {
+            //        policy.AllowAnyOrigin()//允许任何源
+            //        .AllowAnyMethod()//允许任何方式
+            //        .AllowAnyHeader()//允许任何头
+            //        .AllowCredentials();//允许cookie
+            //    });
+            //    c.AddPolicy("AllowSpecificOrigin", policy =>
+            //    {
+            //        policy.WithOrigins("http://localhost:8083")
+            //        .WithMethods("GET", "POST", "PUT", "DELETE")
+            //        .WithHeaders("authorization");
+            //    });
+            //});
 
         }
 
@@ -104,7 +122,11 @@ namespace CloudWeb.OpenApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //开启跨域中间件
+            app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);
 
+            app.UseAuthentication();
+            //授权中间件
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

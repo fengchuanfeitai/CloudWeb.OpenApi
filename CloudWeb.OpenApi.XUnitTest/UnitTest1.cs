@@ -1,9 +1,9 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xunit;
 using CloudWeb.Util;
-namespace CloudWeb.OpenApiTest
+using System;
+using Xunit;
+
+namespace CloudWeb.OpenApi.XUnitTest
 {
-    [TestClass]
     public class UnitTest1
     {
         [Fact]
