@@ -4,3 +4,82 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+<ul id="nav">
+    <li class="nav-first-li">
+        <a class="nav-first-li-a" href="javascript:;">
+            <i class="iconfont nav_right">&#xe6b8;</i>
+            <cite>栏目管理</cite>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-second-li">
+                <a class="nav-second-li-a" _href="@Url.Action("Index","Column")">
+                    <i class="iconfont">&#xe61c;</i>
+                    <cite>栏目列表</cite>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="nav-first-li">
+        <a class="nav-first-li-a" href="javascript:;">
+            <i class="iconfont nav_right">&#xe501;</i>
+            <cite>内容管理</cite>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-second-li">
+                <a class="nav-second-li-a" _href="@Url.Action("Index","Content")">
+                    <i class="iconfont">&#xe61c;</i>
+                    <cite>内容列表</cite>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="nav-first-li">
+        <a class="nav-first-li-a" href="javascript:;">
+            <i class="iconfont nav_right">&#xe501;</i>
+            <cite>会展中心</cite>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-second-li">
+                <a class="nav-second-li-a" _href="#">
+                    <i class="iconfont">&#xe61c;</i>
+                    <cite>公司管理</cite>
+                </a>
+            </li>
+            <li class="nav-second-li">
+                <a class="nav-second-li-a" _href="#">
+                    <i class="iconfont">&#xe61c;</i>
+                    <cite>展品管理</cite>
+
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="nav-first-li">
+        <a class="nav-first-li-a" href="javascript:;">
+            <i class="iconfont nav_right">&#xe501;</i>
+            <cite>站点设置</cite>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-second-li">
+                <a class="nav-second-li-a" _href="#">
+                    <i class="iconfont">&#xe61c;</i>
+                    <cite>站点设置</cite>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="nav-first-li">
+        <a class="nav-first-li-a" href="javascript:;">
+            <i class="iconfont nav_right">&#xe501;</i>
+            <cite>系统管理</cite>
+        </a>
+        <ul class="sub-menu">
+            <li class="nav-second-li">
+                <a class="nav-second-li-a" _href="@Url.Action("Index","User")">
+                    <i class="iconfont">&#xe61c;</i>
+                    <cite>用户管理</cite>
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
