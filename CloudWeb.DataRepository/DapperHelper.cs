@@ -6,7 +6,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CloudWeb.DataRepository
