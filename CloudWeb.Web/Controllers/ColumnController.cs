@@ -17,7 +17,5 @@ namespace CloudWeb.Web.Controllers
         {
             return View();
         }
-
-
     }
 }
