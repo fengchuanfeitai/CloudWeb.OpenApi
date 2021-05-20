@@ -43,6 +43,8 @@ namespace CloudWeb.OpenApi
             //注册IUserService和UserService接口及对应的实现类
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<ColumnService>().As<IColumnService>().InstancePerLifetimeScope();
+            builder.RegisterType<ContentService>().As<IContentService>().InstancePerLifetimeScope();
+
             //注册aop拦截器 
             //将业务层程序集名称传了进去，给业务层接口和实现做了注册，也给业务层各方法开启了代理
             builder.AddAopService(ServiceExtensions.GetAssemblyName());

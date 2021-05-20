@@ -18,8 +18,7 @@ namespace CloudWeb.Services
         {
             const string sql = "insert into(CreateTime,ModifyTime,Creator,Modifier,SiteTitle,SiteKeyword,SiteDesc,SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo) values(@CreateTime,@ModifyTime,@Creator,@Modifier,@SiteTitle,@SiteKeyword,@SiteDesc,@SiteLogo,@CopyRight,@Icp,@Tel,@Address,@WeChatPublicNo)";
 
-            ResponseResult<bool> result = new ResponseResult<bool>();
-            return result.SetData(Add(sql, siteInfo));
+            return new ResponseResult<bool>(Add(sql, siteInfo));
         }
 
         /// <summary>
@@ -30,8 +29,7 @@ namespace CloudWeb.Services
         {
             const string sql = "SELECT TOP 1 Id,CreateTime,ModifyTime,Creator,Modifier,SiteTitle,SiteKeyword,SiteDesc,SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo FROM dbo.SiteInfo";
 
-            ResponseResult<SiteInfoDto> result = new ResponseResult<SiteInfoDto>();
-            return result.SetData(Find(sql));
+            return new ResponseResult<SiteInfoDto>(Find(sql));
         }
 
 
@@ -43,8 +41,8 @@ namespace CloudWeb.Services
         public ResponseResult<bool> Update(SiteInfoDto siteInfo)
         {
             const string sql = "UPDATE dbo.SiteInfo SET ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,SiteKeyword=@SiteKeyword,SiteDesc=@SiteDesc,SiteLogo=@SiteLogo,CopyRight=@CopyRight,Icp=@Icp,Tel=@Tel,[Address]=@Address,WeChatPublicNo=@WeChatPublicNo";
-            ResponseResult<bool> result = new ResponseResult<bool>();
-            return result.SetData(Update(sql, siteInfo));
+
+            return new ResponseResult<bool>(Update(sql, siteInfo));
         }
 
     }

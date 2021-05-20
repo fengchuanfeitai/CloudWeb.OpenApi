@@ -3,21 +3,25 @@ using CloudWeb.Dto.Common;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
     /// <summary>
-    /// 栏目管理
+    /// 内容管理
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ColumnController : Controller
+    public class ContenController : Controller
     {
+
         //初始化日志
-        private readonly ILogger<ColumnController> _log;
-        private readonly IColumnService _service;
-        public ColumnController(ILogger<ColumnController> log, IColumnService service)
+        private readonly ILogger<ContenController> _log;
+        private readonly IContentService _service;
+        public ContenController(ILogger<ContenController> log, IContentService service)
         {
             _log = log;
             _service = service;
@@ -28,7 +32,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ColumnDto>> GetAll()
+        public ResponseResult<IEnumerable<ContentDto>> GetAll()
         {
             return _service.GetAll();
         }
@@ -37,10 +41,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// 查询栏目
         /// </summary>
         /// <returns></returns>
-        [HttpGet("id", Name = nameof(GetColumn))]
-        public ResponseResult<ColumnDto> GetColumn(int id)
+        [HttpGet("id", Name = nameof(GetContent))]
+        public ResponseResult<ContentDto> GetContent(int id)
         {
-            return _service.GetColumn(id);
+            return _service.GetContent(id);
         }
 
         /// <summary>
@@ -48,9 +52,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public ResponseResult<bool> EdittColumn(ColumnDto columnDto)
+        public ResponseResult<bool> EdittContent([FromBody] ContentDto contentDto)
         {
-            return _service.EdittColumn(columnDto);
+            return _service.EdittContent(contentDto);
         }
 
         /// <summary>
@@ -58,9 +62,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResponseResult<bool> AddColumn(ColumnDto columnDto)
+        public ResponseResult<bool> AddContent([FromBody] ContentDto contentDto)
         {
-            return _service.AddColumn(columnDto);
+            return _service.AddContent(contentDto);
         }
 
         /// <summary>
@@ -68,9 +72,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        public ResponseResult<bool> DeleteColumn(dynamic[] ids)
+        public ResponseResult<bool> DeleteContent(dynamic[] ids)
         {
-            return _service.DeleteColumn(ids);
+            return _service.DeleteContent(ids);
         }
+
     }
 }
