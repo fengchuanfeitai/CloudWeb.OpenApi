@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -15,10 +15,56 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\Scripts\bootstrap\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\Scripts\bootstrap\css\bootstrap.css.map" />
+    <None Include="wwwroot\Scripts\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\Scripts\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-datetimepicker.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-datetimepicker.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-datetimepicker.zh-CN.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-table-locale-all.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-table-locale-all.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-table-zh-CN.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-table.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap-table.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\bootstrap.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\fileinput.min.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\npm.js" />
+    <None Include="wwwroot\Scripts\bootstrap\js\zh.js" />
+    <None Include="wwwroot\Scripts\jquery-1.8.2.min.js" />
+    <None Include="wwwroot\Scripts\jquery.min.js" />
+    <None Include="wwwroot\Scripts\jquery.validate.min.js" />
+    <None Include="wwwroot\Scripts\layui\font\iconfont.svg" />
+    <None Include="wwwroot\Scripts\layui\layui.all.js" />
+    <None Include="wwwroot\Scripts\layui\layui.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\carousel.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\code.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\element.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\flow.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\form.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\jquery.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\laydate.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\layedit.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\layer.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\laypage.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\laytpl.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\mobile.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\table.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\tree.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\upload.js" />
+    <None Include="wwwroot\Scripts\layui\lay\modules\util.js" />
+    <None Include="wwwroot\Scripts\modernizr-2.6.2.js" />
+    <None Include="wwwroot\Scripts\xadmin.js" />
+    <None Include="wwwroot\Scripts\xcity.js" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CloudWeb.Util\CloudWeb.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Scripts\user\" />
   </ItemGroup>
 
 </Project>

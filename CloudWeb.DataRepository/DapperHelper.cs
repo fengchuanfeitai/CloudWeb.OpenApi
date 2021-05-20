@@ -25,15 +25,15 @@ namespace CloudWeb.DataRepository
 
         public string ConnectionString = "";
 
-        var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-        var configurationRoot = builder.Build();
-        var motherNameSection = configurationRoot.GetSection("mother").GetSection("name");
+        //var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+        //var configurationRoot = builder.Build();
+        //var motherNameSection = configurationRoot.GetSection("mother").GetSection("name");
 
         public DapperHelper(ILogger<DapperHelper> logger)
         {
             _logger = logger;
             //创建连接对象
-            ConnectionString = configuration.GetConnectionString("SqlConnectionStr");
+            //ConnectionString = configuration.GetConnectionString("SqlConnectionStr");
         }
 
         /// <summary>

@@ -1,0 +1,10 @@
+﻿.goods-info .goods-img img{height:350px;display:block;width:100%;min-height:300px}
+.goods-info .ti_info{padding:5px 9px;border-bottom:10px solid #ececec;background-color:#fff}
+.goods-info .ti_info .tii_title{-webkit-tap-highlight-color:transparent}
+.goods-info .ti_info .tii_title h3{font-size:16px;line-height:22px;color:#333;height:45px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-wrap:break-word;overflow:hidden;margin:20px 10px}
+.goods-info .ti_info .tii_price{font-size:14px;font-weight:700;color:#dd2727;margin:9px;height:24px;line-height:14px}
+.goods-info .ti_info .tii_price .list_m_font{font-size:14px;font-weight:400;line-height:18px}
+.goods-buy{position:fixed;width:100%;height: 50px;bottom:0;left:0;border-top:1px solid #e0dede;background-color:#f6f6f6;z-index:2;}
+.goods-buy span{width:50%;height:100%;line-height: 50px;text-align:center;float:left;color:#fff;font-size: 16px;}
+.group-warp img{width:100%;display: block;}
+div#wrapper{position:absolute;z-index:1;top:0;left:0;width:100%;background:#f6f6f6;overflow:hidden;bottom: 50px;}

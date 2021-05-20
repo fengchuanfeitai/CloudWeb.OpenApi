@@ -60,7 +60,7 @@ namespace CloudWeb.OpenApi
 
 
             //注册跨域策略
-            services.AddCorsPolicy(Configuration);
+            //services.AddCorsPolicy(Configuration);
 
             //services.AddJwtService(Configuration);
             //swagger依赖
@@ -123,7 +123,7 @@ namespace CloudWeb.OpenApi
 
             app.UseRouting();
             //开启跨域中间件
-            app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);
+            //app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);
 
             app.UseAuthentication();
             //授权中间件

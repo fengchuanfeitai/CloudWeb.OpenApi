@@ -19,7 +19,7 @@
             return '搜索';
         },
         formatNoMatches: function () {
-            return '<img src="/content/images/nodata.png" width="120"/><br/><br/><font color="#666666">没有找到匹配的记录~</font>';
+            return '没有找到匹配的记录';
         },
         formatPaginationSwitch: function () {
             return '隐藏/显示分页';
