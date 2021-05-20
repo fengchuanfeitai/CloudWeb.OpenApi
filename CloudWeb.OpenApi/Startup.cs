@@ -19,6 +19,7 @@ using CloudWeb.OpenApi.Filters;
 using Autofac;
 using CloudWeb.OpenApi.Core.Aop;
 using CloudWeb.Util;
+using CloudWeb.OpenApi.Core.Jwt;
 
 namespace CloudWeb.OpenApi
 {
@@ -60,15 +61,15 @@ namespace CloudWeb.OpenApi
 
 
             //注册跨域策略
-            //services.AddCorsPolicy(Configuration);
+            services.AddCorsPolicy(Configuration);
 
-            //services.AddJwtService(Configuration);
+            //注册jwt验证
+            services.AddJwtService(Configuration);
+
             //swagger依赖
             services.AddSwaggerGen(options =>
             {
                 //从xml注释生成xml文档
-
-
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
 
@@ -123,7 +124,7 @@ namespace CloudWeb.OpenApi
 
             app.UseRouting();
             //开启跨域中间件
-            //app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);
+            app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);
 
             app.UseAuthentication();
             //授权中间件

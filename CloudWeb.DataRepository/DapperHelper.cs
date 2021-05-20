@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using System.IO;
 using Microsoft.Extensions.Logging;
 namespace CloudWeb.DataRepository
@@ -16,8 +17,6 @@ namespace CloudWeb.DataRepository
     /// </summary>
     public class DapperHelper : IDisposable
     {
-        //数据库连接字符串
-        private readonly string ConnectionStr = "SqlConnectionStr";
         //初始化日志
         private readonly ILogger<DapperHelper> _logger;
         //数据库访问对象
@@ -25,15 +24,23 @@ namespace CloudWeb.DataRepository
 
         public string ConnectionString = "";
 
-        //var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-        //var configurationRoot = builder.Build();
-        //var motherNameSection = configurationRoot.GetSection("mother").GetSection("name");
-
         public DapperHelper(ILogger<DapperHelper> logger)
         {
             _logger = logger;
-            //创建连接对象
-            //ConnectionString = configuration.GetConnectionString("SqlConnectionStr");
+            try
+            {
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+                var configurationRoot = builder.Build();
+
+                //创建连接对象
+                ConnectionString = configurationRoot.GetSection("SqlConnectionStr").Value;
+            }
+            catch (Exception ex)
+            {
+                //打印错误连接日志
+                _log.Error(string.Concat("SqlConnectionError: ", ex));
+                throw;
+            }
         }
 
         /// <summary>

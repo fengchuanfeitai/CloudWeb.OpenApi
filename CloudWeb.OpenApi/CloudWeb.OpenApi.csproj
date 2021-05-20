@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CloudWeb.Dto\CloudWeb.Dto.csproj" />
+    <ProjectReference Include="..\CloudWeb.OpenApi.Core1\CloudWeb.OpenApi.Core.csproj" />
     <ProjectReference Include="..\CloudWeb.Services\CloudWeb.Services.csproj" />
     <ProjectReference Include="..\CloudWeb.Util\CloudWeb.Util.csproj" />
     <ProjectReference Include="..\OpenApi.IServers\CloudWeb.IServices.csproj" />
