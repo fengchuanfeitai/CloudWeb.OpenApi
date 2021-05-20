@@ -1,5 +1,8 @@
 ﻿using CloudWeb.Dto;
+using CloudWeb.Dto.Common;
 using CloudWeb.IServices;
+using CloudWeb.OpenApi.Core.Core.Jwt.UserClaim;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -8,11 +11,12 @@ using System.Threading.Tasks;
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
     /// <summary>
-    /// 
+    /// 用户展示
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    [ApiController]
+    public class UserController : AuthorizeController
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _service;
@@ -26,5 +30,17 @@ namespace CloudWeb.OpenApi.Controllers.Admin
             service = _service;
         }
 
+        /// <summary>
+        /// 登录验证
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public ResponseResult<UserData> Login(string name, string password)
+        {
+            return _service.Login(name, password);
+        }
     }
 }

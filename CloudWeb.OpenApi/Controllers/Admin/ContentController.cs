@@ -15,13 +15,13 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ContenController : Controller
+    public class ContentController : Controller
     {
 
         //初始化日志
-        private readonly ILogger<ContenController> _log;
+        private readonly ILogger<ContentController> _log;
         private readonly IContentService _service;
-        public ContenController(ILogger<ContenController> log, IContentService service)
+        public ContentController(ILogger<ContentController> log, IContentService service)
         {
             _log = log;
             _service = service;

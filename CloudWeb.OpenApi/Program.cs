@@ -39,11 +39,6 @@ namespace CloudWeb.OpenApi
             Host.CreateDefaultBuilder(args).UseServiceProviderFactory(new AutofacServiceProviderFactory()).ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                })
-      .UseNLog();  // NLog: “¿¿µ◊¢»ÎNlog
+                }).UseNLog();  // NLog: “¿¿µ◊¢»ÎNlog
     }
 }

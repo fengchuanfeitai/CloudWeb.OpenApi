@@ -55,5 +55,12 @@ namespace CloudWeb.Dto
         /// 备注
         /// </summary>
         public string Remarks { get; set; }
+
+        /// <summary>
+        /// 权限验证
+        /// </summary>
+        public string Token { get; set; }
+
+        public RoleDto roleDto { get; set; }
     }
 }
