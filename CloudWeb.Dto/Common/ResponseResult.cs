@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CloudWeb.OpenApi.Core
+﻿namespace CloudWeb.Dto.Common
 {
     /// <summary>
     ///  执行返回结果
     /// </summary>
-    public class ExecuteResult
+    public class ResponseResult
     {
-        public virtual ExecuteResult Set(bool isSucceed, string message)
+        public virtual ResponseResult Set(bool isSucceed, string message)
         {
             IsSucceed = isSucceed;
             Message = message;
@@ -21,15 +16,15 @@ namespace CloudWeb.OpenApi.Core
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public virtual ExecuteResult SetFailMessage(string message)
+        public virtual ResponseResult SetFailMessage(string message)
         {
             return Set(false, message);
         }
-        public virtual ExecuteResult SetFail()
+        public virtual ResponseResult SetFail()
         {
             return Set(false, string.Empty);
         }
-        public ExecuteResult(bool isSucceed, string message)
+        public ResponseResult(bool isSucceed, string message)
         {
             Set(isSucceed, message);
         }
@@ -37,14 +32,14 @@ namespace CloudWeb.OpenApi.Core
         /// 如果是给字符串，表示有错误信息，默认IsSucceed=false
         /// </summary>
         /// <param name="message"></param>
-        public ExecuteResult(string message)
+        public ResponseResult(string message)
         {
             Set(false, message);
         }
         /// <summary>
         /// 如果是空的，没有信息，默认IsSucceed=true
         /// </summary>
-        public ExecuteResult()
+        public ResponseResult()
         {
         }
         /// <summary>
@@ -62,20 +57,20 @@ namespace CloudWeb.OpenApi.Core
     /// 执行返回结果
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExecuteResult<T> : ExecuteResult
+    public class ResponseResult<T> : ResponseResult
     {
-        public ExecuteResult<T> Set(bool isSucceed, string message, T result)
+        public ResponseResult<T> Set(bool isSucceed, string message, T result)
         {
             IsSucceed = isSucceed;
             Message = message;
             Result = result;
             return this;
         }
-        public ExecuteResult<T> SetData(T data)
+        public ResponseResult<T> SetData(T data)
         {
             return Set(true, string.Empty, data);
         }
-        public new ExecuteResult<T> SetFail()
+        public new ResponseResult<T> SetFail()
         {
             return Set(false, string.Empty, default);
         }
@@ -85,22 +80,22 @@ namespace CloudWeb.OpenApi.Core
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public new ExecuteResult<T> SetFailMessage(string message)
+        public new ResponseResult<T> SetFailMessage(string message)
         {
             return Set(false, message, default);
         }
-        public ExecuteResult()
+        public ResponseResult()
         {
         }
-        public ExecuteResult(string message)
+        public ResponseResult(string message)
         {
             Set(false, message);
         }
-        public ExecuteResult(bool isSucceed, string message)
+        public ResponseResult(bool isSucceed, string message)
         {
             Set(isSucceed, message);
         }
-        public ExecuteResult(T result)
+        public ResponseResult(T result)
         {
             SetData(result);
         }

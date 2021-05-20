@@ -1,24 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CloudWeb.IServices
+﻿namespace CloudWeb.IServices
 {
-    public interface IBaseService<T> where T : class, new()
+    public interface IBaseService
     {
-        IQueryable<T> GetAllAsync();
-
-        T FindAsync(int id);
-
-        bool AddAsync(T user);
-
-        bool UpdateAsync(T user);
-
-        bool RemoveAsync(dynamic[] ids);
-
-        bool IsExistsAsync(int id);
-
     }
 }

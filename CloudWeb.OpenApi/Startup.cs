@@ -42,6 +42,7 @@ namespace CloudWeb.OpenApi
         {
             //注册IUserService和UserService接口及对应的实现类
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<ColumnService>().As<IColumnService>().InstancePerLifetimeScope();
             //注册aop拦截器 
             //将业务层程序集名称传了进去，给业务层接口和实现做了注册，也给业务层各方法开启了代理
             builder.AddAopService(ServiceExtensions.GetAssemblyName());
@@ -87,8 +88,8 @@ namespace CloudWeb.OpenApi
                 var basePath = PlatformServices.Default.Application.ApplicationBasePath;
                 var xmlPath = Path.Combine(basePath, "OpenApi.xml");
                 options.IncludeXmlComments(xmlPath, true);
-                var entityXmlPath = Path.Combine(basePath, "DtoHelp.xml");
-                options.IncludeXmlComments(entityXmlPath);
+                //var entityXmlPath = Path.Combine(basePath, "DtoHelp.xml");
+                //options.IncludeXmlComments(entityXmlPath);
                 //options.IncludeXmlComments("../doc/CloudWeb.OpenApi/OpenApi.xml");
 
             });

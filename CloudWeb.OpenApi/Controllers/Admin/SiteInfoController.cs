@@ -1,4 +1,5 @@
 ﻿using CloudWeb.Dto;
+using CloudWeb.Dto.Common;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,14 +32,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = nameof(GetSiteInfo))]
-        public IActionResult GetSiteInfo(int id)
+        public ResponseResult<SiteInfoDto> GetSiteInfo()
         {
-            SiteInfoDto dto = _siteInfoService.FindSiteInfoAsync();
-            if (dto == null)
-            {
-                return NotFound();
-            }
-            return new ObjectResult(dto);
+            return _siteInfoService.FindSiteInfo();
         }
 
         /// <summary>
@@ -47,19 +43,20 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPut()]
-        public IActionResult UpdateSiteInfo([FromBody] SiteInfoDto dto)
+        public ResponseResult<bool> UpdateSiteInfo([FromBody] SiteInfoDto dto)
         {
-            if (dto == null)
-                return BadRequest();
+            return _siteInfoService.Update(dto);
+        }
 
-            SiteInfoDto siteInfo = _siteInfoService.FindSiteInfoAsync();
-            if (siteInfo == null)
-            {
-                return NotFound();
-            }
-
-            _siteInfoService.UpdateAsync(dto);
-            return new ObjectResult(dto);
+        /// <summary>
+        /// 添加站点信息
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost()]
+        public ResponseResult<bool> AddSiteInfo([FromBody] SiteInfoDto dto)
+        {
+            return _siteInfoService.Add(dto);
         }
     }
 }

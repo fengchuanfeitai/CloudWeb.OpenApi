@@ -1,9 +1,13 @@
 ﻿using CloudWeb.Dto;
+using CloudWeb.Dto.Common;
 
 namespace CloudWeb.IServices
 {
-    public interface ISiteInfoService : IBaseService<SiteInfoDto>
+    public interface ISiteInfoService : IBaseService
     {
-        SiteInfoDto FindSiteInfoAsync();
+        ResponseResult<bool> Add(SiteInfoDto siteInfo);
+        ResponseResult<SiteInfoDto> FindSiteInfo();
+
+        ResponseResult<bool> Update(SiteInfoDto siteInfo);
     }
 }

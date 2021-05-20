@@ -6,8 +6,9 @@ using CloudWeb.IServices;
 
 namespace CloudWeb.IServices
 {
-    public interface IUserService : IBaseService<UserDto>
+    public interface IUserService : IBaseService
     {
+
     }
 
 }

@@ -1,13 +1,11 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using System.IO;
 using Microsoft.Extensions.Logging;
 namespace CloudWeb.DataRepository
@@ -18,15 +16,17 @@ namespace CloudWeb.DataRepository
     public class DapperHelper : IDisposable
     {
         //初始化日志
-        private readonly ILogger<DapperHelper> _logger;
+        private readonly ILogger<DapperHelper> _log;
         //数据库访问对象
         public IDbConnection Connection { get; protected set; }
 
         public string ConnectionString = "";
-
-        public DapperHelper(ILogger<DapperHelper> logger)
+        public DapperHelper(ILogger<DapperHelper> log)
         {
-            _logger = logger;
+            _log = log;
+        }
+        public DapperHelper()
+        {
             try
             {
                 var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
@@ -34,31 +34,12 @@ namespace CloudWeb.DataRepository
 
                 //创建连接对象
                 ConnectionString = configurationRoot.GetSection("SqlConnectionStr").Value;
+                Connection = new SqlConnection(ConnectionString);
             }
             catch (Exception ex)
             {
                 //打印错误连接日志
-                _log.Error(string.Concat("SqlConnectionError: ", ex));
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// sqlserver连接方法
-        /// </summary>
-        /// <returns></returns>
-        public SqlConnection SqlConnection()
-        {
-            try
-            {
-                var connection = new SqlConnection(ConnectionString);
-                connection.Open();
-                return connection;
-            }
-            catch (Exception ex)
-            {
-                //打印错误连接日志
-                _log.Error(string.Concat("SqlConnectionError: ", ex));
+                _log.LogError(string.Concat("SqlConnectionError: ", ex));
                 throw;
             }
         }
@@ -126,7 +107,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -158,7 +139,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -189,7 +170,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -223,7 +204,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -256,7 +237,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -295,7 +276,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -337,7 +318,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -378,7 +359,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -418,7 +399,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
             finally
@@ -451,7 +432,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("ExecuteError: ", ex));
+                _log.LogError(string.Concat("ExecuteError: ", ex));
                 throw;
             }
             finally
@@ -485,7 +466,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("ExecuteError: ", ex));
+                _log.LogError(string.Concat("ExecuteError: ", ex));
                 throw;
             }
             finally
@@ -517,7 +498,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("QueryError: ", ex));
+                _log.LogError(string.Concat("QueryError: ", ex));
                 throw;
             }
         }
@@ -544,7 +525,7 @@ namespace CloudWeb.DataRepository
                     }
                     catch (Exception ex)
                     {
-                        _log.Error(string.Concat("ExecuteWithTransactionError: ", ex));
+                        _log.LogError(string.Concat("ExecuteWithTransactionError: ", ex));
                         return false;
                     }
                 }
@@ -555,7 +536,7 @@ namespace CloudWeb.DataRepository
             }
             catch (Exception ex)
             {
-                _log.Error(string.Concat("TransactionError: ", ex));
+                _log.LogError(string.Concat("TransactionError: ", ex));
                 return false;
             }
             finally
@@ -600,7 +581,7 @@ namespace CloudWeb.DataRepository
             catch (Exception ex)
             {
                 trans.Rollback();
-                _log.Error(string.Concat("TransactionError: ", ex));
+                _log.LogError(string.Concat("TransactionError: ", ex));
 
                 return false;
             }
@@ -653,7 +634,7 @@ namespace CloudWeb.DataRepository
         private void PrintSqlAndParam(string sql, bool withTransaction, dynamic param = null)
         {
             string prefix = withTransaction ? "ExecuteWithTransactionSql: " : "ExecuteSql: ";
-            _log.Debug(string.Concat(prefix, sql));
+            //_log.LogDebug(string.Concat(prefix, sql));
 
             if (param != null)
             {
@@ -662,7 +643,7 @@ namespace CloudWeb.DataRepository
                 {
                     paramString += $"Param[{property.Name}] = {property.GetValue(param)} ; ";
                 }
-                _log.Debug(paramString);
+                _log.LogDebug(paramString);
             }
         }
 
