@@ -81,7 +81,7 @@ namespace CloudWeb.Services
 
             var SiteInfoResult = new ResponseResult<SiteInfoDto>(Find(sql));
 
-            if (SiteInfoResult.Result == null)
+            if (SiteInfoResult.data == null)
             {
                 var NewSiteInfo = new SiteInfoDto()
                 {
@@ -98,8 +98,8 @@ namespace CloudWeb.Services
                     WeChatPublicNo = "-9"
                 };
                 var AddResult = AddSiteInfo(NewSiteInfo);
-                if (!AddResult.IsSucceed)
-                    return new ResponseResult<SiteInfoDto>(false, "初始化站点信息失败！");
+                if (AddResult.code != 200)
+                    return new ResponseResult<SiteInfoDto>(201, "初始化站点信息失败！");
                 FindSiteInfo();
             }
 

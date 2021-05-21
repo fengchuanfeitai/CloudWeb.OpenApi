@@ -47,26 +47,26 @@ namespace CloudWeb.Services
         public ResponseResult<bool> UpdateProduct(CorpProductsDto corpProduct)
         {
             var CorpProduct = GetProductsById(corpProduct.Id);
-            if (!CorpProduct.IsSucceed)
-                return new ResponseResult<bool>(false, CorpProduct.Message);
-            if (CorpProduct.Result == null)
-                return new ResponseResult<bool>(false, "产品不存在。");
+            if (CorpProduct.code != 200)
+                return new ResponseResult<bool>(201, CorpProduct.msg);
+            if (CorpProduct.data == null)
+                return new ResponseResult<bool>(201, "产品不存在。");
 
-            if (corpProduct.Name == CorpProduct.Result.Name &&
-                corpProduct.Cover == CorpProduct.Result.Cover &&
-                corpProduct.Content == CorpProduct.Result.Content &&
-                corpProduct.CorpId == CorpProduct.Result.CorpId &&
-                corpProduct.Sort == CorpProduct.Result.Sort &&
-                corpProduct.IsDisplay == CorpProduct.Result.IsDisplay &&
-                corpProduct.IsDel == CorpProduct.Result.IsDel)
-                return new ResponseResult<bool>(true, "数据无更改");
+            if (corpProduct.Name == CorpProduct.data.Name &&
+                corpProduct.Cover == CorpProduct.data.Cover &&
+                corpProduct.Content == CorpProduct.data.Content &&
+                corpProduct.CorpId == CorpProduct.data.CorpId &&
+                corpProduct.Sort == CorpProduct.data.Sort &&
+                corpProduct.IsDisplay == CorpProduct.data.IsDisplay &&
+                corpProduct.IsDel == CorpProduct.data.IsDel)
+                return new ResponseResult<bool>(200, "数据无更改");
 
             const string UpdateSql = @"UPDATE dbo.CorpProducts SET 
                   ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,
                   Content=@Content,CorpId=@CorpId,Sort=@Sort,IsDisplay=@IsDisplay,IsDel=@IsDel 
                   WHERE IsDel=0 AND Id=@Id";
 
-            return new ResponseResult<bool>(Update(UpdateSql, corpProduct));            
+            return new ResponseResult<bool>(Update(UpdateSql, corpProduct));
         }
 
         /// <summary>
