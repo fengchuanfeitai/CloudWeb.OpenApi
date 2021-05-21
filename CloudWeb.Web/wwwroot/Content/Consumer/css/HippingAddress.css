@@ -1,0 +1,14 @@
+﻿body{background-color:#f3f3f3;margin:0}
+div#wrapper{position:absolute;z-index:1;top:0;left:0;width:100%;overflow:hidden;bottom:50px}
+.ShippingAddress{height:90px;width:100%;background-color:white;border-top:7px solid white;border-bottom:1px solid #efe9e9}
+.ShippingAddress .left{height:100%;width:15%;float:left;line-height:90px;text-align:center;color:#444444}
+.ShippingAddress .right{float:left;width:70%;height:100%;font-size:14px;color:#444444}
+.ShippingAddress span.adress{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-wrap:break-word;overflow:hidden;padding:0px}
+.ShippingAddress span.adress span.consignee{color:red;margin-right:2px}
+.ShippingAddress .top{height:30px;line-height:30px}
+.ShippingAddress .top span.name{font-size:16px;font-weight:600;color:black}
+.ShippingAddress .buttom{height:60px}
+.ShippingAddress .next-address{height:100%;width:15%;float:right;line-height:90px;text-align:center;color:#666666}
+.ShippingAddress span.phone{float:right}
+.goods-buy{position:fixed;width:100%;height:50px;bottom:0;left:0;color:white;font-size:16px;border-top:1px solid #fbf2f2;background-color:#FF5722;z-index:2}
+.goods-buy span{width:100%;height:100%;line-height:50px;text-align:center;float:left;color:#fff;font-size:16px}

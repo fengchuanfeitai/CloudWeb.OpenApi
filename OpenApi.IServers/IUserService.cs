@@ -4,9 +4,9 @@ using CloudWeb.Dto;
 using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 
-namespace CloudWeb.IServers
+namespace CloudWeb.IServices
 {
-    public interface IUserService : IServiceTag
+    public interface IUserService : IBaseService
     {
         Task<IEnumerable<UserDto>> GetAllAsync();
 

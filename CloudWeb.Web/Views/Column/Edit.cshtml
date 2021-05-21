@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+<div class="x-body">
+    <form class="layui-form">
+
+
+        <div class="layui-form-item">
+            <label for="L_email" class="layui-form-label">
+                <span class="x-red">*</span>用户账号
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="UserAccount" required="" lay-verify="UserAccount"
+                       autocomplete="off" class="layui-input" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>用户姓名
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="UserName" required="" lay-verify="UserName"
+                       autocomplete="off" class="layui-input" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>用户类型
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>绑定关系
+            </label>
+            <div class="layui-input-inline">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>系统角色
+            </label>
+
+            <div class="layui-input-inline">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="x-red">*</span>账号密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_pass" name="UserPassword" required="" lay-verify="pass"
+                       autocomplete="off" class="layui-input" value="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>确认密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_repass" name="ReUserPassword" required="" lay-verify="repass"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+            <button class="layui-btn" lay-filter="add" type="submit" lay-submit="" style="background-color: #1b8fe4;">
+                确认提交
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'layer'], function () {
+        $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({
+            UserAccount: function (value) {
+                if (value.length <= 0) {
+                    return '用户账号不能为空';
+                }
+            },
+            UserName: function (value) {
+                if (value.length <= 0) {
+                    return '用户名不能为空';
+                }
+            }
+
+            , pass: function (value) {
+                if (value.length <= 0) {
+                    return '密码不能为空';
+                }
+            }
+            , repass: function (value) {
+                if ($('#L_pass').val() != $('#L_repass').val()) {
+                    return '两次密码不一致';
+                }
+            }
+        });
+
+
+    });
+</script>

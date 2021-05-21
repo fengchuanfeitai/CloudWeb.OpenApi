@@ -1,27 +1,59 @@
 ﻿using Newtonsoft.Json;
-using System.IO;
+using Newtonsoft.Json.Converters;
 
 namespace CloudWeb.Util
 {
-    public class JsonUtil
+    /// <summary>
+    /// json拓展方法
+    /// </summary>
+    public static class JsonUtil
     {
-        public static T Deserialize<T>(string content) where T : class, new()
+        public static JsonSerializerSettings jsonSetting = new JsonSerializerSettings
         {
-            return JsonConvert.DeserializeObject<T>(content);
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+        /// <summary>
+        /// 序列化对象，默认禁止循环引用
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string ToJsonString(this object data)
+        {
+            return JsonConvert.SerializeObject(data, jsonSetting);
+        }
+        /// <summary>
+        /// 序列化对象
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="timeConverter"></param>
+        /// <returns></returns>
+        public static string ToJsonString(this object data, IsoDateTimeConverter timeConverter)
+        {
+            return JsonConvert.SerializeObject(data, timeConverter);
         }
 
-        public static string Serialize<T>(T obj) where T : class, new()
+        /// <summary>
+        /// 反序列化字符串
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static T GetDeserializeObject<T>(this string data)
         {
-            return JsonConvert.SerializeObject(obj);
+            if (string.IsNullOrWhiteSpace(data)) return default;
+            return JsonConvert.DeserializeObject<T>(data, jsonSetting);
         }
 
-        public static void Serialize<T, S>(T obj, S stream) where S : Stream where T : class, new()
+        /// <summary>
+        /// 使用序列化和反序列化获得一次深拷贝
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static T GetMemberwiseCopy<T>(this T data)
         {
-            using (stream)
-            {
-                byte[] content = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj));
-                stream.Write(content, 0, content.Length);
-            }
+            return data.ToJsonString().GetDeserializeObject<T>();
         }
+
     }
 }

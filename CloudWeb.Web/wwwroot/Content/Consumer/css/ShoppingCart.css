@@ -1,0 +1,24 @@
+﻿.goods-buy{position:fixed;width:100%;height:50px;bottom:0;left:0;border-top:1px solid #fbf2f2;background-color:#fff;z-index:2}
+.goods-buy span{width:50%;height:100%;line-height:50px;text-align:center;float:left;color:#fff;font-size:16px}
+.main{position:absolute;z-index:1;top:0;left:0;width:100%;background:#f1f1f1;overflow:hidden;bottom:50px}
+.main ul.goods-box-ul{list-style:none;padding:0;margin:0;width:100%;text-align:left}
+.main ul.goods-box-ul li{width:90%;height:100px;margin:3px;padding:10px;background-color:#fff;display:table;margin-left:auto;margin-right:auto;border-radius:12px;margin-top:10px}
+.main ul.goods-box-ul li img{width:85px;display:block;height:85px;min-height:85px}
+.goods-info .ti_info{padding:5px 9px;float:left;width:60%;height:90px}
+.goods-info .ti_info .tii_title{-webkit-tap-highlight-color:transparent}
+.goods-info .ti_info .tii_title h3{font-size:12px;line-height:18px;color:#333;height:37px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-wrap:break-word;overflow:hidden;margin:5px 0}
+.goods-info .ti_info .tii_price{font-size:14px;font-weight:700;color:#dd2727;margin-top:9px;height:24px;line-height:14px}
+.goods-info .ti_info .tii_price .list_m_font{font-size:14px;font-weight:400;line-height:18px}
+.goods-info .goods-img{float:left;width:25%}
+.goods-info .multi-select{float:left;width:8%;line-height:95px;text-align:center;color:#dcdcdc}
+.goods-buy .all-select{width:24%;float:left;line-height:50px;margin-left:15px;font-size:14px}
+.goods-buy .money{width:30%;float:right;line-height:50px}
+.goods-buy .jieusan{width:25%;float:right;right:19px;line-height:50px}
+.goods-buy .all-select i.iconfont{width:10px;height:27px;text-align:center;margin:0 8px 0 8px}
+.goods-buy .money span{width:100%;color:#9E9E9E;margin-right:20px;font-size:14px}
+.goods-buy .jieusan span{width:100%;color:#fff;margin-right:30px;font-size:16px;background-color:#FF5722}
+.jiajian{float:right;font-size:14px;color:#e0e0e0;font-weight:10}
+span.jia{width:10px;height:20px;padding:0 5px;border:1px solid #f5f5f5;border-radius:0 3px 3px 0;float:left;text-align:center;line-height:17px}
+span.shuliang{width:30px;height:20px;border-top:1px solid #f5f5f5;border-bottom:1px solid #f5f5f5;font-size:12px;float:left;text-align:center;line-height:19px}
+span.jian{width:10px;height:20px;padding:0 5px;border:1px solid #f5f5f5;border-radius:3px 0 0 3px;float:left;text-align:center;line-height:17px}
+.goods-buy-ul{color:#9E9E9E}

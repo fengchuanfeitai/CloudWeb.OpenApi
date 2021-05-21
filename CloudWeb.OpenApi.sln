@@ -3,19 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.OpenApi", "CloudWeb.OpenApi\CloudWeb.OpenApi.csproj", "{C8467AAC-4EAD-4A7B-B137-E64082958D30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.OpenApi", "CloudWeb.OpenApi\CloudWeb.OpenApi.csproj", "{C8467AAC-4EAD-4A7B-B137-E64082958D30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.DataRepository", "CloudWeb.DataRepository\CloudWeb.DataRepository.csproj", "{D046D8B0-275B-4D43-B408-E9FC78823354}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.DataRepository", "CloudWeb.DataRepository\CloudWeb.DataRepository.csproj", "{D046D8B0-275B-4D43-B408-E9FC78823354}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.IServices", "OpenApi.IServers\CloudWeb.IServices.csproj", "{C29E2FB3-15FF-463A-8CFE-89C4F0B7CED4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.IServices", "OpenApi.IServers\CloudWeb.IServices.csproj", "{C29E2FB3-15FF-463A-8CFE-89C4F0B7CED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.Services", "CloudWeb.Services\CloudWeb.Services.csproj", "{641070F3-C1E1-4A96-86D2-FAF8D49FD1C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.Services", "CloudWeb.Services\CloudWeb.Services.csproj", "{641070F3-C1E1-4A96-86D2-FAF8D49FD1C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.Util", "CloudWeb.Util\CloudWeb.Util.csproj", "{D7625065-5821-498D-B647-BF85EF4CB3A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.Util", "CloudWeb.Util\CloudWeb.Util.csproj", "{D7625065-5821-498D-B647-BF85EF4CB3A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.Dto", "CloudWeb.Dto\CloudWeb.Dto.csproj", "{389E25A5-EB7B-4407-AF95-E3D644B63C84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.Dto", "CloudWeb.Dto\CloudWeb.Dto.csproj", "{389E25A5-EB7B-4407-AF95-E3D644B63C84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.OpenApiTest", "CloudWeb.OpenApiTest\CloudWeb.OpenApiTest.csproj", "{8CB0297B-E92F-4D31-BB1E-E491D1481C41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.Web", "CloudWeb.Web\CloudWeb.Web.csproj", "{D0408526-030F-4D1E-9D06-DB05B376EC98}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.OpenApi.XUnitTest", "CloudWeb.OpenApi.XUnitTest\CloudWeb.OpenApi.XUnitTest.csproj", "{96BA80B8-9040-4775-963C-30749B8A450E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb.OpenApi.Core", "CloudWeb.OpenApi.Core1\CloudWeb.OpenApi.Core.csproj", "{1D3203D3-0589-4807-BD39-5DBB596CE3B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +51,18 @@ Global
 		{389E25A5-EB7B-4407-AF95-E3D644B63C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{389E25A5-EB7B-4407-AF95-E3D644B63C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{389E25A5-EB7B-4407-AF95-E3D644B63C84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8CB0297B-E92F-4D31-BB1E-E491D1481C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8CB0297B-E92F-4D31-BB1E-E491D1481C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8CB0297B-E92F-4D31-BB1E-E491D1481C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8CB0297B-E92F-4D31-BB1E-E491D1481C41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0408526-030F-4D1E-9D06-DB05B376EC98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0408526-030F-4D1E-9D06-DB05B376EC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0408526-030F-4D1E-9D06-DB05B376EC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0408526-030F-4D1E-9D06-DB05B376EC98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BA80B8-9040-4775-963C-30749B8A450E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BA80B8-9040-4775-963C-30749B8A450E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BA80B8-9040-4775-963C-30749B8A450E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BA80B8-9040-4775-963C-30749B8A450E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D3203D3-0589-4807-BD39-5DBB596CE3B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3203D3-0589-4807-BD39-5DBB596CE3B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3203D3-0589-4807-BD39-5DBB596CE3B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3203D3-0589-4807-BD39-5DBB596CE3B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

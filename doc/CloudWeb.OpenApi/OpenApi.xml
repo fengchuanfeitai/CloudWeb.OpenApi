@@ -4,23 +4,173 @@
         <name>CloudWeb.OpenApi</name>
     </assembly>
     <members>
-        <member name="T:CloudWeb.OpenApi.Controllers.UserController">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetAll">
+            <summary>
+            查询所有栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetColumn(System.Int32)">
+            <summary>
+            查询栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.EdittColumn(CloudWeb.Dto.ColumnDto)">
+            <summary>
+            修改栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.AddColumn(CloudWeb.Dto.ColumnDto)">
+            <summary>
+            添加栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.DeleteColumn(System.Object[])">
+            <summary>
+            删除栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.GetAll">
+            <summary>
+            查询所有栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.GetContent(System.Int32)">
+            <summary>
+            查询栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.EdittContent(CloudWeb.Dto.ContentDto)">
+            <summary>
+            修改栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.AddContent(CloudWeb.Dto.ContentDto)">
+            <summary>
+            添加栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.DeleteContent(System.Object[])">
+            <summary>
+            删除栏目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.LoginController">
+            <summary>
+            登录相关
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.LoginController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Admin.LoginController},CloudWeb.IServices.IUserService)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="userService"></param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.LoginController.VerifyImage">
+            <summary>
+            获取
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController">
+            <summary>
+            网站站点设置
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Admin.SiteInfoController},CloudWeb.IServices.ISiteInfoService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController.GetSiteInfo">
+            <summary>
+            获取站点信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController.UpdateSiteInfo(CloudWeb.Dto.SiteInfoDto)">
+            <summary>
+            修改站点信息
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController.AddSiteInfo(CloudWeb.Dto.SiteInfoDto)">
+            <summary>
+            添加站点信息
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.UserController">
             <summary>
             
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.UserController},CloudWeb.IServers.IUserService)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Admin.UserController},CloudWeb.IServices.IUserService)">
             <summary>
             
             </summary>
             <param name="logger"></param>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.UserController.PostUserAsync(CloudWeb.Dto.UserDto)">
+        <member name="T:CloudWeb.OpenApi.Core.Aop.AopHandledException">
             <summary>
-            修改
+            使用自定义的Exception，用于在aop中已经处理过的异常，在其他地方不用重复记录日志
             </summary>
-            <param name="user"></param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Core.Aop.AopServiceExtension.AddAopService(Autofac.ContainerBuilder,System.String)">
+            <summary>
+            注册aop服务拦截器
+            同时注册了各业务层接口与实现
+            </summary>
+            <param name="builder"></param>
+            <param name="serviceAssemblyName">业务层程序集名称</param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Core.Aop.LogInterceptorAsync.InterceptSynchronous(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            同步方法拦截时使用
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Core.Aop.LogInterceptorAsync.InterceptAsynchronous(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            异步方法返回Task时使用
+            </summary>
+            <param name="invocation"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:CloudWeb.OpenApi.Core.Aop.LogInterceptorAsync.InterceptAsynchronous``1(Castle.DynamicProxy.IInvocation)" -->
+        <member name="M:CloudWeb.OpenApi.Core.Aop.LogInterceptorAsync.GetMethodInfo(Castle.DynamicProxy.IInvocation)">
+            <summary>
+            获取拦截方法信息（类名、方法名、参数）
+            </summary>
+            <param name="invocation"></param>
             <returns></returns>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Filters.ApiExceptionFilter">
+            <summary>
+            api异常过滤器
+            </summary>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Filters.ApiResultFilter">
+            <summary>
+            给api返回结果包一层状态码
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Filters.ApiResultFilter.OnResultExecuting(Microsoft.AspNetCore.Mvc.Filters.ResultExecutingContext)">
+            <summary>
+            执行结果过滤器
+            </summary>
+            <param name="context"></param>
         </member>
     </members>
 </doc>

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CloudWeb.Dto\CloudWeb.Dto.csproj" />
+    <ProjectReference Include="..\CloudWeb.OpenApi.Core1\CloudWeb.OpenApi.Core.csproj" />
   </ItemGroup>
 
 </Project>
