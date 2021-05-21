@@ -8,6 +8,11 @@ namespace CloudWeb.Dto
     public class UserDto : BaseDto
     {
         /// <summary>
+        /// 编号
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// 用户姓名
         /// </summary>
         public string UserName { get; set; }

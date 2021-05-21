@@ -47,14 +47,14 @@ namespace CloudWeb.Services
 
         public ResponseResult<IEnumerable<ContentDto>> GetAll()
         {
-            const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsTop],[IsDefault],[IsDel] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=1 ORDER BY [CREATETIME] DESC";
+            const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsTop],[IsDefault],[IsDel] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 ORDER BY [CREATETIME] DESC";
 
             return new ResponseResult<IEnumerable<ContentDto>>(GetAll(sql));
         }
 
         public ResponseResult<ContentDto> GetContent(int id)
         {
-            const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsTop],[IsDefault],[IsDel] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=1 AND [Id]=@id";
+            const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsTop],[IsDefault],[IsDel] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 AND [Id]=@id";
 
             return new ResponseResult<ContentDto>(Find(sql, id));
         }

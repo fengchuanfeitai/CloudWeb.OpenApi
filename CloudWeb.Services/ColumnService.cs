@@ -9,6 +9,9 @@ namespace CloudWeb.Services
     public class ColumnService : BaseDao<ColumnDto>, IColumnService
     {
 
+        #region 后台接口
+
+
         /// <summary>
         /// 查询所有栏目
         /// </summary>
@@ -17,7 +20,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> AddColumn(ColumnDto columnDto)
         {
             if (columnDto == null)
-                return new ResponseResult<bool>(false,"请填栏目信息");
+                return new ResponseResult<bool>(false, "请填栏目信息");
 
             const string sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,Cover,ImgDesc1,ImgDesc2,Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
             VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@Cover,@ImgDesc1,@ImgDesc2,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
@@ -26,7 +29,7 @@ namespace CloudWeb.Services
 
         public ResponseResult<bool> DeleteColumn(dynamic[] ids)
         {
-            if(ids.Length==0)
+            if (ids.Length == 0)
                 return new ResponseResult<bool>(false, "请选择栏目id");
 
             string sql = "DELETE FROM [Ori_CloudWeb].[dbo].[Columns] WHERE  [ColumnId]=@ids ";
@@ -71,7 +74,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<ColumnDto>> GetAll()
         {
-            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE [IsDel]=1  ORDER BY [CreateTime] DESC ";
+            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE [IsDel]=0  ORDER BY [CreateTime] DESC ";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll(sql));
         }
 
@@ -81,8 +84,15 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<ColumnDto> GetColumn(int id)
         {
-            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE WHERE [IsDel]=1  AND  [ColumnId]=@id";
+            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE WHERE [IsDel]=0  AND  [ColumnId]=@id";
             return new ResponseResult<ColumnDto>(Find(sql));
         }
+        #endregion
+
+        #region 网站接口
+
+
+
+        #endregion
     }
 }

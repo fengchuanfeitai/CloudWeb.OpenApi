@@ -11,7 +11,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 栏目管理
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     public class ColumnController : Controller
     {
         //初始化日志
@@ -30,6 +30,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpGet]
         public ResponseResult<IEnumerable<ColumnDto>> GetAll()
         {
+            _log.LogDebug(1, "发生了一个Bug");
             return _service.GetAll();
         }
 

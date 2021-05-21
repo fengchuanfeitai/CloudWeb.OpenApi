@@ -1,12 +1,8 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NLog.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 using Autofac.Extensions.DependencyInjection;
 
 namespace CloudWeb.OpenApi
@@ -15,7 +11,7 @@ namespace CloudWeb.OpenApi
     {
         public static void Main(string[] args)
         {
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
                 logger.Debug("初始化 main");
@@ -41,9 +37,9 @@ namespace CloudWeb.OpenApi
                     webBuilder.UseStartup<Startup>();
                 }).ConfigureLogging(logging =>
                 {
-                    logging.ClearProviders();
+                    // logging.ClearProviders(); // 这个方法会清空所有控制台的输出
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                })
-      .UseNLog();  // NLog: 依赖注入Nlog
+                }).UseNLog(); // 使用NLog
+
     }
 }

@@ -4,6 +4,11 @@
         <name>CloudWeb.OpenApi</name>
     </assembly>
     <members>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.ColumnController">
+            <summary>
+            栏目管理
+            </summary>
+        </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetAll">
             <summary>
             查询所有栏目
@@ -33,6 +38,11 @@
             删除栏目
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.ContenController">
+            <summary>
+            内容管理
+            </summary>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.GetAll">
             <summary>
@@ -114,7 +124,7 @@
         </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.UserController">
             <summary>
-            
+            用户操作
             </summary>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Admin.UserController},CloudWeb.IServices.IUserService)">

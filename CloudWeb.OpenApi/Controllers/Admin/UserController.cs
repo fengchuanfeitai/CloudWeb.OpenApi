@@ -1,14 +1,11 @@
-﻿using CloudWeb.Dto;
-using CloudWeb.IServices;
+﻿using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
     /// <summary>
-    /// 
+    /// 用户操作
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -25,6 +22,8 @@ namespace CloudWeb.OpenApi.Controllers.Admin
             _logger = logger;
             service = _service;
         }
+
+
 
     }
 }

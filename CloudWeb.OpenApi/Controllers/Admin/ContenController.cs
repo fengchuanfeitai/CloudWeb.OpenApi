@@ -3,10 +3,7 @@ using CloudWeb.Dto.Common;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
@@ -14,7 +11,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 内容管理
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     public class ContenController : Controller
     {
 
