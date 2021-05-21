@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using System.Collections.Generic;
 
 namespace CloudWeb.IServices
@@ -10,7 +11,7 @@ namespace CloudWeb.IServices
         /// 查询所有栏目
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ColumnDto>> GetAll();
+        ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam);
 
 
         /// <summary>

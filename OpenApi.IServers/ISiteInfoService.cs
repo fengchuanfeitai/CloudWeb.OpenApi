@@ -5,9 +5,24 @@ namespace CloudWeb.IServices
 {
     public interface ISiteInfoService : IBaseService
     {
-        ResponseResult<bool> Add(SiteInfoDto siteInfo);
-        ResponseResult<SiteInfoDto> FindSiteInfo();
+        /// <summary>
+        /// 添加站点信息
+        /// </summary>
+        /// <param name="siteInfo"></param>
+        /// <returns></returns>
+        ResponseResult<bool> AddSiteInfo(SiteInfoDto siteInfo);
 
-        ResponseResult<bool> Update(SiteInfoDto siteInfo);
+        /// <summary>
+        /// 修改公司信息
+        /// </summary>
+        /// <param name="siteInfo"></param>
+        /// <returns></returns>
+        ResponseResult<bool> UpdateSiteInfo(SiteInfoDto siteInfo);
+
+        /// <summary>
+        /// 查询公司信息
+        /// </summary>
+        /// <returns></returns>
+        ResponseResult<SiteInfoDto> FindSiteInfo();
     }
 }

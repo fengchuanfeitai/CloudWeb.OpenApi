@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Content\Column\column.js~RF64dff59.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
     <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
     <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
@@ -60,11 +64,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudWeb.Util\CloudWeb.Util.csproj" />
+    <Folder Include="wwwroot\Scripts\user\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Scripts\user\" />
+    <ProjectReference Include="..\CloudWeb.Util\CloudWeb.Util.csproj" />
   </ItemGroup>
 
 </Project>

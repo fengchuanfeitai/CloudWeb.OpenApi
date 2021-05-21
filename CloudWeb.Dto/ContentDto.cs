@@ -11,6 +11,11 @@ namespace CloudWeb.Dto
     public class ContentDto : BaseDto
     {
         /// <summary>
+        /// 编号
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// 所属栏目
         /// </summary>
         public int ColumnId { get; set; }

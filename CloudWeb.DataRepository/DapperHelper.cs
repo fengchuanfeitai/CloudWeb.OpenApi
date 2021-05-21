@@ -643,7 +643,7 @@ namespace CloudWeb.DataRepository
                 {
                     paramString += $"Param[{property.Name}] = {property.GetValue(param)} ; ";
                 }
-                _log.LogDebug(paramString);
+                //_log.LogDebug(paramString);
             }
         }
 

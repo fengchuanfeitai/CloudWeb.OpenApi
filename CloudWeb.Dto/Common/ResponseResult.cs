@@ -5,10 +5,10 @@
     /// </summary>
     public class ResponseResult
     {
-        public virtual ResponseResult Set(bool isSucceed, string message)
+        public virtual ResponseResult Set(int status, string message)
         {
-            IsSucceed = isSucceed;
-            Message = message;
+            code = status;
+            msg = message;
             return this;
         }
         /// <summary>
@@ -18,15 +18,15 @@
         /// <returns></returns>
         public virtual ResponseResult SetFailMessage(string message)
         {
-            return Set(false, message);
+            return Set(200, message);
         }
         public virtual ResponseResult SetFail()
         {
-            return Set(false, string.Empty);
+            return Set(200, string.Empty);
         }
         public ResponseResult(bool isSucceed, string message)
         {
-            Set(isSucceed, message);
+            Set(200, message);
         }
         /// <summary>
         /// 如果是给字符串，表示有错误信息，默认IsSucceed=false
@@ -34,7 +34,7 @@
         /// <param name="message"></param>
         public ResponseResult(string message)
         {
-            Set(false, message);
+            Set(200, message);
         }
         /// <summary>
         /// 如果是空的，没有信息，默认IsSucceed=true
@@ -44,14 +44,19 @@
         }
         /// <summary>
         /// 执行是否成功
-        /// 默认为True
+        /// 默认为200
         /// </summary>
-        public bool IsSucceed { get; set; } = true;
+        public int code { get; set; } = 0;
+
+        /// <summary>
+        /// 总数
+        /// </summary>
+        public int count { get; set; } = 0;
         /// <summary>
         /// 执行信息（一般是错误信息）
         /// 默认置空
         /// </summary>
-        public string Message { get; set; } = string.Empty;
+        public string msg { get; set; } = string.Empty;
     }
     /// <summary>
     /// 执行返回结果
@@ -59,20 +64,21 @@
     /// <typeparam name="T"></typeparam>
     public class ResponseResult<T> : ResponseResult
     {
-        public ResponseResult<T> Set(bool isSucceed, string message, T result)
+        public ResponseResult<T> Set(int status, int total, string message, T result)
         {
-            IsSucceed = isSucceed;
-            Message = message;
-            Result = result;
+            count = total;
+            code = status;
+            msg = message;
+            data = result;
             return this;
         }
-        public ResponseResult<T> SetData(T data)
+        public ResponseResult<T> SetData(T data, int total=0)
         {
-            return Set(true, string.Empty, data);
+            return Set(0, total, string.Empty, data);
         }
         public new ResponseResult<T> SetFail()
         {
-            return Set(false, string.Empty, default);
+            return Set(0, 0, string.Empty, default);
         }
         /// <summary>
         /// 设定错误信息
@@ -82,24 +88,24 @@
         /// <returns></returns>
         public new ResponseResult<T> SetFailMessage(string message)
         {
-            return Set(false, message, default);
+            return Set(0, 0, message, default);
         }
         public ResponseResult()
         {
         }
         public ResponseResult(string message)
         {
-            Set(false, message);
+            Set(200, message);
         }
-        public ResponseResult(bool isSucceed, string message)
+        public ResponseResult(int status, string message)
         {
-            Set(isSucceed, message);
+            Set(200, message);
         }
-        public ResponseResult(T result)
+        public ResponseResult(T result, int total = 0)
         {
-            SetData(result);
+            SetData(result, total);
         }
 
-        public T Result { get; set; }
+        public T data { get; set; }
     }
 }

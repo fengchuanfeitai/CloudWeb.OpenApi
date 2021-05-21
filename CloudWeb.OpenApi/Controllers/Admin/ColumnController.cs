@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,7 +12,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 栏目管理
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]/[action]")]
     public class ColumnController : Controller
     {
         //初始化日志
@@ -28,9 +29,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ColumnDto>> GetAll()
+        public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            return _service.GetAll();
+            _log.LogDebug(1, "发生了一个Bug");
+            return _service.GetAll(pageParam);
         }
 
         /// <summary>

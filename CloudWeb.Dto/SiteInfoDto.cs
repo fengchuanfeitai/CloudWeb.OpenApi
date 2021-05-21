@@ -6,6 +6,11 @@ namespace CloudWeb.Dto
     public class SiteInfoDto : BaseDto
     {
         /// <summary>
+        /// 编号
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// 站点标题
         /// </summary>
         public string SiteTitle { get; set; }

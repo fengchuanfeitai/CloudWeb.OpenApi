@@ -5,8 +5,6 @@ using CloudWeb.OpenApi.Core.Core.Jwt.UserClaim;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CloudWeb.OpenApi.Controllers.Admin
 {

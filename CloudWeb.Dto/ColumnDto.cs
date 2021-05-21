@@ -76,6 +76,11 @@ namespace CloudWeb.Dto
         /// 栏目级别
         /// </summary>
         public bool Level { get; set; }
+
+        /// <summary>
+        /// 是否显示
+        /// </summary>
+        public int IsShow { get; set; }
     }
 
 

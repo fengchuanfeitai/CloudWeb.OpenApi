@@ -20,6 +20,7 @@ using Autofac;
 using CloudWeb.OpenApi.Core.Aop;
 using CloudWeb.Util;
 using CloudWeb.OpenApi.Core.Jwt;
+using NLog.Extensions.Logging;
 
 namespace CloudWeb.OpenApi
 {
@@ -116,7 +117,7 @@ namespace CloudWeb.OpenApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {

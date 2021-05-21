@@ -7,10 +7,10 @@ using Microsoft.Extensions.Logging;
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
     /// <summary>
-    /// 网站站点设置
+    /// 网站站点api
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class SiteInfoController : Controller
     {
         private readonly ILogger<SiteInfoController> _logger;
@@ -42,10 +42,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [HttpPut()]
-        public ResponseResult<bool> UpdateSiteInfo([FromBody] SiteInfoDto dto)
+        [HttpPut]
+        public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto dto)
         {
-            return _siteInfoService.Update(dto);
+            return _siteInfoService.UpdateSiteInfo(dto);
         }
 
         /// <summary>
@@ -53,10 +53,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [HttpPost()]
-        public ResponseResult<bool> AddSiteInfo([FromBody] SiteInfoDto dto)
+        [HttpPost]
+        public ResponseResult<bool> AddSiteInfo(SiteInfoDto dto)
         {
-            return _siteInfoService.Add(dto);
+            return _siteInfoService.AddSiteInfo(dto);
         }
     }
 }
