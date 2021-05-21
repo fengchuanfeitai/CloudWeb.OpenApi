@@ -12,7 +12,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// </summary>
     [Produces("application/json")]
     [Route("api/admin/[controller]")]
-    public class ContenController : Controller
+    public class ContentController : Controller
     {
 
         //初始化日志

@@ -23,14 +23,14 @@ namespace CloudWeb.Services
         {
             string sql = "";
             var result = LoginValidate(name, password);
-            if (result.IsSucceed)
+            if (result.code==0)
             {
-                result.Result.Token = _jwtService.BuildToken(_jwtService.BuildClaims(result.Result));
-                return new ResponseResult<UserData>(result.Result);
+                result.data.Token = _jwtService.BuildToken(_jwtService.BuildClaims(result.data));
+                return new ResponseResult<UserData>(result.data);
             }
             else
             {
-                return new ResponseResult<UserData>(result.Message);
+                return new ResponseResult<UserData>(result.msg);
             }
         }
 
@@ -52,22 +52,24 @@ namespace CloudWeb.Services
                 return result.SetFailMessage("用户不存在");
             }
 
-            //密码正确
-            if (Crypto.VerifyHashedPassword(loginUserInDB.PassWord, password))
-            {
-                DapperHelper cnn = new DapperHelper();
-                var userInDB
-          = cnn.Query<UserData, RoleDto, UserData>(@"select * from Posts p left join Authors a on a.ID = p.AuthorID", (user, author) => { user.Id = author; return user; }, splitOn: "ID").ToList();
-                //密码正确后才加载用户信息、角色信息
-                //得到userdata
-                return result.SetData(userInDB.First());
-            }
-            //密码错误
-            else
-            {
-                return result.SetFailMessage("用户名或密码错误！");
+            return result.SetFailMessage("用户不存在");
+            ////密码正确
+            //if (Crypto.VerifyHashedPassword(loginUserInDB.PassWord, password))
+            //{
+            //    //      DapperHelper cnn = new DapperHelper();
+            //    //      var userInDB
+            //    //= cnn.Query<UserData, RoleDto, UserData>(@"select * from Posts p left join Authors a on a.ID = p.AuthorID", (user, author) => { user.Id = author; return user; }, splitOn: "ID").ToList();
+            //    //      //密码正确后才加载用户信息、角色信息
+            //    //      //得到userdata
+            //    //      return result.SetData(userInDB.First());
+            //    return result.SetData("");
+            //}
+            ////密码错误
+            //else
+            //{
+            //    return result.SetFailMessage("用户名或密码错误！");
 
-            }
+            //}
         }
 
         ResponseResult<UserData> IUserService.Login(string name, string password)
