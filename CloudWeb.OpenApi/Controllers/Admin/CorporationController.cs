@@ -11,7 +11,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 公司相关接口
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class CorporationController : Controller
     {
         private readonly ILogger<CorporationDto> _logger;
@@ -43,6 +43,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="id">公司id</param>
         /// <returns></returns>
+        [HttpGet("id", Name = nameof(GetCorporation))]
         public ResponseResult<CorporationDto> GetCorporation(int id)
         {
             return _corporationService.GetCorporation(id);
@@ -63,7 +64,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResponseResult<bool> addCorporaion(CorporationDto corporation)
+        public ResponseResult<bool> AddCorporaion(CorporationDto corporation)
         {
 
             return _corporationService.AddCorporation(corporation);
@@ -74,7 +75,8 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public ResponseResult<bool> DeleteColumn(dynamic[] ids)
+        [HttpDelete]
+        public ResponseResult<bool> DelCorporation(dynamic[] ids)
         {
             return _corporationService.DelCorporation(ids);
         }

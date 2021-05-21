@@ -26,14 +26,13 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="siteInfo">站点信息</param>
         /// <returns></returns>
-        public ResponseResult<bool> Add(SiteInfoDto siteInfo)
+        public ResponseResult<bool> AddSiteInfo(SiteInfoDto siteInfo)
         {
-            const string InsertSql = @"INSERT INTO
-                  (CreateTime,ModifyTime,Creator,Modifier,SiteTitle,SiteKeyword,
-                   SiteDesc,SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo) 
-                   VALUES
-                   (@CreateTime,@ModifyTime,@Creator,@Modifier,@SiteTitle,@SiteKeyword,
-                    @SiteDesc,@SiteLogo,@CopyRight,@Icp,@Tel,@Address,@WeChatPublicNo)";
+            const string InsertSql = @"INSERT dbo.SiteInfo(CreateTime,ModifyTime,Creator,Modifier,SiteTitle,SiteKeyword,SiteDesc,
+               SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo) 
+               VALUES
+              (@CreateTime,@ModifyTime,@Creator,@Modifier,@SiteTitle,@SiteKeyword,
+               @SiteDesc,@SiteLogo,@CopyRight,@Icp,@Tel,@Address,@WeChatPublicNo)";
 
             return new ResponseResult<bool>(Add(InsertSql, siteInfo));
         }
@@ -44,7 +43,7 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="siteInfo">站点信息</param>
         /// <returns></returns>
-        public ResponseResult<bool> Update(SiteInfoDto siteInfo)
+        public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto siteInfo)
         {
             var SiteInfo = FindSiteInfoById(siteInfo.Id);
             if (SiteInfo == null)
@@ -80,7 +79,31 @@ namespace CloudWeb.Services
               SiteDesc,SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo 
               FROM dbo.SiteInfo";
 
-            return new ResponseResult<SiteInfoDto>(Find(sql));
+            var SiteInfoResult = new ResponseResult<SiteInfoDto>(Find(sql));
+
+            if (SiteInfoResult.Result == null)
+            {
+                var NewSiteInfo = new SiteInfoDto()
+                {
+                    Creator = 0,
+                    Modifier = 0,
+                    SiteTitle = "-1",
+                    SiteKeyword = "-2",
+                    SiteDesc = "-3",
+                    SiteLogo = "-4",
+                    CopyRight = "-5",
+                    Icp = "-6",
+                    Tel = "-7",
+                    Address = "-8",
+                    WeChatPublicNo = "-9"
+                };
+                var AddResult = AddSiteInfo(NewSiteInfo);
+                if (!AddResult.IsSucceed)
+                    return new ResponseResult<SiteInfoDto>(false, "初始化站点信息失败！");
+                FindSiteInfo();
+            }
+
+            return SiteInfoResult;
         }
     }
 }
