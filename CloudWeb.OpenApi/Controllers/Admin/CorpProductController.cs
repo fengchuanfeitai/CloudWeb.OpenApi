@@ -44,7 +44,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("id", Name = nameof(GetProductById))]
         public ResponseResult<CorpProductsDto> GetProductById(int id)
         {
             return _service.GetProductsById(id);
@@ -55,7 +55,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="corpId"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("corpId", Name = nameof(GetProductByCorp))]
         public ResponseResult<IEnumerable<CorpProductsDto>> GetProductByCorp(int corpId)
         {
             return _service.GetProductsByCorpId(corpId);
@@ -67,7 +67,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <param name="corpProduct"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResponseResult<bool> addProduct(CorpProductsDto corpProduct)
+        public ResponseResult<bool> AddProduct(CorpProductsDto corpProduct)
         {
             return _service.AddProduct(corpProduct);
         }

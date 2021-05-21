@@ -103,13 +103,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.addCorporaion(CloudWeb.Dto.CorporationDto)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.AddCorporaion(CloudWeb.Dto.CorporationDto)">
             <summary>
             添加公司信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.DeleteColumn(System.Object[])">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.DelCorporation(System.Object[])">
             <summary>
             删除公司信息
             </summary>
@@ -146,7 +146,7 @@
             <param name="corpId"></param>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.addProduct(CloudWeb.Dto.CorpProductsDto)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.AddProduct(CloudWeb.Dto.CorpProductsDto)">
             <summary>
             添加产品
             </summary>

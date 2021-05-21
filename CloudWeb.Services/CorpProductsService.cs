@@ -47,7 +47,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> UpdateProduct(CorpProductsDto corpProduct)
         {
             var CorpProduct = GetProductsById(corpProduct.Id);
-            if (CorpProduct.code!=0)
+            if (CorpProduct.code != 200)
                 return new ResponseResult<bool>(201, CorpProduct.msg);
             if (CorpProduct.data == null)
                 return new ResponseResult<bool>(201, "产品不存在。");
@@ -59,14 +59,14 @@ namespace CloudWeb.Services
                 corpProduct.Sort == CorpProduct.data.Sort &&
                 corpProduct.IsDisplay == CorpProduct.data.IsDisplay &&
                 corpProduct.IsDel == CorpProduct.data.IsDel)
-                return new ResponseResult<bool>(201, "数据无更改");
+                return new ResponseResult<bool>(200, "数据无更改");
 
             const string UpdateSql = @"UPDATE dbo.CorpProducts SET 
                   ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,
                   Content=@Content,CorpId=@CorpId,Sort=@Sort,IsDisplay=@IsDisplay,IsDel=@IsDel 
                   WHERE IsDel=0 AND Id=@Id";
 
-            return new ResponseResult<bool>(Update(UpdateSql, corpProduct));            
+            return new ResponseResult<bool>(Update(UpdateSql, corpProduct));
         }
 
         /// <summary>

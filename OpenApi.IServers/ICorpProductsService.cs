@@ -45,7 +45,6 @@ namespace CloudWeb.IServices
         /// 获取所有产品
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<CorpProductsDto>>
-            GetProducts();
+        ResponseResult<IEnumerable<CorpProductsDto>> GetProducts();
     }
 }
