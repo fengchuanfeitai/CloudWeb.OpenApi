@@ -1,6 +1,7 @@
 ﻿using CloudWeb.DataRepository;
 using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using System.Collections.Generic;
 
@@ -20,7 +21,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> AddColumn(ColumnDto columnDto)
         {
             if (columnDto == null)
-                return new ResponseResult<bool>(false, "请填栏目信息");
+                return new ResponseResult<bool>(201, "请填栏目信息");
 
             const string sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,Cover,ImgDesc1,ImgDesc2,Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
             VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@Cover,@ImgDesc1,@ImgDesc2,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
@@ -30,7 +31,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> DeleteColumn(dynamic[] ids)
         {
             if (ids.Length == 0)
-                return new ResponseResult<bool>(false, "请选择栏目id");
+                return new ResponseResult<bool>(201, "请选择栏目id");
 
             string sql = "DELETE FROM [Ori_CloudWeb].[dbo].[Columns] WHERE  [ColumnId]=@ids ";
             if (ids.Length > 1)
@@ -42,7 +43,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> EdittColumn(ColumnDto columnDto)
         {
             if (columnDto == null)
-                return new ResponseResult<bool>(false, "请填栏目信息");
+                return new ResponseResult<bool>(201, "请填栏目信息");
 
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
@@ -72,10 +73,15 @@ namespace CloudWeb.Services
         /// 查询所有栏目
         /// </summary>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<ColumnDto>> GetAll()
+        public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE [IsDel]=0  ORDER BY [CreateTime] DESC ";
-            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll(sql));
+            //const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE [IsDel]=0  ORDER BY [CreateTime] DESC ";
+            string sql= @"SELECT w2.n, w1.* FROM Columns w1,(
+            SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) n, ColumnId FROM Columns) w2
+            WHERE w1.ColumnId = w2.ColumnId AND w2.n > (@PageSize*(@PageIndex-1)) ORDER BY w2.n ASC";
+            string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Columns]";
+
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll(sql, pageParam), Count(queryCountSql));
         }
 
         /// <summary>

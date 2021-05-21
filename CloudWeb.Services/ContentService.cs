@@ -13,7 +13,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> AddContent(ContentDto contentDto)
         {
             if (contentDto == null)
-                return new ResponseResult<bool>(false, "请输入内容信息");
+                return new ResponseResult<bool>(201, "请输入内容信息");
 
             const string sql = @"INSERT INTO [Ori_CloudWeb].[dbo].[Content]
             ([CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate] ,[IsPublic]  ,[IsTop],[IsDefault] ,[IsDel])
@@ -26,7 +26,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> DeleteContent(dynamic[] ids)
         {
             if (ids.Length == 0)
-                return new ResponseResult<bool>(false, "请输入内容id");
+                return new ResponseResult<bool>(201, "请输入内容id");
 
             string sql = "DELETE FROM [Ori_CloudWeb].[dbo].[Content] WHERE [ID]=@ids ";
             if (ids.Length > 1)
@@ -38,7 +38,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> EdittContent(ContentDto contentDto)
         {
             if (contentDto == null)
-                return new ResponseResult<bool>(false, "请输入内容信息");
+                return new ResponseResult<bool>(201, "请输入内容信息");
 
             const string sql = "";
 

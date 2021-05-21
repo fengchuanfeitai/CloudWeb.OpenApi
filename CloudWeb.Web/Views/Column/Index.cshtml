@@ -11,147 +11,22 @@
 <div class="x-body">
     <div class="layui-row">
         <div class="layui-form layui-col-md12 x-so">
-            <input type="text" id="username" placeholder="用户姓名" autocomplete="off" class="layui-input" style="float:left;">
-            <button class="layui-btn" lay-submit="" type="button" lay-filter="sreach" onclick="SearchUser()" style="float:left;margin-left:10px;background-color: #1b8fe4;">搜索</button>
-            <button class="layui-btn" type="button" onclick="x_admin_show('添加用户','@Url.Action("Edit","Column")',600,520)" style="float:left;margin-left:10px;background-color: #1b8fe4;">添加栏目</button>
+            <button class="layui-btn" type="button" onclick="x_admin_show('添加栏目','@Url.Action("Edit","Column")',600,520)" style="float:left;background-color: #1b8fe4;">添加栏目</button>
+
+            <button class="layui-btn" type="button" onclick="" style="float:left;margin-left:10px;background-color: #1b8fe4;">批量删除</button>
         </div>
     </div>
     <div id="content">
-        <table class="layui-table">
-            <thead id="list">
-                <tr>
-                    @*<th>
-                            <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-                        </th>*@
-                    <th>
-                        编号
-                    </th>
-                    <th>
-                        用户姓名
-                    </th>
-                    <th>
-                        账号
-                    </th>
-                    <th>
-                        登录次数
-                    </th>
-                    <th>
-                        最后登录时间
-                    </th>
-                    <th>
-                        最后登录IP
-                    </th>
-                    <th>
-                        状态
-                    </th>
-                    <th>
-                        操作
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody class="test">
-            </tbody>
+        <table class="layui-table" id="list" lay-filter="test">
         </table>
 
     </div>
+
 </div>
-<script>
-
-    layui.use('table', function () {
-        var table = layui.table;
-
-        //第一个实例
-        table.render({
-            elem: '#list'
-            , height: 312
-            , url: 'https://localhost:44377/api/Column' //数据接口
-            , page: true //开启分页
-            , cols: [[ //表头
-                { field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' }
-                , { field: 'username', title: '用户名', width: 80 }
-                , { field: 'sex', title: '性别', width: 80, sort: true }
-                , { field: 'city', title: '城市', width: 80 }
-                , { field: 'sign', title: '签名', width: 177 }
-                , { field: 'experience', title: '积分', width: 80, sort: true }
-                , { field: 'score', title: '评分', width: 80, sort: true }
-                , { field: 'classify', title: '职业', width: 80 }
-                , { field: 'wealth', title: '财富', width: 135, sort: true }
-            ]]
-        });
-
-    });
-
-
-    //删除
-    function deleteUser(id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            url = "/User/Delete";
-            parameter = { userId: id };
-            $.post(url, parameter, function (data) {
-                if (data.IsSuccess) {
-                    alertMsg("删除成功!");
-                }
-                else {
-                    alertMsg("删除失败!");
-                }
-            });
-        });
-    }
-
-
-    //删除
-    function deleteAllUser() {
-        var ids = new Array();
-        $("div[class='layui-unselect layui-form-checkbox layui-form-checked']").each(function () {
-            ids.push($(this).attr("data-id"));
-        });
-
-        if (ids.length > 0) {
-            layer.confirm('确认要删除选中项吗？', function (index) {
-                url = "/User/DeleteAll";
-                parameter = { ids: ids.toString() };
-                $.post(url, parameter, function (data) {
-                    if (data.IsSuccess) {
-                        alertMsg("删除成功!");
-                    }
-                    else {
-                        alertMsg("删除失败!");
-                    }
-                });
-            });
-        }
-        else {
-            alertMsg("请选选择要删除的用户!");
-            return;
-        }
-    }
-
-
-    //搜索
-    function SearchUser() {
-        $.ajax({
-            type: "POST",
-            async: true,
-            url: "/User/Index",
-            data: { username: $("#username").val() },
-            success: function (data) {
-                $("#content").empty();
-                $("#content").html(data);
-
-            }
-        });
-    }
-
-    //弹出框，刷新页面
-    function alertMsg(msg) {
-        layer.open({
-            content: msg,
-            yes: function (index, layero) {
-                location.reload();
-                layer.close(index);
-            }
-        });
-    }
-
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+
+<script src="~/Content/Column/column.js?@DateTime.Now.ToString("yyyymmddhhMMss")"></script>

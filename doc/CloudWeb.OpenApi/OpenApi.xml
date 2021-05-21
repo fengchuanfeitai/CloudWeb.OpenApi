@@ -9,7 +9,7 @@
             栏目管理
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetAll">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetAll(CloudWeb.Dto.Param.BaseParam)">
             <summary>
             查询所有栏目
             </summary>
@@ -74,6 +74,16 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.CorporationController">
+            <summary>
+            公司相关Api
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.Dto.CorporationDto},CloudWeb.IServices.ICorporationService)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.LoginController">
             <summary>
             登录相关
@@ -94,7 +104,7 @@
         </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController">
             <summary>
-            网站站点设置
+            网站站点api
             </summary>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Admin.SiteInfoController},CloudWeb.IServices.ISiteInfoService)">

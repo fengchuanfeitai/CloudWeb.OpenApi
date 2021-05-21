@@ -48,18 +48,18 @@ namespace CloudWeb.Services
         {
             var SiteInfo = FindSiteInfoById(siteInfo.Id);
             if (SiteInfo == null)
-                return new ResponseResult<bool>(false, "站点信息不存在");
+                return new ResponseResult<bool>(201, "站点信息不存在");
 
-            if (siteInfo.SiteTitle == SiteInfo.Result.SiteTitle &&
-               siteInfo.SiteKeyword == SiteInfo.Result.SiteKeyword &&
-               siteInfo.SiteDesc == SiteInfo.Result.SiteDesc &&
-               siteInfo.SiteLogo == SiteInfo.Result.SiteLogo &&
-               siteInfo.CopyRight == SiteInfo.Result.CopyRight &&
-               siteInfo.Icp == SiteInfo.Result.Icp &&
-               siteInfo.Tel == SiteInfo.Result.Tel &&
-               siteInfo.Address == SiteInfo.Result.Address &&
-               siteInfo.WeChatPublicNo == SiteInfo.Result.WeChatPublicNo)
-                return new ResponseResult<bool>(true, "");
+            if (siteInfo.SiteTitle == SiteInfo.data.SiteTitle &&
+               siteInfo.SiteKeyword == SiteInfo.data.SiteKeyword &&
+               siteInfo.SiteDesc == SiteInfo.data.SiteDesc &&
+               siteInfo.SiteLogo == SiteInfo.data.SiteLogo &&
+               siteInfo.CopyRight == SiteInfo.data.CopyRight &&
+               siteInfo.Icp == SiteInfo.data.Icp &&
+               siteInfo.Tel == SiteInfo.data.Tel &&
+               siteInfo.Address == SiteInfo.data.Address &&
+               siteInfo.WeChatPublicNo == SiteInfo.data.WeChatPublicNo)
+                return new ResponseResult<bool>(201, "");
 
             const string sql = @"UPDATE dbo.SiteInfo SET
                   ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,SiteKeyword=@SiteKeyword,SiteDesc=@SiteDesc,

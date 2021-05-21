@@ -16,16 +16,14 @@
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="1.7.0" />
     <PackageReference Include="JWT" Version="8.2.2" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.12.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudWeb.Dto\CloudWeb.Dto.csproj" />
     <ProjectReference Include="..\CloudWeb.OpenApi.Core1\CloudWeb.OpenApi.Core.csproj" />
     <ProjectReference Include="..\CloudWeb.Services\CloudWeb.Services.csproj" />
     <ProjectReference Include="..\CloudWeb.Util\CloudWeb.Util.csproj" />
-    <ProjectReference Include="..\OpenApi.IServers\CloudWeb.IServices.csproj" />
   </ItemGroup>
 
   <ItemGroup>
