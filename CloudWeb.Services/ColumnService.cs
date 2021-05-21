@@ -81,7 +81,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<ColumnDto> GetColumn(int id)
         {
-            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE WHERE [IsDel]=1  AND  [ColumnId]=@id";
+            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE WHERE [IsDel]=1  AND  [ColumnId]=@id WHERE IsDel=0 ORDER BY CreateTime DESC ";
             return new ResponseResult<ColumnDto>(Find(sql));
         }
     }
