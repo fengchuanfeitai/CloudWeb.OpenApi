@@ -5,6 +5,11 @@ namespace CloudWeb.Dto
     public class CorpProductsDto : BaseDto
     {
         /// <summary>
+        /// 产品Id
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// 产品名称
         /// </summary>
         public string Name { get; set; }
