@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
 
@@ -40,6 +39,6 @@ namespace CloudWeb.IServices
         /// 获取全部的公司信息
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<CorporationDto>> GetCorporation();
+        ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation();
     }
 }

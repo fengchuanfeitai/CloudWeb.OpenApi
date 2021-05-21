@@ -76,13 +76,89 @@
         </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.CorporationController">
             <summary>
-            公司相关Api
+            公司相关接口
             </summary>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.Dto.CorporationDto},CloudWeb.IServices.ICorporationService)">
             <summary>
             构造函数
             </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetAll">
+            <summary>
+            查询所有未删除的公司信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetCorporation(System.Int32)">
+            <summary>
+            查询公司信息
+            </summary>
+            <param name="id">公司id</param>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.UpdateCorporation(CloudWeb.Dto.CorporationDto)">
+            <summary>
+            修改公司信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.addCorporaion(CloudWeb.Dto.CorporationDto)">
+            <summary>
+            添加公司信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.DeleteColumn(System.Object[])">
+            <summary>
+            删除公司信息
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.CorpProductController">
+            <summary>
+            公司产品相关的接口
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.Dto.CorpProductsDto},CloudWeb.IServices.ICorpProductsService)">
+            <summary>
+            构造函数
+            </summary>      
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetAll">
+            <summary>
+            查询所有未删除的产品
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetProductById(System.Int32)">
+            <summary>
+            获取产品信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetProductByCorp(System.Int32)">
+            <summary>
+            获取公司产品
+            </summary>
+            <param name="corpId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.addProduct(CloudWeb.Dto.CorpProductsDto)">
+            <summary>
+            添加产品
+            </summary>
+            <param name="corpProduct"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.DelProduct(System.Object[])">
+            <summary>
+            删除产品
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
         </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.LoginController">
             <summary>

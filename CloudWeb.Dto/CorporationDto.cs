@@ -60,6 +60,11 @@ namespace CloudWeb.Dto
         public int sort { get; set; }
 
         /// <summary>
+        /// 是否显示
+        /// </summary>
+        public bool IsDisplay { get; set; }
+
+        /// <summary>
         /// 是否删除
         /// </summary>
         public bool IsDel { get; set; }
