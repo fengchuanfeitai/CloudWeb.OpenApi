@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
     /// <summary>
-    /// 网站站点设置
+    /// 网站站点api
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CloudWeb.DataRepository
 {
@@ -14,9 +12,7 @@ namespace CloudWeb.DataRepository
 
         public bool Add(string sql, dynamic t = null)
         {
-
             return dapper.Execute(sql, t);
-
         }
 
         public bool Delete(string sql, dynamic t = null)
