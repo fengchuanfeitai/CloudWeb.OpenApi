@@ -35,7 +35,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="name"></param>
         /// <param name="password"></param>
-        /// <returns></returns>
+        /// <returns></returns>bc
         [HttpPost]
         [AllowAnonymous]
         public ResponseResult<UserData> Login(string name, string password)
