@@ -49,22 +49,22 @@ namespace CloudWeb.Services
         {
             var Corporation = GetCorporation(corporation.CorpId);
             if (Corporation == null)
-                return new ResponseResult<bool>(false, "修改失败，公司信息不存在。");
+                return new ResponseResult<bool>(201, "修改失败，公司信息不存在。");
 
-            if (corporation.Name == Corporation.Result.Name &&
-                corporation.Cover == Corporation.Result.Cover &&
-                corporation.Logo1 == Corporation.Result.Logo1 &&
-                corporation.Logo2 == Corporation.Result.Logo2 &&
-                corporation.ColumnId == Corporation.Result.ColumnId &&
-                corporation.AboutUs == Corporation.Result.AboutUs &&
-                corporation.AboutUsCover == Corporation.Result.AboutUsCover &&
-                corporation.ContactUs == Corporation.Result.ContactUs &&
-                corporation.ContactUsBg == Corporation.Result.ContactUsBg &&
-                corporation.sort == Corporation.Result.sort &&
-                corporation.IsDisplay == Corporation.Result.IsDisplay &&
-                corporation.IsDel == Corporation.Result.IsDel)
+            if (corporation.Name == Corporation.data.Name &&
+                corporation.Cover == Corporation.data.Cover &&
+                corporation.Logo1 == Corporation.data.Logo1 &&
+                corporation.Logo2 == Corporation.data.Logo2 &&
+                corporation.ColumnId == Corporation.data.ColumnId &&
+                corporation.AboutUs == Corporation.data.AboutUs &&
+                corporation.AboutUsCover == Corporation.data.AboutUsCover &&
+                corporation.ContactUs == Corporation.data.ContactUs &&
+                corporation.ContactUsBg == Corporation.data.ContactUsBg &&
+                corporation.sort == Corporation.data.sort &&
+                corporation.IsDisplay == Corporation.data.IsDisplay &&
+                corporation.IsDel == Corporation.data.IsDel)
             {
-                return new ResponseResult<bool>(true, "修改成功");
+                return new ResponseResult<bool>(201, "修改成功");
             }
 
             const string UpdateSql = @"UPDATE dbo.Corporations SET ModifyTime=@ModifyTime,Modifier=@Modifier,

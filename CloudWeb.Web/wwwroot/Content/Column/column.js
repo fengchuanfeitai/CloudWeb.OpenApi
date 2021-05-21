@@ -7,7 +7,7 @@
         , url: 'https://localhost:44377/api/admin/Column/getall' //数据接口
         //, url: '/content/Column/data.json' //数据接口
         , contentType: 'application/ json'//传值格式
-        , where: { pageIndex: 1, pageSize: 2 }//传递参数
+        //, where: { pageIndex: index, pageSize: 10 }//传递参数
         , request: {
             pageName: 'pageIndex' //页码的参数名称，默认：page
             , limitName: 'pageSize' //每页数据量的参数名，默认：limit
@@ -31,7 +31,7 @@
         , id: 'columnId'
         , page: true //开启分页
         , cols: [[ //表头
-            { field: '', title: '编号', height: 90, type: 'checkbox', width: 80, sort: true },
+            { field: '', title: '', height: 90, type: 'checkbox', width: 80 },
             { field: 'columnId', title: '编号', height: 90, width: 80, sort: true, align: 'center' },
             { field: 'colName', title: '栏目名称', width: 280, sort: true, align: 'center' },
             { field: 'localUrl', title: '跳转链接', width: 280, sort: true, align: 'center' },
@@ -40,31 +40,59 @@
             { field: 'createTime', title: '创建时间', width: 280, sort: true, align: 'center' },
             { field: '', title: '操作', width: 280, sort: true, templet: '', align: 'center', toolbar: '#barDemo' }
         ]]
+        , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+            layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+            //,curr: 5 //设定初始在第 5 页
+            , groups: 1 //只显示 1 个连续页码
+            , first: false //不显示首页
+            , last: false //不显示尾页
+            , pageSize: 10
+        }
         , done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
             //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+
             console.log(res);
 
             //得到当前页码
             console.log(curr);
-
             //得到数据总量
             console.log(count);
         }
     });
 
     table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-        var data = obj.data; //获得当前行数据
+        var id = obj.data.columnId; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
         console.log(layEvent)
-        if (layEvent === 'detail') { //查看
-            var id = table.checkStatus('columnId')
-            alert(id.data.length)
-            //do somehing
-        } else if (layEvent === 'del') { //删除
+        if (layEvent === 'del') { //删除
+            console.log(id)
             layer.confirm('真的删除行么', function (index) {
-                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+
+                $.ajax({
+                    type: 'delete',
+                    url: 'https://localhost:44377/api/admin/Column/DeleteColumn',
+                    data: { ids: [id] },//'ids='+arr+'&_method=delete',
+                    success: function (data) {
+                        console.log(data)
+                    },
+                    error: function (data) {
+                        alert(2);
+                    }
+                });
+              
+                //$.ajax(url, { ids: id }, function (res) {
+                //    console(res)
+                //    if (res.code == 0) {
+                //        alertMsg("删除成功!");
+                //    }
+                //    else {
+                //        alertMsg(res.msg);
+                //    }
+                //});
+
+                //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                 layer.close(index);
                 //向服务端发送删除指令
             });

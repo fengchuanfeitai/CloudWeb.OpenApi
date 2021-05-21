@@ -12,7 +12,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 公司产品相关的接口
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class CorpProductController : Controller
     {
         private readonly ILogger<CorpProductsDto> _logger;
@@ -44,6 +44,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpGet]
         public ResponseResult<CorpProductsDto> GetProductById(int id)
         {
             return _service.GetProductsById(id);
@@ -54,6 +55,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="corpId"></param>
         /// <returns></returns>
+        [HttpGet]
         public ResponseResult<IEnumerable<CorpProductsDto>> GetProductByCorp(int corpId)
         {
             return _service.GetProductsByCorpId(corpId);
@@ -64,6 +66,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="corpProduct"></param>
         /// <returns></returns>
+        [HttpPost]
         public ResponseResult<bool> addProduct(CorpProductsDto corpProduct)
         {
             return _service.AddProduct(corpProduct);
@@ -74,6 +77,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
+        [HttpDelete]
         public ResponseResult<bool> DelProduct(dynamic[] ids)
         {
             return _service.DelProduct(ids);

@@ -77,8 +77,8 @@ namespace CloudWeb.Services
         {
             //const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[Cover],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE [IsDel]=0  ORDER BY [CreateTime] DESC ";
             string sql= @"SELECT w2.n, w1.* FROM Columns w1,(
-            SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) n, ColumnId FROM Columns) w2
-            WHERE w1.ColumnId = w2.ColumnId AND w2.n > (@PageSize*(@PageIndex-1)) ORDER BY w2.n ASC";
+            SELECT TOP (@page*@limit) row_number() OVER(ORDER BY Createtime DESC) n, ColumnId FROM Columns) w2
+            WHERE w1.ColumnId = w2.ColumnId AND w2.n > (@limit*(@page-1)) ORDER BY w2.n ASC";
             string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Columns]";
 
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll(sql, pageParam), Count(queryCountSql));
