@@ -1,4 +1,4 @@
-using System;
+锘縰sing System;
 using NLog.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -14,32 +14,27 @@ namespace CloudWeb.OpenApi
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                logger.Debug("初始化 main");
+                logger.Debug("锟斤拷始锟斤拷 main");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception exception)
             {
-                //NLog: 捕获设置错误
-                logger.Error(exception, "由于异常而停止程序");
+                //NLog: 锟斤拷锟斤拷锟斤拷锟矫达拷锟斤拷
+                logger.Error(exception, "锟斤拷锟斤拷锟届常锟斤拷停止锟斤拷锟斤拷");
                 throw;
             }
             finally
             {
-                // 确保在应用程序退出之前刷新并停止内部计时器/线程（避免Linux上出现分段错误）
+                // 确锟斤拷锟斤拷应锟矫筹拷锟斤拷锟剿筹拷之前刷锟铰诧拷停止锟节诧拷锟斤拷时锟斤拷/锟竭程ｏ拷锟斤拷锟斤拷Linux锟较筹拷锟街分段达拷锟斤拷
                 NLog.LogManager.Shutdown();
             }
 
         }
-        //使用autofac
+        //使锟斤拷autofac
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args).UseServiceProviderFactory(new AutofacServiceProviderFactory()).ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).ConfigureLogging(logging =>
-                {
-                    // logging.ClearProviders(); // 这个方法会清空所有控制台的输出
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                }).UseNLog(); // 使用NLog
-
+                }).UseNLog();  // NLog: 渚濊禆娉ㄥ叆Nlog
     }
 }

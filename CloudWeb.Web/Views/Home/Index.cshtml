@@ -3,13 +3,64 @@
 }
 <!-- 顶部开始 -->
 <div class="container">
-    <div class="logo"><a href="/Menu/Home"></a></div>
-    <div class="left_open">
-        <i title="展开左侧栏" class="iconfont">&#xe66e;</i>
+    <div class="logo">
+        <a href="/home/index">后台管理</a>
     </div>
+    <div class="left_open">
+        <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
+    </div>
+    <ul class="layui-nav left fast-add" lay-filter="">
+        <li class="layui-nav-item">
+            <a href="javascript:;">+新增</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd>
+                    <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">
+                        <i class="iconfont">&#xe6a2;</i>弹出最大化
+                    </a>
+                </dd>
+                <dd>
+                    <a onclick="xadmin.open('弹出自动宽高','http://www.baidu.com')">
+                        <i class="iconfont">&#xe6a8;</i>弹出自动宽高
+                    </a>
+                </dd>
+                <dd>
+                    <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">
+                        <i class="iconfont">&#xe6a8;</i>弹出指定宽高
+                    </a>
+                </dd>
+                <dd>
+                    <a onclick="xadmin.add_tab('在tab打开','member-list.html')">
+                        <i class="iconfont">&#xe6b8;</i>在tab打开
+                    </a>
+                </dd>
+                <dd>
+                    <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">
+                        <i class="iconfont">&#xe6b8;</i>在tab打开刷新
+                    </a>
+                </dd>
+            </dl>
+        </li>
+    </ul>
     <ul class="layui-nav right" lay-filter="">
-        <li class="layui-nav-item to-index"><span>欢迎您，</span></li>
-        <li class="layui-nav-item to-index"><i title="退出" class="iconfont">&#xeee3;</i><a href="@Url.Action("Index", "User")">退出</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">admin</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd>
+                    <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a>
+                </dd>
+                <dd>
+                    <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a>
+                </dd>
+                <dd>
+                    <a href="./login.html">退出</a>
+                </dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item to-index">
+            <a href="/">前台首页</a>
+        </li>
     </ul>
 </div>
 <!-- 顶部结束 -->
@@ -17,79 +68,94 @@
 <!-- 左侧菜单开始 -->
 <div class="left-nav">
     <div id="side-nav">
+
         <ul id="nav">
-            <li class="nav-first-li">
-                <a class="nav-first-li-a" href="javascript:;">
-                    <i class="iconfont nav_right">&#xe6b8;</i>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="栏目管理">&#xe6a9;</i>
                     <cite>栏目管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-second-li">
-                        <a class="nav-second-li-a" _href="@Url.Action("Index","Column")">
-                            <i class="iconfont">&#xe61c;</i>
+                    <li>
+                        <a onclick="xadmin.add_tab('栏目列表','/Column/index')">
+                            <i class="iconfont">&#xe6a7;</i>
                             <cite>栏目列表</cite>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="nav-first-li">
-                <a class="nav-first-li-a" href="javascript:;">
-                    <i class="iconfont nav_right">&#xe501;</i>
+        </ul>
+        <ul id="nav">
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="内容管理">&#xe6a9;</i>
                     <cite>内容管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-second-li">
-                        <a class="nav-second-li-a" _href="@Url.Action("Index","Content")">
-                            <i class="iconfont">&#xe61c;</i>
+                    <li>
+                        <a onclick="xadmin.add_tab('内容列表','/Content/index')">
+                            <i class="iconfont">&#xe6a7;</i>
                             <cite>内容列表</cite>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="nav-first-li">
-                <a class="nav-first-li-a" href="javascript:;">
-                    <i class="iconfont nav_right">&#xe501;</i>
+        </ul>
+        <ul id="nav">
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="会展中心">&#xe6a9;</i>
                     <cite>会展中心</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-second-li">
-                        <a class="nav-second-li-a" _href="#">
-                            <i class="iconfont">&#xe61c;</i>
+                    <li>
+                        <a onclick="xadmin.add_tab('公司管理','/Content/index')">
+                            <i class="iconfont">&#xe6a7;</i>
                             <cite>公司管理</cite>
                         </a>
                     </li>
-                    <li class="nav-second-li">
-                        <a class="nav-second-li-a" _href="#">
-                            <i class="iconfont">&#xe61c;</i>
+                </ul>
+                <ul class="sub-menu">
+                    <li>
+                        <a onclick="xadmin.add_tab('展品管理','/Content/index')">
+                            <i class="iconfont">&#xe6a7;</i>
                             <cite>展品管理</cite>
-
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="nav-first-li">
-                <a class="nav-first-li-a" href="javascript:;">
-                    <i class="iconfont nav_right">&#xe501;</i>
+        </ul>
+        <ul id="nav">
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="站点设置">&#xe6a9;</i>
                     <cite>站点设置</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-second-li">
-                        <a class="nav-second-li-a" _href="@Url.Action("Index","SiteInfo")">
-                            <i class="iconfont">&#xe61c;</i>
+                    <li>
+                        <a onclick="xadmin.add_tab('站点信息','/SiteInfo/index')">
+                            <i class="iconfont">&#xe6a7;</i>
                             <cite>站点信息</cite>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="nav-first-li">
-                <a class="nav-first-li-a" href="javascript:;">
-                    <i class="iconfont nav_right">&#xe501;</i>
+        </ul>
+        <ul id="nav">
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="系统管理">&#xe6a9;</i>
                     <cite>系统管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li class="nav-second-li">
-                        <a class="nav-second-li-a" _href="@Url.Action("Index","User")">
-                            <i class="iconfont">&#xe61c;</i>
+                    <li>
+                        <a onclick="xadmin.add_tab('用户管理','/User/index')">
+                            <i class="iconfont">&#xe6a7;</i>
                             <cite>用户管理</cite>
                         </a>
                     </li>

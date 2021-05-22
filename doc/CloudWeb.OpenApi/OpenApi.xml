@@ -210,7 +210,7 @@
         </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.UserController">
             <summary>
-            用户操作
+            用户展示
             </summary>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Admin.UserController},CloudWeb.IServices.IUserService)">
@@ -218,6 +218,14 @@
             
             </summary>
             <param name="logger"></param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UserController.Login(System.String,System.String)">
+            <summary>
+            登录验证
+            </summary>
+            <param name="name"></param>
+            <param name="password"></param>
+            <returns></returns>bc
         </member>
         <member name="T:CloudWeb.OpenApi.Core.Aop.AopHandledException">
             <summary>
