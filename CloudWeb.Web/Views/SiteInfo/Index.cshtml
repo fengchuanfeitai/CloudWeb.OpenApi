@@ -12,7 +12,7 @@
 
 <div class="x-body">
     <div class="layui-col-lg6 layui-col-md9 layui-col-sm10">
-        <form class="layui-form" lay-filter="site-form">
+        <form class="layui-form" lay-filter="siteInfo-form">
             <div class="layui-form-item">
                 <label for="L_SiteTitle" class="layui-form-label">
                     <span class="x-red">*</span>网站标题
@@ -133,10 +133,15 @@
         $(function () {
             $.ajax({
                 type: "GET",
-                dataType:"text",
                 url: "https://localhost:44377/api/SiteInfo/GetSiteInfo",
-                success: function (result) {
-
+                success: function (res) {
+                    layer.msg(res);
+                    if (res.code != 0) {
+                        layer.msg(res.msg);
+                        return false;
+                    }
+                    var data = res.data;
+                    
                 }
             });
         });

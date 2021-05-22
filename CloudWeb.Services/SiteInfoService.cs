@@ -98,7 +98,7 @@ namespace CloudWeb.Services
                     WeChatPublicNo = "-9"
                 };
                 var AddResult = AddSiteInfo(NewSiteInfo);
-                if (AddResult.code != 200)
+                if (AddResult.code != 0)
                     return new ResponseResult<SiteInfoDto>(201, "初始化站点信息失败！");
                 FindSiteInfo();
             }
