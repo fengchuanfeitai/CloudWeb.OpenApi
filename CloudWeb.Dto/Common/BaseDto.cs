@@ -11,12 +11,12 @@ namespace CloudWeb.Dto.Common
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreateTime => DateTime.Now;
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 修改时间
         /// </summary>
-        public DateTime ModifyTime => DateTime.Now;
+        public DateTime ModifyTime { get; set; }
 
         /// <summary>
         /// 创建者id

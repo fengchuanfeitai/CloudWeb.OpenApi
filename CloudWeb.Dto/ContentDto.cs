@@ -27,6 +27,16 @@ namespace CloudWeb.Dto
         public string Title { get; set; }
 
         /// <summary>
+        /// 浏览
+        /// </summary>
+        public int Hits { get; set; }
+
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
         /// 封面
         /// </summary>
         public string ImgUrl1 { get; set; }

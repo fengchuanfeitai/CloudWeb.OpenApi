@@ -5,9 +5,9 @@
 <div class="x-nav">
     <span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">演示</a>
+        <a href="">栏目管理</a>
         <a>
-            <cite>导航元素</cite>
+            <cite>栏目列表</cite>
         </a>
     </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
@@ -19,35 +19,21 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加栏目','/Column/Edit',800,600)"><i class="layui-icon"></i>添加</button>
                     <button class="layui-btn layui-btn-danger" onclick="delAll()">
                         <i class="layui-icon"></i>批量删除
                     </button>
 
                 </div>
-                <div class="layui-card-body ">
-                    <table class="layui-table layui-form" id="list">
+                <div class="layui-card-body" >
+                    <table class="layui-table layui-form" id="list" lay-filter="column">
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="x-body">
-    <div class="layui-row">
-        <div class="layui-form layui-col-md12 x-so">
-            <button class="layui-btn" type="button" onclick="x_admin_show('添加栏目','@Url.Action("Edit","Column")',600,520)" style="float:left;background-color: #1b8fe4;">添加栏目</button>
 
-            <button class="layui-btn" type="button" onclick="" style="float:left;margin-left:10px;background-color: #1b8fe4;">批量删除</button>
-        </div>
-    </div>
-    <div id="content">
-        <table class="layui-table" id="list" lay-filter="test">
-        </table>
-
-    </div>
-
-</div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

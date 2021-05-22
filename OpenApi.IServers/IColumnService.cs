@@ -25,7 +25,7 @@ namespace CloudWeb.IServices
         /// 修改栏目
         /// </summary>
         /// <returns></returns>
-        ResponseResult<bool> EdittColumn(ColumnDto columnDto);
+        ResponseResult<bool> EditColumn(ColumnDto columnDto);
 
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace CloudWeb.IServices
         /// 删除栏目
         /// </summary>
         /// <returns></returns>
-        ResponseResult<bool> DeleteColumn(dynamic[] ids);
+        ResponseResult<bool> DeleteColumn(int[] ids);
 
 
     }

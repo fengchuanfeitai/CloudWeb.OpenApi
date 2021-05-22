@@ -3,107 +3,215 @@
     Layout = "~/Views/Shared/_layout.cshtml";
 }
 
-<div class="x-body">
-    <form class="layui-form">
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item" lay-filter="test">
+                <label for="colName" class="layui-form-label">
+                    <span class="x-red">*</span>栏目名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="colName" name="colName" required="" lay-verify="required"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>将会成为您唯一的登入名
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="columnId" class="layui-form-label">
+                    <span class="x-red">*</span>所属父类别
+                </label>
+                <div class="layui-input-inline">
+                    <select name="city" lay-verify="">
+                        <option value="">请选择一个城市</option>
+                        <option value="010">北京</option>
+                        <option value="021">上海</option>
+                        <option value="0571">杭州</option>
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>将会成为您唯一的登入名
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="CoverUrl" class="layui-form-label">
+                    <span class="x-red">*</span>封面
+                </label>
 
+                <img src="" width="155" height="155" style="border:1px solid #cccccc" id="Content" />
+                <input type="hidden" id="ProductImage" name="ProductImage" value="" />
 
-        <div class="layui-form-item">
-            <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>用户账号
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="UserAccount" required="" lay-verify="UserAccount"
-                       autocomplete="off" class="layui-input" value="">
+                <button type="button" id="upload" style="height:25px;border:1px solid #cccccc;width:155px;margin-top:2px;">上传缩列图</button>
+                @*<div class="layui-input-inline">
+                        <input type="text" id="CoverUrl" name="CoverUrl" required="" lay-verify=""
+                               autocomplete="off" class="layui-input">
+                    </div>*@
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>用户姓名
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" name="UserName" required="" lay-verify="UserName"
-                       autocomplete="off" class="layui-input" value="">
+            <div class="layui-form-item">
+                <label for="Icon" class="layui-form-label">
+                    <span class="x-red">*</span>图标
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="Icon" name="Icon" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    6到16个字符
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>用户类型
-            </label>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>绑定关系
-            </label>
-            <div class="layui-input-inline">
+            <div class="layui-form-item">
+                <label for="Summary" class="layui-form-label">
+                    <span class="x-red">*</span>描述
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="Summary" name="Summary" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>系统角色
-            </label>
-
-            <div class="layui-input-inline">
+            <div class="layui-form-item">
+                <label for="Video" class="layui-form-label">
+                    <span class="x-red">*</span>视频
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="Video" name="Video" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_pass" class="layui-form-label">
-                <span class="x-red">*</span>账号密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" id="L_pass" name="UserPassword" required="" lay-verify="pass"
-                       autocomplete="off" class="layui-input" value="">
+            <div class="layui-form-item">
+                <label for="sort" class="layui-form-label">
+                    <span class="x-red">*</span>排序
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="sort" name="sort" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_repass" class="layui-form-label">
-                <span class="x-red">*</span>确认密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" id="L_repass" name="ReUserPassword" required="" lay-verify="repass"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-form-item">
+                <label for="LocationUrl" class="layui-form-label">
+                    <span class="x-red">*</span>跳转链接
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="LocationUrl" name="LocationUrl" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_repass" class="layui-form-label">
-            </label>
-            <button class="layui-btn" lay-filter="add" type="submit" lay-submit="" style="background-color: #1b8fe4;">
-                确认提交
-            </button>
-        </div>
-    </form>
+            <div class="layui-form-item">
+                <label for="IsShow" class="layui-form-label">
+                    <span class="x-red">*</span>是否显示
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="IsShow" name="IsShow" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="ImgDesc1" class="layui-form-label">
+                    <span class="x-red">*</span>内容封面上传描述
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="ImgDesc1" name="ImgDesc1" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="IsNews" class="layui-form-label">
+                    <span class="x-red">*</span>是否是新闻
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="IsNews" name="IsNews" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="ImgDesc2" class="layui-form-label">
+                    <span class="x-red">*</span>内容新闻内页封面描述
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="ImgDesc2" name="ImgDesc2" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="*" lay-submit="">
+                    确定
+                </button>
+                <button class="layui-btn" lay-filter="*" lay-submit="">
+                    取消
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
-<script>
-    layui.use(['form', 'layer'], function () {
-        $ = layui.jquery;
-        var form = layui.form
-            , layer = layui.layer;
+<script language="javascript">
 
-        //自定义验证规则
-        form.verify({
-            UserAccount: function (value) {
-                if (value.length <= 0) {
-                    return '用户账号不能为空';
-                }
-            },
-            UserName: function (value) {
-                if (value.length <= 0) {
-                    return '用户名不能为空';
-                }
-            }
 
-            , pass: function (value) {
-                if (value.length <= 0) {
-                    return '密码不能为空';
+
+    $(function () {
+           layui.use('upload', function(){
+        var $ = layui.jquery
+        ,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#upload',
+            exts: 'jpg|png|jpeg',
+            size:"2048",
+            url: "@Url.Action("UploadImg")",
+            before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#Content').attr('src', result); //图片链接（base64）
+                    $('#ProductPath').val(file.name);
+                    });
+                },
+           done: function (res) {
+              //如果上传失败
+               conlose.log()
+              if (res.code < 0) {
+                  return layer.msg('上传失败');
+              }
+
+               $('#ProductPath').val(res.ResultData);
+               $('#ProductImage').val(res.ResultData);
+
+              //上传成功
+           },
+           error: function () {
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function(){
+                        uploadInst.upload();
+                    });
                 }
-            }
-            , repass: function (value) {
-                if ($('#L_pass').val() != $('#L_repass').val()) {
-                    return '两次密码不一致';
-                }
+            });
+      });
+        $.ajax({
+            type: "get",
+            url: "https://localhost:44377/api/admin/Column/GetColumn/id",
+            data: { id: 33 },
+            success: function (res) {
+
+                console.log(res);
+                var result = res.data;
+                $("#colName").val(result.colName);
+                $("#CoverUrl").val(result.colName);
+                $("#Icon").val(result.colName);
+                $("#Summary").val(result.colName);
+                $("#Video").val(result.colName);
+                $("#sort").val(result.colName);
+                $("#LocationUrl").val(result.colName);
+                $("#IsShow").val(result.colName);
+                $("#ImgDesc1").val(result.colName);
+                $("#ImgDesc2").val(result.colName);
             }
         });
-
-
-    });
+    })
 </script>
+<script src="~/Scripts/Column/edit.js?@DateTime.Now.ToString("yyyymmddhhMMss")"></script>

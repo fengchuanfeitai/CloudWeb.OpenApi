@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,7 +12,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 内容管理
     /// </summary>
     [Produces("application/json")]
-    [Route("api/admin/[controller]")]
+    [Route("api/admin/[controller]/[action]")]
     public class ContentController : Controller
     {
 
@@ -25,47 +26,47 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         }
 
         /// <summary>
-        /// 查询所有栏目
+        /// 查询所有内容
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ContentDto>> GetAll()
+        public ResponseResult<IEnumerable<ContentDto>> GetAll(BaseParam para)
         {
-            return _service.GetAll();
+            return _service.GetAll(para);
         }
 
         /// <summary>
-        /// 查询栏目
+        /// 查询内容
         /// </summary>
         /// <returns></returns>
-        [HttpGet("id", Name = nameof(GetContent))]
+        [HttpGet]
         public ResponseResult<ContentDto> GetContent(int id)
         {
             return _service.GetContent(id);
         }
 
         /// <summary>
-        /// 修改栏目
+        /// 修改内容
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public ResponseResult<bool> EdittContent([FromBody] ContentDto contentDto)
+        public ResponseResult<bool> EditContent(ContentDto contentDto)
         {
-            return _service.EdittContent(contentDto);
+            return _service.EditContent(contentDto);
         }
 
         /// <summary>
-        /// 添加栏目
+        /// 添加内容
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResponseResult<bool> AddContent([FromBody] ContentDto contentDto)
+        public ResponseResult<bool> AddContent(ContentDto contentDto)
         {
             return _service.AddContent(contentDto);
         }
 
         /// <summary>
-        /// 删除栏目
+        /// 删除内容
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
