@@ -15,9 +15,9 @@ namespace CloudWeb.Services
               Id,CreateTime,ModifyTime,Creator,Modifier,SiteTitle,SiteKeyword,
               SiteDesc,SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo 
               FROM dbo.SiteInfo 
-              WHERE IsDel = 0 AND Id = @id";
+              WHERE Id = @id";
 
-            return new ResponseResult<SiteInfoDto>(Find(sql, id));
+            return new ResponseResult<SiteInfoDto>(Find(sql, new { id = id }));
         }
         #endregion
 
@@ -45,25 +45,25 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto siteInfo)
         {
-            var SiteInfo = FindSiteInfoById(siteInfo.Id);
-            if (SiteInfo == null)
+            var SiteInfoRes = FindSiteInfoById(siteInfo.Id);
+            if (SiteInfoRes.data == null)
                 return new ResponseResult<bool>(201, "站点信息不存在");
 
-            if (siteInfo.SiteTitle == SiteInfo.data.SiteTitle &&
-               siteInfo.SiteKeyword == SiteInfo.data.SiteKeyword &&
-               siteInfo.SiteDesc == SiteInfo.data.SiteDesc &&
-               siteInfo.SiteLogo == SiteInfo.data.SiteLogo &&
-               siteInfo.CopyRight == SiteInfo.data.CopyRight &&
-               siteInfo.Icp == SiteInfo.data.Icp &&
-               siteInfo.Tel == SiteInfo.data.Tel &&
-               siteInfo.Address == SiteInfo.data.Address &&
-               siteInfo.WeChatPublicNo == SiteInfo.data.WeChatPublicNo)
-                return new ResponseResult<bool>(201, "");
+            if (siteInfo.SiteTitle == SiteInfoRes.data.SiteTitle &&
+               siteInfo.SiteKeyword == SiteInfoRes.data.SiteKeyword &&
+               siteInfo.SiteDesc == SiteInfoRes.data.SiteDesc &&
+               siteInfo.SiteLogo == SiteInfoRes.data.SiteLogo &&
+               siteInfo.CopyRight == SiteInfoRes.data.CopyRight &&
+               siteInfo.Icp == SiteInfoRes.data.Icp &&
+               siteInfo.Tel == SiteInfoRes.data.Tel &&
+               siteInfo.Address == SiteInfoRes.data.Address &&
+               siteInfo.WeChatPublicNo == SiteInfoRes.data.WeChatPublicNo)
+                return new ResponseResult<bool>(200, "未作出修改，无需保存");
 
-            const string sql = @"UPDATE dbo.SiteInfo SET
-                  ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,SiteKeyword=@SiteKeyword,SiteDesc=@SiteDesc,
-                  SiteLogo=@SiteLogo,CopyRight=@CopyRight,Icp=@Icp,Tel=@Tel,[Address]=@Address,WeChatPublicNo=@WeChatPublicNo
-                  WHERE IsDel=0";
+            const string sql = @"UPDATE dbo.SiteInfo SET                  ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,
+              SiteKeyword=@SiteKeyword,SiteDesc=@SiteDesc,
+              SiteLogo=@SiteLogo,CopyRight=@CopyRight,Icp=@Icp,Tel=@Tel,
+              [Address]=@Address,WeChatPublicNo=@WeChatPublicNo";
 
             return new ResponseResult<bool>(Update(sql, siteInfo));
         }
@@ -98,7 +98,7 @@ namespace CloudWeb.Services
                     WeChatPublicNo = "-9"
                 };
                 var AddResult = AddSiteInfo(NewSiteInfo);
-                if (AddResult.code != 200)
+                if (AddResult.code != 0)
                     return new ResponseResult<SiteInfoDto>(201, "初始化站点信息失败！");
                 FindSiteInfo();
             }
