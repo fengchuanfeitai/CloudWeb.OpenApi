@@ -4,8 +4,8 @@
     table.render({
         elem: '#list'
         //, height: 260
-        //, url: 'https://localhost:44377/api/admin/Column/getall' //数据接口
-        , url: '/content/Column/data.json' //数据接口
+        , url: 'https://localhost:44377/api/admin/Column/getall' //数据接口
+        //, url: '/content/Column/data.json' //数据接口
         , contentType: 'application/ json'//传值格式
         //, where: { pageIndex: index, pageSize: 10 }//传递参数
         , request: {

@@ -3,7 +3,7 @@
     ViewBag.Title = "站点信息";
 }
 
-<div class="x-nav">
+<div class="x-nav" style="margin-top:20px;">
     <span class="layui-breadcrumb">
         <a href="">系统管理</a>
         <a href="@Url.Action("Index","SiteInfo")">站点信息</a>
@@ -13,6 +13,7 @@
 <div class="x-body">
     <div class="layui-col-lg6 layui-col-md9 layui-col-sm10">
         <form class="layui-form" lay-filter="siteInfo-form">
+            <input type="text" name="Id" class="layui-input layui-hide" />
             <div class="layui-form-item">
                 <label for="L_SiteTitle" class="layui-form-label">
                     <span class="x-red">*</span>网站标题
@@ -97,10 +98,10 @@
                 <label for="L_WechatPublicNo" class="layui-form-label">
                     <span class="x-red">*</span>微信公众号
                 </label>
-                <input type="text" name="WechatPublicNo" lay-verify="WechatPublicNo" autocomplete="off"
+                <input type="text" name="WeChatPublicNo" lay-verify="WeChatPublicNo" autocomplete="off"
                        class="layui-input layui-hide" value="" />
                 <div class="layui-input-block">
-                    <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="WechatPublicNoUpload">
+                    <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="WeChatPublicNoUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传150x150px</p>
                         <div class="layui-hide" id="WechatPublicNoImg">
@@ -113,131 +114,12 @@
             <div class="layui-form-item">
                 <label for="L_repass" class="layui-form-label">
                 </label>
-                <button class="layui-btn" lay-filter="add" type="submit" lay-submit="" style="background-color: #1b8fe4;">
-                    保存
+                <button class="layui-btn" lay-submit lay-filter="save-siteinfo" style="background-color: #1b8fe4;">
+                    保存修改
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<script>
-    layui.use(['form', 'upload', 'layer'], function () {
-        var $ = layui.jquery,
-            form = layui.form,
-            upload = layui.upload,
-            element = layui.element
-        layer = layui.layer;
-
-        //页面初始化给页面元素赋值
-        $(function () {
-            $.ajax({
-                type: "GET",
-                url: "https://localhost:44377/api/SiteInfo/GetSiteInfo",
-                success: function (res) {
-                    layer.msg(res);
-                    if (res.code != 0) {
-                        layer.msg(res.msg);
-                        return false;
-                    }
-                    var data = res.data;
-                    
-                }
-            });
-        });
-
-        //自定义验证规则
-        form.verify({
-            SiteTitle: function (value) {
-                if (value.length <= 0) {
-                    return '网站标题不能为空';
-                };
-                if (value.length > 2) {
-                    return '网站标题不能大于200个字符';
-                }
-            },
-            SiteKeyword: function (value) {
-                if (value.length <= 0) {
-                    return '网站关键字不能为空';
-                }
-                if (value.length >= 200) {
-                    return '网站关键字不能大于200个字符';
-                }
-            },
-            SiteDesc: function (value) {
-                if (value.length <= 0) {
-                    return '网站描述不能为空';
-                }
-                if (value.length > 1000) {
-                    return '网站描述不能大于1000个字符';
-                }
-            },
-            SiteLogo: function (value) {
-            },
-            CopyRight: function (value) {
-                if (value.length <= 0) {
-                    return '版权信息不能为空';
-                }
-                if (value.length > 200) {
-                    return '版权信息不能大于200个字符';
-                }
-            },
-            Icp: function (value) {
-                if (value.length <= 0) {
-                    return '备案号不能为空';
-                }
-                if (value.length > 200) {
-                    return '备案号不能大于200个字符';
-                }
-            },
-            Tel: function (value) {
-                if (value.length <= 0) {
-                    return '联系方式不能为空';
-                }
-                if (value.length > 20) {
-                    return '联系方式不能大于20个字符';
-                }
-            },
-            Address: function (value) {
-                if (value.length <= 0) {
-                    return '地址不能为空';
-                }
-                if (value.length > 500) {
-                    return '地址不能大于500个字符';
-                }
-            },
-            WeChatPublicNo: function (value) {
-            }
-        });
-
-        //Logo图片拖拽上传
-        var logoUpload = upload.render({
-            elem: '#logoUpload',
-            url: 'https://httpbin.org/post', //改成您自己的上传接口
-            method: 'Post',
-            type: 'images',
-            ext: 'jpg|png|gif',
-            //成功后回调
-            done: function (res) {
-                layer.msg('上传成功');
-                layui.$('#logoImg').removeClass('layui-hide').find('img').attr('src', res.files.file);
-                console.log(res)
-            }
-        });
-
-        //微信公众号图片上传
-        var WechatUpload = upload.render({
-            elem: '#WechatPublicNoUpload',
-            url: '',
-            method: 'Post',
-            type: 'images',
-            ext: 'jpg|png|gif',
-            //成功后回调
-            done: function (res) {
-                layer.msg('上传成功');
-                layui.$('#WechatPublicNoUpload').removeClass('layui-hide').find('img').attr('src', res.files.file);
-                console.log(res)
-            }
-        });
-    });
-</script>
+<script src="~/Scripts/siteinfo/siteinfo.js"></script>

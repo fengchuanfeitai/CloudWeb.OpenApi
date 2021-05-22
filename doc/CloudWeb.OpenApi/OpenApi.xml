@@ -39,36 +39,36 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:CloudWeb.OpenApi.Controllers.Admin.ContenController">
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.ContentController">
             <summary>
             内容管理
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.GetAll">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.GetAll">
             <summary>
             查询所有栏目
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.GetContent(System.Int32)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.GetContent(System.Int32)">
             <summary>
             查询栏目
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.EdittContent(CloudWeb.Dto.ContentDto)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.EdittContent(CloudWeb.Dto.ContentDto)">
             <summary>
             修改栏目
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.AddContent(CloudWeb.Dto.ContentDto)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.AddContent(CloudWeb.Dto.ContentDto)">
             <summary>
             添加栏目
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContenController.DeleteContent(System.Object[])">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.DeleteContent(System.Object[])">
             <summary>
             删除栏目
             </summary>
