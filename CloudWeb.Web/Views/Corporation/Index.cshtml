@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "公司管理";
+}
+
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">会展中心</a>
+        <a>
+            <cite>@ViewBag.Title</cite>
+        </a>
+    </span>
+
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <button class="layui-btn" onclick="xadmin.open('添加公司','/Corporation/Edit',800,600)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn layui-btn-danger" onclick="delAll()">
+                        <i class="layui-icon"></i>批量删除
+                    </button>
+
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table layui-form" id="corporation_list" lay-filter="Corporations">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/corporation/corporation.js"></script>
