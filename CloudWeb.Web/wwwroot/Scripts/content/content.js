@@ -5,7 +5,7 @@ layui.use('table', function () {
     table.render({
         elem: '#list'
         //, height: 260
-        , url: 'https://localhost:44377/api/admin/Column/getall' //数据接口
+        , url: 'https://localhost:44377/api/admin/Content/GetAll' //数据接口
         //, url: '/script/Column/data.json' //数据接口
         , contentType: 'application/ json'//传值格式
         //, where: { pageIndex: index, pageSize: 10 }//传递参数
@@ -29,7 +29,7 @@ layui.use('table', function () {
         //        "data": res.data //解析数据列表
         //    };
         //}
-        , id: 'columnId'
+        , id: 'id'
         , page: true //开启分页
         , limit: 10 //每页显示数量
         , limits: [10, 15]//每页可以选择的展示数量
@@ -38,11 +38,11 @@ layui.use('table', function () {
         }
         , cols: [[ //表头
             { field: '', title: '', height: 90, type: 'checkbox', width: 80 },
-            { field: 'columnId', title: '编号', height: 90, width: 80, sort: true, align: 'center' },
-            { field: 'colName', title: '栏目名称', width: 200, sort: true, align: 'center' },
+            { field: 'id', title: '编号', height: 90, width: 80, sort: true, align: 'center' },
+            { field: 'title', title: '栏目名称', width: 200, sort: true, align: 'center' },
             { field: 'localUrl', title: '跳转链接', width: 100, sort: true, align: 'center' },
             { field: 'sort', title: '排序', width: 80, sort: true, align: 'center' },
-            { field: 'IsShow', title: '是否显示', width: 280, sort: true, align: 'center' },
+            { field: 'Ispublic', title: '是否显示', width: 280, sort: true, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 280, sort: true, align: 'center' },
             { field: '', title: '操作', width: 280, sort: true, templet: '', align: 'center', toolbar: '#barDemo' }
         ]]
@@ -80,7 +80,7 @@ layui.use('table', function () {
                 $.ajax({
                     type: 'delete',
                     url: 'https://localhost:44377/api/admin/Column/DeleteColumn',
-                    dataType:'application/json',
+                    dataType: 'application/json',
                     data: { ids: ids },//'ids='+arr+'&_method=delete',
                     success: function (res) {
                         if (res.code != 0)

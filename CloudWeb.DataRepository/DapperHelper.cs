@@ -633,18 +633,18 @@ namespace CloudWeb.DataRepository
         /// <param name="param">参数</param>
         private void PrintSqlAndParam(string sql, bool withTransaction, dynamic param = null)
         {
-            string prefix = withTransaction ? "ExecuteWithTransactionSql: " : "ExecuteSql: ";
+            //string prefix = withTransaction ? "ExecuteWithTransactionSql: " : "ExecuteSql: ";
             //_log.LogDebug(string.Concat(prefix, sql));
 
-            if (param != null)
-            {
-                string paramString = "";
-                foreach (PropertyInfo property in param.GetType().GetProperties())
-                {
-                    paramString += $"Param[{property.Name}] = {property.GetValue(param)} ; ";
-                }
-                //_log.LogDebug(paramString);
-            }
+            //if (param != null)
+            //{
+            //    string paramString = "";
+            //    foreach (PropertyInfo property in param.GetType().GetProperties())
+            //    {
+            //        paramString += $"Param[{property.Name}] = {property.GetValue(param)} ; ";
+            //    }
+            //    _log.LogDebug(paramString);
+            //}
         }
 
 

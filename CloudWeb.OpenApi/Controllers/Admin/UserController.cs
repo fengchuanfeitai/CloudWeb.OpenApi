@@ -12,9 +12,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 用户展示
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UserController : AuthorizeController
+    public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _service;
@@ -38,6 +38,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [AllowAnonymous]
         public ResponseResult<UserData> Login(string name, string password)
         {
+            _logger.LogError("我是日志内容");
             return _service.Login(name, password);
         }
     }

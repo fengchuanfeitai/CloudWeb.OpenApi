@@ -31,7 +31,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpGet]
         public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            _log.LogDebug(1, "发生了一个Bug");
+            _log.LogInformation(1, "发生了一个Bug");
             return _service.GetAll(pageParam);
         }
 
@@ -50,9 +50,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public ResponseResult<bool> EdittColumn(ColumnDto columnDto)
+        public ResponseResult<bool> EditColumn(ColumnDto columnDto)
         {
-            return _service.EdittColumn(columnDto);
+            return _service.EditColumn(columnDto);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        public ResponseResult<bool> DeleteColumn(dynamic[] ids)
+        public ResponseResult<bool> DeleteColumn(int[] ids)
         {
             return _service.DeleteColumn(ids);
         }

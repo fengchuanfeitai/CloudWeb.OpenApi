@@ -60,7 +60,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 内容模块上传内页封面描述
         /// </summary>
-        public string ImaDesc2 { get; set; }
+        public string ImgDesc2 { get; set; }
 
         /// <summary>
         /// 图标网络地址

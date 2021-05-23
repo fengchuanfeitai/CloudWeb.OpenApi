@@ -11,30 +11,16 @@ namespace CloudWeb.OpenApi
     {
         public static void Main(string[] args)
         {
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            try
-            {
-                logger.Debug("��ʼ�� main");
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception exception)
-            {
-                //NLog: �������ô���
-                logger.Error(exception, "�����쳣��ֹͣ����");
-                throw;
-            }
-            finally
-            {
-                // ȷ����Ӧ�ó����˳�֮ǰˢ�²�ֹͣ�ڲ���ʱ��/�̣߳�����Linux�ϳ��ֶַδ���
-                NLog.LogManager.Shutdown();
-            }
-
+            CreateHostBuilder(args).Build().Run();
         }
         //ʹ��autofac
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).UseServiceProviderFactory(new AutofacServiceProviderFactory()).ConfigureWebHostDefaults(webBuilder =>
+            Host.CreateDefaultBuilder(args).
+            ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).UseNLog();  // NLog: 依赖注入Nlog
+                }).
+            UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .UseNLog();// 添加这句 注入nlog;;
     }
 }
