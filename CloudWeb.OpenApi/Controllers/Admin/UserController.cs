@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using CloudWeb.OpenApi.Core.Core.Jwt.UserClaim;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +15,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     [Produces("application/json")]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UserController : Controller
+    public class UserController : AuthorizeController
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _service;
@@ -25,21 +26,19 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         public UserController(ILogger<UserController> logger, IUserService service)
         {
             _logger = logger;
-            service = _service;
+            _service = service;
         }
 
         /// <summary>
         /// 登录验证
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="password"></param>
+        /// <param name="user"></param>
         /// <returns></returns>bc
         [HttpPost]
         [AllowAnonymous]
-        public ResponseResult<UserData> Login(string name, string password)
+        public ResponseResult<UserData> Login(UserParam user)
         {
-            _logger.LogError("我是日志内容");
-            return _service.Login(name, password);
+            return _service.Login(user);
         }
     }
 }

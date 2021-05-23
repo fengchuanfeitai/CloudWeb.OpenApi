@@ -6,8 +6,8 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form">
-            <div class="layui-form-item" lay-filter="test">
-                <label for="colName" class="layui-form-label">
+            <div class="layui-form-item" lay-filter="formTest">
+                <label for="colName1" class="layui-form-label">
                     <span class="x-red">*</span>栏目名
                 </label>
                 <div class="layui-input-inline">
@@ -194,40 +194,7 @@
             });
         });
 
-        //编辑时加载方法
-        //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
-        var id = getUrlParam("id");
-        console.log(id);
-        if (id != "") {
-            $.ajax({
-                type: "get",
-                url: "https://localhost:44377/api/admin/Column/GetColumn/id",
-                data: { id: id },//传值
-                success: function (res) {
-
-                    console.log(res);
-                    var result = res.data;
-                    $("#colName").val(result.colName);
-                    $("#CoverUrl").val(result.colName);
-                    $("#Icon").val(result.colName);
-                    $("#Summary").val(result.colName);
-                    $("#Video").val(result.colName);
-                    $("#sort").val(result.colName);
-                    $("#LocationUrl").val(result.colName);
-                    $("#IsShow").val(result.colName);
-                    $("#ImgDesc1").val(result.colName);
-                    $("#ImgDesc2").val(result.colName);
-                }
-            });
-
-        }
-
-        //获取url中的参数
-        function getUrlParam(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-            if (r != null) return unescape(r[2]); return null; //返回参数值
-        }
+       
     })
 </script>
-<script src="~/Scripts/Column/edit.js?@DateTime.Now.ToString("yyyymmddhhMMss")"></script>
+<script src="~/Scripts/Column/edit.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>

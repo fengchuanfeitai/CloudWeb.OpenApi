@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace CloudWeb.Services
 {
-    public class CorporationService : BaseDao<CorporationDto>, ICorporationService
+    public class CorporationService : BaseDao, ICorporationService
     {
         /// <summary>
         /// 添加公司信息
@@ -83,7 +83,7 @@ namespace CloudWeb.Services
                 Sort,IsDisplay,IsDel FROM dbo.Corporations
                 WHERE IsDel=0 AND CorpId=@id ORDER BY CreateTime DESC";
 
-            return new ResponseResult<CorporationDto>(Find(SelSql, id));
+            return new ResponseResult<CorporationDto>(Find<CorporationDto>(SelSql, id));
         }
 
         public ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation()
@@ -93,7 +93,7 @@ namespace CloudWeb.Services
                 Sort,IsDisplay,IsDel FROM dbo.Corporations 
                 WHERE IsDel=0 ORDER BY CreateTime DESC ";
 
-            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll(SelSql));
+            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql));
         }
     }
 }

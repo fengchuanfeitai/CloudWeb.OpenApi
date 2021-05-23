@@ -4,6 +4,11 @@
         <name>CloudWeb.OpenApi</name>
     </assembly>
     <members>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.AuthorizeController">
+            <summary>
+            用户登录验证
+            </summary>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.ColumnController">
             <summary>
             栏目管理
@@ -68,7 +73,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.DeleteContent(System.Object[])">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.DeleteContent(System.Int32[])">
             <summary>
             删除内容
             </summary>
@@ -208,6 +213,17 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Admin.UploadController">
+            <summary>
+            上传文件
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UploadController.UploadImg">
+            <summary>
+            上传文件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.UserController">
             <summary>
             用户展示
@@ -219,12 +235,11 @@
             </summary>
             <param name="logger"></param>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UserController.Login(System.String,System.String)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UserController.Login(CloudWeb.Dto.Param.UserParam)">
             <summary>
             登录验证
             </summary>
-            <param name="name"></param>
-            <param name="password"></param>
+            <param name="user"></param>
             <returns></returns>bc
         </member>
         <member name="T:CloudWeb.OpenApi.Core.Aop.AopHandledException">
@@ -275,6 +290,11 @@
             执行结果过滤器
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Filters.ModelValidateActionFilterAttribute">
+            <summary>
+            模型验证
+            </summary>
         </member>
     </members>
 </doc>

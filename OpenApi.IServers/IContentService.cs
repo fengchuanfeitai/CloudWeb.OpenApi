@@ -41,6 +41,6 @@ namespace CloudWeb.IServices
         /// 删除内容
         /// </summary>
         /// <returns></returns>
-        ResponseResult<bool> DeleteContent(dynamic[] ids);
+        ResponseResult<bool> DeleteContent(int[] ids);
     }
 }

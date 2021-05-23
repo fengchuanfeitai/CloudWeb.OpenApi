@@ -5,11 +5,10 @@ using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CloudWeb.Services
 {
-    public class ContentService : BaseDao<ContentDto>, IContentService
+    public class ContentService : BaseDao, IContentService
     {
         public ResponseResult<bool> AddContent(ContentDto contentDto)
         {
@@ -25,17 +24,30 @@ namespace CloudWeb.Services
             return new ResponseResult<bool>(Add(sql, contentDto));
         }
 
-        public ResponseResult<bool> DeleteContent(dynamic[] ids)
+        /// <summary>
+        /// 删除内容
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public ResponseResult<bool> DeleteContent(int[] ids)
         {
             if (ids.Length == 0)
-                return new ResponseResult<bool>(201, "请输入内容id");
+                return new ResponseResult<bool>((int)HttpStatusCode.fail, "请选择内容");
 
-            string sql = "UPDATE FROM [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID]=@ids ";
-            if (ids.Length > 1)
-                sql = "UPDATE FROM [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID] in(@ids) ";
-
-            return new ResponseResult<bool>(Delete(sql, new { ids = ids }));
+            if (ids.Length == 1)
+            {
+                string sql = "UPDATE FROM [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID]=@ids ";
+                return new ResponseResult<bool>(Delete(sql, new { ids = ids }));
+            }
+            else
+            {
+                string idStr = Util.ConverterUtil.StringSplit(ids);
+                string sql = @"UPDATE FROM [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID] in(
+                        select*fromdbo.split(@ids,',') ) ";
+                return new ResponseResult<bool>(Delete(sql, new { ids = ids }));
+            }
         }
+
 
         public ResponseResult<bool> EditContent(ContentDto contentDto)
         {
@@ -69,14 +81,14 @@ namespace CloudWeb.Services
             SELECT TOP (@page*@limit) row_number() OVER(ORDER BY Createtime DESC) n, Id FROM Content) w2
             WHERE w1.Id = w2.Id AND w2.n > (@limit*(@page-1)) ORDER BY w2.n ASC";
             string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Content]";
-            return new ResponseResult<IEnumerable<ContentDto>>(GetAll(sql, para), Count(queryCountSql));
+            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, para), Count(queryCountSql));
         }
 
         public ResponseResult<ContentDto> GetContent(int id)
         {
             const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsTop],[IsDefault],[IsDel] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 AND [Id]=@id";
 
-            return new ResponseResult<ContentDto>(Find(sql, new { id = id }));
+            return new ResponseResult<ContentDto>(Find<ContentDto>(sql, new { id = id }));
         }
     }
 }

@@ -6,7 +6,7 @@ using CloudWeb.IServices;
 
 namespace CloudWeb.Services
 {
-    public class CorpProductsService : BaseDao<CorpProductsDto>, ICorpProductsService
+    public class CorpProductsService : BaseDao, ICorpProductsService
     {
         /// <summary>
         /// 添加产品信息
@@ -79,7 +79,7 @@ namespace CloudWeb.Services
             const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,CorpId,Sort,IsDisplay,IsDel
                                     FROM dbo.CorpProducts WHERE IsDel=0 AND CorpId=@corpId ORDER BY Sort DESC, CreateTime DESC ";
 
-            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll(SelSql, corpId));
+            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(SelSql, corpId));
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace CloudWeb.Services
             const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,CorpId,Sort,IsDisplay,IsDel
                                     FROM dbo.CorpProducts WHERE IsDel=0 AND Id=@id";
 
-            return new ResponseResult<CorpProductsDto>(Find(SelSql, id));
+            return new ResponseResult<CorpProductsDto>(Find<CorpProductsDto>(SelSql, id));
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace CloudWeb.Services
             const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,CorpId,Sort,IsDisplay,IsDel
                                     FROM dbo.CorpProducts WHERE IsDel=0 ORDER BY Sort DESC, CreateTime DESC ";
 
-            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll(SelSql));
+            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(SelSql));
         }
     }
 }

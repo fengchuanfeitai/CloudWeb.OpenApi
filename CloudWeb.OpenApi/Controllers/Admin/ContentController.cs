@@ -70,7 +70,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        public ResponseResult<bool> DeleteContent(dynamic[] ids)
+        public ResponseResult<bool> DeleteContent(int[] ids)
         {
             return _service.DeleteContent(ids);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using CloudWeb.Dto.Common;
 
@@ -35,6 +36,9 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 栏目名称
         /// </summary>
+        [Display(Name = "栏目名称")]
+        [Required(ErrorMessage = "{0}必填")]
+        [StringLength(16, ErrorMessage = "不能超过{0}个字符")]
         public string ColName { get; set; }
 
         /// <summary>
@@ -75,7 +79,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 栏目级别
         /// </summary>
-        public bool Level { get; set; }
+        public int Level { get; set; }
 
         /// <summary>
         /// 是否显示

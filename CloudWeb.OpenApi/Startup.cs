@@ -58,9 +58,10 @@ namespace CloudWeb.OpenApi
         {
             services.AddControllers(options =>
             {
-                //注册统一结果返回，异常过滤器
+                //注册统一结果返回，异常过滤器、模型验证
                 options.Filters.Add<ApiResultFilter>();
                 options.Filters.Add<ApiExceptionFilter>();
+                options.Filters.Add<ModelValidateActionFilterAttribute>();
             });
 
 

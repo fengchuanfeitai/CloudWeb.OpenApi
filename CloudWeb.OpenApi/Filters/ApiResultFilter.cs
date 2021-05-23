@@ -25,7 +25,8 @@ namespace CloudWeb.OpenApi.Filters
                     {
                         context.Result = new JsonResult(new
                         {
-                            objectResult.Value
+                            code = objectResult.StatusCode,
+                            data = objectResult.Value
                         });
                     }
                     else//返回的是string、List这种其他类型，此时没有statusCode，应尽量使用IActionResult类型

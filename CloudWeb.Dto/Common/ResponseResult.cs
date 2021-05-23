@@ -5,6 +5,16 @@
     /// </summary>
     public class ResponseResult
     {
+        /// <summary>
+        /// 成功返回码
+        /// </summary>
+        public static int Ok = (int)HttpStatusCode.OK;
+
+        /// <summary>
+        /// 失败返回码
+        /// </summary>
+        public int Fail = (int)HttpStatusCode.fail;
+
         public virtual ResponseResult Set(int status, string message)
         {
             code = status;
@@ -18,15 +28,15 @@
         /// <returns></returns>
         public virtual ResponseResult SetFailMessage(string message)
         {
-            return Set(200, message);
+            return Set(Fail, message);
         }
         public virtual ResponseResult SetFail()
         {
-            return Set(200, string.Empty);
+            return Set(Fail, string.Empty);
         }
-        public ResponseResult(bool isSucceed, string message)
+        public ResponseResult(int code, string message)
         {
-            Set(200, message);
+            Set(code, message);
         }
         /// <summary>
         /// 如果是给字符串，表示有错误信息，默认IsSucceed=false
@@ -34,7 +44,7 @@
         /// <param name="message"></param>
         public ResponseResult(string message)
         {
-            Set(200, message);
+            Set(Fail, message);
         }
         /// <summary>
         /// 如果是空的，没有信息，默认IsSucceed=true
@@ -42,11 +52,14 @@
         public ResponseResult()
         {
         }
+
+
+
         /// <summary>
         /// 执行是否成功
         /// 默认为200
         /// </summary>
-        public int code { get; set; } = 0;
+        public int code { get; set; } = Ok;
 
         /// <summary>
         /// 总数
@@ -72,13 +85,13 @@
             data = result;
             return this;
         }
-        public ResponseResult<T> SetData(T data, int total=0)
+        public ResponseResult<T> SetData(T data, int total = 0)
         {
-            return Set(0, total, string.Empty, data);
+            return Set(Ok, total, string.Empty, data);
         }
         public new ResponseResult<T> SetFail()
         {
-            return Set(0, 0, string.Empty, default);
+            return Set(Fail, 0, string.Empty, default);
         }
         /// <summary>
         /// 设定错误信息
@@ -88,18 +101,18 @@
         /// <returns></returns>
         public new ResponseResult<T> SetFailMessage(string message)
         {
-            return Set(0, 0, message, default);
+            return Set(Fail, 0, message, default);
         }
         public ResponseResult()
         {
         }
         public ResponseResult(string message)
         {
-            Set(200, message);
+            Set(Fail, message);
         }
         public ResponseResult(int status, string message)
         {
-            Set(200, message);
+            Set(status, message);
         }
         public ResponseResult(T result, int total = 0)
         {

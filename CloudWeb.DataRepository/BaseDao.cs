@@ -2,9 +2,9 @@
 
 namespace CloudWeb.DataRepository
 {
-    public class BaseDao<T> where T : class, new()
+    public class BaseDao
     {
-        DapperHelper dapper = new DapperHelper();
+        private DapperHelper dapper = new DapperHelper();
 
         /// <summary>
         /// 添加对象
@@ -34,7 +34,7 @@ namespace CloudWeb.DataRepository
         /// <param name="sql"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public T Find(string sql, dynamic t = null)
+        public T Find<T>(string sql, dynamic t = null)
         {
             return dapper.QueryFirstOrDefault<T>(sql, t);
         }
@@ -57,7 +57,7 @@ namespace CloudWeb.DataRepository
         /// <param name="sql"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public IEnumerable<T> GetAll(string sql, dynamic t = null)
+        public IEnumerable<T> GetAll<T>(string sql, dynamic t = null)
         {
             return dapper.Query<T>(sql, t);
         }

@@ -3,7 +3,7 @@
 namespace CloudWeb.Dto.Common
 {
     /// <summary>
-    /// 分页
+    /// 分页数据返回结构
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class PageDto<T>

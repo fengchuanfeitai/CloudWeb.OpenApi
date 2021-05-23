@@ -5,7 +5,7 @@ using CloudWeb.Dto.Common;
 
 namespace CloudWeb.Services
 {
-    public class SiteInfoService : BaseDao<SiteInfoDto>, ISiteInfoService
+    public class SiteInfoService : BaseDao, ISiteInfoService
     {
         #region 私有方法
 
@@ -17,7 +17,7 @@ namespace CloudWeb.Services
               FROM dbo.SiteInfo 
               WHERE Id = @id";
 
-            return new ResponseResult<SiteInfoDto>(Find(sql, new { id = id }));
+            return new ResponseResult<SiteInfoDto>(Find<SiteInfoDto>(sql, new { id = id }));
         }
         #endregion
 
@@ -79,7 +79,7 @@ namespace CloudWeb.Services
               SiteDesc,SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo 
               FROM dbo.SiteInfo";
 
-            var SiteInfoResult = new ResponseResult<SiteInfoDto>(Find(sql));
+            var SiteInfoResult = new ResponseResult<SiteInfoDto>(Find<SiteInfoDto>(sql));
 
             if (SiteInfoResult.data == null)
             {

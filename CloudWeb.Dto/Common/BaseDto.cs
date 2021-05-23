@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace CloudWeb.Dto.Common
 {
-
     /// <summary>
     /// 基础dto
     /// </summary>
@@ -11,11 +12,15 @@ namespace CloudWeb.Dto.Common
         /// <summary>
         /// 创建时间
         /// </summary>
+        [DataType(DataType.Date)]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 修改时间
         /// </summary>
+        [DataType(DataType.Date)]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime ModifyTime { get; set; }
 
         /// <summary>

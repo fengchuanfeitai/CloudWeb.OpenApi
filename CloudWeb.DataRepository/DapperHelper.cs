@@ -20,7 +20,7 @@ namespace CloudWeb.DataRepository
         //数据库访问对象
         public IDbConnection Connection { get; protected set; }
 
-        public string ConnectionString = "";
+        private string ConnectionString = "";
         public DapperHelper(ILogger<DapperHelper> log)
         {
             _log = log;
