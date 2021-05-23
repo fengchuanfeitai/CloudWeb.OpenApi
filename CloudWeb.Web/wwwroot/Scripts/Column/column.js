@@ -94,8 +94,9 @@ layui.use('table', function () {
                 layer.close(index);
             });
         } else if (layEvent === 'edit') { //编辑
+
             //跳转编辑页面，携带id
-            xadmin.open('添加栏目', '/Column/Edit', 800, 600)
+            xadmin.open('添加栏目', '/Column/Edit?id='+id, 800, 600)
 
         } else if (layEvent === 'LAYTABLE_TIPS') {
             layer.alert('Hi，头部工具栏扩展的右侧图标。');

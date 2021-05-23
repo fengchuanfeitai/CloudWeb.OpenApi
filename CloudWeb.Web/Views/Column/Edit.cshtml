@@ -197,6 +197,7 @@
         //编辑时加载方法
         //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
         var id = getUrlParam("id");
+        console.log(id);
         if (id != "") {
             $.ajax({
                 type: "get",
