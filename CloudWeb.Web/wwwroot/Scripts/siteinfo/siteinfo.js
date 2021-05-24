@@ -3,8 +3,8 @@ layui.use(['form', 'upload', 'layer'], function () {
     var $ = layui.jquery,
         form = layui.form,
         upload = layui.upload,
-        element = layui.element
-    layer = layui.layer;
+        element = layui.element,
+        layer = layui.layer;
 
     //页面初始化给页面元素赋值
     $(function () {

@@ -62,6 +62,27 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.ChangeDefaultStatus(CloudWeb.Dto.Param.DefaultStatusParam)">
+            <summary>
+            首页置顶
+            </summary>
+            <param name="defaultStatusParam">状态参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.ChangePublicStatus(CloudWeb.Dto.Param.PublicStatusParam)">
+            <summary>
+            推荐首页状态
+            </summary>
+            <param name="publicStatusParam">状态参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.ChangeTopStatus(CloudWeb.Dto.Param.TopStatusParam)">
+            <summary>
+             添加轮播
+            </summary>
+            <param name="topStatusParam">状态参数</param>
+            <returns></returns>
+        </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.GetContent(System.Int32)">
             <summary>
             查询内容
