@@ -5,6 +5,10 @@ namespace CloudWeb.Dto
     public class CorporationDto : BaseDto
     {
         /// <summary>
+        /// 序号
+        /// </summary>
+        public int Index { get; set; }
+        /// <summary>
         /// 公司Id
         /// </summary>
         public int CorpId { get; set; }
@@ -60,9 +64,9 @@ namespace CloudWeb.Dto
         public string ContactUsBg { get; set; }
 
         /// <summary>
-        /// 序号
+        /// 排序
         /// </summary>
-        public int sort { get; set; }
+        public int Sort { get; set; }
 
         /// <summary>
         /// 是否显示

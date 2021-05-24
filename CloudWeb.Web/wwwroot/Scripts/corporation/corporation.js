@@ -6,7 +6,7 @@ var deleteUrl = 'https://localhost:44377/api/Corporation/DelCorporation';
 layui.use(['table', 'layer'], function () {
     var $ = layui.jquery,
         table = layui.table,
-        layer = layui.layer;   
+        layer = layui.layer;
 
     //table实例
     table.render({
@@ -27,7 +27,7 @@ layui.use(['table', 'layer'], function () {
         },
         page: true, //开启分页
         limit: 10,//每页显示数量
-        limits: [10, 15],//每页可以选择的展示数量
+        limits: [10, 15, 20],//每页可以选择的展示数量
         text: {
             none: '暂无相关数据', //默认：无数据。注：该属性为 layui 2.2.5 开始新增
         },
@@ -43,7 +43,7 @@ layui.use(['table', 'layer'], function () {
         ]],
         page: {
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-            groups: 1,//只显示1个连续页码
+            groups: 5,//只显示1个连续页码
             first: false,
             last: false,
             pageSize: 10
@@ -63,13 +63,13 @@ layui.use(['table', 'layer'], function () {
         //注：tool 是工具条事件名，lay-filter="对应的值"
         var id = obj.data.columnId; //获得当前行数据
         var layEvent = obj.event; //获得 lay - event 对应的值
-      
+
         if (layEvent === 'del') {
             //删除          
             layer.confirm('是否删除当前数据？', function (index) {
                 var ids = new Array();
                 ids.push(id)
-                delAjax(ids);                   
+                delAjax(ids);
             });
         }
         else if (layEvent === 'edit') {
@@ -95,15 +95,15 @@ layui.use(['table', 'layer'], function () {
             xadmin.open('添加公司', '/Corporation/Edit', 800, 600)
         },
         delSelected: function () {
-            var checkStatus = table.checkStatus('corpId');            
+            var checkStatus = table.checkStatus('corpId');
             var ids = new Array();
             $.each(checkStatus.data, function (index, value) {
-                ids.push(value.corpId);               
+                ids.push(value.corpId);
             });
             console.log(ids);
             layer.confirm('确定删除所选公司吗？', function (index) {
                 delAjax(ids);
-            });            
+            });
         }
     };
 
@@ -127,7 +127,7 @@ function delAjax(ids) {
                 return false;
             }
             layer.msg('删除成功');
-            location.reload();            
+            location.reload();
         }
     });
 }

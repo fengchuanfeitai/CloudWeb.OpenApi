@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 
 namespace CloudWeb.IServices
 {
@@ -36,9 +37,9 @@ namespace CloudWeb.IServices
 
         
         /// <summary>
-        /// 获取全部的公司信息
+        /// 分页查询公司信息
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation();
+        ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation(BaseParam pageParam);
     }
 }

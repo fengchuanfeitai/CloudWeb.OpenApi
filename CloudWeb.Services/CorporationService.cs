@@ -4,6 +4,7 @@ using CloudWeb.Dto.Common;
 using CloudWeb.IServices;
 using System.Collections.Generic;
 using CloudWeb.Util;
+using CloudWeb.Dto.Param;
 
 namespace CloudWeb.Services
 {
@@ -34,7 +35,7 @@ namespace CloudWeb.Services
         public ResponseResult<bool> DelCorporation(int[] ids)
         {
             var result = new ResponseResult<bool>();
-            if (ids.Length == 0)                
+            if (ids.Length == 0)
                 return result.SetFailMessage("请选择公司！");
 
             if (ids.Length == 1)
@@ -62,18 +63,7 @@ namespace CloudWeb.Services
             if (Corporation == null)
                 return new ResponseResult<bool>(201, "修改失败，公司信息不存在。");
 
-            if (corporation.Name == Corporation.data.Name &&
-                corporation.Cover == Corporation.data.Cover &&
-                corporation.Logo1 == Corporation.data.Logo1 &&
-                corporation.Logo2 == Corporation.data.Logo2 &&
-                corporation.ColumnId == Corporation.data.ColumnId &&
-                corporation.AboutUs == Corporation.data.AboutUs &&
-                corporation.AboutUsCover == Corporation.data.AboutUsCover &&
-                corporation.ContactUs == Corporation.data.ContactUs &&
-                corporation.ContactUsBg == Corporation.data.ContactUsBg &&
-                corporation.sort == Corporation.data.sort &&
-                corporation.IsDisplay == Corporation.data.IsDisplay &&
-                corporation.IsDel == Corporation.data.IsDel)
+            if (Equals(corporation,Corporation))
             {
                 return new ResponseResult<bool>(201, "修改成功");
             }
@@ -97,15 +87,25 @@ namespace CloudWeb.Services
             return new ResponseResult<CorporationDto>(Find<CorporationDto>(SelSql, id));
         }
 
-        public ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation()
+        /// <summary>
+        /// 分页查询公司信息
+        /// </summary>
+        /// <param name="pageParam"></param>
+        /// <returns></returns>
+        public ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation(BaseParam pageParam)
         {
-            const string SelSql = @"SELECT CorpId,CreateTime,ModifyTime,Creator,Modifier,
-                [Name],Cover,Logo1,Logo2,ColumnId,AboutUs,AboutUsCover,ContactUs,ContactUsBg,
-                Sort,IsDisplay,IsDel FROM dbo.Corporations 
-                WHERE IsDel=0 ORDER BY CreateTime DESC ";
+            const string SelSql = @"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsDisplay
+                                FROM dbo.Corporations c1,
+                               (SELECT TOP (@PageIndex*@PageSize) 
+                                ROW_NUMBER() OVER(ORDER BY CreateTime DESC ) [Index],CorpId
+                                FROM dbo.Corporations) c2
+                                WHERE c1.CorpId = c2.CorpId 
+                                AND c2.[Index] >(@PageSize*(@PageIndex-1)) 
+                                ORDER BY c2.[Index] ASC";
 
+            const string CountSql = @"SELECT COUNT(*) FROM dbo.Corporations WHERE IsDel=0";
             //处理栏目Id多个
-            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql));
+            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql,pageParam),Count(CountSql));
         }
     }
 }

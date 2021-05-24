@@ -36,7 +36,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpGet]
         public ResponseResult<IEnumerable<CorporationDto>> GetAll(BaseParam pageParam)
         {
-            return _corporationService.GetAllCorporation();
+            return _corporationService.GetAllCorporation(pageParam);
         }
 
         /// <summary>
