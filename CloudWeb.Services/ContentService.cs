@@ -3,6 +3,7 @@ using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
 using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
+using CloudWeb.Util;
 using System;
 using System.Collections.Generic;
 
@@ -31,20 +32,20 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> DeleteContent(int[] ids)
         {
+            ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
-                return new ResponseResult<bool>((int)HttpStatusCode.fail, "请选择内容");
+                return result.SetFailMessage("请选择内容");
 
             if (ids.Length == 1)
             {
                 string sql = "UPDATE FROM [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID]=@ids ";
-                return new ResponseResult<bool>(Delete(sql, new { ids = ids }));
+                return result.SetData(Delete(sql, new { ids = ids }));
             }
             else
             {
-                string idStr = Util.ConverterUtil.StringSplit(ids);
-                string sql = @"UPDATE FROM [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID] in(
-                        select*fromdbo.split(@ids,',') ) ";
-                return new ResponseResult<bool>(Delete(sql, new { ids = ids }));
+                string idStr = ConverterUtil.StringSplit(ids);
+                string sql = $"UPDATE FROM [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID] in({idStr}) ";
+                return result.SetData(Delete(sql, new { ids = ids }));
             }
         }
 

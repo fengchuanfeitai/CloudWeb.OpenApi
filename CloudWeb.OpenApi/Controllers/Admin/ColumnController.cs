@@ -31,15 +31,25 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpGet]
         public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            _log.LogInformation(1, "发生了一个Bug");
             return _service.GetAll(pageParam);
+        }
+
+        /// <summary>
+        /// 改变显示状态
+        /// </summary>
+        /// <param name="showStatusParam">状态参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam)
+        {
+            return _service.ChangeShowStatus(showStatusParam);
         }
 
         /// <summary>
         /// 查询栏目
         /// </summary>
         /// <returns></returns>
-        [HttpGet("id", Name = nameof(GetColumn))]
+        [HttpGet]
         public ResponseResult<ColumnDto> GetColumn(int id)
         {
             return _service.GetColumn(id);

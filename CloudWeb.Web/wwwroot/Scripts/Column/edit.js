@@ -15,8 +15,8 @@
 
             $.ajax({
                 type: "get",
-                //url: "https://localhost:44377/api/admin/Column/GetColumn/id",
-                url: '/scripts/Column/editData.json' //数据接口
+                url: "https://localhost:44377/api/admin/Column/GetColumn/id",
+                //url: '/scripts/Column/editData.json' //数据接口
                 , data: { id: id }//传值
                 , success: function (res) {
                     var result = res.data;

@@ -13,6 +13,12 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam);
 
+        /// <summary>
+        /// 改变显示状态
+        /// </summary>
+        /// <param name="showStatusParam">状态参数</param>
+        /// <returns></returns>
+        ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam);
 
         /// <summary>
         /// 查询栏目

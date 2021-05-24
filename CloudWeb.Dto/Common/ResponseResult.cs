@@ -89,6 +89,7 @@
         {
             return Set(Ok, total, string.Empty, data);
         }
+
         public new ResponseResult<T> SetFail()
         {
             return Set(Fail, 0, string.Empty, default);

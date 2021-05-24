@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using CloudWeb.Dto.Common;
+﻿using CloudWeb.Dto.Common;
 
 namespace CloudWeb.Dto
 {
@@ -12,6 +8,11 @@ namespace CloudWeb.Dto
         /// 编号
         /// </summary>
         public int ColumnId { get; set; }
+
+        /// <summary>
+        /// 展示序号
+        /// </summary>
+        public int Num { get; set; }
 
         /// <summary>
         /// 父级id
@@ -36,9 +37,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 栏目名称
         /// </summary>
-        [Display(Name = "栏目名称")]
-        [Required(ErrorMessage = "{0}必填")]
-        [StringLength(16, ErrorMessage = "不能超过{0}个字符")]
+
         public string ColName { get; set; }
 
         /// <summary>

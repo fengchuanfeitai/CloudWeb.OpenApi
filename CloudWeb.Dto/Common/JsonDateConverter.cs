@@ -7,6 +7,7 @@ namespace CloudWeb.Dto.Common
     /// </summary>
     class JsonDateConverter : IsoDateTimeConverter
     {
+
         public JsonDateConverter()
         {
             DateTimeFormat = "yyyy-MM-dd HH:mm:ss";

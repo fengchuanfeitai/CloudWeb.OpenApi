@@ -9,10 +9,10 @@ layui.use('table', function () {
         //, url: '/script/Column/data.json' //数据接口
         , contentType: 'application/ json'//传值格式
         //, where: { pageIndex: index, pageSize: 10 }//传递参数
-        //, request: {
-        //    pageName: 'pageIndex' //页码的参数名称，默认：page
-        //    , limitName: 'pageSize' //每页数据量的参数名，默认：limit
-        //}
+        , request: {
+            pageName: 'pageIndex' //页码的参数名称，默认：page
+            , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        }
         , response: {
             statusName: 'code' //规定数据状态的字段名称，默认：code
             , statusCode: 200 //规定成功的状态码，默认：0
@@ -39,10 +39,12 @@ layui.use('table', function () {
         , cols: [[ //表头
             { field: '', title: '', height: 90, type: 'checkbox', width: 80 },
             { field: 'id', title: '编号', height: 90, width: 80, sort: true, align: 'center' },
-            { field: 'title', title: '栏目名称', width: 200, sort: true, align: 'center' },
-            { field: 'localUrl', title: '跳转链接', width: 100, sort: true, align: 'center' },
-            { field: 'sort', title: '排序', width: 80, sort: true, align: 'center' },
+            { field: 'title', title: '标题', width: 200, align: 'center' },
+            { field: 'ColumnName', title: '所属栏目类别', width: 200, align: 'center' },
+            { field: 'localUrl', title: '跳转链接', width: 100, align: 'center' },
+            { field: 'IsTop', title: '排序', width: 80, sort: true, align: 'center' },
             { field: 'Ispublic', title: '是否显示', width: 280, sort: true, align: 'center' },
+            { field: 'sort', title: '排序', width: 80, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 280, sort: true, align: 'center' },
             { field: '', title: '操作', width: 280, sort: true, templet: '', align: 'center', toolbar: '#barDemo' }
         ]]
@@ -50,24 +52,22 @@ layui.use('table', function () {
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
             //,curr: 5 //设定初始在第 5 页
             , groups: 1 //只显示 1 个连续页码
-            , first: false //不显示首页
-            , last: false //不显示尾页
+            , first: "首页" //不显示首页
+            , last: "尾页" //不显示尾页
             , pageSize: 10
         }
         , done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
             //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-
-            console.log(res);
-
+            console.log("接口返回data:" + res);
             //得到当前页码
-            console.log(curr);
+            console.log("当前页码：" + curr);
             //得到数据总量
-            console.log(count);
+            console.log("数据总数：" + count);
         }
     });
 
-    table.on('tool(column)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+    table.on('tool(content)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
         var id = obj.data.columnId; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）

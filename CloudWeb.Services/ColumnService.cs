@@ -37,26 +37,43 @@ namespace CloudWeb.Services
                 column.Level = 1;
             else
             {
-                int level = GetParentLevel(column.ParentId);
-                column.Level = level + 1;//父级不为0，则查询父级level+1
+                string sql = "select level from Columns where isdel=0 and parentid=@id";
+                column.Level = Count(sql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
             }
             column.CreateTime = DateTime.Now;
             column.ModifyTime = DateTime.Now;
             return result.SetData(Add(Insert_Column_Sql, column));
         }
 
-        public int GetParentLevel(int parentId)
+        /// <summary>
+        /// 改变显示状态
+        /// </summary>
+        /// <param name="showStatusParam">状态参数</param>
+        /// <returns></returns>
+        public ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam)
         {
-            string sql = "select level from Columns where isdel=0 and parentid=@id";
-            return Count(sql, new { id = parentId });
+            ResponseResult result = new ResponseResult();
+            string sql = "UPDATE Columns SET IsShow = @ShowStatus WHERE ColumnId = @Id";
+            bool isSuccess = Update(sql, showStatusParam);
+
+            if (isSuccess)
+                result.Set((int)HttpStatusCode.OK, "修改状态成功");
+            else
+                result.Set((int)HttpStatusCode.fail, "修改状态失败");
+            return result;
         }
 
+        /// <summary>
+        /// 删除：包括单条数据删除，多条数据删除
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         public ResponseResult<bool> DeleteColumn(int[] ids)
         {
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
                 return result.SetFailMessage("请选择栏目id");
-
+            //业务逻辑：删除栏目的同时，删除对应栏目下的内容
             if (ids.Length == 1)
             {
                 //判断栏目下是否有内容
@@ -65,17 +82,22 @@ namespace CloudWeb.Services
 
                 //if (count > 0)
                 //    return result.SetFailMessage("当前栏目下存在内容，是否确定同时删除");
-                string sql = @"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in(@idStr); ";
+                string sql = @"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in(@ids); ";
                 return result.SetData(Delete(sql, new { ids = ids }));
             }
             else
             {
                 string idStr = Util.ConverterUtil.StringSplit(ids);
-                string sql = @"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in                （select * from dbo.split(@ids,',') ); ";
-                return result.SetData(Delete(sql, new { idStr = ids }));
+                string sql = $"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in ({idStr}); ";
+                return result.SetData(Delete(sql));
             }
         }
 
+        /// <summary>
+        /// 编辑当前栏目
+        /// </summary>
+        /// <param name="columnDto"></param>
+        /// <returns></returns>
         public ResponseResult<bool> EditColumn(ColumnDto columnDto)
         {
             ResponseResult<bool> result = new ResponseResult<bool>();
@@ -108,21 +130,21 @@ namespace CloudWeb.Services
         }
 
         /// <summary>
-        /// 查询所有栏目
+        /// 分页查询所有栏目
         /// </summary>
         /// <returns></returns>
         public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            string sql = @"SELECT w2.n, w1.* FROM Columns w1,(
-            SELECT TOP (@page*@limit) row_number() OVER(ORDER BY Createtime DESC) n, ColumnId FROM Columns) w2
-            WHERE w1.ColumnId = w2.ColumnId AND w2.n > (@limit*(@page-1)) ORDER BY w2.n ASC";
-            string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Columns]";
+            string sql = @"SELECT w2.num, w1.* FROM Columns w1,
+            (SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) num, ColumnId  FROM Columns where IsDel=0) w2
+            WHERE w1.ColumnId = w2.ColumnId AND w2.num > (@PageSize*(@PageIndex-1))  ORDER BY w2.num ASC";
+            string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Columns] WHERE IsDel=0";
 
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam), Count(queryCountSql));
         }
 
         /// <summary>
-        /// 查询栏目
+        /// 根据id查询数据
         /// </summary>
         /// <returns></returns>
         public ResponseResult<ColumnDto> GetColumn(int id)
