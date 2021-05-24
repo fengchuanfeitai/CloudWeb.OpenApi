@@ -18,7 +18,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        ResponseResult<bool> DelCorporation(dynamic[] ids);
+        ResponseResult<bool> DelCorporation(int[] ids);
 
         /// <summary>
         /// 修改公司信息

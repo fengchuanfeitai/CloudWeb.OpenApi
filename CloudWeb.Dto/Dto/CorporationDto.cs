@@ -35,6 +35,11 @@ namespace CloudWeb.Dto
         public int ColumnId { get; set; }
 
         /// <summary>
+        /// 栏目名称
+        /// </summary>
+        public string ColName { get; set; }
+
+        /// <summary>
         /// 关于我们
         /// </summary>
         public string AboutUs { get; set; }

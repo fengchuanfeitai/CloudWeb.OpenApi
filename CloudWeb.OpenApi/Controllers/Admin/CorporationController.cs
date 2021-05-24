@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,7 +34,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<CorporationDto>> GetAll()
+        public ResponseResult<IEnumerable<CorporationDto>> GetAll(BaseParam pageParam)
         {
             return _corporationService.GetAllCorporation();
         }
@@ -76,7 +77,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
-        public ResponseResult<bool> DelCorporation(dynamic[] ids)
+        public ResponseResult<bool> DelCorporation(int[] ids)
         {
             return _corporationService.DelCorporation(ids);
         }

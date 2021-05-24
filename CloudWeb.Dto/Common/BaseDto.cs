@@ -13,14 +13,14 @@ namespace CloudWeb.Dto.Common
         /// 创建时间
         /// </summary>
         [DataType(DataType.Date)]
-        [JsonConverter(typeof(JsonDateConverter))]
+        //[JsonConverter(typeof(JsonDateConverter))]
         public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 修改时间
         /// </summary>
         [DataType(DataType.Date)]
-        [JsonConverter(typeof(JsonDateConverter))]
+        //[JsonConverter(typeof(JsonDateConverter))]
         public DateTime ModifyTime { get; set; }
 
         /// <summary>

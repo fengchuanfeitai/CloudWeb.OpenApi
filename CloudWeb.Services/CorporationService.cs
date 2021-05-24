@@ -2,8 +2,8 @@
 using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
 using CloudWeb.IServices;
-using System;
 using System.Collections.Generic;
+using CloudWeb.Util;
 
 namespace CloudWeb.Services
 {
@@ -31,13 +31,24 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public ResponseResult<bool> DelCorporation(dynamic[] ids)
+        public ResponseResult<bool> DelCorporation(int[] ids)
         {
-            string DelSql = "UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId= @ids";
-            if (ids.Length > 1)
-                DelSql = "UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId in @ids";
+            var result = new ResponseResult<bool>();
+            if (ids.Length == 0)                
+                return result.SetFailMessage("请选择公司！");
 
-            return new ResponseResult<bool>(Update(DelSql, ids));
+            if (ids.Length == 1)
+            {
+                string delSql = "UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId= @ids";
+                return result.SetData(Delete(delSql, new { ids = ids }));
+            }
+            else
+            {
+                string idsStr = ConverterUtil.StringSplit(ids);
+                string delSql = $"UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId in ({idsStr})";
+
+                return result.SetData(Delete(delSql, new { ids = ids }));
+            }
         }
 
         /// <summary>
@@ -93,6 +104,7 @@ namespace CloudWeb.Services
                 Sort,IsDisplay,IsDel FROM dbo.Corporations 
                 WHERE IsDel=0 ORDER BY CreateTime DESC ";
 
+            //处理栏目Id多个
             return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql));
         }
     }
