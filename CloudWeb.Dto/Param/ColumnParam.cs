@@ -39,6 +39,8 @@ namespace CloudWeb.Dto.Param
         /// <summary>
         /// 主键
         /// </summary>
+        [Display(Name = "主键")]
+        [Required(ErrorMessage = "{0}必填")]
         public int Id { get; set; }
     }
 }

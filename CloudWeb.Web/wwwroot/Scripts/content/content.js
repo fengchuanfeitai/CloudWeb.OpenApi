@@ -1,17 +1,18 @@
 ﻿var data = "";
 layui.use('table', function () {
     var table = layui.table;
-    //第一个实例
+    //接口
+    var getlistapi = "https://localhost:44377/api/admin/Content/GetAll";
     table.render({
         elem: '#list'
         //, height: 260
-        , url: 'https://localhost:44377/api/admin/Content/GetAll' //数据接口
+        , url: getlistapi //数据接口
         //, url: '/script/Column/data.json' //数据接口
         , contentType: 'application/ json'//传值格式
         //, where: { pageIndex: index, pageSize: 10 }//传递参数
         , request: {
-            pageName: 'pageIndex' //页码的参数名称，默认：page
-            , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            pageName: 'PageIndex' //页码的参数名称，默认：page
+            , limitName: 'PageSize' //每页数据量的参数名，默认：limit
         }
         , response: {
             statusName: 'code' //规定数据状态的字段名称，默认：code
@@ -29,6 +30,7 @@ layui.use('table', function () {
         //        "data": res.data //解析数据列表
         //    };
         //}
+        , cellMinWidth: 100//一般用于列宽自动分配的情况
         , id: 'id'
         , page: true //开启分页
         , limit: 10 //每页显示数量
@@ -42,11 +44,28 @@ layui.use('table', function () {
             { field: 'title', title: '标题', width: 200, align: 'center' },
             { field: 'ColumnName', title: '所属栏目类别', width: 200, align: 'center' },
             { field: 'localUrl', title: '跳转链接', width: 100, align: 'center' },
-            { field: 'IsTop', title: '排序', width: 80, sort: true, align: 'center' },
-            { field: 'Ispublic', title: '是否显示', width: 280, sort: true, align: 'center' },
+            {
+                field: 'isDefault', title: '是否推荐到首页', templet: function (d) {
+                    console.log(d)
+                    return '<input type="checkbox" value="' + d.id + '" ' + (d.isDefault == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchDefault" lay-text="推荐|不推荐">'
+                }, align: 'center'
+            },
+            {
+                field: 'isTop', title: '是否添加到轮播', templet: function (d) {
+                    console.log(d)
+                    return '<input type="checkbox" value="' + d.id + '" ' + (d.isTop == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchTop" lay-text="添加|不添加">'
+                }, align: 'center'
+            },
+            {
+                field: 'isPublic', title: '是否发布', templet: function (d) {
+                    console.log(d)
+                    return '<input type="checkbox" value="' + d.id + '" ' + (d.ispublic == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchPublic" lay-text="发布|不发布">'
+                }, align: 'center'
+            },
+
             { field: 'sort', title: '排序', width: 80, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 280, sort: true, align: 'center' },
-            { field: '', title: '操作', width: 280, sort: true, templet: '', align: 'center', toolbar: '#barDemo' }
+            { field: '', title: '操作', width: 280, sort: true, templet: '', align: 'center', toolbar: '#barContent' }
         ]]
         , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -67,132 +86,149 @@ layui.use('table', function () {
         }
     });
 
+    //推荐首页按钮状态事件
+    form.on('switch(switchDefault)', function (obj) {
+        console.log(`我监听到的switch的值是：${obj.value}`);
+
+        console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
+        var apiurl = "https://localhost:44377/api/admin/Column/ChangeDefaultStatus";
+        //改变状态
+        var onoff = this.checked ? '1' : '0';
+        console.log(obj.value);
+        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
+            console.log(1);
+            //判断是否等于200，否则提示错误信息
+            if (res.code === 200) {
+                layer.msg('状态修改成功', { icon: 1 });
+                table.reload("columnId", "", false);//刷新表格
+            }
+            else
+                layer.msg('状态修改失败', { icon: 2 });
+        });
+    });
+
+    //是否发布按钮状态事件
+    form.on('switch(switchPublic)', function (obj) {
+        console.log(`我监听到的switch的值是：${obj.value}`);
+
+        console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
+        var apiurl = "https://localhost:44377/api/admin/Column/ChangePublicStatus";
+        //改变状态
+        var onoff = this.checked ? '1' : '0';
+        console.log(obj.value);
+        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
+            console.log(1);
+            //判断是否等于200，否则提示错误信息
+            if (res.code === 200) {
+                layer.msg('状态修改成功', { icon: 1 });
+                table.reload("columnId", "", false);//刷新表格
+            }
+            else
+                layer.msg('状态修改失败', { icon: 2 });
+        });
+    });
+
+    //是否添加到轮播按钮状态事件
+    form.on('switch(switchDefault)', function (obj) {
+        console.log(`我监听到的switch的值是：${obj.value}`);
+
+        console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
+        var apiurl = "https://localhost:44377/api/admin/Column/ChangeTopStatus";
+        //改变状态
+        var onoff = this.checked ? '1' : '0';
+        console.log(obj.value);
+        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
+            console.log(1);
+            //判断是否等于200，否则提示错误信息
+            if (res.code === 200) {
+                layer.msg('状态修改成功', { icon: 1 });
+                table.reload("columnId", "", false);//刷新表格
+            }
+            else
+                layer.msg('状态修改失败', { icon: 2 });
+        });
+    });
+    //操作事件
     table.on('tool(content)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-        var id = obj.data.columnId; //获得当前行数据
+        var id = obj.data.id; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-        var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-        console.log(layEvent)
         if (layEvent === 'del') { //删除
             console.log(id)
             layer.confirm('是否删除当前数据？', function (index) {
                 var ids = new Array();
                 ids.push(id)
+                console.log("单选删除数据：" + ids);
                 $.ajax({
                     type: 'delete',
-                    url: 'https://localhost:44377/api/admin/Column/DeleteColumn',
-                    dataType: 'application/json',
+                    url: 'https://localhost:44377/api/admin/content/DeleteContent',
+                    dataType: 'json',
                     data: { ids: ids },//'ids='+arr+'&_method=delete',
                     success: function (res) {
-                        if (res.code != 0)
-                            alertMsg(res.msg);
-                        console.log(data)
-                    },
-                    error: function (data) {
-                        alert(2);
+                        console.log(res)
+                        if (res.code === 200) {
+                            layer.msg('删除成功', { icon: 1 });
+                            table.reload("id", "", false);//刷新表格
+                        }
+                        else
+                            layer.msg('删除失败', { icon: 2 });
                     }
                 });
                 layer.close(index);
             });
         } else if (layEvent === 'edit') { //编辑
-            //跳转编辑页面，携带id
-            xadmin.open('添加栏目', '/Column/Edit', 800, 600)
 
-        } else if (layEvent === 'LAYTABLE_TIPS') {
-            layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            //跳转编辑页面，携带id
+            xadmin.open('添加栏目', '/Content/Edit?id=' + id, 800, 600)
         }
     });
-    table.on('checkbox(test)', function (obj) {
-        console.log(obj); //当前行的一些常用操作集合
-        console.log(obj.checked); //当前是否选中状态
-        console.log(obj.data); //选中行的相关数据
-        console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
-    });
 
-    data = table.checkStatus('id')
-    console.log(data)
+    var ids = [];
+    //全选删除
+    table.on('checkbox(content)', function (obj) {
 
-});
+        var checkStatus = table.checkStatus('id')
+            , data = checkStatus.data;
 
-function delAll(argument) {
+        ids = new Array();//每次加载时间，重新初始化数组
 
-    //var data = tableCheck.getData();
+        for (var i = 0; i < data.length; i++) {
 
-    console.log(data)
-    layer.confirm('确认要删除吗？', function (index) {
-        //捉到所有被选中的，发异步进行删除
-        layer.msg('删除成功', { icon: 1 });
-        $(".layui-form-checked").not('.header').parents('tr').remove();
-    });
-}
+            var id = data[i].id;
+            ids.push(id);
+        }
+        console.log("事件全选删除选中数据：" + ids);
 
+    })
 
-//删除
-function deleteUser(id) {
-    layer.confirm('确认要删除吗？', function (index) {
-        url = "/User/Delete";
-        parameter = { userId: id };
-        $.post(url, parameter, function (data) {
-            if (data.IsSuccess) {
-                alertMsg("删除成功!");
-            }
-            else {
-                alertMsg("删除失败!");
-            }
-        });
-    });
-}
+    //全部删除
+    $("#delall").click(function () {
 
+        //判断是否存在选中数据
+        console.log("全选删除选中数据：" + ids);
+        //判读是否选择数据
 
-//删除
-function deleteAllUser() {
-    var ids = new Array();
-    $("div[class='layui-unselect layui-form-checkbox layui-form-checked']").each(function () {
-        ids.push($(this).attr("data-id"));
-    });
-
-    if (ids.length > 0) {
-        layer.confirm('确认要删除选中项吗？', function (index) {
-            url = "/User/DeleteAll";
-            parameter = { ids: ids.toString() };
-            $.post(url, parameter, function (data) {
-                if (data.IsSuccess) {
-                    alertMsg("删除成功!");
-                }
-                else {
-                    alertMsg("删除失败!");
+        if (ids.length === 0) {
+            layer.msg('请先选择要删除的数据', { icon: 2 });
+            return false;
+        }
+        layer.confirm('确认要删除所有选中数据吗？', function (index) {
+            $.ajax({
+                type: 'delete',
+                url: 'https://localhost:44377/api/admin/content/DeleteContent',
+                dataType: 'json',
+                data: { ids: ids },//'ids='+arr+'&_method=delete',
+                success: function (res) {
+                    console.log(res)
+                    if (res.code === 200) {
+                        layer.msg('删除成功', { icon: 1 });
+                        table.reload("id", "", false);//刷新表格
+                    }
+                    else
+                        layer.msg('删除失败', { icon: 2 });
                 }
             });
-        });
-    }
-    else {
-        alertMsg("请选选择要删除的用户!");
-        return;
-    }
-}
-
-
-//搜索
-function SearchUser() {
-    $.ajax({
-        type: "POST",
-        async: true,
-        url: "/User/Index",
-        data: { username: $("#username").val() },
-        success: function (data) {
-            $("#content").empty();
-            $("#content").html(data);
-
-        }
-    });
-}
-
-//弹出框，刷新页面
-function alertMsg(msg) {
-    layer.open({
-        content: msg,
-        yes: function (index, layero) {
-            location.reload();
             layer.close(index);
-        }
+        });
     });
-}
+
+});

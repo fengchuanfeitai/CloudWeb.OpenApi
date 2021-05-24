@@ -14,10 +14,14 @@ namespace CloudWeb.Dto
         public int Id { get; set; }
 
         /// <summary>
-        /// 所属栏目
+        /// 所属栏目id
         /// </summary>
         public int ColumnId { get; set; }
 
+        /// <summary>
+        /// 所属栏目id
+        /// </summary>
+        public string ColumnName { get; set; }
 
         /// <summary>
         /// 标题

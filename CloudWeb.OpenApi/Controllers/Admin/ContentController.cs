@@ -36,6 +36,39 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         }
 
         /// <summary>
+        /// 首页置顶
+        /// </summary>
+        /// <param name="defaultStatusParam">状态参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult ChangeDefaultStatus(DefaultStatusParam defaultStatusParam)
+        {
+            return _service.ChangeDefaultStatus(defaultStatusParam);
+        }
+
+        /// <summary>
+        /// 推荐首页状态
+        /// </summary>
+        /// <param name="publicStatusParam">状态参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult ChangePublicStatus(PublicStatusParam publicStatusParam)
+        {
+            return _service.ChangePublicStatus(publicStatusParam);
+        }
+
+        /// <summary>
+        ///  添加轮播
+        /// </summary>
+        /// <param name="topStatusParam">状态参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult ChangeTopStatus(TopStatusParam topStatusParam)
+        {
+            return _service.ChangeTopStatus(topStatusParam);
+        }
+
+        /// <summary>
         /// 查询内容
         /// </summary>
         /// <returns></returns>

@@ -6,8 +6,8 @@
     table.render({
         elem: '#list'
         //, height: 260
-        , url: dataApi //数据接口
-        //, url: '/scripts/Column/data.json' //数据接口
+        //, url: dataApi //数据接口
+        , url: '/scripts/Column/data.json' //数据接口
         , contentType: 'application/ json'//传值格式
         //, where: { pageIndex: index, pageSize: 10 }//传递参数
         , request: {
@@ -57,7 +57,7 @@
         , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
             //,curr: 5 //设定初始在第 5 页
-            , groups: 2 //只显示 1 个连续页码
+            , groups: 1 //只显示 1 个连续页码
             , first: "首页" //不显示首页
             , last: "尾页" //不显示尾页
             , pageSize: 10
