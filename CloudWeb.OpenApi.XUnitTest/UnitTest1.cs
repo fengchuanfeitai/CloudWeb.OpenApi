@@ -1,5 +1,4 @@
 using CloudWeb.Util;
-using System;
 using Xunit;
 
 namespace CloudWeb.OpenApi.XUnitTest
