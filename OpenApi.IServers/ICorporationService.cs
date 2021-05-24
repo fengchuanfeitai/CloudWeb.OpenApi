@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 
 namespace CloudWeb.IServices
 {
@@ -18,7 +19,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        ResponseResult<bool> DelCorporation(dynamic[] ids);
+        ResponseResult<bool> DelCorporation(int[] ids);
 
         /// <summary>
         /// 修改公司信息
@@ -36,9 +37,16 @@ namespace CloudWeb.IServices
 
         
         /// <summary>
-        /// 获取全部的公司信息
+        /// 分页查询公司信息
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation();
+        ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation(BaseParam pageParam);
+
+        /// <summary>
+        /// 改变显示状态
+        /// </summary>
+        /// <param name="showStatusParam">状态参数</param>
+        /// <returns></returns>
+        ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam);
     }
 }

@@ -96,10 +96,17 @@
             构造函数
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetAll">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetAll(CloudWeb.Dto.Param.BaseParam)">
             <summary>
             查询所有未删除的公司信息
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.ChangeShowStatus(CloudWeb.Dto.Param.ShowStatusParam)">
+            <summary>
+            更改显示状态
+            </summary>
+            <param name="showStatusParam"></param>
             <returns></returns>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetCorporation(System.Int32)">
@@ -121,7 +128,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.DelCorporation(System.Object[])">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.DelCorporation(System.Int32[])">
             <summary>
             删除公司信息
             </summary>

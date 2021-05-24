@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,9 +34,20 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<CorporationDto>> GetAll()
+        public ResponseResult<IEnumerable<CorporationDto>> GetAll(BaseParam pageParam)
         {
-            return _corporationService.GetAllCorporation();
+            return _corporationService.GetAllCorporation(pageParam);
+        }
+
+        /// <summary>
+        /// 更改显示状态
+        /// </summary>
+        /// <param name="showStatusParam"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam)
+        {
+            return _corporationService.ChangeShowStatus(showStatusParam);
         }
 
         /// <summary>
@@ -76,7 +88,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
-        public ResponseResult<bool> DelCorporation(dynamic[] ids)
+        public ResponseResult<bool> DelCorporation(int[] ids)
         {
             return _corporationService.DelCorporation(ids);
         }

@@ -5,6 +5,10 @@ namespace CloudWeb.Dto
     public class CorporationDto : BaseDto
     {
         /// <summary>
+        /// 序号
+        /// </summary>
+        public int Index { get; set; }
+        /// <summary>
         /// 公司Id
         /// </summary>
         public int CorpId { get; set; }
@@ -35,6 +39,11 @@ namespace CloudWeb.Dto
         public int ColumnId { get; set; }
 
         /// <summary>
+        /// 栏目名称
+        /// </summary>
+        public string ColName { get; set; }
+
+        /// <summary>
         /// 关于我们
         /// </summary>
         public string AboutUs { get; set; }
@@ -55,14 +64,14 @@ namespace CloudWeb.Dto
         public string ContactUsBg { get; set; }
 
         /// <summary>
-        /// 序号
+        /// 排序
         /// </summary>
-        public int sort { get; set; }
+        public int Sort { get; set; }
 
         /// <summary>
         /// 是否显示
         /// </summary>
-        public bool IsDisplay { get; set; }
+        public bool IsShow { get; set; }
 
         /// <summary>
         /// 是否删除
