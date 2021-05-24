@@ -71,7 +71,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 是否显示
         /// </summary>
-        public bool IsDisplay { get; set; }
+        public bool IsShow { get; set; }
 
         /// <summary>
         /// 是否删除

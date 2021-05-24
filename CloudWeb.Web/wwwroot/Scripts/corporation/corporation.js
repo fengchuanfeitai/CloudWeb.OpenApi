@@ -32,14 +32,18 @@ layui.use(['table', 'layer'], function () {
             none: '暂无相关数据', //默认：无数据。注：该属性为 layui 2.2.5 开始新增
         },
         cols: [[ //表头
-            { field: '', title: '', height: 90, type: 'checkbox', width: 80 },
-            { field: 'corpId', title: '编号', height: 90, with: 80, sort: true, align: 'center' },
-            { field: 'name', title: '公司名', height: 90, with: 80, sort: true, align: 'center' },
-            { field: 'columnId', title: '栏目Id', height: 90, with: 80, sort: true, align: 'center' },
-            { field: 'sort', title: '序号', height: 90, with: 80, sort: true, align: 'center' },
-            { field: 'isDisplay', title: '是否显示', height: 90, with: 80, sort: true, align: 'center' },
-            { field: 'createTime', title: '创建时间', height: 90, with: 120, sort: true, align: 'center' },
-            { field: '', title: '操作', width: 280, sort: true, templet: '', align: 'center', toolbar: '#bar' }
+            { field: '', title: '全选', type: 'checkbox' },
+            { field: 'corpId', title: '编号', sort: true, align: 'center' },
+            { field: 'name', title: '公司名', sort: true, align: 'center' },
+            { field: 'columnId', title: '栏目Id', sort: true, align: 'center' },
+            { field: 'sort', title: '序号', sort: true, align: 'center' },
+            {
+                field: 'isShow', title: '是否显示到网站', templet: function (d) {
+                    return '<input type="checkbox" value="' + d.corpId + '" ' + (d.isShow == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="IsShow" lay-text="显示|不显示">'
+                }, sort: true, align: 'center'
+            },
+            { field: 'createTime', title: '创建时间', sort: true, align: 'center' },
+            { field: '', title: '操作', sort: true, align: 'center', toolbar: '#bar' }
         ]],
         page: {
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
@@ -78,6 +82,27 @@ layui.use(['table', 'layer'], function () {
         } else if (layEvent === 'LAYTABLE_TIPS') {
             layer.alert('Hi，头部工具栏扩展的右侧图标。');
         }
+    });
+
+    //监控按钮状态事件
+    form.on('switch(IsShow)', function (obj) {
+        console.log(`我监听到的switch的值是：${obj.value}`);
+
+        console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
+        var apiurl = "https://localhost:44377/api/admin/Corporation/ChangeShowStatus";
+        //改变状态
+        var onoff = this.checked ? '1' : '0';
+        console.log(obj.value);
+        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
+            console.log(1);
+            //判断是否等于200，否则提示错误信息
+            if (res.code === 200) {
+                layer.msg('显示状态修改成功', { icon: 1 });
+                table.reload("corpId", "", false);//刷新表格
+            }
+            else
+                layer.msg('显示状态修改失败', { icon: 2 });
+        });
     });
 
     //监听表格复选框选择

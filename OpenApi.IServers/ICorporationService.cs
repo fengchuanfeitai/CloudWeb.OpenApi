@@ -41,5 +41,12 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <returns></returns>
         ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation(BaseParam pageParam);
+
+        /// <summary>
+        /// 改变显示状态
+        /// </summary>
+        /// <param name="showStatusParam">状态参数</param>
+        /// <returns></returns>
+        ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam);
     }
 }

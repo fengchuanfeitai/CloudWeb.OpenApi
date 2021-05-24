@@ -19,10 +19,10 @@ namespace CloudWeb.Services
         {
             const string InsertSql = @"INSERT INTO dbo.Corporations
                (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,Logo1,Logo2,ColumnId,
-                AboutUs,AboutUsCover,ContactUs,ContactUsBg,Sort,IsDisplay,IsDel)
+                AboutUs,AboutUsCover,ContactUs,ContactUsBg,Sort,IsShow,IsDel)
                 VALUES
                 (@CreateTime,@ModifyTime,@Creator,@Modifier,@Name,@Cover,@Logo1,@Logo2,@ColumnId,
-                 @AboutUs,@AboutUsCover,@ContactUs,@ContactUsBg,@Sort,@IsDisplay,@IsDel)";
+                 @AboutUs,@AboutUsCover,@ContactUs,@ContactUsBg,@Sort,@IsShow,@IsDel)";
 
             return new ResponseResult<bool>(Add(InsertSql, corporation));
         }
@@ -71,7 +71,7 @@ namespace CloudWeb.Services
             const string UpdateSql = @"UPDATE dbo.Corporations SET ModifyTime=@ModifyTime,Modifier=@Modifier,
                     [Name]=@Name,Cover=@Cover,Logo1=@Logo1, Logo2=@Logo2,ColumnId=@ColumnId,AboutUs=@AboutUs,
                     AboutUsCover=@AboutUsCover,ContactUs=@ContactUs,ContactUsBg=@ContactUsBg,Sort=@Sort,
-                    IsDisplay=@IsDisplay,IsDel=@IsDel
+                    IsShow=@IsShow,IsDel=@IsDel
                     WHERE IsDel=0 AND CorpId=@CorpId";
 
             return new ResponseResult<bool>(Update(UpdateSql, corporation));
@@ -81,7 +81,7 @@ namespace CloudWeb.Services
         {
             const string SelSql = @"SELECT CorpId,CreateTime,ModifyTime,Creator,Modifier,
                 [Name],Cover,Logo1,Logo2,ColumnId,AboutUs,AboutUsCover,ContactUs,ContactUsBg,
-                Sort,IsDisplay,IsDel FROM dbo.Corporations
+                Sort,IsShow,IsDel FROM dbo.Corporations
                 WHERE IsDel=0 AND CorpId=@id ORDER BY CreateTime DESC";
 
             return new ResponseResult<CorporationDto>(Find<CorporationDto>(SelSql, id));
@@ -94,7 +94,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation(BaseParam pageParam)
         {
-            const string SelSql = @"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsDisplay
+            const string SelSql = @"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsShow
                                 FROM dbo.Corporations c1,
                                (SELECT TOP (@PageIndex*@PageSize) 
                                 ROW_NUMBER() OVER(ORDER BY CreateTime DESC ) [Index],CorpId
@@ -106,6 +106,24 @@ namespace CloudWeb.Services
             const string CountSql = @"SELECT COUNT(*) FROM dbo.Corporations WHERE IsDel=0";
             //处理栏目Id多个
             return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql,pageParam),Count(CountSql));
+        }
+
+        /// <summary>
+        /// 改变显示状态
+        /// </summary>
+        /// <param name="showStatusParam">状态参数</param>
+        /// <returns></returns>
+        public ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam)
+        {
+            ResponseResult result = new ResponseResult();
+            string sql = "UPDATE dbo.Corporations SET IsShow = @ShowStatus WHERE CorpId = @Id";
+            bool isSuccess = Update(sql, showStatusParam);
+
+            if (isSuccess)
+                result.Set((int)HttpStatusCode.OK, "修改状态成功");
+            else
+                result.Set((int)HttpStatusCode.fail, "修改状态失败");
+            return result;
         }
     }
 }

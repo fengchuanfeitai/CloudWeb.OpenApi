@@ -40,6 +40,17 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         }
 
         /// <summary>
+        /// 更改显示状态
+        /// </summary>
+        /// <param name="showStatusParam"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam)
+        {
+            return _corporationService.ChangeShowStatus(showStatusParam);
+        }
+
+        /// <summary>
         /// 查询公司信息
         /// </summary>
         /// <param name="id">公司id</param>
