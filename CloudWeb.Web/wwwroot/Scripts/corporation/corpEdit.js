@@ -1,6 +1,7 @@
 ﻿var getUrl = 'https://localhost:44377/api/Corporation/GetCorporation/id';
-var uploadUrl = 'https://httpbin.org/post';
-var PostUrl = '';
+var uploadUrl = 'https://localhost:44377/api/admin/upload';
+var PostUrl = 'https://localhost:44377/api/Corporation/AddCorporaion';
+var GetColumnsUrl = 'https://localhost:44377/api/admin/Column/GetColumnsByParent';
 
 layui.use(['form', 'upload', 'layer'], function () {
     var $ = layui.jquery,
@@ -20,7 +21,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     //动态绑定数据
     $.ajax({
         type: 'GET',
-        url: 'https://localhost:44377/api/admin/Column/GetColumnsByParent',
+        url: GetColumnsUrl,
         data: { parentId: 1 },
         success: function (res) {
             var colArr = new Array();
@@ -62,8 +63,7 @@ layui.use(['form', 'upload', 'layer'], function () {
                         "AboutUsCover": corporation.aboutUsCover,
                         "ContactUs": corporation.contactUs,
                         "ContactUsBg": corporation.contactUsBg,
-                        "Sort": corporation.sort,
-                        "IsShow": corporation.isShow
+                        "Sort": corporation.sort
                     });
 
                     layui.$('#CoverImgDiv').removeClass('layui-hide');
@@ -76,12 +76,13 @@ layui.use(['form', 'upload', 'layer'], function () {
                     layui.$('#AboutUsCoverImg').attr('src', corporation.aboutUsCover);
                     layui.$('#ContactUsBgImgDiv').removeClass('layui-hide');
                     layui.$('#ContactUsBgImg').attr('src', corporation.contactUsBg);
-                    var ColArray = getColArray(corporation.columnId);
-                    columnSelect.setValue(ColArray);
+                    if (corporation.columnId != null) {
+                        var ColArray = getColArray(corporation.columnId);
+                        columnSelect.setValue(ColArray);
+                    }
                 }
             });
         }
-
     });
 
     //自定义验证规则
@@ -140,87 +141,96 @@ layui.use(['form', 'upload', 'layer'], function () {
             if (value.length <= 0) {
                 return '排序不能为空';
             };
-        },
-        IsShow: function (value) {
-            if (value.length <= 0) {
-                return '联系我们背景图不能为空';
-            };
         }
     });
 
     //封面图拖拽上传   
     var CoverUpload = upload.render({
         elem: '#CoverUpload',
-        url: uploadUrl, //改成您自己的上传接口
+        url: uploadUrl,
         method: 'Post',
         type: 'images',
         ext: 'jpg|png|gif',
         //成功后回调
         done: function (res) {
-            layer.msg('上传成功');
-            var file = res.files.file;
-            $("input[name='Cover']").val(file);
-            console.log("Cover文本" + $("input[name='Cover']").val());
-            layui.$('#CoverImgDiv').removeClass('layui-hide');
-            layui.$('#CoverImg').attr('src', file);
-            console.log(res)
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                var file = res.data;
+                $("input[name='Cover']").val(file);
+                console.log("Cover文本" + $("input[name='Cover']").val());
+                layui.$('#CoverImgDiv').removeClass('layui-hide');
+                layui.$('#CoverImg').attr('src', file);
+            } else {
+                layer.msg('上传失败');
+            }
         }
     });
 
     //灰色Logo图拖拽上传
     var Logo1Upload = upload.render({
         elem: '#Logo1Upload',
-        url: uploadUrl, //改成您自己的上传接口
+        url: uploadUrl,
         method: 'Post',
         type: 'images',
         ext: 'jpg|png|gif',
         //成功后回调
         done: function (res) {
-            layer.msg('上传成功');
-            var file = res.files.file;
-            $("input[name='Logo1']").val(file);
-            console.log("Cover文本" + $("input[name='Logo1']").val());
-            layui.$('#Logo1ImgDiv').removeClass('layui-hide');
-            layui.$('#Logo1Img').attr('src', file);
-            console.log(res)
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                var file = res.data;
+                $("input[name='Logo1']").val(file);
+                console.log("Cover文本" + $("input[name='Logo1']").val());
+                layui.$('#Logo1ImgDiv').removeClass('layui-hide');
+                layui.$('#Logo1Img').attr('src', file);
+            } else {
+                layer.msg("上传失败");
+            }
         }
     });
 
     //正常Logo图拖拽上传
     var Logo2Upload = upload.render({
         elem: '#Logo2Upload',
-        url: uploadUrl, //改成您自己的上传接口
+        url: uploadUrl,
         method: 'Post',
         type: 'images',
         ext: 'jpg|png|gif',
         //成功后回调
         done: function (res) {
-            layer.msg('上传成功');
-            var file = res.files.file;
-            $("input[name='Logo2']").val(file);
-            console.log("Cover文本" + $("input[name='Logo2']").val());
-            layui.$('#Logo2ImgDiv').removeClass('layui-hide');
-            layui.$('#Logo2Img').attr('src', file);
-            console.log(res)
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                var file = res.data;
+                $("input[name='Logo2']").val(file);
+                console.log("Cover文本" + $("input[name='Logo2']").val());
+                layui.$('#Logo2ImgDiv').removeClass('layui-hide');
+                layui.$('#Logo2Img').attr('src', file);
+            }
+            else {
+                layer.msg("上传失败");
+            }
         }
     });
 
     //关于我们图片上传
     var AboutUsCoverUpload = upload.render({
         elem: '#AboutUsCoverUpload',
-        url: uploadUrl, //改成您自己的上传接口
+        url: uploadUrl,
         method: 'Post',
         type: 'images',
         ext: 'jpg|png|gif',
         //成功后回调
         done: function (res) {
-            layer.msg('上传成功');
-            var file = res.files.file;
-            $("input[name='AboutUsCover']").val(file);
-            console.log("Cover文本" + $("input[name='AboutUsCover']").val());
-            layui.$('#AboutUsCoverImgDiv').removeClass('layui-hide');
-            layui.$('#AboutUsCoverImg').attr('src', file);
-            console.log(res)
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                var file = res.data;
+                $("input[name='AboutUsCover']").val(file);
+                console.log("Cover文本" + $("input[name='AboutUsCover']").val());
+                layui.$('#AboutUsCoverImgDiv').removeClass('layui-hide');
+                layui.$('#AboutUsCoverImg').attr('src', file);
+            }
+            else {
+                layer.msg("上传失败");
+            }
         }
     });
 
@@ -233,19 +243,22 @@ layui.use(['form', 'upload', 'layer'], function () {
         ext: 'jpg|png|gif',
         //成功后回调
         done: function (res) {
-            layer.msg('上传成功');
-            var file = res.files.file;
-            $("input[name='ContactUsBg']").val(file);
-            console.log("Cover文本" + $("input[name='ContactUsBg']").val());
-            layui.$('#ContactUsBgImgDiv').removeClass('layui-hide');
-            layui.$('#ContactUsBgImg').attr('src', file);
-            console.log(res)
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                var file = res.data;
+                $("input[name='ContactUsBg']").val(file);
+                console.log("Cover文本" + $("input[name='ContactUsBg']").val());
+                layui.$('#ContactUsBgImgDiv').removeClass('layui-hide');
+                layui.$('#ContactUsBgImg').attr('src', file);
+            } else {
+                layer.msg("上传失败");
+            }
         }
     });
 
     //监听提交
     form.on('submit(save-corp)', function (res) {
-        console.log(res.file);
+        console.log(res.field);
         var columnIds = columnSelect.getValue("value");
         console.log(columnIds);
         var data = {
@@ -260,17 +273,18 @@ layui.use(['form', 'upload', 'layer'], function () {
             "ContactUs": $("input[name='ContactUs']").val(),
             "ContactUsBg": $("input[name='ContactUsBg']").val(),
             "Sort": $("input[name='Sort']").val(),
-            "IsShow": "1",
+            "IsShow": "true"
         }
         console.log(data)
 
         $.ajax({
             type: "POST",
-            url: 'https://localhost:44377/api/Corporation/AddCorporaion',
+            url: PostUrl,
             async: false,
+            dataType: 'json',
             data: data,
             success: function (data) {
-                if (data.code != 0) {
+                if (data.code != 200) {
                     layer.msg(data.msg)
                     return false;
                 }

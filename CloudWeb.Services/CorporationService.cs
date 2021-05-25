@@ -5,6 +5,7 @@ using CloudWeb.IServices;
 using System.Collections.Generic;
 using CloudWeb.Util;
 using CloudWeb.Dto.Param;
+using System;
 
 namespace CloudWeb.Services
 {
@@ -17,6 +18,10 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> AddCorporation(CorporationDto corporation)
         {
+            corporation.CreateTime = DateTime.Now;
+            corporation.ModifyTime = corporation.CreateTime;
+            corporation.IsDel = false;
+
             const string InsertSql = @"INSERT INTO dbo.Corporations
                (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,Logo1,Logo2,ColumnId,
                 AboutUs,AboutUsCover,ContactUs,ContactUsBg,Sort,IsShow,IsDel)
@@ -68,6 +73,7 @@ namespace CloudWeb.Services
                 return new ResponseResult<bool>(201, "修改成功");
             }
 
+            corporation.ModifyTime = DateTime.Now;
             const string UpdateSql = @"UPDATE dbo.Corporations SET ModifyTime=@ModifyTime,Modifier=@Modifier,
                     [Name]=@Name,Cover=@Cover,Logo1=@Logo1, Logo2=@Logo2,ColumnId=@ColumnId,AboutUs=@AboutUs,
                     AboutUsCover=@AboutUsCover,ContactUs=@ContactUs,ContactUsBg=@ContactUsBg,Sort=@Sort,
