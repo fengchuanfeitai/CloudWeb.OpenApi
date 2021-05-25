@@ -93,6 +93,7 @@
             console.log(res.field) //当前容器的全部表单字段，名值对形式：{name: value}
             console.log("内容提交")
             var id = $("#contentId").val();
+            //var id = 1;
             //id大于0，执行修改
             if (id > 0) {
                 var eidtApi = "https://localhost:44377/api/admin/Content/EditContent";
@@ -108,37 +109,24 @@
         });
 
         //提交方法
-        function ajax(api, method, params1, msg) {
+        function ajax(api, method, params, msg) {
             //提交
             $.ajax({
                 type: method,
                 url: api,
-                dataType: 'json',
-                data: JSON.stringify(params1),
+                data: params,
+                async:false,
                 success: function (res) {
                     console.log(res);
                     if (res.code === 200) {
-                        layer.alert(msg + "成功", {
-                            icon: 6
-                        }, function () {
-                            //关闭当前frame
-                            xadmin.close();
-
-                            // 可以对父窗口进行刷新 
-                            xadmin.father_reload();
-                        });
+                        layer.msg(msg + "成功", { icon: 1 });
+                        //关闭当前frame
+                        xadmin.close();
+                        // 可以对父窗口进行刷新 
+                        xadmin.father_reload();
                     }
-                    else {
-                        layer.alert(msg + "成功", {
-                            icon: 6
-                        }, function () {
-                            //关闭当前frame
-                            xadmin.close();
-
-                            // 可以对父窗口进行刷新 
-                            xadmin.father_reload();
-                        });
-                    }
+                    else
+                        layer.msg(msg + "失败", { icon: 2 });
                 },
                 error: function (res) {
                     console.log(res)

@@ -38,7 +38,7 @@ namespace CloudWeb.OpenApi.Filters
                 }
                 else
                 {
-                    throw new Exception($"未经处理的Result类型：{ context.Result.GetType().Name}");
+                    //throw new Exception($"未经处理的Result类型：{ context.Result.GetType().Name}");
                 }
 
             }

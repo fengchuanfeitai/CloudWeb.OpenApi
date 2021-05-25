@@ -32,7 +32,7 @@ namespace CloudWeb.Services
             //默认值
             content.CreateTime = DateTime.Now;
             content.ModifyTime = DateTime.Now;
-            content.CreateDate = DateTime.Now.ToString();
+            content.CreateDate = DateTime.Now;
             result.SetData(Add(Insert_Content_Sql, content));
             return result;
         }

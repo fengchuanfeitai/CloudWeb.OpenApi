@@ -1,6 +1,8 @@
 ﻿using CloudWeb.Dto.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
+
 namespace CloudWeb.OpenApi.Filters
 {
     /// <summary>
@@ -10,22 +12,24 @@ namespace CloudWeb.OpenApi.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            var modelState = context.ModelState;
             if (!context.ModelState.IsValid)
             {
-                //公共返回数据类
-                ResponseResult returnMsg = new ResponseResult() { code = (int)HttpStatusCode.fail };
-
-                //获取具体的错误消息
-                foreach (var item in context.ModelState.Values)
+                string error = string.Empty;
+                foreach (var key in modelState.Keys)
                 {
-                    
-                    //遍历所有项目的中的所有错误信息
-                    foreach (var err in item.Errors)
+                    var state = modelState[key];
+                    //获取具体的错误消息
+                    if (state.Errors.Any())
                     {
-                        //消息拼接,用|隔开，前端根据容易解析
-                        returnMsg.msg += $"{err.ErrorMessage}|";
+                        //返回第一条错误信息
+                        error = state.Errors.First().ErrorMessage;
+                        break;
                     }
                 }
+
+                //公共返回数据类
+                ResponseResult returnMsg = new ResponseResult((int)HttpStatusCode.fail, error);
                 context.Result = new JsonResult(returnMsg);
             }
 

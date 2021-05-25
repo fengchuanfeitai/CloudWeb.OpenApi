@@ -6,7 +6,7 @@ using System.Text;
 namespace CloudWeb.Dto.Param
 {
 
-    public class ContentParam : BaseContentParam
+    public class ContentParam
     {
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace CloudWeb.Dto.Param
         /// <summary>
         /// 发布时间
         /// </summary>
-        public string CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
 
         /// <summary>
         /// 是否发布

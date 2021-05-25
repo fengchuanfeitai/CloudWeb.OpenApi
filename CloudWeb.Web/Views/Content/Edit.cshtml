@@ -13,9 +13,10 @@
                 </label>
                 <div class="layui-input-block">
                     <input type="text" name="title" lay-verify="title" style="width:50%;" autocomplete="off" placeholder="请输入标题，最多输入500个字符" lay-reqtext="标题为必填项，不能为空" class="layui-input">
-                    <div class="layui-form-mid layui-word-aux">
-                        <span class="x-red">*</span>不发布前台则无法显示
-                    </div>
+
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>不发布前台则无法显示
                 </div>
             </div>
             <div class="layui-form-item">
@@ -34,7 +35,7 @@
                     是否发布
                 </label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" checked name="" value="1"  lay-skin="switch" lay-text="发布|不发布">
+                    <input type="checkbox" checked name="" value="1" lay-skin="switch" lay-text="发布|不发布">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不发布前台则无法显示
@@ -43,7 +44,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">发布时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="" id="start" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+                    <input type="text" name="CreateDate" readonly id="start" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不填，默认当前时间
@@ -63,7 +64,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">添加到轮播</label>
                     <div class="layui-input-inline">
-                        <input type="checkbox" name="IsCarousel" value="1"  lay-skin="switch" lay-text="添加|不添加">
+                        <input type="checkbox" name="IsCarousel" value="1" lay-skin="switch" lay-text="添加|不添加">
                     </div>
                 </div>
             </div>
@@ -71,7 +72,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Sort" lay-verify="" placeholder="请填写数字" maxlength="5" autocomplete="off" class="layui-input">
+                    <input type="text" name="Sort" lay-verify="" value="99" placeholder="请填写数字" maxlength="5" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>数字越小排序越靠前，不填写，默认最后展示
