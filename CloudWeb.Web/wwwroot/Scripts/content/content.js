@@ -1,6 +1,7 @@
 ﻿var data = "";
 layui.use('table', function () {
     var table = layui.table;
+    var form = layui.form;
     //接口
     var getlistapi = "https://localhost:44377/api/admin/Content/GetAll";
     table.render({
@@ -44,27 +45,23 @@ layui.use('table', function () {
             { field: 'title', title: '标题', width: 200, align: 'center' },
             { field: 'ColumnName', title: '所属栏目类别', width: 200, align: 'center' },
             { field: 'localUrl', title: '跳转链接', width: 100, align: 'center' },
+            { field: 'sort', title: '排序', width: 80, align: 'center' },
+            { field: 'createTime', title: '创建时间', width: 280, sort: true, align: 'center' },
             {
                 field: 'isDefault', title: '是否推荐到首页', templet: function (d) {
-                    console.log(d)
                     return '<input type="checkbox" value="' + d.id + '" ' + (d.isDefault == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchDefault" lay-text="推荐|不推荐">'
                 }, align: 'center'
             },
             {
-                field: 'isTop', title: '是否添加到轮播', templet: function (d) {
-                    console.log(d)
-                    return '<input type="checkbox" value="' + d.id + '" ' + (d.isTop == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchTop" lay-text="添加|不添加">'
+                field: 'isCarousel', title: '是否添加到轮播', templet: function (d) {
+                    return '<input type="checkbox" value="' + d.id + '" ' + (d.isCarousel == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchTop" lay-text="添加|不添加">'
                 }, align: 'center'
             },
             {
                 field: 'isPublic', title: '是否发布', templet: function (d) {
-                    console.log(d)
-                    return '<input type="checkbox" value="' + d.id + '" ' + (d.ispublic == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchPublic" lay-text="发布|不发布">'
+                    return '<input type="checkbox" value="' + d.id + '" ' + (d.isPublic == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchPublic" lay-text="发布|不发布">'
                 }, align: 'center'
             },
-
-            { field: 'sort', title: '排序', width: 80, align: 'center' },
-            { field: 'createTime', title: '创建时间', width: 280, sort: true, align: 'center' },
             { field: '', title: '操作', width: 280, sort: true, templet: '', align: 'center', toolbar: '#barContent' }
         ]]
         , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
@@ -91,19 +88,20 @@ layui.use('table', function () {
         console.log(`我监听到的switch的值是：${obj.value}`);
 
         console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
-        var apiurl = "https://localhost:44377/api/admin/Column/ChangeDefaultStatus";
+        var apiurl = "https://localhost:44377/api/admin/Content/ChangeDefaultStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
-        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
+        $.post(apiurl, { id: obj.value, DefaultStatus: onoff }, function (res) {
             console.log(1);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
                 layer.msg('状态修改成功', { icon: 1 });
-                table.reload("columnId", "", false);//刷新表格
             }
             else
                 layer.msg('状态修改失败', { icon: 2 });
+
+            table.reload("id", "", false);//刷新表格
         });
     });
 
@@ -112,40 +110,42 @@ layui.use('table', function () {
         console.log(`我监听到的switch的值是：${obj.value}`);
 
         console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
-        var apiurl = "https://localhost:44377/api/admin/Column/ChangePublicStatus";
+        var apiurl = "https://localhost:44377/api/admin/Content/ChangePublicStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
-        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
-            console.log(1);
+        $.post(apiurl, { id: obj.value, PublicStatus: onoff }, function (res) {
+            console.log(2);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
                 layer.msg('状态修改成功', { icon: 1 });
-                table.reload("columnId", "", false);//刷新表格
             }
             else
                 layer.msg('状态修改失败', { icon: 2 });
+
+            table.reload("id", "", false);//刷新表格
         });
     });
 
     //是否添加到轮播按钮状态事件
-    form.on('switch(switchDefault)', function (obj) {
+    form.on('switch(switchTop)', function (obj) {
         console.log(`我监听到的switch的值是：${obj.value}`);
 
         console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
-        var apiurl = "https://localhost:44377/api/admin/Column/ChangeTopStatus";
+        var apiurl = "https://localhost:44377/api/admin/Content/ChangeTopStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
-        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
-            console.log(1);
+        $.post(apiurl, { id: obj.value, TopStatus: onoff }, function (res) {
+            console.log(3);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
                 layer.msg('状态修改成功', { icon: 1 });
-                table.reload("columnId", "", false);//刷新表格
             }
             else
                 layer.msg('状态修改失败', { icon: 2 });
+
+            table.reload("id", "", false);//刷新表格
         });
     });
     //操作事件
@@ -178,7 +178,7 @@ layui.use('table', function () {
         } else if (layEvent === 'edit') { //编辑
 
             //跳转编辑页面，携带id
-            xadmin.open('添加栏目', '/Content/Edit?id=' + id, 800, 600)
+            xadmin.open('编辑内容', '/Content/Edit?id=' + id, 800, 600)
         }
     });
 

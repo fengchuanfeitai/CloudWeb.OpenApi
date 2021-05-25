@@ -1,4 +1,4 @@
-﻿layui.use(['form', 'layer'],
+﻿layui.use(['form', 'layer', 'layedit', 'laydate'],
     function () {
         $ = layui.jquery;
         var form = layui.form,
@@ -9,10 +9,7 @@
         var id = getUrlParam("id");
         console.log(id);
         if (id != null) {
-            var as = { "colName": "贤心" };
             console.log("asd")
-           
-
             $.ajax({
                 type: "get",
                 url: "https://localhost:44377/api/admin/Column/GetColumn/id",
@@ -21,7 +18,8 @@
                 , success: function (res) {
                     var result = res.data;
                     console.log(res);
-              
+
+
                     form.val("formTest", res);
                     //$("#colName").val(result.colName);
                     //$("#CoverUrl").val(result.colName);

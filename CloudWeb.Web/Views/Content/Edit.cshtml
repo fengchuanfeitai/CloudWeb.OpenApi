@@ -3,166 +3,162 @@
     Layout = "~/Views/Shared/_layout.cshtml";
 }
 
+<style>
+    .layui-form-label {
+        width: 80px;
+    }
+</style>
+
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form">
-            <div class="layui-form-item" lay-filter="test">
-                <label for="colName" class="layui-form-label">
-                    <span class="x-red">*</span>栏目名
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label for="title" class="layui-form-label">
+                    <span class="x-red">*</span>标题
                 </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="colName" name="colName" required="" lay-verify="required"
-                           class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red">*</span>将会成为您唯一的登入名
+                <div class="layui-input-block">
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题，最多输入500个字符" lay-reqtext="标题为必填项，不能为空" class="layui-input">
+                    <div class="layui-form-mid layui-word-aux">
+                        <span class="x-red">*</span>不发布前台则无法显示
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="columnId" class="layui-form-label">
-                    <span class="x-red">*</span>所属父类别
+                <label for="title" class="layui-form-label">
+                    <span class="x-red">*</span>所属栏目类别
                 </label>
                 <div class="layui-input-inline">
-                    <select name="city" lay-verify="">
-                        <option value="">请选择一个城市</option>
-                        <option value="010">北京</option>
-                        <option value="021">上海</option>
-                        <option value="0571">杭州</option>
+                    <select name="interest" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="0">写作</option>
+                        <option value="1" selected="">阅读</option>
+                        <option value="2">游戏</option>
+                        <option value="3">音乐</option>
+                        <option value="4">旅行</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label for="title" class="layui-form-label">
+                        是否发布
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" checked name="close" lay-skin="switch" lay-text="发布|不发布">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        <span class="x-red">*</span>不发布前台则无法显示
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">发布时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" id="start" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        <span class="x-red">*</span>不填，默认当前时间
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">推荐到首页</label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                    </div>
+                    @*<div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>不发布前台则无法显示
+                        </div>*@
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">添加到轮播</label>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="identity" lay-verify="" placeholder="" autocomplete="off" class="layui-input">
+                </div>
                 <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red">*</span>将会成为您唯一的登入名
+                    <span class="x-red">*</span>数字越小排序越靠前，不填写，默认最后展示
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="CoverUrl" class="layui-form-label">
+                <label class="layui-form-label">跳转链接</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="password" placeholder="" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">网络链接地址</div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_SiteLogo" class="layui-form-label">
                     <span class="x-red">*</span>封面
                 </label>
-
-                <img src="" width="155" height="155" style="border:1px solid #cccccc" id="Content" />
-                <input type="hidden" id="ProductImage" name="ProductImage" value="" />
-
-                <button type="button" id="upload" style="height:25px;border:1px solid #cccccc;width:155px;margin-top:2px;">上传缩列图</button>
-                @*<div class="layui-input-inline">
-                        <input type="text" id="CoverUrl" name="CoverUrl" required="" lay-verify=""
-                               autocomplete="off" class="layui-input">
-                    </div>*@
-                <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red">*</span>
+                <input type="text" name="SiteLogo" lay-verify="SiteLogo" autocomplete="off"
+                       class="layui-input layui-hide" value="" />
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="logoUpload">
+                        <p>点击上传，或将图片拖拽到此处</p>
+                        <p>尺寸建议上传像素</p>
+                        <div class="layui-hide" id="logoImg">
+                            <hr>
+                            <img src="" alt="上传成功后渲染" style="height:60%;width:60%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="Icon" class="layui-form-label">
-                    <span class="x-red">*</span>图标
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="Icon" name="Icon" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
-                <div class="layui-form-mid layui-word-aux">
-                    6到16个字符
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="Summary" class="layui-form-label">
-                    <span class="x-red">*</span>描述
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="Summary" name="Summary" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="Video" class="layui-form-label">
-                    <span class="x-red">*</span>视频
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="Video" name="Video" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="sort" class="layui-form-label">
-                    <span class="x-red">*</span>排序
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="sort" name="sort" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="LocationUrl" class="layui-form-label">
-                    <span class="x-red">*</span>跳转链接
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="LocationUrl" name="LocationUrl" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="IsShow" class="layui-form-label">
-                    <span class="x-red">*</span>是否显示
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="IsShow" name="IsShow" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="ImgDesc1" class="layui-form-label">
-                    <span class="x-red">*</span>内容封面上传描述
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="ImgDesc1" name="ImgDesc1" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="IsNews" class="layui-form-label">
-                    <span class="x-red">*</span>是否是新闻
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="IsNews" name="IsNews" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="ImgDesc2" class="layui-form-label">
-                    <span class="x-red">*</span>内容新闻内页封面描述
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="ImgDesc2" name="ImgDesc2" required="" lay-verify=""
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">
-                </label>
-                <button class="layui-btn" lay-filter="*" lay-submit="">
-                    确定
-                </button>
-                <button class="layui-btn" lay-filter="*" lay-submit="">
-                    取消
-                </button>
             </div>
         </form>
     </div>
 </div>
 <script language="javascript">
 
-
-
     $(function () {
            layui.use('upload', function(){
         var $ = layui.jquery
         ,upload = layui.upload;
+               //Logo图片拖拽上传
+               var logoUpload = upload.render({
+                   elem: '#logoUpload',
+                   url: "https://localhost:44377/api/admin/upload", //上传接口
+                   method: 'Post',
+                   type: 'images',
+                   ext: 'jpg|png|gif',
+                   size: "2048",
+                   //成功后回调
+                   done: function (res) {
+                       if (res.code !== 0)
+                           layer.msg('上传失败');
+                       else
+                       layer.msg('上传成功');
+                       layui.$('#logoImg').removeClass('layui-hide').find('img').attr('src', res.data);
+                       console.log(res)
+                   }
+               });
 
         //普通图片上传
-        var uploadInst = upload.render({
+        @*var uploadInst = upload.render({
             elem: '#upload',
             exts: 'jpg|png|jpeg',
             size:"2048",
-            url: "@Url.Action("UploadImg")",
+            url: "https://localhost:44377/api/admin/Content/GetContent",
             before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
@@ -190,28 +186,28 @@
                         uploadInst.upload();
                     });
                 }
-            });
+            });*@
       });
-        $.ajax({
-            type: "get",
-            url: "https://localhost:44377/api/admin/Content/GetContent",
-            data: { id: 33 },
-            success: function (res) {
+        //$.ajax({
+        //    type: "get",
+        //    url: "https://localhost:44377/api/admin/Content/GetContent",
+        //    data: { id: 33 },
+        //    success: function (res) {
 
-                console.log(res);
-                var result = res.data;
-                $("#colName").val(result.colName);
-                $("#CoverUrl").val(result.colName);
-                $("#Icon").val(result.colName);
-                $("#Summary").val(result.colName);
-                $("#Video").val(result.colName);
-                $("#sort").val(result.colName);
-                $("#LocationUrl").val(result.colName);
-                $("#IsShow").val(result.colName);
-                $("#ImgDesc1").val(result.colName);
-                $("#ImgDesc2").val(result.colName);
-            }
-        });
+        //        console.log(res);
+        //        var result = res.data;
+        //        $("#colName").val(result.colName);
+        //        $("#CoverUrl").val(result.colName);
+        //        $("#Icon").val(result.colName);
+        //        $("#Summary").val(result.colName);
+        //        $("#Video").val(result.colName);
+        //        $("#sort").val(result.colName);
+        //        $("#LocationUrl").val(result.colName);
+        //        $("#IsShow").val(result.colName);
+        //        $("#ImgDesc1").val(result.colName);
+        //        $("#ImgDesc2").val(result.colName);
+        //    }
+        //});
     })
 </script>
 <script src="~/Scripts/content/edit.js?@DateTime.Now.ToString("yyyymmddhhMMss")"></script>

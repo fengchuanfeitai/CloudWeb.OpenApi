@@ -66,7 +66,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 是否添加到轮播
         /// </summary>
-        public bool IsTop { get; set; }
+        public bool IsCarousel { get; set; }
 
         /// <summary>
         /// 是否推荐到首页
@@ -77,5 +77,10 @@ namespace CloudWeb.Dto
         /// 是否删除
         /// </summary>
         public bool IsDel { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public bool Sort { get; set; }
     }
 }

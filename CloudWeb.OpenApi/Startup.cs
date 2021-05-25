@@ -21,6 +21,7 @@ using CloudWeb.OpenApi.Core.Aop;
 using CloudWeb.Util;
 using CloudWeb.OpenApi.Core.Jwt;
 using NLog.Extensions.Logging;
+using CloudWeb.OpenApi.Core.Core;
 
 namespace CloudWeb.OpenApi
 {
@@ -125,7 +126,7 @@ namespace CloudWeb.OpenApi
                 app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
-
+            app.UseStaticHostEnviroment();
             app.UseRouting();
             //开启跨域中间件
             app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);

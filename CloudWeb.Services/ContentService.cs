@@ -15,8 +15,8 @@ namespace CloudWeb.Services
         /// 插入sql
         /// </summary>
         private const string Insert_Content_Sql = @"INSERT INTO [Ori_CloudWeb].[dbo].[Content]
-            ([CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate] ,[IsPublic]  ,[IsTop],[IsDefault] ,[IsDel])
-          VALUES(@CreateTime,@ModifyTime,@Creator,@Modifier,@ColumnId,@Title,@Content,@ImgUrl1,@ImgUrl2,@LinkUrl,@Hits,@CreateDate ,@IsPublic  ,@IsTop,@IsDefault ,@IsDel)";
+            ([CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate] ,[IsPublic]  ,[IsCarousel],[IsDefault] ,[IsDel],[Sort])
+          VALUES(@CreateTime,@ModifyTime,@Creator,@Modifier,@ColumnId,@Title,@Content,@ImgUrl1,@ImgUrl2,@LinkUrl,@Hits,@CreateDate ,@IsPublic  ,@IsCarousel,@IsDefault ,@IsDel,@Sort)";
 
         /// <summary>
         /// 添加内容
@@ -82,7 +82,7 @@ namespace CloudWeb.Services
         public ResponseResult ChangeTopStatus(TopStatusParam topStatusParam)
         {
             ResponseResult result = new ResponseResult();
-            string sql = "UPDATE content SET IsTop = @TopStatus WHERE Id = @Id";
+            string sql = "UPDATE content SET IsCarousel = @TopStatus WHERE Id = @Id";
             bool isSuccess = Update(sql, topStatusParam);
 
             if (isSuccess)
@@ -131,9 +131,10 @@ namespace CloudWeb.Services
                       ,[Hits] = @Hits
                       ,[CreateDate] = @CreateDate
                       ,[IsPublic] = @IsPublic
-                      ,[IsTop] = @IsTop,
+                      ,[IsCarousel] = @IsCarousel,
                       ,[IsDefault] = @IsDefault
                       ,[IsDel] = @IsDel
+                        ,[Sort] = @Sort
                  WHERE [ID]=@Id";
             contentDto.ModifyTime = DateTime.Now;
             return new ResponseResult<bool>(Update(sql, contentDto));
@@ -160,7 +161,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<ContentDto> GetContent(int id)
         {
-            const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsTop],[IsDefault],[IsDel] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 AND [Id]=@id";
+            const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsCarousel],[IsDefault],[IsDel],[Sort] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 AND [Id]=@id";
 
             return new ResponseResult<ContentDto>(Find<ContentDto>(sql, new { id = id }));
         }

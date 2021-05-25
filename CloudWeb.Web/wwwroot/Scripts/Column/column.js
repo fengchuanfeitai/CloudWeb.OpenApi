@@ -6,8 +6,8 @@
     table.render({
         elem: '#list'
         //, height: 260
-        //, url: dataApi //数据接口
-        , url: '/scripts/Column/data.json' //数据接口
+        , url: dataApi //数据接口
+        //, url: '/scripts/Column/data.json' //数据接口
         , contentType: 'application/ json'//传值格式
         //, where: { pageIndex: index, pageSize: 10 }//传递参数
         , request: {
@@ -45,13 +45,12 @@
             { field: 'colName', title: '栏目名称', align: 'center' },
             { field: 'localUrl', title: '跳转链接', align: 'center' },
             { field: 'sort', title: '排序', sort: true, align: 'center' },
+            { field: 'createTime', title: '创建时间', sort: true, align: 'center' },
             {
                 field: 'isShow', title: '是否显示到网站', templet: function (d) {
-                    console.log(d)
                     return '<input type="checkbox" value="' + d.columnId + '" ' + (d.isShow == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="switchTest" lay-text="显示|不显示">'
                 }, align: 'center'
             },
-            { field: 'createTime', title: '创建时间', sort: true, align: 'center' },
             { field: '', title: '操作', align: 'center', width: 280, toolbar: '#barDemo' }
         ]]
         , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
@@ -84,14 +83,17 @@
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
         $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
-            console.log(1);
+
+            console.log(res);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
                 layer.msg('显示状态修改成功', { icon: 1 });
-                table.reload("columnId", "", false);//刷新表格
+
             }
             else
                 layer.msg('显示状态修改失败', { icon: 2 });
+
+            table.reload("columnId", "", false);//刷新表格
         });
     });
 

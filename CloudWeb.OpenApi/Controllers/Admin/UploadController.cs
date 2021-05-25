@@ -1,9 +1,12 @@
 ﻿using CloudWeb.Dto.Common;
 using CloudWeb.Util;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.IO;
+using System.Text;
 
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
@@ -13,10 +16,12 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     public class UploadController : Controller
     {
         private readonly ILogger<UploadController> _logger;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UploadController(ILogger<UploadController> logger)
+        public UploadController(ILogger<UploadController> logger, IHostingEnvironment hostingEnvironment)
         {
             _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -40,7 +45,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
 
                     if (FileUpLoad.IsImgFile(getex))
                     {
-                        string path = string.Concat(AppContext.BaseDirectory, "~/Upload/");
+                        //目录
+                        string contentRootPath = _hostingEnvironment.ContentRootPath;
+
+                        string path = Path.Combine(contentRootPath, "Upload");
                         string newName = FileUpLoad.CreateFileName(getex);
 
                         if (!Directory.Exists(path))
@@ -53,9 +61,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
                             file.CopyTo(stream);
                             path = path + newName;
                         }
-
+                        var GetCompleteUrlStr = GetCompleteUrl();
                         responseResult.code = 0;
-                        responseResult.data = "/Upload/" + newName;
+                        responseResult.data = GetCompleteUrlStr + "/Upload/" + newName;
                     }
                     else
                     {
@@ -71,6 +79,22 @@ namespace CloudWeb.OpenApi.Controllers.Admin
                 responseResult.msg = "上传失败！";
             }
             return responseResult;
+        }
+
+        /// <summary>
+        /// 获取当前请求完整的Url地址
+        /// </summary>
+        /// <returns></returns>
+        private string GetCompleteUrl()
+        {
+            return new StringBuilder()
+                 .Append(HttpContext.Request.Scheme)
+                 .Append("://")
+                 .Append(HttpContext.Request.Host)
+                 .Append(HttpContext.Request.PathBase)
+                 .Append(HttpContext.Request.Path)
+                 .Append(HttpContext.Request.QueryString)
+                 .ToString();
         }
 
     }
