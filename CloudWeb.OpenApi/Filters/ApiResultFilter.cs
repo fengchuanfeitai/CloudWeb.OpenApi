@@ -1,6 +1,4 @@
-﻿using CloudWeb.Dto;
-using CloudWeb.Dto.Common;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 
@@ -17,7 +15,7 @@ namespace CloudWeb.OpenApi.Filters
         /// <param name="context"></param>
         public void OnResultExecuting(ResultExecutingContext context)
         {
-            if (context.Result != null)
+             if (context.Result != null)
             {
                 if (context.Result is ObjectResult objectResult)
                 {

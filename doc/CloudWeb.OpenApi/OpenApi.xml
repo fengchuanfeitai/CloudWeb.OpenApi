@@ -261,7 +261,7 @@
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.UploadController.UploadImg">
             <summary>
-            上传文件
+            单文件上传文件
             </summary>
             <returns></returns>
         </member>

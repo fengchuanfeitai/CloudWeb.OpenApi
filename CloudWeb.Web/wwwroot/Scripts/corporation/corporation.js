@@ -67,7 +67,7 @@ layui.use(['table', 'layer', 'form'], function () {
 
     table.on('tool(corporations)', function (obj) {
         //注：tool 是工具条事件名，lay-filter="对应的值"
-        var id = obj.data.columnId; //获得当前行数据
+        var id = obj.data.corpId; //获得当前行数据
         var layEvent = obj.event; //获得 lay - event 对应的值
 
         if (layEvent === 'del') {
