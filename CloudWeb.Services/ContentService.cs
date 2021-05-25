@@ -16,23 +16,24 @@ namespace CloudWeb.Services
         /// </summary>
         private const string Insert_Content_Sql = @"INSERT INTO [Ori_CloudWeb].[dbo].[Content]
             ([CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate] ,[IsPublic]  ,[IsCarousel],[IsDefault] ,[IsDel],[Sort])
-          VALUES(@CreateTime,@ModifyTime,@Creator,@Modifier,@ColumnId,@Title,@Content,@ImgUrl1,@ImgUrl2,@LinkUrl,@Hits,@CreateDate ,@IsPublic  ,@IsCarousel,@IsDefault ,@IsDel,@Sort)";
+          VALUES(@CreateTime,@ModifyTime,@Creator,@Modifier,@ColumnId,@Title,@Content,@ImgUrl1,@ImgUrl2,@LinkUrl,@Hits,@CreateDate ,@IsPublic ,@IsCarousel,@IsDefault ,@IsDel,@Sort)";
 
         /// <summary>
         /// 添加内容
         /// </summary>
         /// <param name="contentDto"></param>
         /// <returns></returns>
-        public ResponseResult<bool> AddContent(ContentDto contentDto)
+        public ResponseResult<bool> AddContent(ContentParam content)
         {
             ResponseResult<bool> result = new ResponseResult<bool>();
-            if (contentDto == null)
+            if (content == null)
                 return result.SetFailMessage("请输入内容信息");
 
             //默认值
-            contentDto.CreateTime = DateTime.Now;
-            contentDto.ModifyTime = DateTime.Now;
-            result.SetData(Add(Insert_Content_Sql, contentDto));
+            content.CreateTime = DateTime.Now;
+            content.ModifyTime = DateTime.Now;
+            content.CreateDate = DateTime.Now.ToString();
+            result.SetData(Add(Insert_Content_Sql, content));
             return result;
         }
 
@@ -131,10 +132,10 @@ namespace CloudWeb.Services
                       ,[Hits] = @Hits
                       ,[CreateDate] = @CreateDate
                       ,[IsPublic] = @IsPublic
-                      ,[IsCarousel] = @IsCarousel,
+                      ,[IsCarousel] = @IsCarousel
                       ,[IsDefault] = @IsDefault
                       ,[IsDel] = @IsDel
-                        ,[Sort] = @Sort
+                      ,[Sort] = @Sort
                  WHERE [ID]=@Id";
             contentDto.ModifyTime = DateTime.Now;
             return new ResponseResult<bool>(Update(sql, contentDto));

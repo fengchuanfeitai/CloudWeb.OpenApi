@@ -93,9 +93,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResponseResult<bool> AddContent(ContentDto contentDto)
+        public ResponseResult<bool> AddContent(ContentParam content)
         {
-            return _service.AddContent(contentDto);
+            return _service.AddContent(content);
         }
 
         /// <summary>

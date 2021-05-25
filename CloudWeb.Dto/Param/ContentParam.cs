@@ -9,6 +9,94 @@ namespace CloudWeb.Dto.Param
     public class ContentParam : BaseContentParam
     {
 
+        /// <summary>
+        /// 所属栏目id
+        /// </summary>
+        public int ColumnId { get; set; }
+
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// 浏览
+        /// </summary>
+        public int Hits { get; set; }
+
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public string Content { get; set; }
+
+        /// <summary>
+        /// 封面
+        /// </summary>
+        public string ImgUrl1 { get; set; }
+
+        /// <summary>
+        /// 新闻内页封面
+        /// </summary>
+        public string ImgUrl2 { get; set; }
+
+        /// <summary>
+        /// 跳转链接
+        /// </summary>
+        public string LinkUrl { get; set; }
+
+        /// <summary>
+        /// 发布时间
+        /// </summary>
+        public string CreateDate { get; set; }
+
+        /// <summary>
+        /// 是否发布
+        /// </summary>
+        public int IsPublic { get; set; }
+
+        /// <summary>
+        /// 是否添加到轮播
+        /// </summary>
+        public int IsCarousel { get; set; }
+
+        /// <summary>
+        /// 是否推荐到首页
+        /// </summary>
+        public int IsDefault { get; set; }
+
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        public int IsDel { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [DataType(DataType.Date)]
+        //[JsonConverter(typeof(JsonDateConverter))]
+        public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 修改时间
+        /// </summary>
+        [DataType(DataType.Date)]
+        //[JsonConverter(typeof(JsonDateConverter))]
+        public DateTime ModifyTime { get; set; }
+
+        /// <summary>
+        /// 创建者id
+        /// </summary>
+        public int Creator { get; set; }
+
+        /// <summary>
+        /// 修改者id
+        /// </summary>
+        public int Modifier { get; set; }
     }
 
     /// <summary>

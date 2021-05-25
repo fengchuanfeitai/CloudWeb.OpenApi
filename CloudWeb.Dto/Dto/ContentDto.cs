@@ -61,26 +61,26 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 是否发布
         /// </summary>
-        public bool IsPublic { get; set; }
+        public int IsPublic { get; set; }
 
         /// <summary>
         /// 是否添加到轮播
         /// </summary>
-        public bool IsCarousel { get; set; }
+        public int IsCarousel { get; set; }
 
         /// <summary>
         /// 是否推荐到首页
         /// </summary>
-        public bool IsDefault { get; set; }
+        public int IsDefault { get; set; }
 
         /// <summary>
         /// 是否删除
         /// </summary>
-        public bool IsDel { get; set; }
+        public int IsDel { get; set; }
 
         /// <summary>
         /// 排序
         /// </summary>
-        public bool Sort { get; set; }
+        public int Sort { get; set; }
     }
 }

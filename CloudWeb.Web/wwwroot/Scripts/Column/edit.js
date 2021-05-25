@@ -21,16 +21,6 @@
 
 
                     form.val("formTest", res);
-                    //$("#colName").val(result.colName);
-                    //$("#CoverUrl").val(result.colName);
-                    //$("#Icon").val(result.colName);
-                    //$("#Summary").val(result.colName);
-                    //$("#Video").val(result.colName);
-                    //$("#sort").val(result.colName);
-                    //$("#LocationUrl").val(result.colName);
-                    //$("#IsShow").val(result.colName);
-                    //$("#ImgDesc1").val(result.colName);
-                    //$("#ImgDesc2").val(result.colName);
                 }
             });
 
@@ -62,12 +52,14 @@
         //监听提交
         form.on('submit(*)',
             function (res) {
+
+                if()
                 console.log(res.field);
                 //提交
                 $.ajax({
                     type: 'post',
                     url: 'https://localhost:44377/api/admin/Column/AddColumn',
-                    dataType: 'application/json',
+                    dataType: 'json',
                     data: res.field,
                     success: function (res) {
                         if (res.code != 0) {
@@ -82,7 +74,6 @@
                                     xadmin.father_reload();
                                 });
                         }
-
                     },
                     error: function (res) {
                         console.log(res)

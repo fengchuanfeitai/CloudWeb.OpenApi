@@ -54,7 +54,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="contentDto"></param>
         /// <returns></returns>
-        ResponseResult<bool> AddContent(ContentDto contentDto);
+        ResponseResult<bool> AddContent(ContentParam content);
 
         /// <summary>
         /// 删除内容
