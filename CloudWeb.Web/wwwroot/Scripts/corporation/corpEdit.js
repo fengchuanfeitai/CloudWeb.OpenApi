@@ -9,7 +9,7 @@ layui.use(['form', 'upload', 'layer'], function () {
         layer = layui.layer;
 
     //选择下拉框渲染
-    var columns = xmSelect.render({
+    var columnSelect = xmSelect.render({
         el: '#ColSelect',
         toolbar: { show: true },
         autoRow: true,
@@ -28,7 +28,7 @@ layui.use(['form', 'upload', 'layer'], function () {
                 var col = { name: value.colName, value: value.columnId }
                 colArr.push(col);
             });
-            columns.update({
+            columnSelect.update({
                 data: colArr
             })
         }
@@ -51,7 +51,7 @@ layui.use(['form', 'upload', 'layer'], function () {
                         return false;
                     }
                     var corporation = res.data;
-                    form.val({
+                    form.val('corp-form', {
                         "CorpId": corporation.corpId,
                         "Name": corporation.name,
                         "Cover": corporation.cover,
@@ -74,9 +74,10 @@ layui.use(['form', 'upload', 'layer'], function () {
                     layui.$('#Logo2Img').attr('src', corporation.logo2);
                     layui.$('#AboutUsCoverImgDiv').removeClass('layui-hide');
                     layui.$('#AboutUsCoverImg').attr('src', corporation.aboutUsCover);
-                    layui.$('#ContactUsBgDiv').removeClass('layui-hide');
+                    layui.$('#ContactUsBgImgDiv').removeClass('layui-hide');
                     layui.$('#ContactUsBgImg').attr('src', corporation.contactUsBg);
-
+                    var ColArray = getColArray(corporation.columnId);
+                    columnSelect.setValue(ColArray);
                 }
             });
         }
@@ -244,12 +245,30 @@ layui.use(['form', 'upload', 'layer'], function () {
 
     //监听提交
     form.on('submit(save-corp)', function (res) {
-        console.log(res.field)
+        console.log(res.file);
+        var columnIds = columnSelect.getValue("value");
+        console.log(columnIds);
+        var data = {
+            "CorpId": $("input[name='CorpId']").val(),
+            "Name": $("input[name='Name']").val(),
+            "Cover": $("input[name='Cover']").val(),
+            "Logo1": $("input[name='Logo1']").val(),
+            "Logo2": $("input[name='Logo2']").val(),
+            "ColumnId": columnIds.toString(),
+            "AboutUs": "固定关于我们",
+            "AboutUsCover": $("input[name='AboutUsCover']").val(),
+            "ContactUs": $("input[name='ContactUs']").val(),
+            "ContactUsBg": $("input[name='ContactUsBg']").val(),
+            "Sort": $("input[name='Sort']").val(),
+            "IsShow": "1",
+        }
+        console.log(data)
+
         $.ajax({
             type: "POST",
-            url: 'https://localhost:44377/api/SiteInfo/UpdateSiteInfo',
+            url: 'https://localhost:44377/api/Corporation/AddCorporaion',
             async: false,
-            data: res.field,
+            data: data,
             success: function (data) {
                 if (data.code != 0) {
                     layer.msg(data.msg)
@@ -268,4 +287,8 @@ function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
     var r = window.location.search.substr(1).match(reg);  //匹配目标参数
     if (r != null) return unescape(r[2]); return null; //返回参数值
+}
+
+function getColArray(columnId) {
+    return columnId.split(',');
 }

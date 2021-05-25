@@ -59,7 +59,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> UpdateCorporation(CorporationDto corporation)
         {
-            var Corporation = GetCorporation(corporation.CorpId);
+            var Corporation = GetCorporation(corporation.CorpId.Value);
             if (Corporation == null)
                 return new ResponseResult<bool>(201, "修改失败，公司信息不存在。");
 

@@ -11,7 +11,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 公司Id
         /// </summary>
-        public int CorpId { get; set; }
+        public int? CorpId { get; set; }
 
         /// <summary>
         /// 公司名称
@@ -36,7 +36,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 栏目Id
         /// </summary>
-        public int ColumnId { get; set; }
+        public string ColumnId { get; set; }
 
         /// <summary>
         /// 栏目名称

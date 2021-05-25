@@ -78,8 +78,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpPost]
         public ResponseResult<bool> AddCorporaion(CorporationDto corporation)
         {
-
-            return _corporationService.AddCorporation(corporation);
+            if (corporation.CorpId == null)
+                return _corporationService.AddCorporation(corporation);
+            return _corporationService.UpdateCorporation(corporation);
         }
 
         /// <summary>
