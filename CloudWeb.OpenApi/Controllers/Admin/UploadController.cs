@@ -25,7 +25,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         }
 
         /// <summary>
-        /// 上传文件
+        /// 单文件上传文件
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -45,29 +45,29 @@ namespace CloudWeb.OpenApi.Controllers.Admin
 
                     if (FileUpLoad.IsImgFile(getex))
                     {
-                        //目录
-                        string contentRootPath = _hostingEnvironment.ContentRootPath;
-
-                        string path = Path.Combine(contentRootPath, "Upload");
+                        var picPath = "Upload";//文件上传目录
+                        //目录wwwroot
+                        string contentRootPath = _hostingEnvironment.WebRootPath;
+                        string path = Path.Combine(contentRootPath, picPath);
                         string newName = FileUpLoad.CreateFileName(getex);
 
                         if (!Directory.Exists(path))
                         {
                             Directory.CreateDirectory(path);
                         }
-
-                        using (var stream = new FileStream(path, FileMode.Create))
+                        //创建文件到目录
+                        using (var stream = new FileStream(Path.Combine(path, newName), FileMode.Create))
                         {
                             file.CopyTo(stream);
                             path = path + newName;
                         }
-                        var GetCompleteUrlStr = GetCompleteUrl();
-                        responseResult.code = 0;
-                        responseResult.data = GetCompleteUrlStr + "/Upload/" + newName;
+
+                        responseResult.code = (int)HttpStatusCode.OK;
+                        responseResult.data = $"{ GetCompleteUrl()}/{picPath}/{ newName}";//新的图片路径，网络地址
                     }
                     else
                     {
-                        responseResult.code = -1;
+                        responseResult.code = (int)HttpStatusCode.fail;
                         responseResult.msg = "不是有效的文件";
                     }
                 }
@@ -75,9 +75,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
             catch (Exception e)
             {
                 _logger.LogError($"文件上传失败：{e.Message}");
-                responseResult.code = -1;
+                responseResult.code = (int)HttpStatusCode.fail;
                 responseResult.msg = "上传失败！";
             }
+
             return responseResult;
         }
 
@@ -91,9 +92,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
                  .Append(HttpContext.Request.Scheme)
                  .Append("://")
                  .Append(HttpContext.Request.Host)
-                 .Append(HttpContext.Request.PathBase)
-                 .Append(HttpContext.Request.Path)
-                 .Append(HttpContext.Request.QueryString)
+                 //.Append(HttpContext.Request.PathBase)
+                 //.Append(HttpContext.Request.Path)
+                 //.Append(HttpContext.Request.QueryString)
                  .ToString();
         }
 

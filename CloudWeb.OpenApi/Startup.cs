@@ -22,6 +22,7 @@ using CloudWeb.Util;
 using CloudWeb.OpenApi.Core.Jwt;
 using NLog.Extensions.Logging;
 using CloudWeb.OpenApi.Core.Core;
+using Microsoft.Extensions.FileProviders;
 
 namespace CloudWeb.OpenApi
 {
@@ -126,7 +127,13 @@ namespace CloudWeb.OpenApi
                 app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
+            //环境注入
             app.UseStaticHostEnviroment();
+            //启用默认目录
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.WebRootPath)),
+            });
             app.UseRouting();
             //开启跨域中间件
             app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);

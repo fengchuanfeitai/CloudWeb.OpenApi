@@ -97,18 +97,18 @@
                 <div class="layui-form-mid layui-word-aux">网络链接地址</div>
             </div>
             <div class="layui-form-item">
-                <label for="L_SiteLogo" class="layui-form-label">
+                <label for="ImgUrl1" class="layui-form-label">
                     <span class="x-red">*</span>封面
                 </label>
-                <input type="text" name="SiteLogo" lay-verify="SiteLogo" autocomplete="off"
-                       class="layui-input layui-hide" value="" />
+                <!--文件地址-->
+                <input type="hidden" value="" name="ImgUrl1" id="ImgUrl1" />
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="logoUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传像素</p>
                         <div class="layui-hide" id="logoImg">
                             <hr>
-                            <img src="" alt="上传成功后渲染" style="height:60%;width:60%;">
+                            <img src="" alt="上传成功后渲染" style="height:20%;width:20%;">
                         </div>
                     </div>
                 </div>
@@ -131,83 +131,53 @@
 <script language="javascript">
 
     $(function () {
-           layui.use('upload', function(){
-        var $ = layui.jquery
-        ,upload = layui.upload;
-               //Logo图片拖拽上传
-               var logoUpload = upload.render({
-                   elem: '#logoUpload',
-                   url: "https://localhost:44377/api/admin/upload", //上传接口
-                   method: 'Post',
-                   type: 'images',
-                   ext: 'jpg|png|gif',
-                   size: "2048",
-                   //成功后回调
-                   done: function (res) {
-                       if (res.code !== 0)
-                           layer.msg('上传失败');
-                       else
-                       layer.msg('上传成功');
-                       layui.$('#logoImg').removeClass('layui-hide').find('img').attr('src', res.data);
-                       console.log(res)
-                   }
-               });
+        layui.use('upload', function () {
+            var $ = layui.jquery
+                , upload = layui.upload;
+            //Logo图片拖拽上传
+            upload.render({
+                elem: '#logoUpload',
+                url: "https://localhost:44377/api/admin/upload", //上传接口
+                method: 'Post',
+                type: 'images',
+                ext: 'jpg|png|gif',
+                size: "2048",
+                //成功后回调
+                done: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('上传成功');
+                        //绑定图片地址
+                        $("#ImgUrl1").val(res.data);
+                        layui.$('#logoImg').removeClass('layui-hide').find('img').attr('src', res.data);
+                    }
+                    else {
+                        layer.msg('上传失败');
+                    }
 
-        //普通图片上传
-        @*var uploadInst = upload.render({
-            elem: '#upload',
-            exts: 'jpg|png|jpeg',
-            size:"2048",
-            url: "https://localhost:44377/api/admin/Content/GetContent",
-            before: function (obj) {
-                //预读本地文件示例，不支持ie8
-                obj.preview(function (index, file, result) {
-                    $('#Content').attr('src', result); //图片链接（base64）
-                    $('#ProductPath').val(file.name);
-                    });
-                },
-           done: function (res) {
-              //如果上传失败
-               conlose.log()
-              if (res.code < 0) {
-                  return layer.msg('上传失败');
-              }
-
-               $('#ProductPath').val(res.ResultData);
-               $('#ProductImage').val(res.ResultData);
-
-              //上传成功
-           },
-           error: function () {
-                    //演示失败状态，并实现重传
-                    var demoText = $('#demoText');
-                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                    demoText.find('.demo-reload').on('click', function(){
-                        uploadInst.upload();
-                    });
+                    console.log(res)
                 }
-            });*@
-      });
-        //$.ajax({
-        //    type: "get",
-        //    url: "https://localhost:44377/api/admin/Content/GetContent",
-        //    data: { id: 33 },
-        //    success: function (res) {
+            });
 
-        //        console.log(res);
-        //        var result = res.data;
-        //        $("#colName").val(result.colName);
-        //        $("#CoverUrl").val(result.colName);
-        //        $("#Icon").val(result.colName);
-        //        $("#Summary").val(result.colName);
-        //        $("#Video").val(result.colName);
-        //        $("#sort").val(result.colName);
-        //        $("#LocationUrl").val(result.colName);
-        //        $("#IsShow").val(result.colName);
-        //        $("#ImgDesc1").val(result.colName);
-        //        $("#ImgDesc2").val(result.colName);
-        //    }
-        //});
-    })
+            //$.ajax({
+            //    type: "get",
+            //    url: "https://localhost:44377/api/admin/Content/GetContent",
+            //    data: { id: 33 },
+            //    success: function (res) {
+
+            //        console.log(res);
+            //        var result = res.data;
+            //        $("#colName").val(result.colName);
+            //        $("#CoverUrl").val(result.colName);
+            //        $("#Icon").val(result.colName);
+            //        $("#Summary").val(result.colName);
+            //        $("#Video").val(result.colName);
+            //        $("#sort").val(result.colName);
+            //        $("#LocationUrl").val(result.colName);
+            //        $("#IsShow").val(result.colName);
+            //        $("#ImgDesc1").val(result.colName);
+            //        $("#ImgDesc2").val(result.colName);
+            //    }
+            //});
+        })
 </script>
 <script src="~/Scripts/content/edit.js?@DateTime.Now.ToString("yyyymmddhhMMss")"></script>
