@@ -33,18 +33,19 @@ layui.use(['table', 'layer', 'form'], function () {
             none: '暂无相关数据', //默认：无数据。注：该属性为 layui 2.2.5 开始新增
         },
         cols: [[ //表头
-            { field: '', title: '全选', type: 'checkbox' },
-            { field: 'corpId', title: '编号', sort: true, align: 'center' },
-            { field: 'name', title: '公司名', sort: true, align: 'center' },
-            { field: 'columnId', title: '栏目Id', sort: true, align: 'center' },
-            { field: 'sort', title: '序号', sort: true, align: 'center' },
+            { type: 'checkbox', width: 50 },
+            /*{ field: 'index', title: '序号', width:70, sort: true, align: 'center' },*/
+            { field: 'corpId', title: '编号', width: 70, sort: true, align: 'center' },
+            { field: 'name', title: '公司名', width: 200, align: 'center' },
+            { field: 'columnId', title: '栏目Id', width: 100, align: 'center' },
+            { field: 'sort', title: '序号', width: 70, sort: true, align: 'center' },
+            { field: 'createTime', title: '创建时间', width: 200, sort: true, align: 'center' },
             {
-                field: 'isShow', title: '是否显示到网站', templet: function (d) {
+                field: 'isShow', title: '是否显示到网站', width: 150, templet: function (d) {
                     return '<input type="checkbox" value="' + d.corpId + '" ' + (d.isShow == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="IsShow" lay-text="显示|不显示">'
                 }, sort: true, align: 'center'
             },
-            { field: 'createTime', title: '创建时间', sort: true, align: 'center' },
-            { field: '', title: '操作', sort: true, align: 'center', toolbar: '#bar' }
+            { title: '操作', align: 'center', toolbar: '#bar' }
         ]],
         page: {
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
@@ -56,7 +57,7 @@ layui.use(['table', 'layer', 'form'], function () {
         done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
             //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-            //console.log(res);
+            console.log(res);
             //得到当前页码
             //console.log(curr);
             //得到数据总量
@@ -79,7 +80,7 @@ layui.use(['table', 'layer', 'form'], function () {
         }
         else if (layEvent === 'edit') {
             //编辑
-            xadmin.open('编辑公司信息', '/Corporation/Edit?id=' + id, 600, 800)
+            xadmin.open('编辑公司信息', '/Corporation/Edit?id=' + id, 800, 600)
         } else if (layEvent === 'LAYTABLE_TIPS') {
             layer.alert('Hi，头部工具栏扩展的右侧图标。');
         }
@@ -87,9 +88,7 @@ layui.use(['table', 'layer', 'form'], function () {
 
     //监控按钮状态事件
     form.on('switch(IsShow)', function (obj) {
-        console.log(`我监听到的switch的值是：${obj.value}`);
-        console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
-        var apiurl = "https://localhost:44377/api/admin/Corporation/ChangeShowStatus";
+        var apiurl = "https://localhost:44377/api/Corporation/ChangeShowStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
@@ -117,7 +116,7 @@ layui.use(['table', 'layer', 'form'], function () {
 
     var active = {
         createCorp: function () {
-            xadmin.open('添加公司', '/Corporation/Edit', 600, 800)
+            xadmin.open('添加公司', '/Corporation/Edit', 800, 600)
         },
         delSelected: function () {
             var checkStatus = table.checkStatus('corpId');

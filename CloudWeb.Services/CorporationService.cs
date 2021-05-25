@@ -63,7 +63,7 @@ namespace CloudWeb.Services
             if (Corporation == null)
                 return new ResponseResult<bool>(201, "修改失败，公司信息不存在。");
 
-            if (Equals(corporation,Corporation))
+            if (Equals(corporation, Corporation))
             {
                 return new ResponseResult<bool>(201, "修改成功");
             }
@@ -84,7 +84,7 @@ namespace CloudWeb.Services
                 Sort,IsShow,IsDel FROM dbo.Corporations
                 WHERE IsDel=0 AND CorpId=@id ORDER BY CreateTime DESC";
 
-            return new ResponseResult<CorporationDto>(Find<CorporationDto>(SelSql, id));
+            return new ResponseResult<CorporationDto>(Find<CorporationDto>(SelSql, new { id = id }));
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation(BaseParam pageParam)
         {
-            const string SelSql = @"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsShow
+            const string SelSql = @"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsShow,c1.CreateTime
                                 FROM dbo.Corporations c1,
                                (SELECT TOP (@PageIndex*@PageSize) 
                                 ROW_NUMBER() OVER(ORDER BY CreateTime DESC ) [Index],CorpId
@@ -105,7 +105,7 @@ namespace CloudWeb.Services
 
             const string CountSql = @"SELECT COUNT(*) FROM dbo.Corporations WHERE IsDel=0";
             //处理栏目Id多个
-            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql,pageParam),Count(CountSql));
+            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql, pageParam), Count(CountSql));
         }
 
         /// <summary>

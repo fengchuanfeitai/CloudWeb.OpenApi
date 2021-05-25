@@ -26,6 +26,13 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<ColumnDto> GetColumn(int id);
 
+        /// <summary>
+        /// 根据父Id获取子栏目
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId);
+
 
         /// <summary>
         /// 修改栏目

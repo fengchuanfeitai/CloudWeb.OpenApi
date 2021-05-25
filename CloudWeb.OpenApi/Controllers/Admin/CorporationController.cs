@@ -92,6 +92,5 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         {
             return _corporationService.DelCorporation(ids);
         }
-
     }
 }

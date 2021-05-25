@@ -84,5 +84,15 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         {
             return _service.DeleteColumn(ids);
         }
+
+        /// <summary>
+        /// 根据父Id获取子栏目
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId)
+        {
+            return _service.GetColumnsByParent(parentId);
+        }
     }
 }
