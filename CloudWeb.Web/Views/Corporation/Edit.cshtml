@@ -1,5 +1,164 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_layout.cshtml";
 }
+<style type="text/less">
+    .layui-fluid .layui-form .layui-form-item .layui-upload-drag {
+        border: 1px dashed #c0ccda;
+        border-radius: 6px;
+        padding: 10px;
+    }
+
+        .layui-fluid .layui-form .layui-form-item .layui-upload-drag div img {
+            height: 60%;
+            width: 60%;
+        }
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form" lay-filter="corp-form">
+            <input type="text" name="CorpId" class="layui-input layui-hide" />
+            <input type="text" name="Cover" lay-verify="Cover" class="layui-input layui-hide" />
+            <input type="text" name="Logo1" lay-verify="Logo1" class="layui-input layui-hide" />
+            <input type="text" name="Logo2" lay-verify="Logo2" class="layui-input layui-hide" />
+            <input type="text" name="AboutUsCover" lay-verify="AboutUsCover" class="layui-input layui-hide" />
+            <input type="text" name="ContactUsBg" lay-verify="AboutUsCoverBg" class="layui-input layui-hide" />
+
+            <div class="layui-form-item">
+                <label for="L_Name" class="layui-form-label">
+                    <span class="x-red">*</span>公司名
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="Name" lay-verify="Name"
+                           placeholder="请输入公司名" autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_Cover" class="layui-form-label">
+                    <span class="x-red">*</span>封面图
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="CoverUpload">
+                        <p>点击上传，或将图片拖拽到此处</p>
+                        <p>尺寸建议上传420*64像素</p>
+                        <div class="layui-hide" id="CoverImg">
+                            <hr />
+                            <img src="" alt="上传公司封面图" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_Logo1" class="layui-form-label">
+                    <span class="x-red">*</span>灰色Logo
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="Logo1Upload">
+                        <p>点击上传，或将图片拖拽到此处</p>
+                        <p>尺寸建议上传420*64像素</p>
+                        <div class="layui-hide" id="Logo1Img">
+                            <hr />
+                            <img src="" alt="上传灰色公司Logo图" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_Logo2" class="layui-form-label">
+                    <span class="x-red">*</span>正常Logo
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="Logo2Upload">
+                        <p>点击上传，或将图片拖拽到此处</p>
+                        <p>尺寸建议上传420*64像素</p>
+                        <div class="layui-hide" id="Logo2Img">
+                            <hr />
+                            <img src="" alt="上传正常公司Logo图" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--栏目下拉多选框开始-->
+            <!--栏目下拉多选框结束-->
+
+            <div class="layui-form-item">
+                <label for="L_AboutUs" class="layui-form-label">
+                    <span class="x-red">*</span>关于我们
+                </label>
+                <div class="layui-input-block">
+                    <!--待修改为textarea或富文本-->
+                    <input type="text" name="AboutUs" lay-verify="AboutUs"
+                           placeholder="请添加关于我们描述" autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_AboutUsCover" class="layui-form-label">
+                    <span class="x-red">*</span>关于我们
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="AboutUsCoverUpload">
+                        <p>点击上传，或将图片拖拽到此处</p>
+                        <p>尺寸建议上传420*64像素</p>
+                        <div class="layui-hide" id="AboutUsImg">
+                            <hr />
+                            <img src="" alt="上传关于我们左侧图片" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_ContactUs" class="layui-form-label">
+                    <span class="x-red">*</span>联系我们
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="ContactUs" lay-verify="ContactUs"
+                           placeholder="请填写联系我们页面链接" autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_ContactUsBg" class="layui-form-label">
+                    <span class="x-red">*</span>关于我们
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="ContactUsBgUpload">
+                        <p>点击上传，或将图片拖拽到此处</p>
+                        <p>尺寸建议上传420*64像素</p>
+                        <div class="layui-hide" id="ContactUsBgImg">
+                            <hr />
+                            <img src="" alt="上传关于我们背景图" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_Sort" class="layui-form-label">
+                    <span class="x-red">*</span>排序
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="Sort" lay-verify="Sort"
+                           placeholder="排序" autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            <!--是否显示按钮-->
+            <!--是否显示按钮结束-->
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-submit lay-filter="save-siteinfo" style="background-color: #1b8fe4;">
+                    保存修改
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/Scripts/corporation/corpEdit.js"></script>

@@ -14,6 +14,11 @@
     <div class="layui-col-lg6 layui-col-md9 layui-col-sm10">
         <form class="layui-form" lay-filter="siteInfo-form">
             <input type="text" name="Id" class="layui-input layui-hide" />
+            <input type="text" name="SiteLogo" lay-verify="SiteLogo" autocomplete="off"
+                   class="layui-input layui-hide" value="" />
+            <input type="text" name="WeChatPublicNo" lay-verify="WeChatPublicNo" autocomplete="off"
+                   class="layui-input layui-hide" value="" />
+
             <div class="layui-form-item">
                 <label for="L_SiteTitle" class="layui-form-label">
                     <span class="x-red">*</span>网站标题
@@ -45,8 +50,6 @@
                 <label for="L_SiteLogo" class="layui-form-label">
                     <span class="x-red">*</span>网站Logo
                 </label>
-                <input type="text" name="SiteLogo" lay-verify="SiteLogo" autocomplete="off"
-                       class="layui-input layui-hide" value="" />
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="logoUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
@@ -98,8 +101,6 @@
                 <label for="L_WechatPublicNo" class="layui-form-label">
                     <span class="x-red">*</span>微信公众号
                 </label>
-                <input type="text" name="WeChatPublicNo" lay-verify="WeChatPublicNo" autocomplete="off"
-                       class="layui-input layui-hide" value="" />
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="WeChatPublicNoUpload">
                         <p>点击上传，或将图片拖拽到此处</p>

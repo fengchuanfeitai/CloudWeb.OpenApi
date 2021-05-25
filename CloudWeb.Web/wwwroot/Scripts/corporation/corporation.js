@@ -3,10 +3,11 @@ var Selected;
 var getListUrl = 'https://localhost:44377/api/Corporation/GetAll';
 var deleteUrl = 'https://localhost:44377/api/Corporation/DelCorporation';
 
-layui.use(['table', 'layer'], function () {
+layui.use(['table', 'layer', 'form'], function () {
     var $ = layui.jquery,
         table = layui.table,
-        layer = layui.layer;
+        layer = layui.layer,
+        form = layui.form;
 
     //table实例
     table.render({
@@ -78,7 +79,7 @@ layui.use(['table', 'layer'], function () {
         }
         else if (layEvent === 'edit') {
             //编辑
-            xadmin.open('编辑公司信息', '/Corporation/Edit?id=' + id, 800, 600)
+            xadmin.open('编辑公司信息', '/Corporation/Edit?id=' + id, 600, 800)
         } else if (layEvent === 'LAYTABLE_TIPS') {
             layer.alert('Hi，头部工具栏扩展的右侧图标。');
         }
@@ -87,7 +88,6 @@ layui.use(['table', 'layer'], function () {
     //监控按钮状态事件
     form.on('switch(IsShow)', function (obj) {
         console.log(`我监听到的switch的值是：${obj.value}`);
-
         console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
         var apiurl = "https://localhost:44377/api/admin/Corporation/ChangeShowStatus";
         //改变状态
@@ -117,7 +117,7 @@ layui.use(['table', 'layer'], function () {
 
     var active = {
         createCorp: function () {
-            xadmin.open('添加公司', '/Corporation/Edit', 800, 600)
+            xadmin.open('添加公司', '/Corporation/Edit', 600, 800)
         },
         delSelected: function () {
             var checkStatus = table.checkStatus('corpId');
