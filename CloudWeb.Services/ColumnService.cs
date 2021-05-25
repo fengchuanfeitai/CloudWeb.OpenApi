@@ -152,6 +152,18 @@ namespace CloudWeb.Services
             const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[CoverUrl],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE  [IsDel]=0  AND  [ColumnId]=@id";
             return new ResponseResult<ColumnDto>(Find<ColumnDto>(sql, new { id = id }));
         }
+
+        /// <summary>
+        /// 根据父Id获取子级栏目
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId)
+        {
+            const string sql = @"SELECT ColumnId,ColName FROM dbo.[Columns]
+                  WHERE IsDel=0 AND IsShow=1 AND ParentId=@parentId";
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId}));
+        }
         #endregion
 
         #region 网站接口

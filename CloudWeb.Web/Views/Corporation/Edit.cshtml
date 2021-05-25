@@ -8,15 +8,10 @@
         border-radius: 6px;
         padding: 10px;
     }
-
-        .layui-fluid .layui-form .layui-form-item .layui-upload-drag div img {
-            height: 60%;
-            width: 60%;
-        }
 </style>
 
 <div class="layui-fluid">
-    <div class="layui-row">
+    <div class="layui-row layui-col-lg6 layui-col-md6 layui-col-sm8">
         <form class="layui-form" lay-filter="corp-form">
             <input type="text" name="CorpId" class="layui-input layui-hide" />
             <input type="text" name="Cover" lay-verify="Cover" class="layui-input layui-hide" />
@@ -43,9 +38,9 @@
                     <div class="layui-upload-drag" id="CoverUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传420*64像素</p>
-                        <div class="layui-hide" id="CoverImg">
+                        <div class="layui-hide" id="CoverImgDiv">
                             <hr />
-                            <img src="" alt="上传公司封面图" />
+                            <img src="" id="CoverImg" alt="上传公司封面图" style="width:60%;height:60%;" />
                         </div>
                     </div>
                 </div>
@@ -59,9 +54,9 @@
                     <div class="layui-upload-drag" id="Logo1Upload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传420*64像素</p>
-                        <div class="layui-hide" id="Logo1Img">
+                        <div class="layui-hide" id="Logo1ImgDiv">
                             <hr />
-                            <img src="" alt="上传灰色公司Logo图" />
+                            <img src="" id="Logo1Img" alt="上传灰色公司Logo图" style="width:60%;height:60%;" />
                         </div>
                     </div>
                 </div>
@@ -75,14 +70,23 @@
                     <div class="layui-upload-drag" id="Logo2Upload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传420*64像素</p>
-                        <div class="layui-hide" id="Logo2Img">
+                        <div class="layui-hide" id="Logo2ImgDiv">
                             <hr />
-                            <img src="" alt="上传正常公司Logo图" />
+                            <img src="" id="Logo2Img" alt="上传正常公司Logo图" style="width:60%;height:60%;" />
                         </div>
                     </div>
                 </div>
             </div>
             <!--栏目下拉多选框开始-->
+            <div class="layui-form-item">
+                <label for="L_AboutUs" class="layui-form-label">
+                    <span class="x-red">*</span>所属栏目
+                </label>
+                <div id="ColSelect" class="layui-input-block xm-select-demo">
+                   
+                </div>
+                
+            </div>
             <!--栏目下拉多选框结束-->
 
             <div class="layui-form-item">
@@ -90,23 +94,21 @@
                     <span class="x-red">*</span>关于我们
                 </label>
                 <div class="layui-input-block">
-                    <!--待修改为textarea或富文本-->
-                    <input type="text" name="AboutUs" lay-verify="AboutUs"
-                           placeholder="请添加关于我们描述" autocomplete="off" class="layui-input" value="">
+                    <textarea placeholder="请添加关于我们描述" name="AboutUs" lay-verify="AboutUs" autocomplete="off" class="layui-textarea"></textarea>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label for="L_AboutUsCover" class="layui-form-label">
-                    <span class="x-red">*</span>关于我们
+                    <span class="x-red">*</span>关于我们图片
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" id="AboutUsCoverUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传420*64像素</p>
-                        <div class="layui-hide" id="AboutUsImg">
+                        <div class="layui-hide" id="AboutUsCoverImgDiv">
                             <hr />
-                            <img src="" alt="上传关于我们左侧图片" />
+                            <img src="" id="AboutUsCoverImg" alt="上传关于我们左侧图片" style="width:60%;height:60%;" />
                         </div>
                     </div>
                 </div>
@@ -124,15 +126,15 @@
 
             <div class="layui-form-item">
                 <label for="L_ContactUsBg" class="layui-form-label">
-                    <span class="x-red">*</span>关于我们
+                    <span class="x-red">*</span>联系我们背景图
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" id="ContactUsBgUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传420*64像素</p>
-                        <div class="layui-hide" id="ContactUsBgImg">
+                        <div class="layui-hide" id="ContactUsBgImgDiv">
                             <hr />
-                            <img src="" alt="上传关于我们背景图" />
+                            <img src="" id="ContactUsBgImg" alt="上传关于我们背景图" style="width:60%;height:60%;" />
                         </div>
                     </div>
                 </div>
@@ -153,7 +155,7 @@
             <div class="layui-form-item">
                 <label for="L_repass" class="layui-form-label">
                 </label>
-                <button class="layui-btn" lay-submit lay-filter="save-siteinfo" style="background-color: #1b8fe4;">
+                <button class="layui-btn" lay-submit lay-filter="save-corp" style="background-color: #1b8fe4;">
                     保存修改
                 </button>
             </div>
