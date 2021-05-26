@@ -135,12 +135,14 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            string sql = @"SELECT w2.num, w1.* FROM Columns w1,
-            (SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) num, ColumnId  FROM Columns where IsDel=0) w2
-            WHERE w1.ColumnId = w2.ColumnId AND w2.num > (@PageSize*(@PageIndex-1))  ORDER BY w2.num ASC";
-            string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Columns] WHERE IsDel=0";
+            //string sql = @"SELECT w2.num, w1.* FROM Columns w1,
+            //(SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) num, ColumnId  FROM Columns where IsDel=0) w2
+            //WHERE w1.ColumnId = w2.ColumnId AND w2.num > (@PageSize*(@PageIndex-1))  ORDER BY w2.num ASC";
+            //string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Columns] WHERE IsDel=0";
 
-            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam), Count(queryCountSql));
+            //return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam), Count(queryCountSql));
+            string sql = @"  SELECT * FROM Columns  where IsDel=0";
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam));
         }
 
         /// <summary>
@@ -162,7 +164,7 @@ namespace CloudWeb.Services
         {
             const string sql = @"SELECT ColumnId,ColName FROM dbo.[Columns]
                   WHERE IsDel=0 AND IsShow=1 AND ParentId=@parentId";
-            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId}));
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
         }
         #endregion
 

@@ -10,9 +10,15 @@
         upload.render({
             elem: '#logoUpload',
             url: "https://localhost:44377/api/admin/upload", //上传接口
+            data: { path: 'content' },//请求上传接口的额外参数,判断文件从哪里传入
+            //headers: { token: 'sasasas' },//头部携带的参数，方便对接口做验证
             method: 'Post',
             type: 'images',
-            ext: 'jpg|png|gif',
+            async: true,
+            multiple: true,
+            accept: 'images',//指定允许上传时校验的文件类型
+            ext: 'jpg|png',//允许上传的文件后缀
+            acceptMime: 'image/jpg, image/png',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
             size: "2048",
             //成功后回调
             done: function (res) {
@@ -25,7 +31,6 @@
                 else {
                     layer.msg('上传失败');
                 }
-
                 console.log(res)
             }
         });
@@ -115,7 +120,7 @@
                 type: method,
                 url: api,
                 data: params,
-                async:false,
+                async: false,
                 success: function (res) {
                     console.log(res);
                     if (res.code === 200) {

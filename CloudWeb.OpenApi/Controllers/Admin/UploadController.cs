@@ -3,7 +3,6 @@ using CloudWeb.Util;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.IO;
 using System.Text;
@@ -16,12 +15,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     public class UploadController : Controller
     {
         private readonly ILogger<UploadController> _logger;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UploadController(ILogger<UploadController> logger, IHostingEnvironment hostingEnvironment)
+        public UploadController(ILogger<UploadController> logger)
         {
             _logger = logger;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         /// <summary>
@@ -31,7 +28,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpPost]
         [Produces("application/json")]
         [Route("api/admin/upload")]
-        public ResponseResult<string> UploadImg()
+        public ResponseResult<string> UploadFile(string path)
         {
             ResponseResult<string> responseResult = new ResponseResult<string>();
             try
@@ -45,21 +42,24 @@ namespace CloudWeb.OpenApi.Controllers.Admin
 
                     if (FileUpLoad.IsImgFile(getex))
                     {
-                        var picPath = "Upload";//文件上传目录
+                        //文件上传目录
+                        var picPath = "upload";
+
                         //目录wwwroot
-                        string contentRootPath = _hostingEnvironment.WebRootPath;
-                        string path = Path.Combine(contentRootPath, picPath);
+                        //string contentRootPath = _hostingEnvironment.WebRootPath;
+                        //存放项目根目录
+                        string savePath = Path.Combine(Directory.GetCurrentDirectory(), picPath);
                         string newName = FileUpLoad.CreateFileName(getex);
 
-                        if (!Directory.Exists(path))
+                        if (!Directory.Exists(savePath))
                         {
-                            Directory.CreateDirectory(path);
+                            Directory.CreateDirectory(savePath);
                         }
                         //创建文件到目录
-                        using (var stream = new FileStream(Path.Combine(path, newName), FileMode.Create))
+                        using (var stream = new FileStream(Path.Combine(savePath, newName), FileMode.Create))
                         {
                             file.CopyTo(stream);
-                            path = path + newName;
+                            savePath += newName;
                         }
 
                         responseResult.code = (int)HttpStatusCode.OK;
@@ -70,6 +70,11 @@ namespace CloudWeb.OpenApi.Controllers.Admin
                         responseResult.code = (int)HttpStatusCode.fail;
                         responseResult.msg = "不是有效的文件";
                     }
+                }
+                else
+                {
+                    responseResult.code = (int)HttpStatusCode.fail;
+                    responseResult.msg = "未选择上传文件";
                 }
             }
             catch (Exception e)

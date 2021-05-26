@@ -1,17 +1,25 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace CloudWeb.Util
 {
     public class FileUpLoad
     {
+        private static IConfiguration _configuration;
+        public FileUpLoad(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         /// <summary>
-        /// 
+        /// 判断是否是图片格式
         /// </summary>
         /// <param name="extension"></param>
         /// <returns></returns>
         public static bool IsImgFile(string extension)
         {
-            string imageTypes = "|.jpg||.jpeg||.gif||.png||.bmp|";
+            //appsetting.json中获取图片的配置
+            string imageTypes = _configuration.GetSection("FileConfig:ImgExts").Value;
             if (imageTypes.Contains(extension))
             {
                 return true;
@@ -19,6 +27,43 @@ namespace CloudWeb.Util
             return false;
         }
 
+        /// <summary>
+        /// 判断是否是视频格式
+        /// </summary>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        public static bool IsVideoFile(string extension)
+        {
+            //appsetting.json中获取图片的配置
+            string imageTypes = _configuration.GetSection("FileConfig:VideoExts").Value;
+            if (imageTypes.Contains(extension))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 判断是否是图片格式
+        /// </summary>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        public static bool IsVideo(string extension)
+        {
+            string imageTypes = "|.jpg||.jpeg||.gif||.png||.bmp||.mp4|";
+            if (imageTypes.Contains(extension))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// 创建文件规则
+        /// </summary>
+        /// <param name="extension"></param>
+        /// <returns></returns>
         public static string CreateFileName(string extension)
         {
             Random ra = new Random(new Guid().GetHashCode());

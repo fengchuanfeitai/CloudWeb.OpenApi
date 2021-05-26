@@ -23,6 +23,8 @@ using CloudWeb.OpenApi.Core.Jwt;
 using NLog.Extensions.Logging;
 using CloudWeb.OpenApi.Core.Core;
 using Microsoft.Extensions.FileProviders;
+using UEditor.Core;
+using Microsoft.AspNetCore.Http;
 
 namespace CloudWeb.OpenApi
 {
@@ -66,7 +68,7 @@ namespace CloudWeb.OpenApi
                 options.Filters.Add<ApiExceptionFilter>();
               
             });
-
+            services.AddUEditorService();
 
             //注册跨域策略
             services.AddCorsPolicy(Configuration);
@@ -131,9 +133,19 @@ namespace CloudWeb.OpenApi
             //环境注入
             app.UseStaticHostEnviroment();
             //启用默认目录
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(env.WebRootPath)),
+            //});
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.WebRootPath)),
+                FileProvider = new PhysicalFileProvider(
+                 Path.Combine(Directory.GetCurrentDirectory(), "upload")),
+                RequestPath = "/upload",
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=36000");
+                }
             });
             app.UseRouting();
             //开启跨域中间件

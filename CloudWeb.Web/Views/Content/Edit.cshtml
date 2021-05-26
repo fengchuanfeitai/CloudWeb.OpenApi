@@ -12,12 +12,11 @@
                     <span class="x-red">*</span>标题
                 </label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="title" style="width:50%;" autocomplete="off" placeholder="请输入标题，最多输入500个字符" lay-reqtext="标题为必填项，不能为空" class="layui-input">
+                    <input type="text" name="title" lay-verify="title" style="width:50%;" autocomplete="off" placeholder="请输入标题，最多输入500个字符" lay-reqtext="标题为必填项，不能为空" class="layui-input">  <div class="layui-form-mid layui-word-aux">
+                        <span class="x-red">*</span>不发布前台则无法显示
+                    </div>
+                </div>
 
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red">*</span>不发布前台则无法显示
-                </div>
             </div>
             <div class="layui-form-item">
                 <label for="title" class="layui-form-label">
@@ -81,7 +80,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="LinkUrl" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="linkUrl" placeholder="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">  <span class="x-red">*</span>网络链接地址</div>
             </div>
@@ -90,7 +89,7 @@
                     <span class="x-red">*</span>封面
                 </label>
                 <!--文件地址-->
-                <input type="hidden" value="" name="ImgUrl1" id="ImgUrl1" />
+                <input type="hidden" value="" name="imgUrl1" id="ImgUrl1" />
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="logoUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
@@ -105,7 +104,11 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">内容</label>
                 <div class="layui-input-block">
-                    <textarea name="Content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <!--添加富文本-->
+                    <script id="container" name="content" type="text/plain">
+                        欢迎使用Ueditor.Core
+                    </script>
+                    @*<textarea name="content" placeholder="请输入内容" class="layui-textarea"></textarea>*@
                 </div>
             </div>
             <div class="layui-form-item">
@@ -117,4 +120,24 @@
         </form>
     </div>
 </div>
+<script src="~/lib/ueditor/ueditor.config.js"></script>
+<script src="~/lib/ueditor/ueditor.all.min.js"></script>
+<script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<script type="text/javascript">
+    var ue = UE.getEditor('container', {
+        initialFrameHeight: 200
+    });
+
+    //对编辑器的操作最好在编辑器ready之后再做
+    ue.ready(function () {
+        //设置编辑器的内容
+        ue.setContent('hello');
+        //获取html内容，返回: <p>hello</p>
+        var html = ue.getContent();
+        //获取纯文本内容，返回: hello
+        var txt = ue.getContentTxt();
+    });
+</script>
+
 <script src="~/Scripts/content/edit.js?@DateTime.Now.ToString("yyyymmddhhMMss")"></script>

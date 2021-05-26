@@ -15,4 +15,10 @@
         /// </summary>
         public int PageSize { get; set; }
     }
+
+    public class FileParam
+    {
+        public string Path { get; set; }
+    }
+
 }

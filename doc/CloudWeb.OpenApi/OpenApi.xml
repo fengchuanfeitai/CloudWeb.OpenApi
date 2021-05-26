@@ -259,7 +259,7 @@
             上传文件
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UploadController.UploadImg">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UploadController.UploadFile(System.String)">
             <summary>
             单文件上传文件
             </summary>

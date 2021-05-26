@@ -3,16 +3,70 @@
     Layout = "~/Views/Shared/_layout.cshtml";
 }
 
+<style>
+
+    .layui-upload-img {
+        width: 90px;
+        height: 90px;
+        margin: 0;
+    }
+
+    .pic-more {
+        width: 100%;
+        margin: 10px 0px 0px 0px;
+    }
+
+        .pic-more li {
+            width: 190px;
+            float: left;
+            margin-right: 5px;
+        }
+
+            .pic-more li .layui-input {
+                display: initial;
+            }
+
+            .pic-more li a {
+                position: absolute;
+                top: 0;
+                display: block;
+            }
+
+                .pic-more li a i {
+                    font-size: 24px;
+                    background-color: #008800;
+                }
+
+    #slide-pc-priview .item_img img {
+        width: 190px;
+        height: 90px;
+    }
+
+    #slide-pc-priview li {
+        position: relative;
+    }
+
+        #slide-pc-priview li .close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+        }
+
+        #slide-pc-priview li:hover .operate {
+            display: block;
+        }
+</style>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form" action="" lay-filter="contentform">
+        <form class="layui-form" action="" lay-filter="columnForm">
             <input id="contentId" type="hidden" name="Id" />
             <div class="layui-form-item">
-                <label for="title" class="layui-form-label">
+                <label for="colName" class="layui-form-label">
                     <span class="x-red">*</span>栏目名称
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入栏目名称" lay-reqtext="标题为必填项，不能为空" class="layui-input">
+                    <input type="text" name="colName" lay-verify="title" autocomplete="off" placeholder="请输入栏目名称" lay-reqtext="标题为必填项，不能为空" class="layui-input">
                 </div> <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>栏目名称唯一
                 </div>
@@ -22,7 +76,7 @@
                     <span class="x-red">*</span>父级类别
                 </label>
                 <div class="layui-input-inline">
-                    <select name="ColumnId" lay-filter="aihao">
+                    <select name="parentId" lay-filter="aihao">
                         <option value="5">12</option>
                     </select>
                 </div>
@@ -33,7 +87,7 @@
                     是否显示
                 </label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" checked name="" value="1" lay-skin="switch" lay-text="显示|不显示">
+                    <input type="checkbox" checked name="isShow" value="1" lay-skin="switch" lay-text="显示|不显示">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不显示前台则无法显示
@@ -42,8 +96,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">视频</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="video" readonly id="video" autocomplete="off" class="layui-input">
-                           </div>
+                    <input type="text" name="video" readonly id="Video" autocomplete="off" class="layui-input">
+                </div>
                 <div class="layui-input-inline">
                     <button type="button" class="layui-btn" id="uploadvideo"><i class="layui-icon"></i>上传视频</button>
                 </div>
@@ -52,7 +106,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Sort" lay-verify="" value="99" placeholder="请填写数字" maxlength="5" autocomplete="off" class="layui-input">
+                    <input type="text" name="sort" lay-verify="" value="99" placeholder="请填写数字" maxlength="5" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>数字越小排序越靠前，不填写，默认最后展示
@@ -61,33 +115,45 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="LinkUrl" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="LocationUrl" placeholder="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">  <span class="x-red">*</span>网络链接地址</div>
             </div>
             <div class="layui-form-item">
-                <label for="ImgUrl1" class="layui-form-label">
-                    <span class="x-red">*</span>封面
-                </label>
                 <!--文件地址-->
-                <input type="hidden" value="" name="CoverUrl" id="ImgUrl1" />
-                <div class="layui-input-block">
-                    <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="CoverUpload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传像素</p>
-                        <div class="layui-hide" id="CoverImg">
-                            <hr>
-                            <img src="" alt="上传成功后渲染" style="height:20%;width:20%;">
+                <input type="hidden" value="" name="coverUrl" id="coverUrl" />
+                @*<div class="layui-input-block">
+                        <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="CoverUpload">
+                            <p>点击上传，或将图片拖拽到此处</p>
+                            <p>尺寸建议上传像素</p>
+                            <div class="layui-hide" id="CoverImg">
+                                <hr>
+                                <img src="" alt="上传成功后渲染" style="height:20%;width:20%;">
+                            </div>
+                        </div>
+                    </div>*@
+
+                <div class="layui-form-item" id="pics">
+                    <div class="layui-form-label"><span class="x-red">*</span>封面</div>
+                    <div class="layui-input-block" style="width: 70%;">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-primary pull-left" id="slide-pc">添加多图</button>
+                            <div class="pic-more">
+                                <ul class="pic-more-upload-list" id="slide-pc-priview">
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
             <div class="layui-form-item">
                 <label for="ImgUrl1" class="layui-form-label">
                     <span class="x-red">*</span>图标
                 </label>
                 <!--文件地址-->
-                <input type="hidden" value="" name="Icon" id="ImgUrl1" />
+                <input type="hidden" value="" name="icon" id="ImgUrl1" />
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="IconUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
@@ -102,7 +168,7 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">描述</label>
                 <div class="layui-input-block">
-                    <textarea name="Content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea name="summary" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -114,4 +180,5 @@
         </form>
     </div>
 </div>
+
 <script src="~/Scripts/column/edit.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
