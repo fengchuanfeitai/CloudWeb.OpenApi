@@ -30,6 +30,11 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [Route("api/admin/upload")]
         public ResponseResult<string> UploadFile(string path)
         {
+            if (path is null)
+            {
+                return new ResponseResult<string>((int)HttpStatusCode.fail, "path不能为空");
+            }
+
             ResponseResult<string> responseResult = new ResponseResult<string>();
             try
             {
@@ -40,7 +45,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
                     var file = files[0];
                     string getex = file.FileName.Substring(file.FileName.LastIndexOf('.')).ToLower();
 
-                    if (FileUpLoad.IsImgFile(getex))
+                    if (FileUpLoad.IsImgFile(getex) || FileUpLoad.IsVideoFile(getex))
                     {
                         //文件上传目录
                         var picPath = "upload";

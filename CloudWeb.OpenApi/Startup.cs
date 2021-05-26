@@ -68,6 +68,8 @@ namespace CloudWeb.OpenApi
                 options.Filters.Add<ApiExceptionFilter>();
               
             });
+            services.AddSingleton<IConfiguration>(Configuration);
+
             services.AddUEditorService();
 
             //×¢²á¿çÓò²ßÂÔ

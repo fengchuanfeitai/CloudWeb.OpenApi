@@ -7,6 +7,9 @@ namespace CloudWeb.IServices
 {
     public interface IColumnService : IBaseService
     {
+        #region 后台接口
+
+
         /// <summary>
         /// 查询所有栏目
         /// </summary>
@@ -54,6 +57,26 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<bool> DeleteColumn(int[] ids);
 
+        #endregion
 
+        #region 网站接口
+
+        /// <summary>
+        /// 获取导航栏数据
+        /// </summary>
+        /// <returns></returns>
+        ResponseResult GetMenus();
+
+        /// <summary>
+        /// 获取图标
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ResponseResult GetIcons(int id);
+
+
+
+
+        #endregion
     }
 }

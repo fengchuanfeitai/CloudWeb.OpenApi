@@ -7,6 +7,9 @@ namespace CloudWeb.IServices
 {
     public interface IContentService : IBaseService
     {
+        #region 后台接口
+
+
         /// <summary>
         /// 查询所有内容
         /// </summary>
@@ -62,5 +65,30 @@ namespace CloudWeb.IServices
         /// <param name="ids"></param>
         /// <returns></returns>
         ResponseResult<bool> DeleteContent(int[] ids);
+        #endregion
+
+        #region 网站接口
+
+        /// <summary>
+        /// 获取轮播新闻
+        /// </summary>
+        /// <returns></returns>
+        ResponseResult GetCarouselNews();
+
+        /// <summary>
+        /// 首页展示新闻
+        /// </summary>
+        /// <returns></returns>
+        ResponseResult GetDefaultNews();
+
+        /// <summary>
+        /// 根据columnId查询内容
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ResponseResult GetWebContent(int columnId);
+
+
+        #endregion
     }
 }

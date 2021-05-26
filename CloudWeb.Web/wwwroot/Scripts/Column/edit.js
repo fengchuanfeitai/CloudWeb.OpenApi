@@ -191,6 +191,11 @@
             , accept: 'video' //视频
             , done: function (res) {
                 layer.msg('上传成功');
+
+                if (res.code === 200)
+                    $("#Video").val(res.data);
+                else
+                    layer.msg('上传失败');
                 console.log(res)
             }
         });
@@ -241,7 +246,7 @@
             return false;
         });
 
-       
+
     });
 
 //移除图片

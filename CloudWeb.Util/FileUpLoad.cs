@@ -1,25 +1,23 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 
 namespace CloudWeb.Util
 {
     public class FileUpLoad
     {
-        private static IConfiguration _configuration;
-        public FileUpLoad(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         /// <summary>
         /// 判断是否是图片格式
         /// </summary>
         /// <param name="extension"></param>
         /// <returns></returns>
         public static bool IsImgFile(string extension)
-        {
+        { //添加 json 文件路径
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            //创建配置根对象
+            var configurationRoot = builder.Build();
             //appsetting.json中获取图片的配置
-            string imageTypes = _configuration.GetSection("FileConfig:ImgExts").Value;
+            string imageTypes = configurationRoot.GetSection("FileConfig:ImgExts").Value; ;
             if (imageTypes.Contains(extension))
             {
                 return true;
@@ -34,30 +32,17 @@ namespace CloudWeb.Util
         /// <returns></returns>
         public static bool IsVideoFile(string extension)
         {
-            //appsetting.json中获取图片的配置
-            string imageTypes = _configuration.GetSection("FileConfig:VideoExts").Value;
-            if (imageTypes.Contains(extension))
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            //创建配置根对象
+            var configurationRoot = builder.Build();
+            //appsetting.json中获取视频的配置
+            string videoTypes = configurationRoot.GetSection("FileConfig:VideoExts").Value; ;
+            if (videoTypes.Contains(extension))
             {
                 return true;
             }
             return false;
         }
-
-        /// <summary>
-        /// 判断是否是图片格式
-        /// </summary>
-        /// <param name="extension"></param>
-        /// <returns></returns>
-        public static bool IsVideo(string extension)
-        {
-            string imageTypes = "|.jpg||.jpeg||.gif||.png||.bmp||.mp4|";
-            if (imageTypes.Contains(extension))
-            {
-                return true;
-            }
-            return false;
-        }
-
 
         /// <summary>
         /// 创建文件规则
