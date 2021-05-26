@@ -93,5 +93,15 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         {
             return _corporationService.DelCorporation(ids);
         }
+
+        /// <summary>
+        /// 获取公司下拉框列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<IEnumerable<CorporationDto>> GetCorpSelectList()
+        {
+            return _corporationService.GetCorpSelectList();
+        }
     }
 }

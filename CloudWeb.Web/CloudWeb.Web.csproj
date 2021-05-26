@@ -36,4 +36,8 @@
     <ProjectReference Include="..\CloudWeb.Util\CloudWeb.Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\layui_exts\inputSelect\" />
+  </ItemGroup>
+
 </Project>

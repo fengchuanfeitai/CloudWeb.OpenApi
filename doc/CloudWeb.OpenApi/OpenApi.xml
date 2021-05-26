@@ -162,6 +162,12 @@
             <param name="ids"></param>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetCorpSelectList">
+            <summary>
+            获取公司下拉框列表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.CorpProductController">
             <summary>
             公司产品相关的接口
@@ -172,10 +178,17 @@
             构造函数
             </summary>      
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetAll">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetPageList(CloudWeb.Dto.Param.BaseParam)">
             <summary>
-            查询所有未删除的产品
+            分页查询数据
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.ChangeShowStatus(CloudWeb.Dto.Param.ShowStatusParam)">
+            <summary>
+            更改显示状态
+            </summary>
+            <param name="showStatusParam"></param>
             <returns></returns>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetProductById(System.Int32)">
@@ -199,7 +212,7 @@
             <param name="corpProduct"></param>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.DelProduct(System.Object[])">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.DelProduct(System.Int32[])">
             <summary>
             删除产品
             </summary>

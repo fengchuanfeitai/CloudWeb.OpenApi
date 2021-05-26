@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+<style type="text/css">
+    .layui-fluid .layui-form .layui-form-item .layui-upload-drag {
+        border: 1px dashed #c0ccda;
+        border-radius: 6px;
+        padding: 10px;
+    }
+</style>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-lg6 layui-col-md6 layui-col-sm8">
+        <form class="layui-form" lay-filter="product-form">
+            @*隐藏字段: Id, Cover*@
+            <input type="text" name="Id" class="layui-input layui-hide" />
+            <input type="text" name="Cover" class="layui-input layui-hide" />
+
+
+            @*Name*@
+            <div class="layui-form-item">
+                <label for="Name" class="layui-form-label">
+                    <span class="x-red">*</span>公司名
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="Name" lay-verify="Name"
+                           placeholder="请输入展品名称" autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            @*上传封面图*@
+            <div class="layui-form-item">
+                <label for="Cover" class="layui-form-label">
+                    <span class="x-red">*</span>封面图
+                </label>
+                <div class="layui-input-block">
+                    <div class="layui-upload-drag" id="CoverUpload">
+                        <p>点击上传，或将图片拖拽到此处</p>
+                        <p>尺寸建议上传420*64像素</p>
+                        <div class="layui-hide" id="CoverImgDiv">
+                            <hr />
+                            <img src="" id="CoverImg" alt="上传公司封面图" style="width:60%;height:60%;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Content富文本*@
+            <div class="layui-form-item">
+
+            </div>
+
+            @*CorpId 下拉选择框*@
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属公司</label>
+                <div class="layui-input-block">
+                    <select name="CorpId" id="bindCorp">
+                        <option value=""></option>                       
+                    </select>
+                </div>
+            </div>
+
+            @*LocationUrl*@
+            <div class="layui-form-item">
+                <label class="layui-form-label">跳转链接</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Name" lay-verify="Name"
+                           placeholder="请输入产品跳转链接" autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            @*Sort*@
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-block">
+                    <input type="text" name="Name" lay-verify="Name"
+                           placeholder="请输入产品跳转链接" autocomplete="off" class="layui-input" value="">
+                </div>
+            </div>
+
+            @*IsShow*@
+            <div class="layui-form-item">
+                <label for="IsShow" class="layui-form-label">
+                    是否显示
+                </label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" checked name="IsShow" value="1" lay-skin="switch" lay-text="显示|不显示">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>不显示前台则无法显示
+                </div>
+            </div>
+
+            @*保存重置按钮*@
+            <div class="layui-form-item">
+                <label for="submit" class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-submit lay-filter="save-product" style="background-color: #1b8fe4;">
+                    保存修改
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/corpProduct/produtEdit.js"></script>
