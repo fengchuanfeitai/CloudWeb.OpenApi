@@ -11,6 +11,24 @@ namespace CloudWeb.Services
 {
     public class CorporationService : BaseDao, ICorporationService
     {
+
+        #region 私有方法
+
+        private string GetColTxt(string colStr)
+        {
+            var sql = $"SELECT * FROM dbo.[Columns] WHERE IsDel=0 AND IsShow=1 AND ColumnId IN ({colStr})";
+            var Columns = GetAll<ColumnDto>(sql, new { colStr = colStr });
+            var ColTxt = "";
+
+            foreach (var item in Columns)
+            {
+                ColTxt += item.ColName + " ";
+            }
+            return ColTxt;
+        }
+
+        #endregion
+
         /// <summary>
         /// 添加公司信息
         /// </summary>
@@ -20,7 +38,7 @@ namespace CloudWeb.Services
         {
             corporation.CreateTime = DateTime.Now;
             corporation.ModifyTime = corporation.CreateTime;
-            corporation.IsDel = false;
+            corporation.IsDel = 0;
 
             const string InsertSql = @"INSERT INTO dbo.Corporations
                (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,Logo1,Logo2,ColumnId,
@@ -69,9 +87,8 @@ namespace CloudWeb.Services
                 return new ResponseResult<bool>(201, "修改失败，公司信息不存在。");
 
             if (Equals(corporation, Corporation))
-            {
-                return new ResponseResult<bool>(201, "修改成功");
-            }
+                return new ResponseResult<bool>(200, "修改成功");
+
 
             corporation.ModifyTime = DateTime.Now;
             const string UpdateSql = @"UPDATE dbo.Corporations SET ModifyTime=@ModifyTime,Modifier=@Modifier,
@@ -110,8 +127,14 @@ namespace CloudWeb.Services
                                 ORDER BY c2.[Index] ASC";
 
             const string CountSql = @"SELECT COUNT(*) FROM dbo.Corporations WHERE IsDel=0";
+            var List = GetAll<CorporationDto>(SelSql, pageParam);
+
+            foreach (var corp in List)
+            {
+                corp.ColTxtName = GetColTxt(corp.ColumnId);
+            }
             //处理栏目Id多个
-            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(SelSql, pageParam), Count(CountSql));
+            return new ResponseResult<IEnumerable<CorporationDto>>(List, Count(CountSql));
         }
 
         /// <summary>
@@ -130,6 +153,14 @@ namespace CloudWeb.Services
             else
                 result.Set((int)HttpStatusCode.fail, "修改状态失败");
             return result;
+        }
+
+        public ResponseResult<IEnumerable<CorporationDto>> GetCorpSelectList()
+        {
+            const string sql = @"SELECT CorpId,[Name] FROM dbo.Corporations WHERE IsShow=1 AND IsDel=0";
+
+            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql));
+            
         }
     }
 }

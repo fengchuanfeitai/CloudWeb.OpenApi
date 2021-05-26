@@ -1,7 +1,8 @@
 ﻿//全局变量
-var Selected;
-var getListUrl = 'https://localhost:44377/api/Corporation/GetAll';
-var deleteUrl = 'https://localhost:44377/api/Corporation/DelCorporation';
+var getListUrl = 'https://localhost:44377/api/CorpProduct/GetPageList';
+var deleteUrl = 'https://localhost:44377/api/CorpProduct/DelProduct';
+var changeShowUrl = 'https://localhost:44377/api/CorpProduct/ChangeShowStatus';
+
 
 layui.use(['table', 'layer', 'form'], function () {
     var $ = layui.jquery,
@@ -11,10 +12,10 @@ layui.use(['table', 'layer', 'form'], function () {
 
     //table实例
     table.render({
-        elem: '#corplist', //table id
+        elem: '#corp_productlist', //table id
         url: getListUrl, // 数据接口地址
         conteType: 'application/json',//传值格式
-        id: 'corpId',
+        id: 'Id',
         request: {
             pageName: 'PageIndex',
             limitName: 'PageSize'
@@ -35,14 +36,15 @@ layui.use(['table', 'layer', 'form'], function () {
         cols: [[ //表头
             { type: 'checkbox', width: 50 },
             /*{ field: 'index', title: '序号', width:70, sort: true, align: 'center' },*/
-            { field: 'corpId', title: '编号', width: 70, sort: true, align: 'center' },
-            { field: 'name', title: '公司名', width: 200, align: 'center' },
-            { field: 'colTxtName', title: '所属栏目', width: 100, align: 'center' },
-            { field: 'sort', title: '序号', width: 70, sort: true, align: 'center' },
+            { field: 'id', title: '编号', width: 70, sort: true, align: 'center' },
+            { field: 'name', title: '产品名', width: 150, align: 'center' },
+            { field: 'corpName', title: '所属公司', width: 150, align: 'center' },
+            { field: 'locationUrl', title: '跳转链接', width: 150, align: 'center' },
+            { field: 'sort', title: '排序', width: 70, sort: true, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 200, sort: true, align: 'center' },
             {
                 field: 'isShow', title: '是否显示到网站', width: 150, templet: function (d) {
-                    return '<input type="checkbox" value="' + d.corpId + '" ' + (d.isShow == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="IsShow" lay-text="显示|不显示">'
+                    return '<input type="checkbox" value="' + d.id + '" ' + (d.isShow == 1 ? 'checked' : '') + ' name="open" lay-skin="switch"  lay-filter="IsShow" lay-text="显示|不显示">'
                 }, sort: true, align: 'center'
             },
             { title: '操作', align: 'center', toolbar: '#bar' }
@@ -65,9 +67,9 @@ layui.use(['table', 'layer', 'form'], function () {
         }
     });
 
-    table.on('tool(corporations)', function (obj) {
+    table.on('tool(corp_products)', function (obj) {
         //注：tool 是工具条事件名，lay-filter="对应的值"
-        var id = obj.data.corpId; //获得当前行数据
+        var id = obj.data.id; //获得当前行数据
         var layEvent = obj.event; //获得 lay - event 对应的值
 
         if (layEvent === 'del') {
@@ -80,7 +82,7 @@ layui.use(['table', 'layer', 'form'], function () {
         }
         else if (layEvent === 'edit') {
             //编辑
-            xadmin.open('编辑公司信息', '/Corporation/Edit?id=' + id, 800, 600)
+            xadmin.open('编辑公司信息', '/CorpProduct/Edit?id=' + id, 800, 600)
         } else if (layEvent === 'LAYTABLE_TIPS') {
             layer.alert('Hi，头部工具栏扩展的右侧图标。');
         }
@@ -88,35 +90,24 @@ layui.use(['table', 'layer', 'form'], function () {
 
     //监控按钮状态事件
     form.on('switch(IsShow)', function (obj) {
-        var apiurl = "https://localhost:44377/api/Corporation/ChangeShowStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
-        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
+        $.post(changeShowUrl, { id: obj.value, ShowStatus: onoff }, function (res) {
             console.log(1);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
                 layer.msg('显示状态修改成功', { icon: 1 });
-                table.reload("corpId", "", false);//刷新表格
+                table.reload("id", "", false);//刷新表格
             }
             else
                 layer.msg('显示状态修改失败', { icon: 2 });
         });
     });
 
-    //监听表格复选框选择
-    table.on('checkbox(corporations)', function (obj) {
-        //Selected.data.add();
-        console.debug(obj);
-        console.debug(JSON.stringify(obj.data));//当前行的一些常用操作集合
-        //console.log(obj.checked); //当前是否选中状态
-        //console.log(obj.data); //选中行的相关数据
-        //console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
-    });
-
     var active = {
-        createCorp: function () {
-            xadmin.open('添加公司', '/Corporation/Edit', 800, 600)
+        createProduct: function () {
+            xadmin.open('添加公司展品', '/CorpProduct/Edit', 800, 600)
         },
         delSelected: function () {
             var checkStatus = table.checkStatus('corpId');
@@ -125,7 +116,7 @@ layui.use(['table', 'layer', 'form'], function () {
                 ids.push(value.corpId);
             });
             console.log(ids);
-            layer.confirm('确定删除所选公司吗？', function (index) {
+            layer.confirm('确定删除所选展品吗？', function (index) {
                 delAjax(ids);
             });
         }

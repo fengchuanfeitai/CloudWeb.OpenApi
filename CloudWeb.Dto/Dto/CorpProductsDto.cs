@@ -7,7 +7,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 产品Id
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// 产品名称
@@ -25,9 +25,19 @@ namespace CloudWeb.Dto
         public string Content { get; set; }
 
         /// <summary>
+        /// 跳转链接
+        /// </summary>
+        public string LocationUrl { get; set; }
+
+        /// <summary>
         /// 公司Id
         /// </summary>
         public int CorpId { get; set; }
+
+        /// <summary>
+        /// 公司名
+        /// </summary>
+        public string CorpName { get; set; }
 
         /// <summary>
         /// 序号
@@ -37,11 +47,11 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 是否显示
         /// </summary>
-        public bool IsDisplay { get; set; }
+        public int IsShow { get; set; }
 
         /// <summary>
         /// 是否删除
         /// </summary>
-        public bool IsDel { get; set; }
+        public int IsDel { get; set; }
     }
 }

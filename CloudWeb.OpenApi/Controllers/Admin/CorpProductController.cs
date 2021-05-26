@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,14 +31,27 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         }
 
         /// <summary>
-        /// 查询所有未删除的产品
+        /// 分页查询数据
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<CorpProductsDto>> GetAll()
+        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageList(BaseParam pageParam)
         {
-            return _service.GetProducts();
+            return _service.GetPageProductList(pageParam);
         }
+
+
+        /// <summary>
+        /// 更改显示状态
+        /// </summary>
+        /// <param name="showStatusParam"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam)
+        {
+            return _service.ChangeShowStatus(showStatusParam);
+        }
+
 
         /// <summary>
         /// 获取产品信息
@@ -69,7 +83,11 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpPost]
         public ResponseResult<bool> AddProduct(CorpProductsDto corpProduct)
         {
-            return _service.AddProduct(corpProduct);
+            if (corpProduct.Id == null) {
+                return _service.AddProduct(corpProduct);
+            }
+            return _service.UpdateProduct(corpProduct);
+            
         }
 
         /// <summary>
@@ -78,7 +96,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
-        public ResponseResult<bool> DelProduct(dynamic[] ids)
+        public ResponseResult<bool> DelProduct(int[] ids)
         {
             return _service.DelProduct(ids);
         }

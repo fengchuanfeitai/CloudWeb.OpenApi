@@ -38,10 +38,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     //页面初始化给页面赋值
     $(function () {
         var id = getUrlParam("id");
-
         if (id != null) {
-            console.log("Id 不为空，编辑页面");
-
             $.ajax({
                 type: 'GET',
                 url: getUrl,
@@ -258,31 +255,29 @@ layui.use(['form', 'upload', 'layer'], function () {
 
     //监听提交
     form.on('submit(save-corp)', function (res) {
-        console.log(res.field);
+        //获取Columns数组
         var columnIds = columnSelect.getValue("value");
-        console.log(columnIds);
-        var data = {
+        var postData = {
             "CorpId": $("input[name='CorpId']").val(),
             "Name": $("input[name='Name']").val(),
             "Cover": $("input[name='Cover']").val(),
             "Logo1": $("input[name='Logo1']").val(),
             "Logo2": $("input[name='Logo2']").val(),
             "ColumnId": columnIds.toString(),
-            "AboutUs": "固定关于我们",
+            "AboutUs": $("textarea[name='AboutUs']").val(),
             "AboutUsCover": $("input[name='AboutUsCover']").val(),
             "ContactUs": $("input[name='ContactUs']").val(),
             "ContactUsBg": $("input[name='ContactUsBg']").val(),
             "Sort": $("input[name='Sort']").val(),
-            "IsShow": "true"
-        }
-        console.log(data)
+            "IsShow": $("input[name='IsShow']").val()
+        };      
 
         $.ajax({
             type: "POST",
             url: PostUrl,
             async: false,
             dataType: 'json',
-            data: data,
+            data: postData,
             success: function (data) {
                 if (data.code != 200) {
                     layer.msg(data.msg)

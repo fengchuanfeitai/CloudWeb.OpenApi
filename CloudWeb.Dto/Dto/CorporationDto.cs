@@ -41,7 +41,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 栏目名称
         /// </summary>
-        public string ColName { get; set; }
+        public string ColTxtName { get; set; }
 
         /// <summary>
         /// 关于我们
@@ -71,11 +71,11 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 是否显示
         /// </summary>
-        public bool IsShow { get; set; }
+        public int IsShow { get; set; }
 
         /// <summary>
         /// 是否删除
         /// </summary>
-        public bool IsDel { get; set; }
+        public int IsDel { get; set; }
     }
 }

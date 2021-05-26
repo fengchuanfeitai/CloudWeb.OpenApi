@@ -1,13 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CloudWeb.DataRepository;
 using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
+using CloudWeb.Util;
 
 namespace CloudWeb.Services
 {
     public class CorpProductsService : BaseDao, ICorpProductsService
     {
+        #region 私有方法
+
+        public string GetCorpName(int corpId)
+        {
+            const string SelSql = @"SELECT [Name] FROM dbo.Corporations WHERE CorpId =@corpId";
+            var Corporation = Find<CorporationDto>(SelSql, new { corpId = corpId });
+            return Corporation.Name;
+        }
+        #endregion
+
         /// <summary>
         /// 添加产品信息
         /// </summary>
@@ -15,10 +28,17 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> AddProduct(CorpProductsDto corpProduct)
         {
+            corpProduct.CreateTime = DateTime.Now;
+            corpProduct.ModifyTime = corpProduct.CreateTime;
+            corpProduct.Creator = 0;
+            corpProduct.Modifier = corpProduct.Modifier;
+
             const string InsertSql = @"INSERT INTO dbo.CorpProducts
-                 (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,Content,CorpId,IsPublic,IsDel)
-                  VALUES
-                 (@CreateTime,@ModifyTime,@Creator,@Modifier,@Name,@Cover,@Content,@CorpId,@IsPublic,@IsDel )";
+                 (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,
+                  Content,CorpId,LocationUrl,Sort,IsShow,IsDel)
+                  VALUES 
+                 (@CreateTime,@ModifyTime,@Creator,@Modifier,@Name,@Cover,
+                  @Content,@CorpId,@LocationUrl,@Sort,@IsShow,@IsDel )";
 
             return new ResponseResult<bool>(Add(InsertSql, corpProduct));
         }
@@ -28,15 +48,23 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public ResponseResult<bool> DelProduct(dynamic[] ids)
+        public ResponseResult<bool> DelProduct(int[] ids)
         {
-            string DelSql = @"UPDATE dbo.CorpProducts SET IsDel =1 WHERE Id =@ids";
-            if (ids.Length > 0)
-            {
-                DelSql = "UPDATE dbo.CorpProducts SET IsDel =1 WHERE Id In @ids";
-            }
+            var result = new ResponseResult<bool>();
+            if (ids.Length == 0)
+                return result.SetFailMessage("请选择产品");
 
-            return new ResponseResult<bool>(Update(DelSql, ids));
+            if (ids.Length == 1)
+            {
+                const string delSql = "UPDATE dbo.CorpProducts SET IsDel =1 WHERE Id =@ids";
+                return result.SetData(Delete(delSql, new { ids = ids }));
+            }
+            else
+            {
+                string idsStr = ConverterUtil.StringSplit(ids);
+                string delSql = $"UPDATE dbo.CorpProducts SET IsDel =1 WHERE Id In ({idsStr})";
+                return result.SetData(Delete(delSql, new { ids = ids }));
+            }
         }
 
         /// <summary>
@@ -46,24 +74,19 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> UpdateProduct(CorpProductsDto corpProduct)
         {
-            var CorpProduct = GetProductsById(corpProduct.Id);
+            var CorpProduct = GetProductsById(corpProduct.Id.Value);
             if (CorpProduct.code != 200)
                 return new ResponseResult<bool>(201, CorpProduct.msg);
             if (CorpProduct.data == null)
                 return new ResponseResult<bool>(201, "产品不存在。");
 
-            if (corpProduct.Name == CorpProduct.data.Name &&
-                corpProduct.Cover == CorpProduct.data.Cover &&
-                corpProduct.Content == CorpProduct.data.Content &&
-                corpProduct.CorpId == CorpProduct.data.CorpId &&
-                corpProduct.Sort == CorpProduct.data.Sort &&
-                corpProduct.IsDisplay == CorpProduct.data.IsDisplay &&
-                corpProduct.IsDel == CorpProduct.data.IsDel)
+            if (Equals(corpProduct, CorpProduct))
                 return new ResponseResult<bool>(200, "数据无更改");
 
+            corpProduct.ModifyTime = DateTime.Now;
             const string UpdateSql = @"UPDATE dbo.CorpProducts SET 
-                  ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,
-                  Content=@Content,CorpId=@CorpId,Sort=@Sort,IsDisplay=@IsDisplay,IsDel=@IsDel 
+                  ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,Content=@Content,
+                  CorpId=@CorpId,LocationUrl=@LocationUrl,Sort=@Sort,IsShow=@IsShow,IsDel=@IsDel 
                   WHERE IsDel=0 AND Id=@Id";
 
             return new ResponseResult<bool>(Update(UpdateSql, corpProduct));
@@ -76,10 +99,12 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<CorpProductsDto>> GetProductsByCorpId(int corpId)
         {
-            const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,CorpId,Sort,IsDisplay,IsDel
-                                    FROM dbo.CorpProducts WHERE IsDel=0 AND CorpId=@corpId ORDER BY Sort DESC, CreateTime DESC ";
+            const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],
+                                   Cover,Content,CorpId,LocationUrl,Sort,IsShow,IsDel
+                                    FROM dbo.CorpProducts WHERE IsDel=0 AND CorpId=@corpId
+                                   ORDER BY Sort DESC, CreateTime DESC ";
 
-            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(SelSql, corpId));
+            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(SelSql, new { corpId = corpId })); ;
         }
 
         /// <summary>
@@ -89,22 +114,55 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<CorpProductsDto> GetProductsById(int id)
         {
-            const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,CorpId,Sort,IsDisplay,IsDel
+            const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],
+                                    Cover,Content,CorpId,LocationUrl,Sort,IsShow,IsDel
                                     FROM dbo.CorpProducts WHERE IsDel=0 AND Id=@id";
 
-            return new ResponseResult<CorpProductsDto>(Find<CorpProductsDto>(SelSql, id));
+            return new ResponseResult<CorpProductsDto>(Find<CorpProductsDto>(SelSql, new { id = id }));
         }
 
         /// <summary>
-        /// 获取所有的产品信息
+        /// 获取分页产品信息
         /// </summary>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<CorpProductsDto>> GetProducts()
+        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProductList(BaseParam pageParam)
         {
-            const string SelSql = @"SELECT Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,CorpId,Sort,IsDisplay,IsDel
-                                    FROM dbo.CorpProducts WHERE IsDel=0 ORDER BY Sort DESC, CreateTime DESC ";
+            const string SelSql = @"SELECT cp1.Id,CreateTime,ModifyTime,Creator,ModifyTime,
+                        [Name],Cover,Content,LocationUrl,CorpId,Sort,IsShow,IsDel 
+                        FROM dbo.CorpProducts cp1,
+                        (SELECT TOP (@PageIndex * @Pagesize) ROW_NUMBER() OVER(ORDER BY CreateTime DESC) AS [Index],Id
+                        FROM CorpProducts) cp2
+                        WHERE cp1.Id = cp2.Id AND cp1.IsDel=0 AND cp2.[Index] > (@PageSize * (@PageIndex - 1))
+                        ORDER BY cp2.[Index] asc";
 
-            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(SelSql));
+            var List = GetAll<CorpProductsDto>(SelSql, pageParam);
+            foreach (var item in List)
+            {
+                //获取公司名
+                item.CorpName = GetCorpName(item.CorpId);
+            }
+            const string CountSql = @"SELECT COUNT(*) FROM dbo.CorpProducts WHERE IsDel=0";
+            return new ResponseResult<IEnumerable<CorpProductsDto>>(List, Count(CountSql));
+        }
+
+        /// <summary>
+        /// 修改显示状态
+        /// </summary>
+        /// <param name="showStatusParam"></param>
+        /// <returns></returns>
+        public ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam)
+        {
+            ResponseResult result = new ResponseResult();
+
+            string sql = "UPDATE dbo.CorpProducts SET IsShow = @ShowStatus WHERE Id = @Id";
+
+            bool isSuccess = Update(sql, showStatusParam);
+
+            if (isSuccess)
+                result.Set((int)HttpStatusCode.OK, "修改状态成功");
+            else
+                result.Set((int)HttpStatusCode.fail, "修改状态失败");
+            return result;
         }
     }
 }
