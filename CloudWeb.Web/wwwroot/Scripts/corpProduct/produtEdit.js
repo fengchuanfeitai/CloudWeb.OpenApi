@@ -9,7 +9,6 @@ layui.use(['form', 'upload', 'layer'], function () {
         upload = layui.upload,
         layer = layui.layer;
 
-
     //渲染Select
     $.get(GetCorpsUrl, function (res) {
         if (res.code != 200) {
@@ -29,7 +28,8 @@ layui.use(['form', 'upload', 'layer'], function () {
 
     //如果是编辑页面则初始化数据
     $(function () {
-        var id = getUrlParam(id);
+        var id = getUrlParam('id');
+        console.log(id);
         if (id != null) {
             $.ajax({
                 type: 'GET',
@@ -92,14 +92,14 @@ layui.use(['form', 'upload', 'layer'], function () {
     //监听表单提交
 
     form.on('submit(save-product)', function (res) {
-        console.log(res.filed);
+        console.log(res.field);
 
         $.ajax({
             type: "POST",
             url: PostUrl,
             async: false,
             dataType: 'json',
-            data: res.file.filed,
+            data: res.field,
             success: function (data) {
                 if (data.code != 200) {
                     layer.msg(data.msg)

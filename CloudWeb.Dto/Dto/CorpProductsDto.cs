@@ -7,7 +7,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 产品Id
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// 产品名称

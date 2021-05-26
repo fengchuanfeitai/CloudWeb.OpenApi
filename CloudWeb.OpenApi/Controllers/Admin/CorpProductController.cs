@@ -83,7 +83,11 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [HttpPost]
         public ResponseResult<bool> AddProduct(CorpProductsDto corpProduct)
         {
-            return _service.AddProduct(corpProduct);
+            if (corpProduct.Id == null) {
+                return _service.AddProduct(corpProduct);
+            }
+            return _service.UpdateProduct(corpProduct);
+            
         }
 
         /// <summary>

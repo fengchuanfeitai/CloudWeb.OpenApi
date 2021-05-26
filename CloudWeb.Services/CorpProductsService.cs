@@ -34,9 +34,11 @@ namespace CloudWeb.Services
             corpProduct.Modifier = corpProduct.Modifier;
 
             const string InsertSql = @"INSERT INTO dbo.CorpProducts
-                 (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,Content,CorpId,LocationUrl,Sort,IsShow,IsDel)
-                  VALUES
-                 (@CreateTime,@ModifyTime,@Creator,@Modifier,@Name,@Cover,@Content,@CorpId,@LocationUrl,@Sort,@IsShow,@IsDel )";
+                 (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,
+                  Content,CorpId,LocationUrl,Sort,IsShow,IsDel)
+                  VALUES 
+                 (@CreateTime,@ModifyTime,@Creator,@Modifier,@Name,@Cover,
+                  @Content,@CorpId,@LocationUrl,@Sort,@IsShow,@IsDel )";
 
             return new ResponseResult<bool>(Add(InsertSql, corpProduct));
         }
@@ -72,7 +74,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> UpdateProduct(CorpProductsDto corpProduct)
         {
-            var CorpProduct = GetProductsById(corpProduct.Id);
+            var CorpProduct = GetProductsById(corpProduct.Id.Value);
             if (CorpProduct.code != 200)
                 return new ResponseResult<bool>(201, CorpProduct.msg);
             if (CorpProduct.data == null)
@@ -83,8 +85,8 @@ namespace CloudWeb.Services
 
             corpProduct.ModifyTime = DateTime.Now;
             const string UpdateSql = @"UPDATE dbo.CorpProducts SET 
-                  ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,
-                  Content=@Content,CorpId=@CorpId,Sort=@Sort,IsShow=@IsShow,IsDel=@IsDel 
+                  ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,Content=@Content,
+                  CorpId=@CorpId,LocationUrl=@LocationUrl,Sort=@Sort,IsShow=@IsShow,IsDel=@IsDel 
                   WHERE IsDel=0 AND Id=@Id";
 
             return new ResponseResult<bool>(Update(UpdateSql, corpProduct));
