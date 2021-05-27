@@ -19,6 +19,8 @@ namespace CloudWeb.OpenApi.Controllers.Web
             _log = log;
             _service = service;
         }
+
+        [HttpPost]
         public IActionResult Index()
         {
             return View();

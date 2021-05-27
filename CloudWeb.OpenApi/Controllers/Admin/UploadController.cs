@@ -30,7 +30,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         [Route("api/admin/upload")]
         public ResponseResult<string> UploadFile(string path)
         {
-            if (path is null)
+            if (string.IsNullOrEmpty(path))
             {
                 return new ResponseResult<string>((int)HttpStatusCode.fail, "path不能为空");
             }
@@ -53,7 +53,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
                         //目录wwwroot
                         //string contentRootPath = _hostingEnvironment.WebRootPath;
                         //存放项目根目录
-                        string savePath = Path.Combine(Directory.GetCurrentDirectory(), picPath);
+                        string savePath = Path.Combine(Directory.GetCurrentDirectory(), picPath, path);
                         string newName = FileUpLoad.CreateFileName(getex);
 
                         if (!Directory.Exists(savePath))
