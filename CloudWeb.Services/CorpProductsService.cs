@@ -174,5 +174,16 @@ namespace CloudWeb.Services
                 result.Set((int)HttpStatusCode.fail, "修改状态失败");
             return result;
         }
+
+        #region 网站接口
+
+
+        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(int id)
+        {
+            string sql = @"SELECT * FROM dbo.CorpProducts WHERE IsDel=0 and CorpId=@id";
+            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(sql, new { id = id }));
+        }
+
+        #endregion
     }
 }

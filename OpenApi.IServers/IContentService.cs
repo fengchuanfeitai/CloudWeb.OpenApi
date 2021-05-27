@@ -73,20 +73,20 @@ namespace CloudWeb.IServices
         /// 获取轮播新闻
         /// </summary>
         /// <returns></returns>
-        ResponseResult GetCarouselNews();
+        ResponseResult<IEnumerable<ContentDto>> GetCarouselNews();
 
         /// <summary>
         /// 首页展示新闻
         /// </summary>
         /// <returns></returns>
-        ResponseResult GetDefaultNews();
+        ResponseResult<IEnumerable<ContentDto>> GetDefaultNews();
 
         /// <summary>
         /// 根据columnId查询内容
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        ResponseResult GetWebContent(int columnId);
+        ResponseResult<IEnumerable<ContentDto>> GetWebContent(int columnId);
 
 
         #endregion

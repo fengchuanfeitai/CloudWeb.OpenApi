@@ -83,6 +83,7 @@
             , multiple: true
             , type: 'images'
             , ext: 'jpg|png|gif'
+            , data: { path: 'column' }
             , choose: function (obj) {
                 //将每次选择的文件追加到文件队列
                 var files = obj.pushFile();
@@ -115,38 +116,38 @@
             }
         });
 
-        //封面图片拖拽上传
-        upload.render({
-            elem: '#CoverUpload',
-            url: BaseApi + "/api/admin/upload", //上传接口
-            method: 'Post',
-            type: 'images',
-            ext: 'jpg|png|gif',
-            size: "2048",
-            multiple: true,
-            number: 4,//限制数量
-            acceptMime: 'image/*',
+        ////封面图片拖拽上传
+        //upload.render({
+        //    elem: '#CoverUpload',
+        //    url: BaseApi + "/api/admin/upload", //上传接口
+        //    method: 'Post',
+        //    type: 'images',
+        //    ext: 'jpg|png|gif',
+        //    size: "2048",
+        //    multiple: true,
+        //    number: 4,//限制数量
+        //    acceptMime: 'image/*',
 
-            allDone: function (obj) { //当文件全部被提交后，才触发
-                console.log(obj.total); //得到总文件数
-                console.log(obj.successful); //请求成功的文件数
-                console.log(obj.aborted); //请求失败的文件数
-            },
-            //成功后回调
-            done: function (res) {
-                if (res.code === 200) {
-                    layer.msg('上传成功');
-                    //绑定图片地址
-                    $("#ImgUrl1").val(res.data);
-                    layui.$('#CoverImg').removeClass('layui-hide').find('img').attr('src', res.data);
-                }
-                else {
-                    layer.msg('上传失败');
-                }
+        //    allDone: function (obj) { //当文件全部被提交后，才触发
+        //        console.log(obj.total); //得到总文件数
+        //        console.log(obj.successful); //请求成功的文件数
+        //        console.log(obj.aborted); //请求失败的文件数
+        //    },
+        //    //成功后回调
+        //    done: function (res) {
+        //        if (res.code === 200) {
+        //            layer.msg('上传成功');
+        //            //绑定图片地址
+        //            $("#ImgUrl1").val(res.data);
+        //            layui.$('#CoverImg').removeClass('layui-hide').find('img').attr('src', res.data);
+        //        }
+        //        else {
+        //            layer.msg('上传失败');
+        //        }
 
-                console.log(res)
-            }
-        });
+        //        console.log(res)
+        //    }
+        //});
 
         //图标拖拽上传
         upload.render({
@@ -178,6 +179,7 @@
             elem: '#uploadvideo'
             , url: BaseApi + "/api/admin/upload"//上传接口
             , accept: 'video' //视频
+            , data: { path: 'column' }
             , done: function (res) {
                 layer.msg('上传成功');
 

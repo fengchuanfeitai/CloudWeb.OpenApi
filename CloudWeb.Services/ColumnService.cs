@@ -105,12 +105,18 @@ namespace CloudWeb.Services
             if (columnDto == null)
                 return result.SetFailMessage("请填写栏目信息");
 
-            //判断栏目名称是否唯一
-            string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
-            int count = Count(colNameSql, new { ColName = columnDto.ColName });
+            string getSql = "select * from Columns where  IsDel=0 and columnid=@id";
+            ColumnDto column = Find<ColumnDto>(getSql, new { id = columnDto.ColumnId });
 
-            if (count > 1)
-                return result.SetFailMessage("栏目名称不能重复");
+            if (column.ColName != columnDto.ColName)
+            {
+                //判断栏目名称是否唯一
+                string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
+                int count = Count(colNameSql, new { ColName = columnDto.ColName });
+
+                if (count > 1)
+                    return result.SetFailMessage("栏目名称不能重复");
+            }
 
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
@@ -195,15 +201,17 @@ namespace CloudWeb.Services
 
         #region 网站接口
 
-        public ResponseResult GetIcons(int id)
+        public ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id)
         {
+            string sql = "select * from Columns where isdel=0 and parentid=@id and level=2 order by sort asc";
 
-            throw new NotImplementedException();
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { id = id }));
         }
 
-        public ResponseResult GetMenus()
+        public ResponseResult<IEnumerable<ColumnDto>> GetMenus()
         {
-            throw new NotImplementedException();
+            string sql = "select * from Columns where isdel=0 and level=1 order by sort asc";
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql));
         }
 
         #endregion

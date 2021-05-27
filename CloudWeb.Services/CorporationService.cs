@@ -175,5 +175,15 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql));
 
         }
+
+        public ResponseResult<IEnumerable<CorporationDto>> GetCorp(int id)
+        {
+            string condition = "";
+            if (id > 0)
+                condition = " and CorpId=@id";
+            string sql = $"SELECT CorpId,[Name] FROM dbo.Corporations WHERE IsShow=1 AND IsDel=0 {condition};";
+
+            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql, new { id = id }));
+        }
     }
 }

@@ -164,10 +164,7 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, para), Count(queryCountSql, para));
         }
 
-        public ResponseResult GetCarouselNews()
-        {
-            throw new NotImplementedException();
-        }
+
 
         /// <summary>
         /// 根据id查询内容
@@ -181,14 +178,27 @@ namespace CloudWeb.Services
             return new ResponseResult<ContentDto>(Find<ContentDto>(sql, new { id = id }));
         }
 
-        public ResponseResult GetDefaultNews()
+        #region 网站接口
+
+        public ResponseResult<IEnumerable<ContentDto>> GetCarouselNews()
         {
-            throw new NotImplementedException();
+            string sql = "select * FROM[Ori_CloudWeb].[dbo].[Content] where isdel=0 and  IsCarousel=1 order by sort asc;";
+            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql));
         }
 
-        public ResponseResult GetWebContent(int columnId)
+        public ResponseResult<IEnumerable<ContentDto>> GetDefaultNews()
         {
-            throw new NotImplementedException();
+            string sql = "select * FROM[Ori_CloudWeb].[dbo].[Content] where isdel=0 and  IsDefault=1 order by sort asc;";
+            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql));
         }
+
+        public ResponseResult<IEnumerable<ContentDto>> GetWebContent(int columnId)
+        {
+            string sql = "select * FROM[Ori_CloudWeb].[dbo].[Content] where isdel=0 and  IsCarousel=1 and columnId=@id;";
+            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, new { id = columnId }));
+        }
+
+        #endregion
+
     }
 }

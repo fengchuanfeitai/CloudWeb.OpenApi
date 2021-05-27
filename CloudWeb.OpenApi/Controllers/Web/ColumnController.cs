@@ -1,6 +1,9 @@
-﻿using CloudWeb.IServices;
+﻿using CloudWeb.Dto;
+using CloudWeb.Dto.Common;
+using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace CloudWeb.OpenApi.Controllers.Web
 {
@@ -20,10 +23,28 @@ namespace CloudWeb.OpenApi.Controllers.Web
             _service = service;
         }
 
-        [HttpPost]
-        public IActionResult Index()
+        #region 网站接口
+        /// <summary>
+        /// 查询标题
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<IEnumerable<ColumnDto>> GetMenus()
         {
-            return View();
+            return _service.GetMenus();
         }
+
+        /// <summary>
+        /// 查询icon
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id)
+        {
+            return _service.GetIcons(id);
+        }
+
+        #endregion
     }
 }

@@ -13,9 +13,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     /// 用户展示
     /// </summary>
     [Produces("application/json")]
-    [Route("api/[controller]/[action]")]
+    [Route("api/admin/[controller]/[action]")]
     [ApiController]
-    public class UserController : AuthorizeController
+    public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _service;
@@ -35,7 +35,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <param name="user"></param>
         /// <returns></returns>bc
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ResponseResult<UserData> Login(UserParam user)
         {
             return _service.Login(user);

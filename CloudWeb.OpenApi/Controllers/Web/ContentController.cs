@@ -1,4 +1,6 @@
-﻿using CloudWeb.IServices;
+﻿using CloudWeb.Dto;
+using CloudWeb.Dto.Common;
+using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,10 +26,34 @@ namespace CloudWeb.OpenApi.Controllers.Web
             _service = service;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
-        public IActionResult Index()
+        public ResponseResult<IEnumerable<ContentDto>> GetCarouselNews()
         {
-            return View();
+            return _service.GetCarouselNews();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult<IEnumerable<ContentDto>> GetDefaultNews()
+        {
+            return _service.GetCarouselNews();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult<IEnumerable<ContentDto>> GetWebContent()
+        {
+            return _service.GetCarouselNews();
         }
     }
 }

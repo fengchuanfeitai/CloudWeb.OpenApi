@@ -71,14 +71,14 @@ namespace CloudWeb.IServices
         /// 获取导航栏数据
         /// </summary>
         /// <returns></returns>
-        ResponseResult GetMenus();
+        ResponseResult<IEnumerable<ColumnDto>> GetMenus();
 
         /// <summary>
         /// 获取图标
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        ResponseResult GetIcons(int id);
+        ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id);
 
 
 

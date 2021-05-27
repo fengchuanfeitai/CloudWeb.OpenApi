@@ -267,7 +267,7 @@ function Category(columnid) {
         success: function (res) {
             console.log(res.data);
             //category_name = json;
-            var ophtmls = '<option>全部</option>';
+            var ophtmls = '<option value="0">全部</option>';
             $("select[name=columnId]").html(ophtmls);
             for (var i = 0; i < res.data.length; i++) {
                 var Id = res.data[i].columnId;

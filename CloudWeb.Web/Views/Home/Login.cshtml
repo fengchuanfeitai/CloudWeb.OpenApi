@@ -16,6 +16,11 @@
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        html {
+            background-color: antiquewhite;
+        }
+    </style>
 </head>
 <body class="login-bg">
 
@@ -24,9 +29,9 @@
         <div id="darkbannerwrap"></div>
 
         <form method="post" class="layui-form">
-            <input name="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+            <input name="UserName" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
             <hr class="hr15">
-            <input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+            <input name="PassWord" lay-verify="required" placeholder="密码" type="password" class="layui-input">
             <hr class="hr15">
             <input id="verifyCode" lay-verify="verifyCode" placeholder="验证码" type="text" class="layui-verify" style="width:220px;">
             <img style="height:45px" src="@Url.Action("VerifyImage", "Home")" id="VerifyImage" title="看不清？点击换一个" onclick="javascript:document.getElementById('VerifyImage').src='@Url.Action("VerifyImage", "Home")?r='+Math.random();return false;">
@@ -35,35 +40,46 @@
             <hr class="hr20">
         </form>
     </div>
+    <script src="~/Scripts/common.js"></script>
 
     <script>
         $(function () {
-            layui.use('form', function () {
+            layui.use(['form', 'layer'], function () {
                 var form = layui.form;
+                $ = layui.jquery;
                 // layer.msg('玩命卖萌中', function(){
                 //   //关闭后的操作
                 //   });
                 //监听提交
                 form.on('submit(login)', function (data) {
                     // alert(888)
-                    layer.msg(JSON.stringify(data.field), function () {
-                        location.href = 'index.html'
+                    console.log(data)
+                    var apiurl = BaseApi + "/api/admin/user/Login";
+                    $.ajax({
+                        type: 'post',
+                        url: apiurl,
+                        data: {
+                            PassWord: "sadf",
+                            UserName: "adf"
+                        },
+                        contentType: 'application/json',
+                        async: false,
+                        success: function (res) {
+                            console.log(res);
+                        },
+                        error: function (res) {
+                            console.log(res)
+                        }
+                        //layer.msg("登录成功", function () {
+                        //    location.href = 'index.html'
+                        //});
+
                     });
+
                     return false;
                 });
-            });
+            })
         })
-    </script>
-    <!-- 底部结束 -->
-    <script>
-        //百度统计可去掉
-        var _hmt = _hmt || [];
-        (function () {
-            var hm = document.createElement("script");
-            hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
     </script>
 </body>
 </html>

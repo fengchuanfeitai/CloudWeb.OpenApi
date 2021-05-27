@@ -2,175 +2,58 @@
     ViewBag.Title = "用户管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="x-nav">
     <span class="layui-breadcrumb">
-        <a href="">系统管理</a>
-        <a href="">用户管理</a>
+        <a href="">首页</a>
+        <a href="">内容管理</a>
+        <a>
+            <cite>内容列表</cite>
+        </a>
     </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
 </div>
-<div class="x-body">
-    <div class="layui-row">
-        <div class="layui-form layui-col-md12 x-so">
-            <input type="text" id="username" placeholder="用户姓名" autocomplete="off" class="layui-input" style="float:left;">
-            <button class="layui-btn" lay-submit="" type="button" lay-filter="sreach" onclick="SearchUser()" style="float:left;margin-left:10px;background-color: #1b8fe4;">搜索</button>
-            <button class="layui-btn" type="button" onclick="x_admin_show('添加用户','@Url.Action("Create")',600,520)" style="float:left;margin-left:10px;background-color: #1b8fe4;">新增</button>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <select name="columnId" id="columnSelect">
+                            </select>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input type="text" id="title" placeholder="请输入标题关键字" id="title" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <button type="button" class="layui-btn" data-type="reload" id="search">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn" onclick="xadmin.open('添加内容','/Content/Edit',800,600)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn layui-btn-danger" id="delall">
+                        <i class="layui-icon"></i>批量删除
+                    </button>
+
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table layui-form" id="list" lay-filter="content">
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="content">
-        <table class="layui-table">
-            <thead id="list">
-                <tr>
-                    @*<th>
-                            <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-                        </th>*@
-                    <th>
-                        编号
-                    </th>
-                    <th>
-                        用户姓名
-                    </th>
-                    <th>
-                        账号
-                    </th>
-                    <th>
-                        登录次数
-                    </th>
-                    <th>
-                        最后登录时间
-                    </th>
-                    <th>
-                        最后登录IP
-                    </th>
-                    <th>
-                        状态
-                    </th>
-                    <th>
-                        操作
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody class="test">
-                @foreach (var m in Model)
-                {
-                    <tr>
-                        @*<td>
-                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='@m.UserId'>
-                                    <i class="layui-icon">&#xe605;</i>
-
-                                </div>
-                            </td>*@
-                        <td>
-                            @m.UserId
-                        </td>
-                        <td>
-                            @m.UserName
-                        </td>
-                        <td>
-                            @m.UserAccount
-                        </td>
-                        <td>
-                            @m.LoginCount
-                        </td>
-                        <td>
-                            @m.LoginLastTime
-                        </td>
-                        <td>
-                            @m.LoginLastIp
-                        </td>
-                        <td>
-                            @( m.Flag == 1 ? "正常" : "已删除")
-                        </td>
-                        <td class="td-manage">
-                            <input class="layui-btn" lay-submit="" type="button" lay-filter="sreach" style="background-color: #1b8fe4;" onclick="x_admin_show('编辑','@Url.Action("Edit","User",new {userId= m.UserId})',600,520)" value="修改" />
-
-                            <input type="button" onclick="deleteUser(@m.UserId)" style="background-color: #1b8fe4;" lay-filter="sreach" class="layui-btn" value="删除" />
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <xblock>
-            @*<button class="layui-btn " onclick="deleteAllUser()" style="background-color:#1b8fe4">批量删除</button>*@
-            <div class="x-right">
-                @*@Html.Pager(Model, new PagerOptions() { PageIndexParameterName = "pageIndex", ShowTotalItemCount = true })*@
-            </div>
-            @*<span class="x-right" style="line-height:40px">共有数据：@ViewBag.Count 条</span>*@
-        </xblock>
-
-    </div>
 </div>
-<script>
-    //删除
-    function deleteUser(id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            url = "/User/Delete";
-            parameter = { userId: id };
-            $.post(url, parameter, function (data) {
-                if (data.IsSuccess) {
-                    alertMsg("删除成功!");
-                }
-                else {
-                    alertMsg("删除失败!");
-                }
-            });
-        });
-    }
-
-
-    //删除
-    function deleteAllUser() {
-        var ids = new Array();
-        $("div[class='layui-unselect layui-form-checkbox layui-form-checked']").each(function () {
-            ids.push($(this).attr("data-id"));
-        });
-
-        if (ids.length > 0) {
-            layer.confirm('确认要删除选中项吗？', function (index) {
-                url = "/User/DeleteAll";
-                parameter = { ids: ids.toString() };
-                $.post(url, parameter, function (data) {
-                    if (data.IsSuccess) {
-                        alertMsg("删除成功!");
-                    }
-                    else {
-                        alertMsg("删除失败!");
-                    }
-                });
-            });
-        }
-        else {
-            alertMsg("请选选择要删除的用户!");
-            return;
-        }
-    }
-
-
-    //搜索
-    function SearchUser() {
-        $.ajax({
-            type: "POST",
-            async: true,
-            url: "/User/Index",
-            data: { username: $("#username").val() },
-            success: function (data) {
-                $("#content").empty();
-                $("#content").html(data);
-
-            }
-        });
-    }
-
-    //弹出框，刷新页面
-    function alertMsg(msg) {
-        layer.open({
-            content: msg,
-            yes: function (index, layero) {
-                location.reload();
-                layer.close(index);
-            }
-        });
-    }
-
+<!--操作-->
+<script type="text/html" id="barContent">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
 </script>
+
+@*<script src="~/Scripts/content/content.js?v=@DateTime.Now.ToString("yyyymmddHHMMss")"></script>*@

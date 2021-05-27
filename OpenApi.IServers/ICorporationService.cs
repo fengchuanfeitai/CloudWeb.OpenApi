@@ -54,5 +54,10 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <returns></returns>
         ResponseResult<IEnumerable<CorporationDto>> GetCorpSelectList();
+
+        #region 网站接口
+        ResponseResult<IEnumerable<CorporationDto>> GetCorp(int id);
+
+        #endregion
     }
 }
