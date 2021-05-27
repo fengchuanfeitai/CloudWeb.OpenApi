@@ -68,7 +68,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
                         }
 
                         responseResult.code = (int)HttpStatusCode.OK;
-                        responseResult.data = $"{ GetCompleteUrl()}/{picPath}/{ newName}";//新的图片路径，网络地址
+                        responseResult.data = $"{ GetCompleteUrl()}/{picPath}/{path}/{ newName}";//新的图片路径，网络地址
                     }
                     else
                     {

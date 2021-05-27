@@ -19,7 +19,7 @@
             var action = getUrlParam("action");
 
             if (action === 'addSublevel') {
-                Category(id);
+                Category(id, action);
                 layui.form.render("select");
             }
             else {
@@ -241,7 +241,7 @@ $("body").on("click", ".close", function () {
 });
 
 //类别下拉框
-function Category(columnid) {
+function Category(columnid, action) {
     console.log(columnid);
     $.ajax({
         type: "POST",
@@ -254,8 +254,10 @@ function Category(columnid) {
         success: function (res) {
             console.log(res.data);
             //category_name = json;
-            var ophtmls = '';
-            $("select[name=parentId]").html(ophtmls);
+            if (action !== 'addSublevel') {
+                var ophtmls = '<option value="0">顶级</option>';
+                $("select[name=parentId]").html(ophtmls);
+            }
             for (var i = 0; i < res.data.length; i++) {
                 var Id = res.data[i].columnId;
                 var ClassLayer = res.data[i].level;

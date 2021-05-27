@@ -41,8 +41,8 @@ function ajax(path, method, params, msg) {
             }
             else {
 
-                layer.alert(msg + "失败", {
-                    icon: 6
+                layer.alert(res.msg, {
+                    icon: 2
                 }, function () {
                     //关闭当前frame
                     xadmin.close();

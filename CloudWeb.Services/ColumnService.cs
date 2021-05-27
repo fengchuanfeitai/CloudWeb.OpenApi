@@ -36,7 +36,7 @@ namespace CloudWeb.Services
             string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
             int count = Count(colNameSql, new { ColName = column.ColName });
 
-            if (count > 1)
+            if (count >= 1)
                 return result.SetFailMessage("栏目名称不能重复");
 
             //如果父级为0 ，则是第一级
@@ -44,7 +44,7 @@ namespace CloudWeb.Services
                 column.Level = 1;
             else
             {
-                string sql = "select level from Columns where isdel=0 and parentid=@id";
+                string sql = "select level from Columns where isdel=0 and ColumnId=@id";
                 column.Level = Count(sql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
             }
             column.CreateTime = DateTime.Now;
@@ -80,10 +80,17 @@ namespace CloudWeb.Services
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
                 return result.SetFailMessage("请选择栏目id");
-
-            //业务逻辑：删除栏目的同时，删除对应栏目下的内容
             string idStr = Util.ConverterUtil.StringSplit(ids);
-            string sql = $"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in ({idStr});UPDATE Content set IsDel=1 where ColumnId in({idStr});  ";
+
+            string sql1 = $"select count(1) from Columns where ParentId in ({idStr});";
+            string condition = "";
+            if (Count(sql1) > 0)
+            {
+                condition = $"UPDATE[Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE [ParentId] in ({ idStr}); ";
+            }
+            //业务逻辑：删除栏目的同时，删除对应栏目下的内容
+
+            string sql = $"{condition}UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in ({idStr});UPDATE Content set IsDel=1 where ColumnId in({idStr});";
             return result.SetData(Delete(sql));
         }
 
@@ -183,8 +190,14 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<ColumnDropDownDto>>(GetAll<ColumnDropDownDto>(sql, new { id = id }));
         }
 
+
+        #endregion
+
+        #region 网站接口
+
         public ResponseResult GetIcons(int id)
         {
+
             throw new NotImplementedException();
         }
 
@@ -192,11 +205,6 @@ namespace CloudWeb.Services
         {
             throw new NotImplementedException();
         }
-        #endregion
-
-        #region 网站接口
-
-
 
         #endregion
     }
