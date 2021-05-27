@@ -26,9 +26,7 @@
 
                 </div>
                 <div class="layui-card-body">
-                    <table id="demoTreeTb"></table>
-                    @*<table class="layui-table layui-form" id="list" lay-filter="column">
-                        </table>*@
+                    <table id="columnTreeTb"></table>
                 </div>
             </div>
         </div>
@@ -41,10 +39,16 @@
 </script>
 
 <!--操作按钮-->
-<script type="text/html" id="barDemo">
+<script type="text/html" id="sublevelbar">
+    <!--三级以下菜单，不显示添加子级-->
+    {{#  if(d.level <3){ }}
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="add"><i class="layui-icon">&#xe642;</i>添加子级</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
+    {{#  } }}
 </script>
 
 <script src="~/Scripts/column/column.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>

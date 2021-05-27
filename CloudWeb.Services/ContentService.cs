@@ -146,13 +146,22 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="para"></param>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<ContentDto>> GetAll(BaseParam para)
+        public ResponseResult<IEnumerable<ContentDto>> GetAll(SearchParam para)
         {
-            string sql = @"SELECT w2.n, w1.* FROM Content w1,(
-            SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) n, Id FROM Content where isdel=0) w2
-            WHERE w1.Id = w2.Id AND w2.n > (@PageSize*(@PageIndex-1)) ORDER BY w2.n ASC";
-            string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Content] where isdel=0 ";
-            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, para), Count(queryCountSql));
+            //string sql = @"SELECT w2.n, w1.* FROM Content w1,(
+            //SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) n, Id FROM Content where isdel=0) w2
+            //WHERE w1.Id = w2.Id AND w2.n > (@PageSize*(@PageIndex-1)) ORDER BY w2.n ASC";
+
+            string columnCondition = "", titleCondition = "";
+            if (para.ColumnId > 0)
+                columnCondition = " AND ColumnId=@ColumnId";
+
+            if (!string.IsNullOrEmpty(para.TitleKeyword))
+                titleCondition = " AND title like '%" + para.TitleKeyword + "%'";
+
+            string sql = $"SELECT w2.n, w3.* from (SELECT w1.*,c.ColName FROM Content w1 inner join Columns c on w1.ColumnId=c.ColumnId ) w3,( SELECT TOP  (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) n, Id FROM Content where isdel=0  {columnCondition}{titleCondition}) w2  WHERE w3.Id = w2.Id AND w2.n > (@PageSize*(@PageIndex-1)) ORDER BY w2.n ASC;";
+            string queryCountSql = $"SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Content] where isdel=0  {columnCondition}{titleCondition}";
+            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, para), Count(queryCountSql, para));
         }
 
         public ResponseResult GetCarouselNews()

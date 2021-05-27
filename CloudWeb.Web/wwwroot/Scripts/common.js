@@ -21,7 +21,7 @@ function getUrlParam(name) {
 function ajax(path, method, params, msg) {
     $.ajax({
         type: method,
-        url: BaseApi + path,
+        url: path,
         data: params,
         async: false,
         success: function (res) {
@@ -80,4 +80,14 @@ function Format(datetime, fmt) {
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
     }
+}
+
+
+/// 生成指定长度的字符串,即生成strLong个str字符串
+function StringOfChar(strLong, str) {
+    var ReturnStr = "";
+    for (var i = 0; i < strLong; i++) {
+        ReturnStr += str;
+    }
+    return ReturnStr;
 }

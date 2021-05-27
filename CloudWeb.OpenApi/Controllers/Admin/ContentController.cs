@@ -30,7 +30,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ContentDto>> GetAll(BaseParam para)
+        public ResponseResult<IEnumerable<ContentDto>> GetAll(SearchParam para)
         {
             return _service.GetAll(para);
         }

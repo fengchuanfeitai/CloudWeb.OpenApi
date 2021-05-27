@@ -12,8 +12,8 @@
                     <span class="x-red">*</span>标题
                 </label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="title" style="width:50%;" autocomplete="off" placeholder="请输入标题，最多输入500个字符" lay-reqtext="标题为必填项，不能为空" class="layui-input">  <div class="layui-form-mid layui-word-aux">
-                        <span class="x-red">*</span>不发布前台则无法显示
+                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入标题，最多输入500个字符" lay-reqtext="标题为必填项，不能为空" class="layui-input">  <div class="layui-form-mid layui-word-aux">
+                        @*<span class="x-red">*</span>不发布前台则无法显示*@
                     </div>
                 </div>
 
@@ -23,8 +23,7 @@
                     <span class="x-red">*</span>所属栏目类别
                 </label>
                 <div class="layui-input-inline">
-                    <select name="ColumnId" lay-filter="aihao">
-                        <option value="5">12</option>
+                    <select name="columnId" id="columnSelect">
                     </select>
                 </div>
             </div>
@@ -34,7 +33,7 @@
                     是否发布
                 </label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" checked name="" value="1" lay-skin="switch" lay-text="发布|不发布">
+                    <input type="checkbox" checked name="isPulbic" value="1" lay-skin="switch" lay-text="发布|不发布">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不发布前台则无法显示
@@ -43,7 +42,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">发布时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="CreateDate" readonly id="start" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+                    <input type="text" name="createDate" readonly id="start" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不填，默认当前时间
@@ -80,21 +79,24 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="linkUrl" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="linkUrl" placeholder="网络地址：格式http://as.com" lay-reqtext="输入格式不正确，请输入正确的网络地址" lay-verify="url" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux">  <span class="x-red">*</span>网络链接地址</div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    填写后直接跳转到该网址
+                </div>
             </div>
             <div class="layui-form-item">
                 <label for="ImgUrl1" class="layui-form-label">
                     <span class="x-red">*</span>封面
                 </label>
-                <!--文件地址-->
-                <input type="hidden" value="" name="imgUrl1" id="ImgUrl1" />
+                <!--图片文件地址-->
+                <input type="hidden" value="" name="imgUrl1" lay-verify="required" lay-reqtext="请上传封面图片" id="ImgUrl1" />
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="logoUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
                         <p>尺寸建议上传像素</p>
-                        <div class="layui-hide" id="logoImg">
+                        <div class="layui-hide" id="Img1">
                             <hr>
                             <img src="" alt="上传成功后渲染" style="height:20%;width:20%;">
                         </div>
@@ -132,7 +134,7 @@
     //对编辑器的操作最好在编辑器ready之后再做
     ue.ready(function () {
         //设置编辑器的内容
-        ue.setContent('hello');
+        ue.setContent('');
         //获取html内容，返回: <p>hello</p>
         var html = ue.getContent();
         //获取纯文本内容，返回: hello
@@ -140,4 +142,4 @@
     });
 </script>
 
-<script src="~/Scripts/content/edit.js?@DateTime.Now.ToString("yyyymmddhhMMss")"></script>
+<script src="~/Scripts/content/edit.js?v=@DateTime.Now.ToString("yyyymmddhhMMss")"></script>

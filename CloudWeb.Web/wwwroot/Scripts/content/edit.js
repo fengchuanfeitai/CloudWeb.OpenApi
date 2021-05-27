@@ -6,6 +6,9 @@
             laydate = layui.laydate
             , upload = layui.upload;
 
+        Category(id);
+        layui.form.render("select");
+
         //封面图片拖拽上传
         upload.render({
             elem: '#logoUpload',
@@ -26,7 +29,7 @@
                     layer.msg('上传成功');
                     //绑定图片地址
                     $("#ImgUrl1").val(res.data);
-                    layui.$('#logoImg').removeClass('layui-hide').find('img').attr('src', res.data);
+                    layui.$('#Img1').removeClass('layui-hide').find('img').attr('src', res.data);
                 }
                 else {
                     layer.msg('上传失败');
@@ -35,11 +38,23 @@
             }
         });
 
-        //执行一个laydate实例
+        //时间控件
+        var now = new Date();
         laydate.render({
-            elem: '#start' //指定元素
-            , type: 'datetime'
+            elem: '#start',
+            theme: 'molv',
+            type: 'datetime',
+            trigger: 'click',
+            max: 4073558400000, //公元3000年1月1日
+            value: new Date(),
+            ready: function (date) {
+                //console.log(date); //得到初始的日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                this.dateTime.hours = now.getHours();
+                this.dateTime.minutes = now.getMinutes();
+                this.dateTime.seconds = now.getSeconds();
+            }
         });
+
 
         //编辑时加载方法
         //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
@@ -59,6 +74,7 @@
                     if (res.code === 200) {
                         //表单赋值
                         form.val("contentform", res.data);
+                        $('#Img1').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl1);
                     }
                     else {
                         //layer.msg("");
@@ -68,21 +84,29 @@
 
         }
 
-        //获取url中的参数
-        function getUrlParam(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-            if (r != null) return unescape(r[2]); return null; //返回参数值
-        }
+        //检查项目添加到下拉框中
+        $.ajax({
+            url: '/service/select',
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                if (res.code === 200) {
+                    $("#columnSelect").empty();
+                    //$("#service").append(new Option("请选择服务", "0"));
+                    $.each(res.data, function (index, item) {
+                        $('#columnSelect').append(new Option(item));
+                    });
+                } else {
+                    $("#columnSelect").append(new Option("暂无数据", ""));
+                }
+                //重新渲染
+                form.render("select");
+            }
+        });
 
 
         //自定义验证规则
         form.verify({
-            //nikename: function (value) {
-            //    if (value.length < 5) {
-            //        return '昵称至少得5个字符啊';
-            //    }
-            //},
             //pass: [/(.+){6,12}$/, '密码必须6到12位'],
             //repass: function (value) {
             //    if ($('#L_pass').val() != $('#L_repass').val()) {
@@ -140,3 +164,38 @@
         }
 
     });
+
+//类别下拉框
+function Category(columnid) {
+    console.log(columnid);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: {
+            id: columnid
+        },
+        url: BaseApi + '/api/admin/Column/GetDropDownList',
+        success: function (res) {
+            console.log(res.data);
+            //category_name = json;
+            var ophtmls = '';
+            $("select[name=columnId]").html(ophtmls);
+            for (var i = 0; i < res.data.length; i++) {
+                var Id = res.data[i].columnId;
+                var ClassLayer = res.data[i].level;
+                var Title = res.data[i].colName;
+                if (ClassLayer == 1) {
+                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
+                } else {
+                    Title = "├ " + Title;
+                    Title = StringOfChar(ClassLayer - 1, "　") + Title;
+                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
+                }
+                console.log(ClassLayer);
+            }
+            $("#columnSelect").html(ophtmls);
+
+        }
+    });
+}

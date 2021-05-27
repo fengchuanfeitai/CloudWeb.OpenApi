@@ -15,7 +15,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="para"></param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ContentDto>> GetAll(BaseParam para);
+        ResponseResult<IEnumerable<ContentDto>> GetAll(SearchParam para);
 
         /// <summary>
         /// 改变添加轮播

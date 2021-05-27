@@ -135,4 +135,17 @@ namespace CloudWeb.Dto.Param
         [Required(ErrorMessage = "{0}必填")]
         public int Id { get; set; }
     }
+
+    public class SearchParam : BaseParam
+    {
+        /// <summary>
+        /// 所属栏目id
+        /// </summary>
+        public int ColumnId { get; set; }
+
+        /// <summary>
+        /// 标题关键字
+        /// </summary>
+        public string TitleKeyword { get; set; }
+    }
 }

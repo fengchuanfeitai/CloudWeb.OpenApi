@@ -21,7 +21,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 所属栏目id
         /// </summary>
-        public string ColumnName { get; set; }
+        public string ColName { get; set; }
 
         /// <summary>
         /// 标题

@@ -86,6 +86,23 @@ namespace CloudWeb.Dto
         public int IsShow { get; set; }
     }
 
+    public class ColumnDropDownDto
+    {
+        /// <summary>
+        /// 编号
+        /// </summary>
+        public int ColumnId { get; set; }
 
+        /// <summary>
+        /// 栏目名称
+        /// </summary>
+
+        public string ColName { get; set; }
+
+        /// <summary>
+        /// 栏目级别
+        /// </summary>
+        public int Level { get; set; }
+    }
 
 }

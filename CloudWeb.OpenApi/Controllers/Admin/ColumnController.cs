@@ -94,5 +94,15 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         {
             return _service.GetColumnsByParent(parentId);
         }
+
+        /// <summary>
+        /// 获取栏目下拉数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id)
+        {
+            return _service.GetDropDownList(id);
+        }
     }
 }

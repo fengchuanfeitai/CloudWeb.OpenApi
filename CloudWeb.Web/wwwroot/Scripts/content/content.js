@@ -1,7 +1,22 @@
-﻿var data = "";
+﻿var active = "";
+
+
 layui.use('table', function () {
     var table = layui.table;
     var form = layui.form;
+
+    active = {
+        reload: function () {
+
+            table.reload('id', {
+                where: {
+                    columnId: $('#columnSelect').val(), TitleKeyword: $('#title').val()
+                }
+            });
+        }
+    }
+
+
     //接口
     var getlistapi = "https://localhost:44377/api/admin/Content/GetAll";
     table.render({
@@ -9,8 +24,8 @@ layui.use('table', function () {
         //, height: 260
         , url: getlistapi //数据接口
         //, url: '/script/Column/data.json' //数据接口
-        , contentType: 'application/ json'//传值格式
-        //, where: { pageIndex: index, pageSize: 10 }//传递参数
+        //, contentType: 'application/json'//传值格式
+        //, where: { columnId: $('').val(), title: $('title').val() }//传递参数
         , request: {
             pageName: 'PageIndex' //页码的参数名称，默认：page
             , limitName: 'PageSize' //每页数据量的参数名，默认：limit
@@ -43,7 +58,7 @@ layui.use('table', function () {
             { field: '', title: '', height: 90, type: 'checkbox', width: 80 },
             { field: 'id', title: '编号', height: 90, width: 80, sort: true, align: 'center' },
             { field: 'title', title: '标题', width: 200, align: 'center' },
-            { field: 'ColumnName', title: '所属栏目类别', width: 200, align: 'center' },
+            { field: 'colName', title: '所属栏目类别', width: 200, align: 'center' },
             { field: 'localUrl', title: '跳转链接', width: 100, align: 'center' },
             { field: 'sort', title: '排序', width: 80, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 280, sort: true, align: 'center' },
@@ -83,47 +98,49 @@ layui.use('table', function () {
         }
     });
 
+    Category();
+    layui.form.render("select");
+
     //推荐首页按钮状态事件
     form.on('switch(switchDefault)', function (obj) {
-        console.log(`我监听到的switch的值是：${obj.value}`);
 
-        console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
         var apiurl = "https://localhost:44377/api/admin/Content/ChangeDefaultStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
         $.post(apiurl, { id: obj.value, DefaultStatus: onoff }, function (res) {
             console.log(1);
+            console.log(res);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
-                layer.msg('状态修改成功', { icon: 1 });
+                layer.msg('显示状态修改成功', { icon: 1 });
             }
-            else
-                layer.msg('状态修改失败', { icon: 2 });
-
-            table.reload("id", "", false);//刷新表格
+            else {
+                layer.msg('显示状态修改失败', { icon: 2 });
+                obj.elem.checked = !obj.elem.checked;
+            }
+            form.render();//刷新表格
         });
     });
 
     //是否发布按钮状态事件
     form.on('switch(switchPublic)', function (obj) {
-        console.log(`我监听到的switch的值是：${obj.value}`);
-
-        console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
         var apiurl = "https://localhost:44377/api/admin/Content/ChangePublicStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
         $.post(apiurl, { id: obj.value, PublicStatus: onoff }, function (res) {
             console.log(2);
+            console.log(res);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
-                layer.msg('状态修改成功', { icon: 1 });
+                layer.msg('显示状态修改成功', { icon: 1 });
             }
-            else
-                layer.msg('状态修改失败', { icon: 2 });
-
-            table.reload("id", "", false);//刷新表格
+            else {
+                layer.msg('显示状态修改失败', { icon: 2 });
+                obj.elem.checked = !obj.elem.checked;
+            }
+            form.render();//刷新表格
         });
     });
 
@@ -138,14 +155,16 @@ layui.use('table', function () {
         console.log(obj.value);
         $.post(apiurl, { id: obj.value, TopStatus: onoff }, function (res) {
             console.log(3);
+            console.log(res);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
-                layer.msg('状态修改成功', { icon: 1 });
+                layer.msg('显示状态修改成功', { icon: 1 });
             }
-            else
-                layer.msg('状态修改失败', { icon: 2 });
-
-            table.reload("id", "", false);//刷新表格
+            else {
+                layer.msg('显示状态修改失败', { icon: 2 });
+                obj.elem.checked = !obj.elem.checked;
+            }
+            form.render();//刷新表格
         });
     });
     //操作事件
@@ -231,4 +250,45 @@ layui.use('table', function () {
         });
     });
 
+});
+
+
+//类别下拉框
+function Category(columnid) {
+    console.log(columnid);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: {
+            id: columnid
+        },
+        url: BaseApi + '/api/admin/Column/GetDropDownList',
+        success: function (res) {
+            console.log(res.data);
+            //category_name = json;
+            var ophtmls = '<option>全部</option>';
+            $("select[name=columnId]").html(ophtmls);
+            for (var i = 0; i < res.data.length; i++) {
+                var Id = res.data[i].columnId;
+                var ClassLayer = res.data[i].level;
+                var Title = res.data[i].colName;
+                if (ClassLayer == 1) {
+                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
+                } else {
+                    Title = "├ " + Title;
+                    Title = StringOfChar(ClassLayer - 1, "　") + Title;
+                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
+                }
+                console.log(ClassLayer);
+            }
+            $("#columnSelect").html(ophtmls);
+
+        }
+    });
+}
+
+$('#search').click(function () {
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
 });

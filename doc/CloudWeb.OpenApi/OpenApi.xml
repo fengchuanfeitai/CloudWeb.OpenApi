@@ -57,12 +57,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetDropDownList(System.Int32)">
+            <summary>
+            获取栏目下拉数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Admin.ContentController">
             <summary>
             内容管理
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.GetAll(CloudWeb.Dto.Param.BaseParam)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.GetAll(CloudWeb.Dto.Param.SearchParam)">
             <summary>
             查询所有内容
             </summary>
@@ -301,6 +307,16 @@
             </summary>
             <param name="user"></param>
             <returns></returns>bc
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Web.ColumnController">
+            <summary>
+            栏目管理
+            </summary>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Web.ContentController">
+            <summary>
+            web内容接口
+            </summary>
         </member>
         <member name="T:CloudWeb.OpenApi.Core.Aop.AopHandledException">
             <summary>

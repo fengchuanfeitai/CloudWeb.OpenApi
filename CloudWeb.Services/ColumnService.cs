@@ -32,6 +32,13 @@ namespace CloudWeb.Services
             if (column == null)
                 return result.SetFailMessage("请填栏目信息");
 
+            //判断栏目名称是否唯一
+            string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
+            int count = Count(colNameSql, new { ColName = column.ColName });
+
+            if (count > 1)
+                return result.SetFailMessage("栏目名称不能重复");
+
             //如果父级为0 ，则是第一级
             if (column.ParentId == 0)
                 column.Level = 1;
@@ -73,24 +80,11 @@ namespace CloudWeb.Services
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
                 return result.SetFailMessage("请选择栏目id");
-            //业务逻辑：删除栏目的同时，删除对应栏目下的内容
-            if (ids.Length == 1)
-            {
-                //判断栏目下是否有内容
-                //string countsql = "select count(1) from content where isdel=0 and columnId=@id";
-                //int count = Count(countsql, new { id = ids });
 
-                //if (count > 0)
-                //    return result.SetFailMessage("当前栏目下存在内容，是否确定同时删除");
-                string sql = @"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in(@ids); ";
-                return result.SetData(Delete(sql, new { ids = ids }));
-            }
-            else
-            {
-                string idStr = Util.ConverterUtil.StringSplit(ids);
-                string sql = $"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in ({idStr}); ";
-                return result.SetData(Delete(sql));
-            }
+            //业务逻辑：删除栏目的同时，删除对应栏目下的内容
+            string idStr = Util.ConverterUtil.StringSplit(ids);
+            string sql = $"UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in ({idStr});UPDATE Content set IsDel=1 where ColumnId in({idStr});  ";
+            return result.SetData(Delete(sql));
         }
 
         /// <summary>
@@ -102,7 +96,14 @@ namespace CloudWeb.Services
         {
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (columnDto == null)
-                return result.SetFailMessage("请填栏目信息");
+                return result.SetFailMessage("请填写栏目信息");
+
+            //判断栏目名称是否唯一
+            string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
+            int count = Count(colNameSql, new { ColName = columnDto.ColName });
+
+            if (count > 1)
+                return result.SetFailMessage("栏目名称不能重复");
 
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
@@ -165,6 +166,21 @@ namespace CloudWeb.Services
             const string sql = @"SELECT ColumnId,ColName FROM dbo.[Columns]
                   WHERE IsDel=0 AND IsShow=1 AND ParentId=@parentId";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
+        }
+
+        /// <summary>
+        /// 下拉框数据
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns></returns>
+        public ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id)
+        {
+            string condition = "";
+            if (id > 0)
+                condition = " and ColumnId=@id";
+            string sql = $"select ColumnId,ColName,Level from  Columns where  IsDel=0 and IsShow=1 {condition}; ";
+
+            return new ResponseResult<IEnumerable<ColumnDropDownDto>>(GetAll<ColumnDropDownDto>(sql, new { id = id }));
         }
 
         public ResponseResult GetIcons(int id)

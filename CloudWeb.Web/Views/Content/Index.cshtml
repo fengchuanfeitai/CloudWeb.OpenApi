@@ -21,17 +21,14 @@
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
                         <div class="layui-input-inline layui-show-xs-block">
-                            <select name="contrller">
-                                <option value="">所属栏目类别</option>
-                                <option value="0">待确认</option>
-                                <option value="1">已确认</option>
+                            <select name="columnId" id="columnSelect">
                             </select>
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input type="text" name="username" placeholder="请输入标题关键字" autocomplete="off" class="layui-input">
+                            <input type="text" id="title" placeholder="请输入标题关键字" id="title" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                            <button type="button" class="layui-btn" data-type="reload"  id="search">
                                 <i class="layui-icon">&#xe615;</i>
                             </button>
                         </div>

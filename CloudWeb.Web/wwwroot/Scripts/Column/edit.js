@@ -6,66 +6,55 @@
             layer = layui.layer,
             upload = layui.upload;
 
-        //类别下拉框
-        function Category() {
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                async: false,
-                data: {
-                    action: "Add",
-                    id: "",
-                    channel_id: $("#channel_id").val()
-                },
-                url: "../Handle/article/Harticle_edit.ashx?Method=TreeBind&t=" + Math.random(),
-                success: function (json) {
-                    category_name = json;
-                    var ophtmls = '<option value="">全部</option>';
-                    $("select[name=ddlCategoryId]").html(ophtmls);
-                    for (var i = 0; i < json.length; i++) {
-                        var Id = json[i].id;
-                        var ClassLayer = json[i].class_layer;
-                        var Title = json[i].title;
-                        if (ClassLayer == 1) {
-                            ophtmls += "<option value=" + Id + ">" + Title + "</option>";
-                        } else {
-                            Title = "├ " + Title;
-                            Title = StringOfChar(ClassLayer - 1, "　") + Title;
-                            ophtmls += "<option value=" + Id + ">" + Title + "</option>";
-                        }
-                    }
-                    $("#ddlCategoryId").html(ophtmls);
-                }
-            });
-        }
+
         //编辑时加载方法
         //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
         var id = getUrlParam("id");
-        console.log(id);
+        console.log("ada:" + id);
+
+        //修改
         if (id != null) {
-            //保存id
-            $("#columnId").val(id);
-            $.ajax({
-                type: "get",
-                url: baseApi + "/api/admin/Column/GetColumn"
-                //url: '/scripts/Column/editData.json' //数据接口
-                , data: { id: id }//传值
-                , success: function (res) {
-                    var result = res.data;
-                    console.log(result);
+            //判断是否是“添加子级”跳转
 
-                    //赋值
-                    form.val("columnForm", res.data);
-                    $('#CoverImg').removeClass('layui-hide').find('img').attr('src', res.data.coverUrl);
-                    $('#IconImg').removeClass('layui-hide').find('img').attr('src', res.data.icon);
+            var action = getUrlParam("action");
 
-                }
-            });
+            if (action === 'addSublevel') {
+                Category(id);
+                layui.form.render("select");
+            }
+            else {
+                Category();
+                layui.form.render("select");
+
+                //保存id
+                $("#columnId").val(id);
+                $.ajax({
+                    type: "get",
+                    url: BaseApi + "/api/admin/Column/GetColumn"
+                    //url: '/scripts/Column/editData.json' //数据接口
+                    , data: { id: id }//传值
+                    , success: function (res) {
+                        var result = res.data;
+                        console.log(result);
+
+                        //赋值
+                        form.val("columnForm", res.data);
+                        $('#CoverImg').removeClass('layui-hide').find('img').attr('src', res.data.coverUrl);
+                        $('#IconImg').removeClass('layui-hide').find('img').attr('src', res.data.icon);
+
+                    }
+                });
+            }
         }
+        else {
+            Category();
+            layui.form.render("select");
+        }
+
 
         upload.render({
             elem: '#slide-pc',
-            url: "https://localhost:44377/api/admin/upload", //上传接口
+            url: BaseApi + "/api/admin/upload", //上传接口
             exts: 'jpg|png|jpeg',
             multiple: true,
             data: { path: 'asd' },
@@ -90,7 +79,7 @@
         //多图片上传
         upload.render({
             elem: '#test2'
-            , url: "https://localhost:44377/api/admin/upload" //上传接口
+            , url: BaseApi + "/api/admin/upload" //上传接口
             , multiple: true
             , type: 'images'
             , ext: 'jpg|png|gif'
@@ -129,7 +118,7 @@
         //封面图片拖拽上传
         upload.render({
             elem: '#CoverUpload',
-            url: "https://localhost:44377/api/admin/upload", //上传接口
+            url: BaseApi + "/api/admin/upload", //上传接口
             method: 'Post',
             type: 'images',
             ext: 'jpg|png|gif',
@@ -162,7 +151,7 @@
         //图标拖拽上传
         upload.render({
             elem: '#IconUpload',
-            url: "https://localhost:44377/api/admin/upload", //上传接口
+            url: BaseApi + "/api/admin/upload", //上传接口
             method: 'Post',
             type: 'images',
             ext: 'jpg|png|gif',
@@ -187,7 +176,7 @@
         //上传视频
         upload.render({
             elem: '#uploadvideo'
-            , url: "https://localhost:44377/api/admin/upload"//上传接口
+            , url: BaseApi + "/api/admin/upload"//上传接口
             , accept: 'video' //视频
             , done: function (res) {
                 layer.msg('上传成功');
@@ -199,13 +188,6 @@
                 console.log(res)
             }
         });
-
-        ////获取url中的参数
-        //function getUrlParam(name) {
-        //    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        //    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        //    if (r != null) return unescape(r[2]); return null; //返回参数值
-        //}
 
         //自定义验证规则
         form.verify({
@@ -228,18 +210,22 @@
             console.log(res.elem) //被执行事件的元素DOM对象，一般为button对象
             console.log(res.form) //被执行提交的form对象，一般在存在form标签时才会返回
             console.log(res.field) //当前容器的全部表单字段，名值对形式：{name: value}
-            console.log("内容提交")
+
+            //点击提交按钮，限制按钮点击，防止重复提交
+
+            $("").attr("", "");
+
             var id = $("#columnId").val();
             //提交
             //var id = 1;
             //id大于0，执行修改
             if (id > 0) {
-                var eidtApi = "https://localhost:44377/api/admin/Column/EditColumn";
+                var eidtApi = BaseApi + "/api/admin/Column/EditColumn";
                 ajax(eidtApi, "put", res.field, "修改");
             }
             else {
                 //id不存在执行添加
-                var addApi = 'https://localhost:44377/api/admin/Column/AddColumn';
+                var addApi = BaseApi + '/api/admin/Column/AddColumn';
                 ajax(addApi, "post", res.field, "添加");
             }
 
@@ -253,3 +239,38 @@
 $("body").on("click", ".close", function () {
     $(this).closest("li").remove();
 });
+
+//类别下拉框
+function Category(columnid) {
+    console.log(columnid);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: {
+            id: columnid
+        },
+        url: BaseApi + '/api/admin/Column/GetDropDownList',
+        success: function (res) {
+            console.log(res.data);
+            //category_name = json;
+            var ophtmls = '';
+            $("select[name=parentId]").html(ophtmls);
+            for (var i = 0; i < res.data.length; i++) {
+                var Id = res.data[i].columnId;
+                var ClassLayer = res.data[i].level;
+                var Title = res.data[i].colName;
+                if (ClassLayer == 1) {
+                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
+                } else {
+                    Title = "├ " + Title;
+                    Title = StringOfChar(ClassLayer - 1, "　") + Title;
+                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
+                }
+                console.log(ClassLayer);
+            }
+            $("#parentIdSelect").html(ophtmls);
+
+        }
+    });
+}

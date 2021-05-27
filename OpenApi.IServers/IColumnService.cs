@@ -57,6 +57,12 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<bool> DeleteColumn(int[] ids);
 
+        /// <summary>
+        /// 下拉框数据
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns></returns>
+        ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id);
         #endregion
 
         #region 网站接口
