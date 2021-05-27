@@ -166,6 +166,16 @@ namespace CloudWeb.Services
                   WHERE IsDel=0 AND IsShow=1 AND ParentId=@parentId";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
         }
+
+        public ResponseResult GetIcons(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ResponseResult GetMenus()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region 网站接口

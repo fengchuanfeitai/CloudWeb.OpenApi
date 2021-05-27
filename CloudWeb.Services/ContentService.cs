@@ -155,6 +155,11 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, para), Count(queryCountSql));
         }
 
+        public ResponseResult GetCarouselNews()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 根据id查询内容
         /// </summary>
@@ -165,6 +170,16 @@ namespace CloudWeb.Services
             const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsCarousel],[IsDefault],[IsDel],[Sort] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 AND [Id]=@id";
 
             return new ResponseResult<ContentDto>(Find<ContentDto>(sql, new { id = id }));
+        }
+
+        public ResponseResult GetDefaultNews()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ResponseResult GetWebContent(int columnId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
