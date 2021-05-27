@@ -129,7 +129,7 @@
             构造函数
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetPageList(CloudWeb.Dto.Param.BaseParam)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetPageList(CloudWeb.Dto.Param.CorpSearchParam)">
             <summary>
             分页查询公司列表
             </summary>
@@ -178,7 +178,7 @@
             构造函数
             </summary>      
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetPageList(CloudWeb.Dto.Param.BaseParam)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorpProductController.GetPageList(CloudWeb.Dto.Param.ProductSearchParam)">
             <summary>
             分页查询数据
             </summary>
@@ -309,6 +309,24 @@
             <summary>
             web公司接口
             </summary>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Web.SiteInfoController">
+            <summary>
+            站点信息
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.SiteInfoController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Web.SiteInfoController},CloudWeb.IServices.ISiteInfoService)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="logger"></param>
+            <param name="siteInfoService"></param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.SiteInfoController.GetSiteInfo">
+            <summary>
+            获取站点信息
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:CloudWeb.OpenApi.Core.Aop.AopHandledException">
             <summary>

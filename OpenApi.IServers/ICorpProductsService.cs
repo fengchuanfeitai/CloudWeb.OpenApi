@@ -46,7 +46,7 @@ namespace CloudWeb.IServices
         /// 获取所有产品
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<CorpProductsDto>> GetPageProductList(BaseParam pageParam);
+        ResponseResult<IEnumerable<CorpProductsDto>> GetPageProductList(ProductSearchParam pageParam);
 
         /// <summary>
         /// 改变显示状态

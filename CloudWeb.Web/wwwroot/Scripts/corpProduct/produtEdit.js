@@ -71,6 +71,13 @@ layui.use(['form', 'upload', 'layer'], function () {
             if (value.length > 200) {
                 return '展品名称长度不能大于200';
             }
+        },
+        Sort: function (value) {
+            if (value.length > 0) {
+                if (!(/^\d$/.test(value))) {
+                    return '排序只能是数字';
+                }
+            }
         }
     });
 

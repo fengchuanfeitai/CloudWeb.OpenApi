@@ -22,7 +22,7 @@ namespace CloudWeb.Services
 
         private int GetSort()
         {
-            var MaxSortsql = "SELECT MAX(Sort) FROM dbo.CorpProducts";
+            var MaxSortsql = "SELECT ISNULL(MAX(Sort),0) FROM dbo.CorpProducts";
             return MaxSort(MaxSortsql) + 1;
         }
 
@@ -135,7 +135,7 @@ namespace CloudWeb.Services
         /// 获取分页产品信息
         /// </summary>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProductList(BaseParam pageParam)
+        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProductList(ProductSearchParam pageParam)
         {
             const string SelSql = @"SELECT cp1.Id,CreateTime,ModifyTime,Creator,ModifyTime,
                         [Name],Cover,Content,LocationUrl,CorpId,Sort,IsShow,IsDel 

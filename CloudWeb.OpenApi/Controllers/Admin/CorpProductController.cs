@@ -35,7 +35,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageList(BaseParam pageParam)
+        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageList(ProductSearchParam pageParam)
         {
             return _service.GetPageProductList(pageParam);
         }

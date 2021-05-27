@@ -64,9 +64,9 @@ function Starting_method() {
             cols: [[
                 { type: 'numbers' },
                 { type: 'checkbox' },
-                { field: 'columnId', title: '编号', align: 'center' },
+                { field: 'columnId', title: '编号', align: 'left' },
                 {
-                    field: 'colName', title: '栏目名称', align: 'center', templet: function (d) {
+                    field: 'colName', title: '栏目名称', align: 'left', templet: function (d) {
                         //console.log(d.leavel)
                         //if (d.level == 2)
                         //    return '|-' + d.colName;

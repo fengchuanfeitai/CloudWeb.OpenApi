@@ -40,7 +40,7 @@ namespace CloudWeb.IServices
         /// 分页查询公司信息
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<CorporationDto>> GetPageList(BaseParam pageParam);
+        ResponseResult<IEnumerable<CorporationDto>> GetPageList(CorpSearchParam pageParam);
 
         /// <summary>
         /// 改变显示状态

@@ -32,7 +32,7 @@ namespace CloudWeb.Services
 
         private int GetSort()
         {
-            var MaxSortsql = "SELECT MAX(Sort) FROM dbo.Corporations";
+            var MaxSortsql = "SELECT ISNULL(MAX(Sort),0) FROM dbo.Corporations";
             return MaxSort(MaxSortsql) + 1;
         }
 
@@ -128,7 +128,7 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="pageParam"></param>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<CorporationDto>> GetPageList(BaseParam pageParam)
+        public ResponseResult<IEnumerable<CorporationDto>> GetPageList(CorpSearchParam pageParam)
         {
             const string SelSql = @"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsShow,c1.CreateTime
                                 FROM dbo.Corporations c1,
