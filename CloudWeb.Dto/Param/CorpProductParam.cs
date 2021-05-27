@@ -6,7 +6,7 @@
         /// <summary>
         /// 所属公司
         /// </summary>
-        public int CorpId { get; set; }
+        public int? CorpId { get; set; }
 
         /// <summary>
         /// 产品关键字

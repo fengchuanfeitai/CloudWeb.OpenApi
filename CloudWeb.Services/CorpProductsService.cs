@@ -137,13 +137,20 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProductList(ProductSearchParam pageParam)
         {
-            const string SelSql = @"SELECT cp1.Id,CreateTime,ModifyTime,Creator,ModifyTime,
-                        [Name],Cover,Content,LocationUrl,CorpId,Sort,IsShow,IsDel 
-                        FROM dbo.CorpProducts cp1,
-                        (SELECT TOP (@PageIndex * @Pagesize) ROW_NUMBER() OVER(ORDER BY CreateTime DESC) AS [Index],Id
-                        FROM CorpProducts) cp2
-                        WHERE cp1.Id = cp2.Id AND cp1.IsDel=0 AND cp2.[Index] > (@PageSize * (@PageIndex - 1))
-                        ORDER BY cp2.[Index] asc";
+            string SearchCorpId = null;
+            string SearchName = "";
+
+            if (pageParam.CorpId != null)
+            {
+                SearchCorpId = " AND CorpId= @CorpId";
+            }
+
+            if (!string.IsNullOrEmpty(pageParam.NameKeyword))
+            {
+                SearchName = " AND Name like '%" + pageParam.NameKeyword + "%'";
+            }
+
+            string SelSql = $"SELECT cp1.Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,LocationUrl,CorpId,Sort,IsShow,IsDel FROM dbo.CorpProducts cp1,(SELECT TOP (@PageIndex * @Pagesize) ROW_NUMBER() OVER(ORDER BY CreateTime DESC) AS [Index],Id FROM CorpProducts) cp2 WHERE cp1.Id = cp2.Id AND cp1.IsDel=0 {SearchCorpId} {SearchName} AND cp2.[Index] > (@PageSize * (@PageIndex - 1)) ORDER BY cp2.[Index] asc";
 
             var List = GetAll<CorpProductsDto>(SelSql, pageParam);
             foreach (var item in List)

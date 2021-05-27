@@ -21,6 +21,24 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-row">
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <select name="SearchCorp" id="corpSelect">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input type="text" id="SearchName" placeholder="根据产品名称进行模糊查询" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <button type="button" class="layui-btn" data-type="reload" id="search">
+                                <i class="layui-icon">&#xe615;</i>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
                 <div class="layui-card-header toolbars">
                     <button class="layui-btn" data-type="createProduct">
                         <i class="layui-icon"></i>添加展品
@@ -42,5 +60,5 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-
-<script src="~/Scripts/corpProduct/corpProduct.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
+@* ?v=@DateTime.Now.ToString("yyyyMMddHHmmss") *@
+<script src="~/Scripts/corpProduct/corpProduct.js"></script>
