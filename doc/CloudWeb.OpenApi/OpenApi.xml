@@ -300,15 +300,64 @@
             栏目管理
             </summary>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.GetMenus">
+            <summary>
+            查询标题
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.GetIcons(System.Int32)">
+            <summary>
+            查询icon
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.ContentController">
             <summary>
             web内容接口
             </summary>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetCarouselNews">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetDefaultNews">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetWebContent">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.CorporationController">
             <summary>
             web公司接口
             </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.CorporationController.GetCorp(System.Int32)">
+            <summary>
+            查询公司
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CloudWeb.OpenApi.Controllers.Web.CorpProductsController">
+            <summary>
+            web内容接口
+            </summary>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.CorpProductsController.GetPageProduct(System.Int32)">
+            <summary>
+            查询产品
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.SiteInfoController">
             <summary>

@@ -95,6 +95,11 @@ layui.use(['table', 'layer', 'form'], function () {
     });
 
     var active = {
+        reload: function () {            
+            table.reload('corpId', {
+                where: { CorpNameKeyword: $("#SearchName").val() }
+            });
+        },
         createCorp: function () {
             xadmin.open('添加公司', '/Corporation/Edit', 800, 600)
         },
@@ -115,6 +120,11 @@ layui.use(['table', 'layer', 'form'], function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
+
+    $('#search').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    })
 
 });
 

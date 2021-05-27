@@ -2,6 +2,7 @@
 var getListUrl = 'https://localhost:44377/api/CorpProduct/GetPageList';
 var deleteUrl = 'https://localhost:44377/api/CorpProduct/DelProduct';
 var changeShowUrl = 'https://localhost:44377/api/CorpProduct/ChangeShowStatus';
+var GetCorpsUrl = 'https://localhost:44377/api/Corporation/GetCorpSelectList';
 
 
 layui.use(['table', 'layer', 'form'], function () {
@@ -9,13 +10,29 @@ layui.use(['table', 'layer', 'form'], function () {
         table = layui.table,
         layer = layui.layer,
         form = layui.form;
+    //渲染select框
+    $.get(GetCorpsUrl, function (res) {
+        if (res.code != 200) {
+            layer.open(res.msg);
+            return false
+        }
+        var str = ''; //声明字符串        
+        $("#corpSelect option:gt(0)").remove();//重新加载前，移除第一个以外的option
+        $.each(res.data, function (i, val) {
+            str += '<option value="' + val.corpId + '">' + val.name + '</option>';
+        });//遍历循环遍历
+        $(str).appendTo("#corpSelect");//绑定
+        $("#corpSelect option:eq(0)").attr("selected", 'selected'); //默认选择第一个选项
+        form.render("select");//注意：最后必须重新渲染下拉框，否则没有任何效果。
+    });
+
 
     //table实例
     table.render({
         elem: '#corp_productlist', //table id
         url: getListUrl, // 数据接口地址
         conteType: 'application/json',//传值格式
-        id: 'Id',
+        id: 'id',
         request: {
             pageName: 'PageIndex',
             limitName: 'PageSize'
@@ -34,8 +51,7 @@ layui.use(['table', 'layer', 'form'], function () {
             none: '暂无相关数据', //默认：无数据。注：该属性为 layui 2.2.5 开始新增
         },
         cols: [[ //表头
-            { type: 'checkbox', width: 50 },
-            /*{ field: 'index', title: '序号', width:70, sort: true, align: 'center' },*/
+            { type: 'checkbox', width: 50 },      
             { field: 'id', title: '编号', width: 70, sort: true, align: 'center' },
             { field: 'name', title: '产品名', width: 150, align: 'center' },
             { field: 'corpName', title: '所属公司', width: 150, align: 'center' },
@@ -97,6 +113,12 @@ layui.use(['table', 'layer', 'form'], function () {
     });
 
     var active = {
+        reload: function () {
+            console.log("a")
+            table.reload('id', {
+                where: { CorpId: $("#corpSelect").val(), NameKeyword: $("#SearchName").val() }
+            });
+        },
         createProduct: function () {
             xadmin.open('添加公司展品', '/CorpProduct/Edit', 800, 600)
         },
@@ -117,6 +139,11 @@ layui.use(['table', 'layer', 'form'], function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
+
+    $('#search').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    })
 
 });
 
