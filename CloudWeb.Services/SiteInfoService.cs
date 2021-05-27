@@ -2,6 +2,7 @@
 using CloudWeb.IServices;
 using CloudWeb.DataRepository;
 using CloudWeb.Dto.Common;
+using System;
 
 namespace CloudWeb.Services
 {
@@ -19,14 +20,13 @@ namespace CloudWeb.Services
 
             return new ResponseResult<SiteInfoDto>(Find<SiteInfoDto>(sql, new { id = id }));
         }
-        #endregion
 
         /// <summary>
         /// 添加站点信息
         /// </summary>
         /// <param name="siteInfo">站点信息</param>
         /// <returns></returns>
-        public ResponseResult<bool> AddSiteInfo(SiteInfoDto siteInfo)
+        private ResponseResult<bool> AddSiteInfo(SiteInfoDto siteInfo)
         {
             const string InsertSql = @"INSERT dbo.SiteInfo(CreateTime,ModifyTime,Creator,Modifier,SiteTitle,SiteKeyword,SiteDesc,
                SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo) 
@@ -37,6 +37,7 @@ namespace CloudWeb.Services
             return new ResponseResult<bool>(Add(InsertSql, siteInfo));
         }
 
+        #endregion
 
         /// <summary>
         /// 修改站点信息
@@ -45,27 +46,24 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto siteInfo)
         {
+            var Result = new ResponseResult<bool>();
+
             var SiteInfoRes = FindSiteInfoById(siteInfo.Id);
             if (SiteInfoRes.data == null)
-                return new ResponseResult<bool>(201, "站点信息不存在");
+                return Result.SetFailMessage("站点信息不存在");
 
-            if (siteInfo.SiteTitle == SiteInfoRes.data.SiteTitle &&
-               siteInfo.SiteKeyword == SiteInfoRes.data.SiteKeyword &&
-               siteInfo.SiteDesc == SiteInfoRes.data.SiteDesc &&
-               siteInfo.SiteLogo == SiteInfoRes.data.SiteLogo &&
-               siteInfo.CopyRight == SiteInfoRes.data.CopyRight &&
-               siteInfo.Icp == SiteInfoRes.data.Icp &&
-               siteInfo.Tel == SiteInfoRes.data.Tel &&
-               siteInfo.Address == SiteInfoRes.data.Address &&
-               siteInfo.WeChatPublicNo == SiteInfoRes.data.WeChatPublicNo)
-                return new ResponseResult<bool>(200, "未作出修改，无需保存");
+            if (Equals(siteInfo, SiteInfoRes.data))
+                return Result.Set(ResponseResult.Ok, 0, "", true);
+
+            siteInfo.Modifier = 0;
+            siteInfo.ModifyTime = DateTime.Now;
 
             const string sql = @"UPDATE dbo.SiteInfo SET                  ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,
               SiteKeyword=@SiteKeyword,SiteDesc=@SiteDesc,
               SiteLogo=@SiteLogo,CopyRight=@CopyRight,Icp=@Icp,Tel=@Tel,
               [Address]=@Address,WeChatPublicNo=@WeChatPublicNo";
 
-            return new ResponseResult<bool>(Update(sql, siteInfo));
+            return Result.SetData(Update(sql, siteInfo));
         }
 
         /// <summary>
@@ -74,36 +72,38 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<SiteInfoDto> FindSiteInfo()
         {
+            var Result = new ResponseResult<SiteInfoDto>();
             const string sql = @"SELECT TOP 1 
               Id,CreateTime,ModifyTime,Creator,Modifier,SiteTitle,SiteKeyword,
               SiteDesc,SiteLogo,CopyRight,Icp,Tel,[Address],WeChatPublicNo 
               FROM dbo.SiteInfo";
 
-            var SiteInfoResult = new ResponseResult<SiteInfoDto>(Find<SiteInfoDto>(sql));
-
-            if (SiteInfoResult.data == null)
+            var SiteInfo = Find<SiteInfoDto>(sql);
+            if (SiteInfo == null)
             {
                 var NewSiteInfo = new SiteInfoDto()
                 {
                     Creator = 0,
                     Modifier = 0,
-                    SiteTitle = "-1",
-                    SiteKeyword = "-2",
-                    SiteDesc = "-3",
-                    SiteLogo = "-4",
-                    CopyRight = "-5",
-                    Icp = "-6",
-                    Tel = "-7",
-                    Address = "-8",
-                    WeChatPublicNo = "-9"
+                    CreateTime = DateTime.Now,
+                    ModifyTime = DateTime.Now,
+                    SiteTitle = "网站标题",
+                    SiteKeyword = "网站关键字",
+                    SiteDesc = "网站描述",
+                    SiteLogo = "#",
+                    CopyRight = "网站版权信息",
+                    Icp = "网站备案号",
+                    Tel = "联系方式",
+                    Address = "地址",
+                    WeChatPublicNo = "#"
                 };
                 var AddResult = AddSiteInfo(NewSiteInfo);
-                if (AddResult.code != 0)
-                    return new ResponseResult<SiteInfoDto>(201, "初始化站点信息失败！");
+                if (AddResult.code != ResponseResult.Ok)
+                    return Result.SetFailMessage("初始化站点信息失败！");
                 FindSiteInfo();
             }
 
-            return SiteInfoResult;
+            return Result.SetData(SiteInfo);
         }
     }
 }

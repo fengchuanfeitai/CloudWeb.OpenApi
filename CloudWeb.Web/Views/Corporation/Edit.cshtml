@@ -11,7 +11,7 @@
 </style>
 
 <div class="layui-fluid">
-    <div class="layui-row layui-col-lg6 layui-col-md6 layui-col-sm8">
+    <div class="layui-row">
         <form class="layui-form" lay-filter="corp-form">
             <input type="text" name="CorpId" class="layui-input layui-hide" />
             <input type="text" name="Cover" lay-verify="Cover" class="layui-input layui-hide" />
@@ -20,24 +20,104 @@
             <input type="text" name="AboutUsCover" lay-verify="AboutUsCover" class="layui-input layui-hide" />
             <input type="text" name="ContactUsBg" lay-verify="AboutUsCoverBg" class="layui-input layui-hide" />
 
+            @*公司名Name*@
             <div class="layui-form-item">
-                <label for="L_Name" class="layui-form-label">
-                    <span class="x-red">*</span>公司名
+                <label for="Name" class="layui-form-label">
+                    公司名
                 </label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline">
                     <input type="text" name="Name" lay-verify="Name"
                            placeholder="请输入公司名" autocomplete="off" class="layui-input" value="">
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    必填项，长度不能大于100
+                </div>
             </div>
 
+            @*是否显示IsShow*@
             <div class="layui-form-item">
-                <label for="L_Cover" class="layui-form-label">
-                    <span class="x-red">*</span>封面图
+                <label for="IsShow" class="layui-form-label">
+                    是否显示
+                </label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" checked name="IsShow" value="1" lay-skin="switch" lay-text="显示|不显示">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>不显示前台则无法显示
+                </div>
+            </div>
+
+            @*所属栏目 ColumnId*@
+            <div class="layui-form-item">
+                <label for="AboutUs" class="layui-form-label">
+                    所属栏目
+                </label>
+                <div id="ColSelect" class="layui-input-inline xm-select-demo">
+
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    选择公司属于哪个仿真实验云。可多选
+                </div>
+            </div>
+
+            @*关于我们 AboutUs*@
+            <div class="layui-form-item">
+                <label for="L_AboutUs" class="layui-form-label">
+                    关于我们
+                </label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请添加关于我们描述" name="AboutUs" lay-verify="AboutUs" autocomplete="off" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            @*联系我们 ContactUs*@
+            <div class="layui-form-item">
+                <label for="ContactUs" class="layui-form-label">
+                    联系我们
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="ContactUs" lay-verify="ContactUs"
+                           placeholder="请填写联系我们跳转链接" autocomplete="off" class="layui-input" value="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    此处填写三方链接
+                </div>
+            </div>
+
+            @*排序Sort*@
+            <div class="layui-form-item">
+                <label for="Sort" class="layui-form-label">
+                    排序
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Sort" lay-verify="Sort"
+                           placeholder="排序" autocomplete="off" class="layui-input" value="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>数字越小排序越靠前，不填写，默认最后展示
+                </div>
+            </div>
+
+            @*封面图Cover*@
+            <div class="layui-form-item">
+                <label for="Cover" class="layui-form-label">
+                    封面图
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" id="CoverUpload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传420*64像素</p>
+                        <p>
+                            <span class="x-red">*</span>
+                            点击上传，或将图片拖拽到此处
+                        </p>
+                        <p>
+                            <span class="x-red">*</span>
+                            用于首页教学设备云上会展公司封面
+                            <br />
+                            尺寸建议上传295*310像素
+                        </p>
                         <div class="layui-hide" id="CoverImgDiv">
                             <hr />
                             <img src="" id="CoverImg" alt="上传公司封面图" style="width:60%;height:60%;" />
@@ -46,14 +126,23 @@
                 </div>
             </div>
 
+            @*灰色Logo Logo1*@
             <div class="layui-form-item">
-                <label for="L_Logo1" class="layui-form-label">
-                    <span class="x-red">*</span>灰色Logo
+                <label for="Logo1" class="layui-form-label">
+                    灰色Logo
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" id="Logo1Upload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传420*64像素</p>
+                        <p>
+                            <span class="x-red">*</span>
+                            点击上传，或将图片拖拽到此处
+                        </p>
+                        <p>
+                            <span class="x-red">*</span>
+                            尺寸建议上传148*45像素
+                            <br />
+                            用于教学设备云上会展左侧公司非悬浮时显示
+                        </p>
                         <div class="layui-hide" id="Logo1ImgDiv">
                             <hr />
                             <img src="" id="Logo1Img" alt="上传灰色公司Logo图" style="width:60%;height:60%;" />
@@ -62,14 +151,23 @@
                 </div>
             </div>
 
+            @*正常Logo Logo2*@
             <div class="layui-form-item">
-                <label for="L_Logo2" class="layui-form-label">
-                    <span class="x-red">*</span>正常Logo
+                <label for="Logo2" class="layui-form-label">
+                    正常Logo
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" id="Logo2Upload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传420*64像素</p>
+                        <p>
+                            <span class="x-red">*</span>
+                            点击上传，或将图片拖拽到此处
+                        </p>
+                        <p>
+                            <span class="x-red">*</span>
+                            尺寸建议上传148*45像素
+                            <br />
+                            教学设备云上会展左侧公司鼠标悬浮时显示
+                        </p>
                         <div class="layui-hide" id="Logo2ImgDiv">
                             <hr />
                             <img src="" id="Logo2Img" alt="上传正常公司Logo图" style="width:60%;height:60%;" />
@@ -77,34 +175,26 @@
                     </div>
                 </div>
             </div>
-            <!--栏目下拉多选框开始-->
-            <div class="layui-form-item">
-                <label for="L_AboutUs" class="layui-form-label">
-                    <span class="x-red">*</span>所属栏目
-                </label>
-                <div id="ColSelect" class="layui-input-block xm-select-demo">
-                   
-                </div>                
-            </div>
-            <!--栏目下拉多选框结束-->
 
-            <div class="layui-form-item">
-                <label for="L_AboutUs" class="layui-form-label">
-                    <span class="x-red">*</span>关于我们
-                </label>
-                <div class="layui-input-block">
-                    <textarea placeholder="请添加关于我们描述" name="AboutUs" lay-verify="AboutUs" autocomplete="off" class="layui-textarea"></textarea>
-                </div>
-            </div>
-
+            @*关于我们图片 AboutUsCover*@
             <div class="layui-form-item">
                 <label for="L_AboutUsCover" class="layui-form-label">
-                    <span class="x-red">*</span>关于我们图片
+                    关于我们
+                    <br />
+                    图片
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" id="AboutUsCoverUpload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传420*64像素</p>
+                        <p>
+                            <span class="x-red">*</span>
+                            点击上传，或将图片拖拽到此处
+                        </p>
+                        <p>
+                            <span class="x-red">*</span>
+                            尺寸建议上传469*302像素
+                            <br />
+                            教学设备云上会展关于我们左侧图片
+                        </p>
                         <div class="layui-hide" id="AboutUsCoverImgDiv">
                             <hr />
                             <img src="" id="AboutUsCoverImg" alt="上传关于我们左侧图片" style="width:60%;height:60%;" />
@@ -113,24 +203,25 @@
                 </div>
             </div>
 
+            @*联系我们背景图 ContactUsBg*@
             <div class="layui-form-item">
-                <label for="L_ContactUs" class="layui-form-label">
-                    <span class="x-red">*</span>联系我们
-                </label>
-                <div class="layui-input-block">
-                    <input type="text" name="ContactUs" lay-verify="ContactUs"
-                           placeholder="请填写联系我们页面链接" autocomplete="off" class="layui-input" value="">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label for="L_ContactUsBg" class="layui-form-label">
-                    <span class="x-red">*</span>联系我们背景图
+                <label for="ContactUsBg" class="layui-form-label">
+                    联系我们
+                    <br />
+                    背景图
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" id="ContactUsBgUpload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传420*64像素</p>
+                        <p>
+                            <span class="x-red">*</span>
+                            点击上传，或将图片拖拽到此处
+                        </p>
+                        <p>
+                            <span class="x-red">*</span>
+                            尺寸建议上传948*191像素
+                            <br />
+                            联系我们背景图片
+                        </p>
                         <div class="layui-hide" id="ContactUsBgImgDiv">
                             <hr />
                             <img src="" id="ContactUsBgImg" alt="上传关于我们背景图" style="width:60%;height:60%;" />
@@ -139,18 +230,7 @@
                 </div>
             </div>
 
-            <div class="layui-form-item">
-                <label for="L_Sort" class="layui-form-label">
-                    <span class="x-red">*</span>排序
-                </label>
-                <div class="layui-input-block">
-                    <input type="text" name="Sort" lay-verify="Sort"
-                           placeholder="排序" autocomplete="off" class="layui-input" value="">
-                </div>
-            </div>
-
-            <!--是否显示按钮-->
-            <!--是否显示按钮结束-->
+            @*保存按钮*@
             <div class="layui-form-item">
                 <label for="L_repass" class="layui-form-label">
                 </label>
@@ -162,4 +242,4 @@
     </div>
 </div>
 
-<script src="~/Scripts/corporation/corpEdit.js"></script>
+<script src="~/Scripts/corporation/corpEdit.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>

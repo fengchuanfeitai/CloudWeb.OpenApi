@@ -42,7 +42,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 序号
         /// </summary>
-        public int Sort { get; set; }
+        public int? Sort { get; set; }
 
         /// <summary>
         /// 是否显示

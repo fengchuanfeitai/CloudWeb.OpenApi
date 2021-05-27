@@ -16,15 +16,24 @@ namespace CloudWeb.Services
 
         private string GetColTxt(string colStr)
         {
+            var ColTxt = "";
+            if (colStr == null)
+                return ColTxt;
+
             var sql = $"SELECT * FROM dbo.[Columns] WHERE IsDel=0 AND IsShow=1 AND ColumnId IN ({colStr})";
             var Columns = GetAll<ColumnDto>(sql, new { colStr = colStr });
-            var ColTxt = "";
 
             foreach (var item in Columns)
             {
                 ColTxt += item.ColName + " ";
             }
             return ColTxt;
+        }
+
+        private int GetSort()
+        {
+            var MaxSortsql = "SELECT MAX(Sort) FROM dbo.Corporations";
+            return MaxSort(MaxSortsql) + 1;
         }
 
         #endregion
@@ -39,6 +48,10 @@ namespace CloudWeb.Services
             corporation.CreateTime = DateTime.Now;
             corporation.ModifyTime = corporation.CreateTime;
             corporation.IsDel = 0;
+            if (corporation.Sort == null)
+            {
+                corporation.Sort = GetSort();
+            }
 
             const string InsertSql = @"INSERT INTO dbo.Corporations
                (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,Logo1,Logo2,ColumnId,
@@ -115,14 +128,14 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="pageParam"></param>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<CorporationDto>> GetAllCorporation(BaseParam pageParam)
+        public ResponseResult<IEnumerable<CorporationDto>> GetPageList(BaseParam pageParam)
         {
             const string SelSql = @"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsShow,c1.CreateTime
                                 FROM dbo.Corporations c1,
                                (SELECT TOP (@PageIndex*@PageSize) 
                                 ROW_NUMBER() OVER(ORDER BY CreateTime DESC ) [Index],CorpId
                                 FROM dbo.Corporations) c2
-                                WHERE c1.CorpId = c2.CorpId 
+                                WHERE c1.CorpId = c2.CorpId AND c1.IsDel = 0
                                 AND c2.[Index] >(@PageSize*(@PageIndex-1)) 
                                 ORDER BY c2.[Index] ASC";
 
@@ -160,7 +173,7 @@ namespace CloudWeb.Services
             const string sql = @"SELECT CorpId,[Name] FROM dbo.Corporations WHERE IsShow=1 AND IsDel=0";
 
             return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql));
-            
+
         }
     }
 }

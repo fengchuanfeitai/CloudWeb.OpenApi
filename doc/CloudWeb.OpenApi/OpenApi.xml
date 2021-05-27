@@ -129,9 +129,9 @@
             构造函数
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetAll(CloudWeb.Dto.Param.BaseParam)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.GetPageList(CloudWeb.Dto.Param.BaseParam)">
             <summary>
-            查询所有未删除的公司信息
+            分页查询公司列表
             </summary>
             <returns></returns>
         </member>
@@ -147,12 +147,6 @@
             查询公司信息
             </summary>
             <param name="id">公司id</param>
-            <returns></returns>
-        </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.UpdateCorporation(CloudWeb.Dto.CorporationDto)">
-            <summary>
-            修改公司信息
-            </summary>
             <returns></returns>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.CorporationController.AddCorporaion(CloudWeb.Dto.CorporationDto)">
@@ -262,13 +256,6 @@
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController.UpdateSiteInfo(CloudWeb.Dto.SiteInfoDto)">
             <summary>
             修改站点信息
-            </summary>
-            <param name="dto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.SiteInfoController.AddSiteInfo(CloudWeb.Dto.SiteInfoDto)">
-            <summary>
-            添加站点信息
             </summary>
             <param name="dto"></param>
             <returns></returns>

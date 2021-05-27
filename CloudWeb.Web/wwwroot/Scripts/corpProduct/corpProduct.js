@@ -55,15 +55,6 @@ layui.use(['table', 'layer', 'form'], function () {
             first: false,
             last: false,
             pageSize: 10
-        },
-        done: function (res, curr, count) {
-            //如果是异步请求数据方式，res即为你接口返回的信息。
-            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-            console.log(res);
-            //得到当前页码
-            //console.log(curr);
-            //得到数据总量
-            // console.log(count);
         }
     });
 
@@ -142,18 +133,9 @@ function delAjax(ids) {
                 return false;
             }
             layer.msg('删除成功');
-            location.reload();
-        }
-    });
-}
-
-//弹出框，刷新页面
-function alertMsg(msg) {
-    layer.open({
-        content: msg,
-        yes: function (index, layero) {
-            location.reload();
-            layer.close(index);
+            setTimeout(function () {
+                location.reload();
+            }, 1000);
         }
     });
 }

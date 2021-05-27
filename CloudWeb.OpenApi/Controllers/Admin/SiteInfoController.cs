@@ -46,17 +46,6 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto dto)
         {
             return _siteInfoService.UpdateSiteInfo(dto);
-        }
-
-        /// <summary>
-        /// 添加站点信息
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<bool> AddSiteInfo(SiteInfoDto dto)
-        {
-            return _siteInfoService.AddSiteInfo(dto);
-        }
+        }        
     }
 }

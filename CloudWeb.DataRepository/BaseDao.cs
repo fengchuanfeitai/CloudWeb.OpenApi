@@ -72,5 +72,16 @@ namespace CloudWeb.DataRepository
         {
             return dapper.Execute(sql, t) > 0;
         }
+
+        /// <summary>
+        /// 查询Sort最大值
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public int MaxSort(string sql, dynamic t = null)
+        {
+            return dapper.QueryFirstOrDefault<int>(sql, t);
+        }
     }
 }

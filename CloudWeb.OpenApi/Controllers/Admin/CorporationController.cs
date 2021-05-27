@@ -30,13 +30,13 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         }
 
         /// <summary>
-        /// 查询所有未删除的公司信息
+        /// 分页查询公司列表
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<CorporationDto>> GetAll(BaseParam pageParam)
+        public ResponseResult<IEnumerable<CorporationDto>> GetPageList(BaseParam pageParam)
         {
-            return _corporationService.GetAllCorporation(pageParam);
+            return _corporationService.GetPageList(pageParam);
         }
 
         /// <summary>
@@ -59,16 +59,6 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         public ResponseResult<CorporationDto> GetCorporation(int id)
         {
             return _corporationService.GetCorporation(id);
-        }
-
-        /// <summary>
-        /// 修改公司信息
-        /// </summary>
-        /// <returns></returns>
-        [HttpPut]
-        public ResponseResult<bool> UpdateCorporation(CorporationDto corporation)
-        {
-            return _corporationService.UpdateCorporation(corporation);
         }
 
         /// <summary>

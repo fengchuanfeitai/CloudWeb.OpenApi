@@ -1,19 +1,22 @@
-﻿
+﻿var getUrl = 'https://localhost:44377/api/SiteInfo/GetSiteInfo';
+var uploadUrl = 'https://localhost:44377/api/admin/upload';
+var putUrl = 'https://localhost:44377/api/SiteInfo/UpdateSiteInfo';
+
+
 layui.use(['form', 'upload', 'layer'], function () {
     var $ = layui.jquery,
         form = layui.form,
         upload = layui.upload,
-        element = layui.element,
         layer = layui.layer;
 
     //页面初始化给页面元素赋值
     $(function () {
         $.ajax({
             type: "GET",
-            url: "https://localhost:44377/api/SiteInfo/GetSiteInfo",
+            url: getUrl,
             success: function (res) {
                 console.log(res)
-                if (res.code != 0) {
+                if (res.code != 200) {
                     layer.msg(res.msg)
                     return false;
                 }
@@ -30,6 +33,15 @@ layui.use(['form', 'upload', 'layer'], function () {
                     "Address": siteInfo.address,
                     "WeChatPublicNo": siteInfo.weChatPublicNo
                 });
+
+                if (siteInfo.siteLogo != null) {
+                    layui.$('#SiteLogoImgDiv').removeClass('layui-hide');
+                    layui.$('#SiteLogoImg').attr('src', siteInfo.siteLogo);
+                }
+                if (siteInfo.weChatPublicNo != null) {
+                    layui.$('#WeChatPublicNoImgDiv').removeClass('layui-hide');
+                    layui.$('#WeChatPublicNoImg').attr('src', siteInfo.weChatPublicNo);
+                }
             }
         });
     });
@@ -101,47 +113,60 @@ layui.use(['form', 'upload', 'layer'], function () {
     //Logo图片拖拽上传
     var logoUpload = upload.render({
         elem: '#logoUpload',
-        url: 'https://httpbin.org/post', //改成您自己的上传接口
-        method: 'Post',
+        url: uploadUrl,
+        method: 'POST',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'site' },
         //成功后回调
         done: function (res) {
-            layer.msg('上传成功');
-            layui.$('#logoImg').removeClass('layui-hide').find('img').attr('src', res.files.file);
-            console.log(res)
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                var file = res.data;
+                $("input[name='SiteLogo']").val(file);
+                layui.$('#SiteLogoImgDiv').removeClass('layui-hide');
+                layui.$('#SiteLogoImg').attr('src', file);
+            } else {
+                layer.msg('上传失败');
+            }
         }
     });
 
     //微信公众号图片上传
     var WechatUpload = upload.render({
         elem: '#WeChatPublicNoUpload',
-        url: '',
-        method: 'Post',
+        url: uploadUrl,
+        method: 'POST',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'site' },
         //成功后回调
         done: function (res) {
-            layer.msg('上传成功');
-            layui.$('#WeChatPublicNoUpload').removeClass('layui-hide').find('img').attr('src', res.files.file);
-            console.log(res)
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                var file = res.data;
+                $("input[name='WeChatPublicNo']").val(file);
+                layui.$('#WeChatPublicNoImgDiv').removeClass('layui-hide');
+                layui.$('#WeChatPublicNoImg').attr('src', file);
+            } else {
+                layer.msg('上传失败');
+            }
         }
     });
 
     //监听提交
-    form.on('submit(save-siteinfo)', function (res) {
-        console.log(res.field)
+    form.on('submit(save-siteinfo)', function (res) {        
         $.ajax({
             type: "PUT",
-            url: 'https://localhost:44377/api/SiteInfo/UpdateSiteInfo',
+            url: putUrl,
             async: false,
             data: res.field,
             success: function (data) {
-                if (data.code != 0) {
+                if (data.code != 200) {
                     layer.msg(data.msg)
                     return false;
                 }
-                layer.msg("保存成功")
+                layer.msg("保存成功");                
                 return true;
             }
         });
