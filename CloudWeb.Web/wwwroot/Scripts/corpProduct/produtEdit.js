@@ -53,8 +53,10 @@ layui.use(['form', 'upload', 'layer'], function () {
                         "IsShow": product.isShow
                     });
 
-                    layui.$('#CoverImgDiv').removeClass('layui-hide');
-                    layui.$('#CoverImg').attr('src', product.cover);
+                    if (product.cover != null) {
+                        layui.$('#CoverImgDiv').removeClass('layui-hide');
+                        layui.$('#CoverImg').attr('src', product.cover);
+                    }
                 }
             });
         }
@@ -63,7 +65,12 @@ layui.use(['form', 'upload', 'layer'], function () {
     //自定义验证规则:待完善
     form.verify({
         Name: function (value) {
-
+            if (value.length <= 0) {
+                return '展品名称不能为空';
+            };
+            if (value.length > 200) {
+                return '展品名称长度不能大于200';
+            }
         }
     });
 
@@ -73,14 +80,14 @@ layui.use(['form', 'upload', 'layer'], function () {
         url: uploadUrl,
         method: 'Post',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'product_cover' },
         //成功后回调
         done: function (res) {
             if (res.code === 200) {
                 layer.msg('上传成功');
                 var file = res.data;
-                $("input[name='Cover']").val(file);
-                console.log("Cover文本" + $("input[name='Cover']").val());
+                $("input[name='Cover']").val(file);              
                 layui.$('#CoverImgDiv').removeClass('layui-hide');
                 layui.$('#CoverImg').attr('src', file);
             } else {
@@ -92,8 +99,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     //监听表单提交
 
     form.on('submit(save-product)', function (res) {
-        console.log(res.field);
-
+        var frameIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
         $.ajax({
             type: "POST",
             url: PostUrl,
@@ -106,14 +112,16 @@ layui.use(['form', 'upload', 'layer'], function () {
                     return false;
                 }
                 layer.msg("保存成功")
+                setTimeout(function () {
+                    parent.layer.close(frameIndex);
+                    parent.location.reload();
+                }, 1000);
                 return true;
             }
         });
         return false;
     });
 })
-
-
 
 function getUrlParam(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象

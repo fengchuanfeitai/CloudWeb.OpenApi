@@ -8,37 +8,53 @@
         <a href="">系统管理</a>
         <a href="@Url.Action("Index","SiteInfo")">站点信息</a>
     </span>
+
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
 </div>
 
 <div class="x-body">
     <div class="layui-col-lg6 layui-col-md9 layui-col-sm10">
         <form class="layui-form" lay-filter="siteInfo-form">
+            @*隐藏字段*@
             <input type="text" name="Id" class="layui-input layui-hide" />
-            <input type="text" name="SiteLogo" lay-verify="SiteLogo" autocomplete="off"
-                   class="layui-input layui-hide" value="" />
-            <input type="text" name="WeChatPublicNo" lay-verify="WeChatPublicNo" autocomplete="off"
-                   class="layui-input layui-hide" value="" />
+            <input type="text" name="SiteLogo" lay-verify="SiteLogo" class="layui-input layui-hide" />
+            <input type="text" name="WeChatPublicNo" lay-verify="WeChatPublicNo" class="layui-input layui-hide" />
 
+            @*网站标题 SiteTitle*@
             <div class="layui-form-item">
-                <label for="L_SiteTitle" class="layui-form-label">
-                    <span class="x-red">*</span>网站标题
+                <label for="SiteTitle" class="layui-form-label">
+                    网站标题
                 </label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline">
                     <input type="text" name="SiteTitle" lay-verify="SiteTitle"
                            placeholder="请输入网站标题" autocomplete="off" class="layui-input" value="">
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    必填项，长度不能大于200
+                </div>
             </div>
+
+            @*网站关键字 SiteKeyWord*@
             <div class="layui-form-item">
-                <label for="L_SiteKeyword" class="layui-form-label">
-                    <span class="x-red">*</span>网站关键字
+                <label for="SiteKeyword" class="layui-form-label">
+                    网站关键字
                 </label>
-                <div class="layui-input-block">
+                <div class="layui-input-inline">
                     <input type="text" name="SiteKeyword" lay-verify="SiteKeyword"
                            placeholder="请输入网站关键字" autocomplete="off" class="layui-input" value="">
                 </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    必填项，长度不能大于200
+                </div>
             </div>
+
+            @*网站描述 SiteDesc*@
             <div class="layui-form-item">
-                <label for="L_SiteDesc" class="layui-form-label">
+                <label for="SiteDesc" class="layui-form-label">
                     <span class="x-red">*</span>网站描述
                 </label>
                 <div class="layui-input-block">
@@ -46,74 +62,115 @@
                               placeholder="请输入网站描述" class="layui-textarea"></textarea>
                 </div>
             </div>
+
+            @*版权信息 CopyRight*@
             <div class="layui-form-item">
-                <label for="L_SiteLogo" class="layui-form-label">
+                <label for="CopyRight" class="layui-form-label">
+                    版权信息
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="CopyRight" lay-verify="CopyRight"
+                           placeholder="请输入版权信息" autocomplete="off" class="layui-input" value="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    必填项，长度不能大于200
+                </div>
+            </div>
+
+            @*备案号 Icp*@
+            <div class="layui-form-item">
+                <label for="Icp" class="layui-form-label">
+                    备案号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Icp" lay-verify="Icp"
+                           placeholder="请输入备案号" autocomplete="off" class="layui-input" value="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    必填项，长度不能大于200
+                </div>
+            </div>
+
+            @*联系方式 Tel*@
+            <div class="layui-form-item">
+                <label for="Tel" class="layui-form-label">
+                    联系方式
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Tel" lay-verify="phone|Tel"
+                           placeholder="请输入联系方式" autocomplete="off" class="layui-input" value="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    必填项，
+                    长度不能大于20
+                </div>
+            </div>
+
+            @*地址 Address*@
+            <div class="layui-form-item">
+                <label for="Address" class="layui-form-label">
+                    地址
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" name="Address" lay-verify="Address"
+                           placeholder="请输入地址" autocomplete="off" class="layui-input" value="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                    必填项，长度不能大于500
+                </div>
+            </div>
+
+            @*网站Logo SiteLogo*@
+            <div class="layui-form-item">
+                <label for="SiteLogo" class="layui-form-label">
                     <span class="x-red">*</span>网站Logo
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="logoUpload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传420*64像素</p>
-                        <div class="layui-hide" id="logoImg">
+                        <p>
+                            <span class="x-red">*</span>
+                            点击上传，或将图片拖拽到此处
+                        </p>
+                        <p>
+                            <span class="x-red">*</span>
+                            尺寸建议上传420*64像素
+                        </p>
+                        <div class="layui-hide" id="SiteLogoImgDiv">
                             <hr>
-                            <img src="" alt="上传成功后渲染" style="height:60%;width:60%;">
+                            <img  id="SiteLogoImg" src="" alt="网站Logo图片" style="height:60%;width:60%;">
                         </div>
                     </div>
                 </div>
             </div>
+
+            @*微信公众号 WechatPublicNo*@
             <div class="layui-form-item">
-                <label for="L_CopyRight" class="layui-form-label">
-                    <span class="x-red">*</span>版权信息
-                </label>
-                <div class="layui-input-block">
-                    <input type="text" name="CopyRight" lay-verify="CopyRight"
-                           placeholder="请输入版权信息" autocomplete="off" class="layui-input" value="">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_icp" class="layui-form-label">
-                    <span class="x-red">*</span>备案号
-                </label>
-                <div class="layui-input-block">
-                    <input type="text" name="Icp" lay-verify="Icp"
-                           placeholder="请输入备案号" autocomplete="off" class="layui-input" value="">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_tel" class="layui-form-label">
-                    <span class="x-red">*</span>联系方式
-                </label>
-                <div class="layui-input-block">
-                    <input type="text" name="Tel" lay-verify="phone|Tel"
-                           placeholder="请输入联系方式" autocomplete="off" class="layui-input" value="">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_address" class="layui-form-label">
-                    <span class="x-red">*</span>地址
-                </label>
-                <div class="layui-input-block">
-                    <input type="text" name="Address" lay-verify="Address"
-                           placeholder="请输入地址" autocomplete="off" class="layui-input" value="">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_WechatPublicNo" class="layui-form-label">
-                    <span class="x-red">*</span>微信公众号
+                <label for="WechatPublicNo" class="layui-form-label">
+                    微信公众号
                 </label>
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="WeChatPublicNoUpload">
-                        <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传150x150px</p>
-                        <div class="layui-hide" id="WechatPublicNoImg">
+                        <p>
+                            点击上传，或将图片拖拽到此处
+                        </p>
+                        <p>
+                            尺寸建议上传150*150px
+                        </p>
+                        <div class="layui-hide" id="WeChatPublicNoImgDiv">
                             <hr>
-                            <img src="" alt="上传成功后渲染" style="height:60%;width:60%;">
+                            <img id="WeChatPublicNoImg" src="" alt="微信公众号" style="height:60%;width:60%;">
                         </div>
                     </div>
                 </div>
             </div>
+
+            @*保存修改*@
             <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">
+                <label for="repass" class="layui-form-label">
                 </label>
                 <button class="layui-btn" lay-submit lay-filter="save-siteinfo" style="background-color: #1b8fe4;">
                     保存修改
@@ -123,4 +180,4 @@
     </div>
 </div>
 
-<script src="~/Scripts/siteinfo/siteinfo.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
+<script src="~/Scripts/siteinfo/siteinfo.js"></script>

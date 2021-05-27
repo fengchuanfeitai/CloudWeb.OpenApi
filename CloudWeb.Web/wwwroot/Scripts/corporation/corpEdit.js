@@ -60,19 +60,29 @@ layui.use(['form', 'upload', 'layer'], function () {
                         "AboutUsCover": corporation.aboutUsCover,
                         "ContactUs": corporation.contactUs,
                         "ContactUsBg": corporation.contactUsBg,
+                        "IsShow": corporation.isShow,
                         "Sort": corporation.sort
                     });
-
-                    layui.$('#CoverImgDiv').removeClass('layui-hide');
-                    layui.$('#CoverImg').attr('src', corporation.cover);
-                    layui.$('#Logo1ImgDiv').removeClass('layui-hide');
-                    layui.$('#Logo1Img').attr('src', corporation.logo1);
-                    layui.$('#Logo2ImgDiv').removeClass('layui-hide');
-                    layui.$('#Logo2Img').attr('src', corporation.logo2);
-                    layui.$('#AboutUsCoverImgDiv').removeClass('layui-hide');
-                    layui.$('#AboutUsCoverImg').attr('src', corporation.aboutUsCover);
-                    layui.$('#ContactUsBgImgDiv').removeClass('layui-hide');
-                    layui.$('#ContactUsBgImg').attr('src', corporation.contactUsBg);
+                    if (corporation.cover != null) {
+                        layui.$('#CoverImgDiv').removeClass('layui-hide');
+                        layui.$('#CoverImg').attr('src', corporation.cover);
+                    }
+                    if (corporation.logo1 != null) {
+                        layui.$('#Logo1ImgDiv').removeClass('layui-hide');
+                        layui.$('#Logo1Img').attr('src', corporation.logo1);
+                    }
+                    if (corporation.logo2 != null) {
+                        layui.$('#Logo2ImgDiv').removeClass('layui-hide');
+                        layui.$('#Logo2Img').attr('src', corporation.logo2);
+                    }
+                    if (corporation.aboutUsCover != null) {
+                        layui.$('#AboutUsCoverImgDiv').removeClass('layui-hide');
+                        layui.$('#AboutUsCoverImg').attr('src', corporation.aboutUsCover);
+                    }
+                    if (corporation.contactUsBg != null) {
+                        layui.$('#ContactUsBgImgDiv').removeClass('layui-hide');
+                        layui.$('#ContactUsBgImg').attr('src', corporation.contactUsBg);
+                    }
                     if (corporation.columnId != null) {
                         var ColArray = getColArray(corporation.columnId);
                         columnSelect.setValue(ColArray);
@@ -92,52 +102,12 @@ layui.use(['form', 'upload', 'layer'], function () {
                 return '公司名不能大于一百个字符';
             }
         },
-
-        Cover: function (value) {
-            if (value.length <= 0) {
-                return '封面图不能为空';
-            };
-        },
-
-        Logo1: function (value) {
-            if (value.length <= 0) {
-                return '灰色公司Logo图不能为空';
-            };
-        },
-
-        Logo2: function (value) {
-            if (value.length <= 0) {
-                return '正常公司Logo图不能为空';
-            };
-        },
-
-        AboutUs: function (value) {
-            if (value.length <= 0) {
-                return '关于我们不能为空';
-            };
-        },
-
-        AboutUsCover: function (value) {
-            if (value.length <= 0) {
-                return '关于我们封面图不能为空';
-            };
-        },
-
-        ContactUs: function (value) {
-            if (value.length <= 0) {
-                return '联系我们不能为空';
-            };
-        },
-
-        ContactUsBg: function (value) {
-            if (value.length <= 0) {
-                return '联系我们背景图不能为空';
-            };
-        },
         Sort: function (value) {
-            if (value.length <= 0) {
-                return '排序不能为空';
-            };
+            if (value.length > 0) {
+                if (!(/^\d+\d+\d$/.test(value))) {
+                    return '排序只能是数字';
+                }
+            }
         }
     });
 
@@ -147,14 +117,14 @@ layui.use(['form', 'upload', 'layer'], function () {
         url: uploadUrl,
         method: 'Post',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'corp_cover' },
         //成功后回调
         done: function (res) {
             if (res.code === 200) {
                 layer.msg('上传成功');
                 var file = res.data;
                 $("input[name='Cover']").val(file);
-                console.log("Cover文本" + $("input[name='Cover']").val());
                 layui.$('#CoverImgDiv').removeClass('layui-hide');
                 layui.$('#CoverImg').attr('src', file);
             } else {
@@ -169,14 +139,14 @@ layui.use(['form', 'upload', 'layer'], function () {
         url: uploadUrl,
         method: 'Post',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'corp_logo' },
         //成功后回调
         done: function (res) {
             if (res.code === 200) {
                 layer.msg('上传成功');
                 var file = res.data;
                 $("input[name='Logo1']").val(file);
-                console.log("Cover文本" + $("input[name='Logo1']").val());
                 layui.$('#Logo1ImgDiv').removeClass('layui-hide');
                 layui.$('#Logo1Img').attr('src', file);
             } else {
@@ -191,14 +161,14 @@ layui.use(['form', 'upload', 'layer'], function () {
         url: uploadUrl,
         method: 'Post',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'corp_logo' },
         //成功后回调
         done: function (res) {
             if (res.code === 200) {
                 layer.msg('上传成功');
                 var file = res.data;
                 $("input[name='Logo2']").val(file);
-                console.log("Cover文本" + $("input[name='Logo2']").val());
                 layui.$('#Logo2ImgDiv').removeClass('layui-hide');
                 layui.$('#Logo2Img').attr('src', file);
             }
@@ -214,14 +184,14 @@ layui.use(['form', 'upload', 'layer'], function () {
         url: uploadUrl,
         method: 'Post',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'corp_aboutUs' },
         //成功后回调
         done: function (res) {
             if (res.code === 200) {
                 layer.msg('上传成功');
                 var file = res.data;
                 $("input[name='AboutUsCover']").val(file);
-                console.log("Cover文本" + $("input[name='AboutUsCover']").val());
                 layui.$('#AboutUsCoverImgDiv').removeClass('layui-hide');
                 layui.$('#AboutUsCoverImg').attr('src', file);
             }
@@ -234,17 +204,17 @@ layui.use(['form', 'upload', 'layer'], function () {
     //联系我们背景图
     var ContactUsBgUpload = upload.render({
         elem: '#ContactUsBgUpload',
-        url: uploadUrl, //改成您自己的上传接口
+        url: uploadUrl,
         method: 'Post',
         type: 'images',
-        ext: 'jpg|png|gif',
+        exts: 'jpg|png|gif',
+        data: { path: 'corp_contactUs' },
         //成功后回调
         done: function (res) {
             if (res.code === 200) {
                 layer.msg('上传成功');
                 var file = res.data;
                 $("input[name='ContactUsBg']").val(file);
-                console.log("Cover文本" + $("input[name='ContactUsBg']").val());
                 layui.$('#ContactUsBgImgDiv').removeClass('layui-hide');
                 layui.$('#ContactUsBgImg').attr('src', file);
             } else {
@@ -270,7 +240,9 @@ layui.use(['form', 'upload', 'layer'], function () {
             "ContactUsBg": $("input[name='ContactUsBg']").val(),
             "Sort": $("input[name='Sort']").val(),
             "IsShow": $("input[name='IsShow']").val()
-        };      
+        };
+
+        var frameIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
         $.ajax({
             type: "POST",
@@ -284,6 +256,10 @@ layui.use(['form', 'upload', 'layer'], function () {
                     return false;
                 }
                 layer.msg("保存成功")
+                setTimeout(function () {
+                    parent.layer.close(frameIndex);
+                    parent.location.reload();
+                }, 1000);
                 return true;
             }
         });

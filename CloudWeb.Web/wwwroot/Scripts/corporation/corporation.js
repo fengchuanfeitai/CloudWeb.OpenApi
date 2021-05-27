@@ -1,7 +1,8 @@
 ﻿//全局变量
 var Selected;
-var getListUrl = 'https://localhost:44377/api/Corporation/GetAll';
+var getListUrl = 'https://localhost:44377/api/Corporation/GetPageList';
 var deleteUrl = 'https://localhost:44377/api/Corporation/DelCorporation';
+var changeShowUrl = 'https://localhost:44377/api/Corporation/ChangeShowStatus';
 
 layui.use(['table', 'layer', 'form'], function () {
     var $ = layui.jquery,
@@ -34,9 +35,8 @@ layui.use(['table', 'layer', 'form'], function () {
         },
         cols: [[ //表头
             { type: 'checkbox', width: 50 },
-            /*{ field: 'index', title: '序号', width:70, sort: true, align: 'center' },*/
             { field: 'corpId', title: '编号', width: 70, sort: true, align: 'center' },
-            { field: 'name', title: '公司名', width: 200, align: 'center' },
+            { field: 'name', title: '公司名', sort: true, width: 200, align: 'center' },
             { field: 'colTxtName', title: '所属栏目', width: 100, align: 'center' },
             { field: 'sort', title: '序号', width: 70, sort: true, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 200, sort: true, align: 'center' },
@@ -53,15 +53,6 @@ layui.use(['table', 'layer', 'form'], function () {
             first: false,
             last: false,
             pageSize: 10
-        },
-        done: function (res, curr, count) {
-            //如果是异步请求数据方式，res即为你接口返回的信息。
-            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-            console.log(res);
-            //得到当前页码
-            //console.log(curr);
-            //得到数据总量
-            // console.log(count);
         }
     });
 
@@ -88,11 +79,10 @@ layui.use(['table', 'layer', 'form'], function () {
 
     //监控按钮状态事件
     form.on('switch(IsShow)', function (obj) {
-        var apiurl = "https://localhost:44377/api/Corporation/ChangeShowStatus";
         //改变状态
         var onoff = this.checked ? '1' : '0';
         console.log(obj.value);
-        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
+        $.post(changeShowUrl, { id: obj.value, ShowStatus: onoff }, function (res) {
             console.log(1);
             //判断是否等于200，否则提示错误信息
             if (res.code === 200) {
@@ -102,16 +92,6 @@ layui.use(['table', 'layer', 'form'], function () {
             else
                 layer.msg('显示状态修改失败', { icon: 2 });
         });
-    });
-
-    //监听表格复选框选择
-    table.on('checkbox(corporations)', function (obj) {
-        //Selected.data.add();
-        console.debug(obj);
-        console.debug(JSON.stringify(obj.data));//当前行的一些常用操作集合
-        //console.log(obj.checked); //当前是否选中状态
-        //console.log(obj.data); //选中行的相关数据
-        //console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
     });
 
     var active = {
@@ -151,18 +131,9 @@ function delAjax(ids) {
                 return false;
             }
             layer.msg('删除成功');
-            location.reload();
-        }
-    });
-}
-
-//弹出框，刷新页面
-function alertMsg(msg) {
-    layer.open({
-        content: msg,
-        yes: function (index, layero) {
-            location.reload();
-            layer.close(index);
+            setTimeout(function () {
+                location.reload();
+            }, 1000);
         }
     });
 }

@@ -6,13 +6,6 @@ namespace CloudWeb.IServices
     public interface ISiteInfoService : IBaseService
     {
         /// <summary>
-        /// 添加站点信息
-        /// </summary>
-        /// <param name="siteInfo"></param>
-        /// <returns></returns>
-        ResponseResult<bool> AddSiteInfo(SiteInfoDto siteInfo);
-
-        /// <summary>
         /// 修改公司信息
         /// </summary>
         /// <param name="siteInfo"></param>
