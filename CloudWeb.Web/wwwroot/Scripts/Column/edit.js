@@ -2,20 +2,16 @@
     function () {
         $ = layui.jquery;
         var form = layui.form,
-            element = layui.element,
             layer = layui.layer,
             upload = layui.upload;
-
 
         //编辑时加载方法
         //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
         var id = getUrlParam("id");
-        console.log("ada:" + id);
 
         //修改
         if (id != null) {
             //判断是否是“添加子级”跳转
-
             var action = getUrlParam("action");
 
             if (action === 'addSublevel') {
@@ -23,6 +19,7 @@
                 layui.form.render("select");
             }
             else {
+                //下拉框
                 Category();
                 layui.form.render("select");
 
@@ -36,28 +33,39 @@
                     , success: function (res) {
                         var result = res.data;
                         console.log(result);
+                        if (res.code === 200) {
+                            //赋值
+                            form.val("columnForm", res.data);
+                            $('#IconImg').removeClass('layui-hide').find('img').attr('src', res.data.icon);
+                            //多图赋值
+                            if (res.data.coverUrl !== '') {
 
-                        //赋值
-                        form.val("columnForm", res.data);
-                        $('#CoverImg').removeClass('layui-hide').find('img').attr('src', res.data.coverUrl);
-                        $('#IconImg').removeClass('layui-hide').find('img').attr('src', res.data.icon);
+                                var pics = res.data.coverUrl.split(",")
 
+                                for (var i = 0; i < pics.length; i++) {
+                                    $('#slide-pc-priview').append('<li class="item_img"><div class="operate"><i  class="close layui-icon">  <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></i></div><img src="' + pics[i] + '" class="img" ></li>');
+                                }
+                            }
+
+                        } else {
+                            layer.msg(res.msg);
+                        }
                     }
                 });
             }
         }
         else {
+            //下拉框
             Category();
             layui.form.render("select");
         }
-
 
         upload.render({
             elem: '#slide-pc',
             url: BaseApi + "/api/admin/upload", //上传接口
             exts: 'jpg|png|jpeg',
             multiple: true,
-            data: { path: 'asd' },
+            data: { path: 'column' },
             before: function (obj) {
                 layer.msg('图片上传中...', {
                     icon: 16,
@@ -71,83 +79,18 @@
                     return layer.msg(res.msg);
                 }
                 console.log(res)
-                //$('#slide-pc-priview').append('<input type="hidden" name="pc_src[]" value="' + res.filepath + '" />');
-                $('#slide-pc-priview').append('<li class="item_img"><div class="operate"><i  class="close layui-icon">  <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></i></div><img src="' + res.data + '" class="img" ><input type="hidden" name="pc_src[]" value="' + res.data + '" /></li>');
+                $('#slide-pc-priview').append('<li class="item_img"><div class="operate"><i  class="close layui-icon">  <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></i></div><img src="' + res.data + '" class="img"><input type="hidden" value="' + res.data + '" class="pic" /></li>');
+
+                //图片地址重新赋值
+                var arr = $(".pic");
+                var arr1 = [];
+                arr.each(function () {
+                    arr1.push($(this).val());
+                });
+                $("#coverUrl").val(arr1.toString());
             }
         });
 
-        //多图片上传
-        upload.render({
-            elem: '#test2'
-            , url: BaseApi + "/api/admin/upload" //上传接口
-            , multiple: true
-            , type: 'images'
-            , ext: 'jpg|png|gif'
-            , data: { path: 'column' }
-            , choose: function (obj) {
-                //将每次选择的文件追加到文件队列
-                var files = obj.pushFile();
-
-                //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
-                obj.preview(function (index, file, result) {
-                    console.log(index); //得到文件索引
-                    console.log(file); //得到文件对象
-                    console.log(result); //得到文件base64编码，比如图片
-
-                    //obj.resetFile(index, file, '123.jpg'); //重命名文件名，layui 2.3.0 开始新增
-
-                    //这里还可以做一些 append 文件列表 DOM 的操作
-
-                    //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
-                    //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
-                });
-            },
-            before: function (obj) {
-                //layer.load(); //上传loading
-                //预读本地文件示例，不支持ie8
-                obj.preview(function (index, file, result) {
-                    $('#demo2').append('<img src="' + result + '" alt="' + file.name + '" title="点击删除" class="layui-upload-img" style="width: 100%;height: 100px;" onclick="delMultipleImgs(this)">&nbsp;')
-                });
-            },
-            allDone: function (obj) { //当文件全部被提交后，才触发
-                console.log("文件总数：" + obj.total); //得到总文件数
-                console.log("成功文件总数：" + obj.successful); //请求成功的文件数
-                console.log("失败文件总数：" + obj.aborted); //请求失败的文件数
-            }
-        });
-
-        ////封面图片拖拽上传
-        //upload.render({
-        //    elem: '#CoverUpload',
-        //    url: BaseApi + "/api/admin/upload", //上传接口
-        //    method: 'Post',
-        //    type: 'images',
-        //    ext: 'jpg|png|gif',
-        //    size: "2048",
-        //    multiple: true,
-        //    number: 4,//限制数量
-        //    acceptMime: 'image/*',
-
-        //    allDone: function (obj) { //当文件全部被提交后，才触发
-        //        console.log(obj.total); //得到总文件数
-        //        console.log(obj.successful); //请求成功的文件数
-        //        console.log(obj.aborted); //请求失败的文件数
-        //    },
-        //    //成功后回调
-        //    done: function (res) {
-        //        if (res.code === 200) {
-        //            layer.msg('上传成功');
-        //            //绑定图片地址
-        //            $("#ImgUrl1").val(res.data);
-        //            layui.$('#CoverImg').removeClass('layui-hide').find('img').attr('src', res.data);
-        //        }
-        //        else {
-        //            layer.msg('上传失败');
-        //        }
-
-        //        console.log(res)
-        //    }
-        //});
 
         //图标拖拽上传
         upload.render({
@@ -193,17 +136,6 @@
 
         //自定义验证规则
         form.verify({
-            //nikename: function (value) {
-            //    if (value.length < 5) {
-            //        return '昵称至少得5个字符啊';
-            //    }
-            //},
-            //pass: [/(.+){6,12}$/, '密码必须6到12位'],
-            //repass: function (value) {
-            //    if ($('#L_pass').val() != $('#L_repass').val()) {
-            //        return '两次密码不一致';
-            //    }
-            //}
         });
 
         //监听提交
@@ -214,8 +146,6 @@
             console.log(res.field) //当前容器的全部表单字段，名值对形式：{name: value}
 
             //点击提交按钮，限制按钮点击，防止重复提交
-
-            $("").attr("", "");
 
             var id = $("#columnId").val();
             //提交
@@ -240,6 +170,14 @@
 //移除图片
 $("body").on("click", ".close", function () {
     $(this).closest("li").remove();
+    //图片地址重新赋值
+    var arr = $(".pic");
+    var arr1 = [];
+    arr.each(function () {
+        arr1.push($(this).val());
+    });
+    $("#coverUrl").val(arr1.toString());
+
 });
 
 //类别下拉框
@@ -255,7 +193,6 @@ function Category(columnid, action) {
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
             console.log(res.data);
-            //category_name = json;
             if (action !== 'addSublevel') {
                 var ophtmls = '<option value="0">顶级</option>';
                 $("select[name=parentId]").html(ophtmls);
@@ -274,7 +211,6 @@ function Category(columnid, action) {
                 console.log(ClassLayer);
             }
             $("#parentIdSelect").html(ophtmls);
-
         }
     });
 }

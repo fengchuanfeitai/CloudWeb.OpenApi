@@ -150,12 +150,6 @@
 
         //自定义验证规则
         form.verify({
-            //pass: [/(.+){6,12}$/, '密码必须6到12位'],
-            //repass: function (value) {
-            //    if ($('#L_pass').val() != $('#L_repass').val()) {
-            //        return '两次密码不一致';
-            //    }
-            //}
         });
 
         //监听提交
@@ -198,7 +192,7 @@
                         xadmin.father_reload();
                     }
                     else
-                        layer.msg(msg + "失败", { icon: 2 });
+                        layer.msg(res.msg, { icon: 2 });
                 },
                 error: function (res) {
                     console.log(res)
@@ -221,7 +215,6 @@ function Category(columnid) {
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
             console.log(res.data);
-            //category_name = json;
             var ophtmls = '';
             $("select[name=columnId]").html(ophtmls);
             for (var i = 0; i < res.data.length; i++) {

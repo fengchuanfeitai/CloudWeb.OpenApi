@@ -22,7 +22,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 排序
         /// </summary>
-        public int Sort { get; set; }
+        public int? Sort { get; set; }
 
         /// <summary>
         /// 是否是新闻
@@ -83,7 +83,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 是否显示
         /// </summary>
-        public int IsShow { get; set; }
+        public bool IsShow { get; set; }
     }
 
     public class ColumnDropDownDto
