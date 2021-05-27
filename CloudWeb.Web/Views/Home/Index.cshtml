@@ -11,10 +11,10 @@
     </div>
     <ul class="layui-nav left fast-add" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">+新增</a>
-            <dl class="layui-nav-child">
-                <!-- 二级菜单 -->
-                <dd>
+            <!--<a href="javascript:;">+新增</a>
+            <dl class="layui-nav-child">-->
+            <!-- 二级菜单 -->
+            <!--<dd>
                     <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">
                         <i class="iconfont">&#xe6a2;</i>弹出最大化
                     </a>
@@ -29,22 +29,21 @@
                         <i class="iconfont">&#xe6a8;</i>弹出指定宽高
                     </a>
                 </dd>
-            </dl>
+            </dl>-->
         </li>
     </ul>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">admin</a>
+            <a href="javascript:;" id="account"></a>
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a>
+                    <a onclick="xadmin.open('个人信息','/user/index')">个人信息</a>
                 </dd>
                 <dd>
-                    <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a>
-                </dd>
-                <dd>
-                    <a href="./login.html">退出</a>
+                    <div id="loginout">
+                        <a href="#">退出</a>
+                    </div>
                 </dd>
             </dl>
         </li>
@@ -135,21 +134,21 @@
             </li>
         </ul>
         <ul id="nav">
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="系统管理">&#xe6a9;</i>
-                    <cite>系统管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a onclick="xadmin.add_tab('用户管理','/User/index')">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>用户管理</cite>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            @*<li>
+                    <a href="javascript:;">
+                        <i class="iconfont left-nav-li" lay-tips="系统管理">&#xe6a9;</i>
+                        <cite>系统管理</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a onclick="xadmin.add_tab('用户管理','/User/index')">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>用户管理</cite>
+                            </a>
+                        </li>
+                    </ul>
+                </li>*@
         </ul>
     </div>
 </div>
@@ -175,3 +174,19 @@
 @*<div class="footer">
         <div class="copyright">Copyright ©2017 x-admin v2.3 All Rights Reserved</div>
     </div>*@
+<script src="~/webSource/js/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        //设置用户名
+        $('#account').text(sessionStorage.getItem('Account'));
+        //退出
+        $("#loginout").click(function () {
+            parent.location.href = '/home/login';
+            ////清楚session
+            //sessionStorage.removeItem('Account');
+            //sessionStorage.removeItem('token');
+            sessionStorage.clear();
+        });
+    })
+</script>

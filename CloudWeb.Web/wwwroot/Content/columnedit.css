@@ -1,0 +1,51 @@
+﻿.layui-upload-img {
+    width: 90px;
+    height: 90px;
+    margin: 0;
+}
+
+.pic-more {
+    width: 100%;
+    margin: 10px 0px 0px 0px;
+}
+
+    .pic-more li {
+        width: 190px;
+        float: left;
+        margin-right: 5px;
+    }
+
+        .pic-more li .layui-input {
+            display: initial;
+        }
+
+        .pic-more li a {
+            position: absolute;
+            top: 0;
+            display: block;
+        }
+
+            .pic-more li a i {
+                font-size: 24px;
+                background-color: #008800;
+            }
+
+#slide-pc-priview .item_img img {
+    width: 190px;
+    height: 90px;
+}
+
+#slide-pc-priview li {
+    position: relative;
+}
+
+    #slide-pc-priview li .close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+    }
+
+    #slide-pc-priview li:hover .operate {
+        display: block;
+    }

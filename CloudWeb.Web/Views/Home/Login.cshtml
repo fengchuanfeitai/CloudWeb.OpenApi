@@ -9,7 +9,6 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="stylesheet" href="/webSource/css/font.css">
     <link rel="stylesheet" href="/webSource/css/login.css">
-    <link rel="stylesheet" href="/webSource/css/xadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="/webSource/lib/layui/layui.js" charset="utf-8"></script>
     <!--[if lt IE 9]>
@@ -19,6 +18,7 @@
     <style>
         html {
             background-color: antiquewhite;
+            height:auto;
         }
     </style>
 </head>
@@ -29,11 +29,11 @@
         <div id="darkbannerwrap"></div>
 
         <form method="post" class="layui-form">
-            <input name="UserName" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
+            <input name="UserName" placeholder="用户名" type="text" lay-verify="required" lay-reqtext="用户名不能为空" class="layui-input">
             <hr class="hr15">
-            <input name="PassWord" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+            <input name="PassWord" lay-verify="required" placeholder="密码" type="password" lay-reqtext="密码不能为空" class="layui-input">
             <hr class="hr15">
-            <input id="verifyCode" lay-verify="verifyCode" placeholder="验证码" type="text" class="layui-verify" style="width:220px;">
+            <input id="verifyCode" name="VerifyCode" lay-verify="required" placeholder="验证码" lay-reqtext="验证码不能为空" type="text" class="layui-verify" style="width:220px;">
             <img style="height:45px" src="@Url.Action("VerifyImage", "Home")" id="VerifyImage" title="看不清？点击换一个" onclick="javascript:document.getElementById('VerifyImage').src='@Url.Action("VerifyImage", "Home")?r='+Math.random();return false;">
             <hr class="hr15">
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
@@ -41,45 +41,6 @@
         </form>
     </div>
     <script src="~/Scripts/common.js"></script>
-
-    <script>
-        $(function () {
-            layui.use(['form', 'layer'], function () {
-                var form = layui.form;
-                $ = layui.jquery;
-                // layer.msg('玩命卖萌中', function(){
-                //   //关闭后的操作
-                //   });
-                //监听提交
-                form.on('submit(login)', function (data) {
-                    // alert(888)
-                    console.log(data)
-                    var apiurl = BaseApi + "/api/admin/user/Login";
-                    $.ajax({
-                        type: 'post',
-                        url: apiurl,
-                        data: {
-                            PassWord: "sadf",
-                            UserName: "adf"
-                        },
-                        contentType: 'application/json',
-                        async: false,
-                        success: function (res) {
-                            console.log(res);
-                        },
-                        error: function (res) {
-                            console.log(res)
-                        }
-                        //layer.msg("登录成功", function () {
-                        //    location.href = 'index.html'
-                        //});
-
-                    });
-
-                    return false;
-                });
-            })
-        })
-    </script>
+    <script src="~/Scripts/user/login.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
 </body>
 </html>

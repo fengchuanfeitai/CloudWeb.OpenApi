@@ -60,6 +60,7 @@ namespace CloudWeb.OpenApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddSession();
             services.AddControllers(options =>
             {
                 //注册统一结果返回，异常过滤器、模型验证
@@ -71,7 +72,6 @@ namespace CloudWeb.OpenApi
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddUEditorService();
-
             //注册跨域策略
             services.AddCorsPolicy(Configuration);
 
@@ -149,6 +149,7 @@ namespace CloudWeb.OpenApi
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=36000");
                 }
             });
+            //app.UseSession();
             app.UseRouting();
             //开启跨域中间件
             app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);

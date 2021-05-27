@@ -6,13 +6,9 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\lib\layui_exts\inputSelect\**" />
-    <Compile Remove="wwwroot\Scripts\user\**" />
     <Content Remove="wwwroot\lib\layui_exts\inputSelect\**" />
-    <Content Remove="wwwroot\Scripts\user\**" />
     <EmbeddedResource Remove="wwwroot\lib\layui_exts\inputSelect\**" />
-    <EmbeddedResource Remove="wwwroot\Scripts\user\**" />
     <None Remove="wwwroot\lib\layui_exts\inputSelect\**" />
-    <None Remove="wwwroot\Scripts\user\**" />
   </ItemGroup>
 
   <ItemGroup>

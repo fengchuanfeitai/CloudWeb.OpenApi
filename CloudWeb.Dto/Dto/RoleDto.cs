@@ -6,7 +6,7 @@ namespace CloudWeb.Dto
     {
         public int Id { get; set; }
 
-
+        public string RoleName { get; set; }
         public UserDto user { get; set; }
     }
 }

@@ -3,7 +3,9 @@ using CloudWeb.Dto.Common;
 using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using CloudWeb.OpenApi.Core.Core.Jwt.UserClaim;
+using CloudWeb.Util;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -38,7 +40,30 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         //[AllowAnonymous]
         public ResponseResult<UserData> Login(UserParam user)
         {
+            string code = HttpContext.Session.GetString("LoginValidateCode");
+            if (code != user.VerifyCode)
+            {
+                return new ResponseResult<UserData>("请输入正确的验证码");
+            }
             return _service.Login(user);
+        }
+
+        /// <summary>
+        /// 生成验证码
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult VerifyImage()
+        {
+            var validate = new ValidateCodeUtil();
+            string code = validate.CreateValidateCode(4);
+            HttpContext.Session.SetString("LoginValidateCode", code);
+
+            byte[] bytes = validate.CreateValidateGraphic(code);
+
+            var file = File(bytes, @"image/jpeg");
+            //验证码写入cookie
+            return file;
         }
     }
 }

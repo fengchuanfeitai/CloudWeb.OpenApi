@@ -124,10 +124,10 @@
             , accept: 'video' //视频
             , data: { path: 'column' }
             , done: function (res) {
-                layer.msg('上传成功');
-
-                if (res.code === 200)
+                if (res.code === 200) {
+                    layer.msg('上传成功');
                     $("#Video").val(res.data);
+                }
                 else
                     layer.msg('上传失败');
                 console.log(res)

@@ -14,5 +14,10 @@
         /// 密码
         /// </summary>
         public string PassWord { get; set; }
+
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        public string VerifyCode { get; set; }
     }
 }

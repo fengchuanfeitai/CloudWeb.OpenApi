@@ -295,6 +295,12 @@
             <param name="user"></param>
             <returns></returns>bc
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.UserController.VerifyImage">
+            <summary>
+            生成二维码
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.ColumnController">
             <summary>
             栏目管理

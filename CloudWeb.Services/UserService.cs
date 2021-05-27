@@ -39,29 +39,29 @@ namespace CloudWeb.Services
         {
             ResponseResult<UserData> result = new ResponseResult<UserData>();
             //将登录用户查出来
-            string sql = "select password from users where isdel=0 account=@account and passsword=@password;";
-            var hashPassword = Find<string>(sql, dto);
+            string sql = "select password from users where isdel=0 and UserName=@UserName;";
+
+            var hashPassword = Find<string>(sql, new { UserName = dto.UserName });
 
             //用户不存在
             if (hashPassword is null)
             {
-                return result.SetFailMessage("用户名或密码不正确");
+                return result.SetFailMessage("用户名或密码不正确！");
             }
 
             if (Crypto.VerifyHashedPassword(hashPassword, dto.PassWord))
             {
-                DapperHelper cnn = new DapperHelper();
-                var userInDB
-          = cnn.Query<UserData>(@"select p.*,a.* from users p left join roles a on a.ID = p.AuthorID  where isdel=0 account=@account and passsword=@password;", dto );
+                UserData userInDB
+          = Find<UserData>(@"select r.*,u.* from users u left join roles r on u.roleID = r.id  where isdel=0 UserName=@account;", new { UserName = dto.UserName });
                 //密码正确后才加载用户信息、角色信息
                 //得到userdata
 
-                return result.SetData(userInDB as UserData);
+                return result.SetData(userInDB);
             }
             //密码错误
             else
             {
-                return result.SetFailMessage("用户名或密码错误！");
+                return result.SetFailMessage("用户名或密码不正确！");
 
             }
         }
