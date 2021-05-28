@@ -11,6 +11,9 @@
 
         //修改
         if (id != null) {
+
+            //保存id
+            $("#columnId").val(id);
             //判断是否是“添加子级”跳转
             var action = getUrlParam("action");
 
@@ -23,8 +26,7 @@
                 Category();
                 layui.form.render("select");
 
-                //保存id
-                $("#columnId").val(id);
+             
                 $.ajax({
                     type: "get",
                     url: BaseApi + "/api/admin/Column/GetColumn"
@@ -36,9 +38,14 @@
                         if (res.code === 200) {
                             //赋值
                             form.val("columnForm", res.data);
-                            $('#IconImg').removeClass('layui-hide').find('img').attr('src', res.data.icon);
+
+                            $("#parentIdSelect").val(res.data.parentId);
+                            if (res.data.icon !== '' & res.data.icon !== null) {
+                            
+                                $('#IconImg').removeClass('layui-hide').find('img').attr('src', res.data.icon);
+                            }
                             //多图赋值
-                            if (res.data.coverUrl !== '') {
+                            if (res.data.coverUrl !== '' & res.data.coverUrl !==null) {
 
                                 var pics = res.data.coverUrl.split(",")
 
@@ -106,7 +113,7 @@
                 if (res.code === 200) {
                     layer.msg('上传成功');
                     //绑定图片地址
-                    $("#ImgUrl1").val(res.data);
+                    $("#icon").val(res.data);
                     layui.$('#IconImg').removeClass('layui-hide').find('img').attr('src', res.data);
                 }
                 else {

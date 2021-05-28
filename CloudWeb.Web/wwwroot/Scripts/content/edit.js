@@ -11,12 +11,12 @@
 
         //对编辑器的操作最好在编辑器ready之后再做
         ue.ready(function () {
-            //设置编辑器的内容
-            ue.setContent('');
-            //获取html内容，返回: <p>hello</p>
-            var html = ue.getContent();
-            //获取纯文本内容，返回: hello
-            var txt = ue.getContentTxt();
+            ////设置编辑器的内容
+            //ue.setContent('');
+            ////获取html内容，返回: <p>hello</p>
+            //var html = ue.getContent();
+            ////获取纯文本内容，返回: hello
+            //var txt = ue.getContentTxt();
         });
 
         Category(id);
@@ -95,38 +95,48 @@
                 this.dateTime.seconds = now.getSeconds();
             }
         });
-
-
-        //编辑时加载方法
-        //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
         var id = getUrlParam("id");
-        console.log(id);
-        if (id != null) {
-            //保存id
-            $("#contentId").val(id);
-            console.log("asd")
-            $.ajax({
-                type: "get"
-                , url: "https://localhost:44377/api/admin/Content/GetContent"
-                //url: '/scripts/Column/editData.json' //数据接口
-                , data: { id: id }//传值
-                , success: function (res) {
-                    console.log(res);
-                    if (res.code === 200) {
-                        //表单赋值
-                        form.val("contentform", res.data);
-                        $('#Img1').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl1);
+        ue.ready(function () {
+            ////设置编辑器的内容
+            //ue.setContent('');
+            ////获取html内容，返回: <p>hello</p>
+            //var html = ue.getContent();
+            ////获取纯文本内容，返回: hello
+            //var txt = ue.getContentTxt();
 
-                        ue.setContent(res.data.content);
+            //编辑时加载方法
+            //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
+
+            console.log(id);
+            if (id != null) {
+                //保存id
+                $("#contentId").val(id);
+                console.log("asd")
+                $.ajax({
+                    type: "get"
+                    , url: "https://localhost:44377/api/admin/Content/GetContent"
+                    //url: '/scripts/Column/editData.json' //数据接口
+                    , data: { id: id }//传值
+                    , success: function (res) {
+                        console.log(res);
+                        if (res.code === 200) {
+                            //表单赋值
+                            $("#columnSelect").val(res.data.columnId);
+                            form.val("contentform", res.data);
+                            $('#Img1').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl1);
+                            if (res.data.content !== null && res.data.content !== '') {
+                                ue.setContent(res.data.content);
+                            }
+
+                        }
+                        else {
+                            //layer.msg("");
+                        }
                     }
-                    else {
-                        //layer.msg("");
-                    }
-                }
-            });
+                });
 
-        }
-
+            }
+        });
         //检查项目添加到下拉框中
         $.ajax({
             url: '/service/select',
@@ -185,14 +195,26 @@
                 success: function (res) {
                     console.log(res);
                     if (res.code === 200) {
-                        layer.msg(msg + "成功", { icon: 1 });
-                        //关闭当前frame
-                        xadmin.close();
-                        // 可以对父窗口进行刷新 
-                        xadmin.father_reload();
+                        layer.alert(msg + "成功", {
+                            icon: 6
+                        }, function () {
+                            //关闭当前frame
+                            xadmin.close();
+
+                            // 可以对父窗口进行刷新 
+                            xadmin.father_reload();
+                        });
+                        return false;
                     }
-                    else
-                        layer.msg(res.msg, { icon: 2 });
+                    else {
+                        layer.alert(res.msg, {
+                            icon: 2
+                        }, function () {
+                            //关闭当前frame
+                            xadmin.close();
+                        });
+                        return false;
+                    }
                 },
                 error: function (res) {
                     console.log(res)

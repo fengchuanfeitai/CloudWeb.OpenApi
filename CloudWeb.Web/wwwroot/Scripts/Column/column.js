@@ -155,8 +155,9 @@ function Starting_method() {
                     break;
                 case 'edit'://添加子级
                     {
+                        console.log("id:" + id)
                         //跳转编辑页面，携带id
-                        xadmin.open('添加栏目', '/Column/Edit?id=' + id, 800, 600)
+                        xadmin.open('编辑栏目', '/Column/Edit?id=' + id, 800, 600)
                     }
                     break;
             }

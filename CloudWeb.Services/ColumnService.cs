@@ -120,8 +120,7 @@ namespace CloudWeb.Services
 
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
-                SET [CreateTime] = @CreateTime
-                    ,[ModifyTime] = @ModifyTime
+                SET [ModifyTime] = @ModifyTime
                     ,[Creator] = @Creator
                     ,[Modifier] = @Modifier
                     ,[ColName] = @ColName
@@ -137,7 +136,6 @@ namespace CloudWeb.Services
                     ,[Sort] =@Sort
                     ,[IsNews] =@IsNews
                     ,[IsShow] = @IsShow
-                    ,[IsDel] = @IsDel
                 WHERE [ColumnId]=@ColumnId";
             columnDto.ModifyTime = DateTime.Now;
             return result.SetData(Update(sql, columnDto));

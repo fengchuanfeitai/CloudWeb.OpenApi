@@ -33,6 +33,7 @@ namespace CloudWeb.Services
             content.CreateTime = DateTime.Now;
             content.ModifyTime = DateTime.Now;
             content.CreateDate = DateTime.Now;
+            content.Hits = 0;
             result.SetData(Add(Insert_Content_Sql, content));
             return result;
         }
@@ -134,10 +135,10 @@ namespace CloudWeb.Services
                       ,[IsPublic] = @IsPublic
                       ,[IsCarousel] = @IsCarousel
                       ,[IsDefault] = @IsDefault
-                      ,[IsDel] = @IsDel
                       ,[Sort] = @Sort
                  WHERE [ID]=@Id";
             contentDto.ModifyTime = DateTime.Now;
+            contentDto.Hits = 0;
             return new ResponseResult<bool>(Update(sql, contentDto));
         }
 

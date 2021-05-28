@@ -6,7 +6,7 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form" action="" lay-filter="contentform">
-            <input id="contentId" type="hidden" name="Id" />
+            <input id="contentId" type="hidden" value="0"  name="Id" />
             <div class="layui-form-item">
                 <label for="title" class="layui-form-label">
                     <span class="x-red">*</span>标题
@@ -33,7 +33,7 @@
                     是否发布
                 </label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" checked name="isPulbic" value="1" lay-skin="switch" lay-text="发布|不发布">
+                    <input type="checkbox" checked name="isPublic" value="true" lay-skin="switch" lay-text="发布|不发布">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不发布前台则无法显示
@@ -53,7 +53,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">推荐到首页</label>
                     <div class="layui-input-inline">
-                        <input type="checkbox" name="IsDefault" value="1" lay-skin="switch" lay-text="推荐|不推荐">
+                        <input type="checkbox" name="isDefault" value="true" lay-skin="switch" lay-text="推荐|不推荐">
                     </div>
                     @*<div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不发布前台则无法显示
@@ -62,7 +62,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">添加到轮播</label>
                     <div class="layui-input-inline">
-                        <input type="checkbox" name="IsCarousel" value="1" lay-skin="switch" lay-text="添加|不添加">
+                        <input type="checkbox" name="isCarousel" value="true" lay-skin="switch" lay-text="添加|不添加">
                     </div>
                 </div>
             </div>

@@ -52,27 +52,27 @@ namespace CloudWeb.Dto.Param
         /// <summary>
         /// 是否发布
         /// </summary>
-        public int IsPublic { get; set; }
+        public bool IsPublic { get; set; }
 
         /// <summary>
         /// 是否添加到轮播
         /// </summary>
-        public int IsCarousel { get; set; }
+        public bool IsCarousel { get; set; }
 
         /// <summary>
         /// 是否推荐到首页
         /// </summary>
-        public int IsDefault { get; set; }
+        public bool IsDefault { get; set; }
 
         /// <summary>
         /// 是否删除
         /// </summary>
-        public int IsDel { get; set; }
+        public bool IsDel { get; set; }
 
         /// <summary>
         /// 排序
         /// </summary>
-        public int Sort { get; set; }
+        public int? Sort { get; set; }
 
         /// <summary>
         /// 创建时间
