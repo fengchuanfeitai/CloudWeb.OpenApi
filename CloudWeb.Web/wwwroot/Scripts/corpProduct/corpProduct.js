@@ -10,6 +10,9 @@ layui.use(['table', 'layer', 'form'], function () {
         table = layui.table,
         layer = layui.layer,
         form = layui.form;
+
+    //无token跳转登录
+    checkToken();
     //渲染select框
     $.get(GetCorpsUrl, function (res) {
         if (res.code != 200) {

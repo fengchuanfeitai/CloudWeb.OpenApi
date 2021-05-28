@@ -1,6 +1,16 @@
 ﻿/**访问接口url,发布修改发布网址 */
 window.BaseApi = "https://localhost:44377"
 
+
+function checkToken() {
+
+    //无token跳转登录
+    var toke = sessionStorage.getItem('token');
+    if (toke === null) {
+        window.location.href = '/home/login'
+    }
+}
+
 /**
  * 获取url中携带参数的值
  * @param {string} name 参数

@@ -9,7 +9,8 @@ layui.use(['table', 'layer', 'form'], function () {
         table = layui.table,
         layer = layui.layer,
         form = layui.form;
-
+    //无token跳转登录
+    checkToken();
     //table实例
     table.render({
         elem: '#corplist', //table id

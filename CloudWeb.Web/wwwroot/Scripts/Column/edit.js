@@ -4,7 +4,11 @@
         var form = layui.form,
             layer = layui.layer,
             upload = layui.upload;
-
+        //无token跳转登录
+        var toke = sessionStorage.getItem('token');
+        if (toke === null) {
+            window.location.href = '/home/login'
+        }
         //编辑时加载方法
         //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
         var id = getUrlParam("id");

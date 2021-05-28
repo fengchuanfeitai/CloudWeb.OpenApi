@@ -4,6 +4,8 @@
 layui.use('table', function () {
     var table = layui.table;
     var form = layui.form;
+    //无token跳转登录
+    checkToken();
 
     active = {
         reload: function () {

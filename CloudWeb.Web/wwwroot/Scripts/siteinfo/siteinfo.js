@@ -8,7 +8,8 @@ layui.use(['form', 'upload', 'layer'], function () {
         form = layui.form,
         upload = layui.upload,
         layer = layui.layer;
-
+    //无token跳转登录
+    checkToken();
     //页面初始化给页面元素赋值
     $(function () {
         $.ajax({

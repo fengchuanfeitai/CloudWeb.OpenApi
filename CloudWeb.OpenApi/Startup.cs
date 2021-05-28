@@ -26,6 +26,7 @@ using Microsoft.Extensions.FileProviders;
 using UEditor.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using CloudWeb.Dto.Common;
 
 namespace CloudWeb.OpenApi
 {
@@ -82,6 +83,8 @@ namespace CloudWeb.OpenApi
                 options.Filters.Add<ApiResultFilter>();
                 options.Filters.Add<ApiExceptionFilter>();
               
+            }).AddJsonOptions((options) => {
+                options.JsonSerializerOptions.Converters.Add(new JsonDateConverter());
             });
             services.AddSingleton<IConfiguration>(Configuration);
 

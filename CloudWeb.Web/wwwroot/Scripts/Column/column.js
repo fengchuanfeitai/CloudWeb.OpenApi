@@ -1,7 +1,8 @@
 ﻿layui.use(['form', 'laypage', 'layer', 'table', 'element'], function () {
     var form = layui.form
         , layer = layui.layer //弹层
-
+    //无token跳转登录
+    checkToken();
     //列表加载
     Starting_method();
 
@@ -78,9 +79,7 @@ function Starting_method() {
                 { field: 'localUrl', title: '跳转链接', align: 'center' },
                 { field: 'sort', title: '排序', sort: true, align: 'center' },
                 {
-                    field: 'createTime', title: '创建时间', templet: function (d) {
-                        return Format(d.createTime, "yyyy-MM-dd HH:mm:ss")
-                    }, sort: true, align: 'center'
+                    field: 'createTime', title: '创建时间', sort: true, align: 'center'
                 },
                 {
                     field: 'isShow', title: '是否显示到网站', templet: function (d) {

@@ -8,7 +8,8 @@ layui.use(['form', 'upload', 'layer'], function () {
         form = layui.form,
         upload = layui.upload,
         layer = layui.layer;
-
+    //无token跳转登录
+    checkToken();
     //选择下拉框渲染
     var columnSelect = xmSelect.render({
         el: '#ColSelect',
