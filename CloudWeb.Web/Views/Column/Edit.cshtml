@@ -7,7 +7,7 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form" action="" lay-filter="columnForm">
-            <input id="columnId" type="hidden"  value="0" name="columnId" />
+            <input id="columnId" type="hidden" value="0" name="columnId" />
             <div class="layui-form-item">
                 <label for="colName" class="layui-form-label">
                     <span class="x-red">*</span>栏目名称
@@ -23,7 +23,7 @@
                     <span class="x-red">*</span>父级类别
                 </label>
                 <div class="layui-input-inline">
-                    <select name="parentId" id="parentIdSelect" >
+                    <select name="parentId" id="parentIdSelect">
                     </select>
                 </div>
             </div>
@@ -82,6 +82,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        <span class="x-red">*</span>
+                        支持多图上传，尺寸建议上传1920*547像素
+                    </div>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -93,7 +97,7 @@
                 <div class="layui-input-block">
                     <div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="IconUpload">
                         <p>点击上传，或将图片拖拽到此处</p>
-                        <p>尺寸建议上传像素</p>
+                        <p>尺寸建议上传131*131像素</p>
                         <div class="layui-hide" id="IconImg">
                             <hr>
                             <img src="" alt="上传成功后渲染" style="height:20%;width:20%;">
