@@ -25,6 +25,7 @@ using CloudWeb.OpenApi.Core.Core;
 using Microsoft.Extensions.FileProviders;
 using UEditor.Core;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CloudWeb.OpenApi
 {
@@ -60,6 +61,8 @@ namespace CloudWeb.OpenApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie();
             //services.AddSession();
             services.AddControllers(options =>
             {
@@ -149,7 +152,7 @@ namespace CloudWeb.OpenApi
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=36000");
                 }
             });
-            //app.UseSession();
+            app.UseCookiePolicy();
             app.UseRouting();
             //开启跨域中间件
             app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);

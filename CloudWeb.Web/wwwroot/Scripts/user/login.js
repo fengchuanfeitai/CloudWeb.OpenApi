@@ -1,7 +1,12 @@
 ﻿layui.use(['form', 'layer'], function () {
     var form = layui.form;
     $ = layui.jquery;
-   
+
+    //$.get('https://localhost:44377/api/admin/User/VerifyImage', function (data) {
+    //    $("#VerifyImage").attr("src", "data:image/png;base64,"+data);
+    //});
+    //var a = $.cookie('LoginValidateCode');
+    //console.log(a);
     //监听提交
     form.on('submit(login)', function (data) {
         // alert(888)

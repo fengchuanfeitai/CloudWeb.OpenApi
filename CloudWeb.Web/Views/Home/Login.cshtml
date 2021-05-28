@@ -34,7 +34,7 @@
             <input name="PassWord" lay-verify="required" placeholder="密码" type="password" lay-reqtext="密码不能为空" class="layui-input">
             <hr class="hr15">
             <input id="verifyCode" name="VerifyCode" lay-verify="required" placeholder="验证码" lay-reqtext="验证码不能为空" type="text" class="layui-verify" style="width:220px;">
-            <img style="height:45px" src="@Url.Action("VerifyImage", "Home")" id="VerifyImage" title="看不清？点击换一个" onclick="javascript:document.getElementById('VerifyImage').src='@Url.Action("VerifyImage", "Home")?r='+Math.random();return false;">
+            <img style="height:45px" src="https://localhost:44377/api/admin/User/VerifyImage" id="VerifyImage" title="看不清？点击换一个" onclick="javascript:document.getElementById('VerifyImage').src='https://localhost:44377/api/admin/User/VerifyImage?r='+Math.random();return false;">
             <hr class="hr15">
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20">

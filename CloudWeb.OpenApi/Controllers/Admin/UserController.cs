@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
 
 namespace CloudWeb.OpenApi.Controllers.Admin
 {
@@ -40,7 +42,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         //[AllowAnonymous]
         public ResponseResult<UserData> Login(UserParam user)
         {
-            string code = HttpContext.Session.GetString("LoginValidateCode");
+            //string code = HttpContext.Session.GetString("LoginValidateCode");
+            var code = HttpContext.Request.Cookies["LoginValidateCode"];
+
             if (code != user.VerifyCode)
             {
                 return new ResponseResult<UserData>("请输入正确的验证码");
@@ -57,8 +61,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         {
             var validate = new ValidateCodeUtil();
             string code = validate.CreateValidateCode(4);
-            HttpContext.Session.SetString("LoginValidateCode", code);
-
+            HttpContext.Response.Cookies.Append("LoginValidateCode", code);
             byte[] bytes = validate.CreateValidateGraphic(code);
 
             var file = File(bytes, @"image/jpeg");
