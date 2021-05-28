@@ -201,9 +201,9 @@ namespace CloudWeb.Services
                 ColumnSearch = $" AND ColumnId={param.ObjId}";
 
             if (!string.IsNullOrEmpty(param.KeyWord))
-                KeywordSearch = " AND Title LIKE '%" + param.KeyWord + "%' OR Content LIKE '%" + param.KeyWord + "%'";
+                KeywordSearch = " (AND Title LIKE '%" + param.KeyWord + "%' OR Content LIKE '%" + param.KeyWord + "%')";
 
-            string AllPaPersSql = $"SELECT c2.[Index],c1.* FROM dbo.Content c1,(SELECT TOP(@PageIndex*@PageSize) ROW_NUMBER() OVER(ORDER BY Sort ASC, CreateTime DESC) AS[Index], Id FROM dbo.Content WHERE IsDel = 0 AND IsPublic = 1) c2  WHERE c1.Id = c2.Id AND c2.[Index] > ((@PageIndex -1)*@PageSize) {ColumnSearch} {KeywordSearch}  AND  c1.ColumnId IN (SELECT ColumnId FROM dbo.[Columns] WHERE ColumnId = {param.MasterId} OR ParentId = {param.MasterId} AND IsDel = 0 AND IsShow = 1)";
+            string AllPaPersSql = $"SELECT c2.[Index],c1.* FROM dbo.Content c1,(SELECT TOP(@PageIndex*@PageSize) ROW_NUMBER() OVER(ORDER BY Sort ASC, CreateTime DESC) AS[Index], Id,ColumnId FROM dbo.Content WHERE IsDel = 0 AND IsPublic = 1 {ColumnSearch} {KeywordSearch} AND ColumnId IN (SELECT ColumnId FROM dbo.[Columns] WHERE ColumnId = {param.MasterId} OR ParentId = {param.MasterId} AND IsDel = 0 AND IsShow = 1)) c2  WHERE c1.Id = c2.Id AND c2.[Index] > ((@PageIndex -1)*@PageSize) ";
 
             var CountSql = $"SELECT COUNT(*) FROM dbo.Content WHERE IsPublic = 1 AND IsDel = 0 {ColumnSearch} {KeywordSearch} AND ColumnId IN (SELECT ColumnId FROM dbo.[Columns] WHERE ColumnId = {param.MasterId} OR ParentId = {param.MasterId} AND IsDel = 0 AND IsShow = 1)";
 
