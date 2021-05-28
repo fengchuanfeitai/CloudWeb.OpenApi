@@ -83,20 +83,6 @@ namespace CloudWeb.IServices
         /// <summary>
         /// 根据columnId查询内容
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        ResponseResult<IEnumerable<ContentDto>> GetWebContent(int columnId);
-
-        /// <summary>
-        /// 查询新闻报导页数据
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        ResponseResult<IEnumerable<ContentDto>> GetAllNews(BaseParam param);
-
-        /// <summary>
-        /// 查询教学研究与论文
-        /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
         ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param);

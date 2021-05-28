@@ -192,13 +192,7 @@ namespace CloudWeb.Services
             string sql = "select * FROM[Ori_CloudWeb].[dbo].[Content] where isdel=0 and  IsDefault=1 order by sort asc;";
             return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql));
         }
-
-        public ResponseResult<IEnumerable<ContentDto>> GetWebContent(int columnId)
-        {
-            string sql = "select * FROM[Ori_CloudWeb].[dbo].[Content] where isdel=0 and  IsCarousel=1 and columnId=@id;";
-            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, new { id = columnId }));
-        }
-
+    
         public ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param)
         {
             var ColumnSearch = "";
