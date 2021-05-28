@@ -38,6 +38,11 @@ namespace CloudWeb.Services
 
         #endregion
 
+        #region 公用方法
+        #endregion
+
+        #region 后台接口
+
         /// <summary>
         /// 添加公司信息
         /// </summary>
@@ -165,6 +170,10 @@ namespace CloudWeb.Services
             return result;
         }
 
+        #endregion
+
+        #region 网站接口
+
         public ResponseResult<IEnumerable<CorporationDto>> GetCorpSelectList()
         {
             const string sql = @"SELECT CorpId,[Name] FROM dbo.Corporations WHERE IsShow=1 AND IsDel=0";
@@ -182,5 +191,8 @@ namespace CloudWeb.Services
 
             return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql, new { id = id }));
         }
+
+        #endregion
+
     }
 }

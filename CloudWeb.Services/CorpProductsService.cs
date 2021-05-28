@@ -28,6 +28,12 @@ namespace CloudWeb.Services
 
         #endregion
 
+        #region 公用方法
+
+        #endregion
+
+        #region 后台逻辑接口
+
         /// <summary>
         /// 添加产品信息
         /// </summary>
@@ -182,8 +188,9 @@ namespace CloudWeb.Services
             return result;
         }
 
-        #region 网站接口
+        #endregion
 
+        #region 网站接口
 
         public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(int id)
         {

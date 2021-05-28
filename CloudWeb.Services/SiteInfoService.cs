@@ -39,32 +39,7 @@ namespace CloudWeb.Services
 
         #endregion
 
-        /// <summary>
-        /// 修改站点信息
-        /// </summary>
-        /// <param name="siteInfo">站点信息</param>
-        /// <returns></returns>
-        public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto siteInfo)
-        {
-            var Result = new ResponseResult<bool>();
-
-            var SiteInfoRes = FindSiteInfoById(siteInfo.Id);
-            if (SiteInfoRes.data == null)
-                return Result.SetFailMessage("站点信息不存在");
-
-            if (Equals(siteInfo, SiteInfoRes.data))
-                return Result.Set(ResponseResult.Ok, 0, "", true);
-
-            siteInfo.Modifier = 0;
-            siteInfo.ModifyTime = DateTime.Now;
-
-            const string sql = @"UPDATE dbo.SiteInfo SET                  ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,
-              SiteKeyword=@SiteKeyword,SiteDesc=@SiteDesc,
-              SiteLogo=@SiteLogo,CopyRight=@CopyRight,Icp=@Icp,Tel=@Tel,
-              [Address]=@Address,WeChatPublicNo=@WeChatPublicNo";
-
-            return Result.SetData(Update(sql, siteInfo));
-        }
+        #region 公用方法
 
         /// <summary>
         /// 查询站点信息
@@ -105,5 +80,38 @@ namespace CloudWeb.Services
 
             return Result.SetData(SiteInfo);
         }
+
+        #endregion
+
+        #region 后台逻辑接口
+
+        /// <summary>
+        /// 修改站点信息
+        /// </summary>
+        /// <param name="siteInfo">站点信息</param>
+        /// <returns></returns>
+        public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto siteInfo)
+        {
+            var Result = new ResponseResult<bool>();
+
+            var SiteInfoRes = FindSiteInfoById(siteInfo.Id);
+            if (SiteInfoRes.data == null)
+                return Result.SetFailMessage("站点信息不存在");
+
+            if (Equals(siteInfo, SiteInfoRes.data))
+                return Result.Set(ResponseResult.Ok, 0, "", true);
+
+            siteInfo.Modifier = 0;
+            siteInfo.ModifyTime = DateTime.Now;
+
+            const string sql = @"UPDATE dbo.SiteInfo SET                  ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,
+              SiteKeyword=@SiteKeyword,SiteDesc=@SiteDesc,
+              SiteLogo=@SiteLogo,CopyRight=@CopyRight,Icp=@Icp,Tel=@Tel,
+              [Address]=@Address,WeChatPublicNo=@WeChatPublicNo";
+
+            return Result.SetData(Update(sql, siteInfo));
+        }
+
+        #endregion       
     }
 }
