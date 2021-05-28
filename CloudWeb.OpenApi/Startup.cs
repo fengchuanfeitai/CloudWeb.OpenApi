@@ -61,6 +61,17 @@ namespace CloudWeb.OpenApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => false;//这里要改为false，默认是true，true的时候session无效
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
+
+            // 指定Session保存方式:分发内存缓存
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie();
             //services.AddSession();
@@ -130,6 +141,7 @@ namespace CloudWeb.OpenApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSession();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -152,7 +164,8 @@ namespace CloudWeb.OpenApi
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=36000");
                 }
             });
-            app.UseCookiePolicy();
+          
+  
             app.UseRouting();
             //开启跨域中间件
             app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);

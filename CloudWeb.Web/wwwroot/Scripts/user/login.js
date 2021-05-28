@@ -23,8 +23,8 @@
                     layer.msg('登录成功');
                     //保存数据到session
                     sessionStorage.setItem('token', res.data.token);
-                    sessionStorage.setItem('Account', res.data.Account);
-                    location.href = 'home/index'
+                    sessionStorage.setItem('Account', res.data.userName);
+                    location.href = 'index'
                 }
                 else {
                     layer.msg(res.msg);

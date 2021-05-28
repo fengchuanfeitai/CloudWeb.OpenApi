@@ -42,13 +42,18 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         //[AllowAnonymous]
         public ResponseResult<UserData> Login(UserParam user)
         {
-            //string code = HttpContext.Session.GetString("LoginValidateCode");
-            var code = HttpContext.Request.Cookies["LoginValidateCode"];
+            //var code = SessionHelper.GetSession(HttpContext.Session, "ValidateLogin");
+            //string sessionCode = HttpContext.Session.GetString("VERFIY_CODE_TOKEN");
+            //if (string.IsNullOrEmpty(sessionCode) || string.Compare(user.VerifyCode, sessionCode, true) != 0)
+            //{
+            //    throw new Exception("验证码错误，请重新输入");
+            //}
 
-            if (code != user.VerifyCode)
-            {
-                return new ResponseResult<UserData>("请输入正确的验证码");
-            }
+
+            //if (sessionCode != user.VerifyCode)
+            //{
+            //    return new ResponseResult<UserData>("请输入正确的验证码");
+            //}
             return _service.Login(user);
         }
 
@@ -61,7 +66,8 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         {
             var validate = new ValidateCodeUtil();
             string code = validate.CreateValidateCode(4);
-            HttpContext.Response.Cookies.Append("LoginValidateCode", code);
+            HttpContext.Session.SetString("VERFIY_CODE_TOKEN", code);
+            //SessionHelper.SetSession(HttpContext.Session, "ValidateLogin", code);
             byte[] bytes = validate.CreateValidateGraphic(code);
 
             var file = File(bytes, @"image/jpeg");

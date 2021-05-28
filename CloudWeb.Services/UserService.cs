@@ -37,6 +37,7 @@ namespace CloudWeb.Services
 
         public ResponseResult<UserData> LoginValidate(UserParam dto)
         {
+            string a = Crypto.HashPassword("888888");
             ResponseResult<UserData> result = new ResponseResult<UserData>();
             //将登录用户查出来
             string sql = "select password from users where isdel=0 and UserName=@UserName;";
@@ -52,7 +53,7 @@ namespace CloudWeb.Services
             if (Crypto.VerifyHashedPassword(hashPassword, dto.PassWord))
             {
                 UserData userInDB
-          = Find<UserData>(@"select r.*,u.* from users u left join roles r on u.roleID = r.id  where isdel=0 UserName=@account;", new { UserName = dto.UserName });
+          = Find<UserData>(@"select r.*,u.* from users u left join roles r on u.roleID = r.roleid  where u.isdel=0 and UserName=@account;", new { account = dto.UserName });
                 //密码正确后才加载用户信息、角色信息
                 //得到userdata
 

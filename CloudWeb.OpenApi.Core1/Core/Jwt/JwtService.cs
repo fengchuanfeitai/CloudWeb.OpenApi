@@ -41,12 +41,12 @@ namespace CloudWeb.OpenApi.Core.Jwt
             // 配置用户标识
             var userClaims = new Claim[]
             {
-                new Claim(UserClaimType.Id,userData.Id.ToString()),//id
-                new Claim(UserClaimType.Account,userData.Account),//account
-                new Claim(UserClaimType.Name,userData.Name),//name
+                new Claim(UserClaimType.Id,userData.UserId.ToString()),//id
+                new Claim(UserClaimType.Account,userData.UserName),//account
+                new Claim(UserClaimType.Name,userData.RealName),//name
                 new Claim(UserClaimType.RoleName,userData.RoleName),//rolename
-                new Claim(UserClaimType.RoleDisplayName,userData.RoleDisplayName),//roledisplayname
-                new Claim(JwtRegisteredClaimNames.Jti,userData.Id.ToString()),
+                new Claim(UserClaimType.RoleDisplayName,userData.Role),//roledisplayname
+                new Claim(JwtRegisteredClaimNames.Jti,userData.UserId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
                 //new Claim(JwtRegisteredClaimNames.Iss,_jwtSetting.Issuer),
                 //new Claim(JwtRegisteredClaimNames.Aud,_jwtSetting.Audience),
