@@ -37,7 +37,6 @@ namespace CloudWeb.Services
 
         public ResponseResult<UserData> LoginValidate(UserParam dto)
         {
-            string a = Crypto.HashPassword("888888");
             ResponseResult<UserData> result = new ResponseResult<UserData>();
             //将登录用户查出来
             string sql = "select password from users where isdel=0 and UserName=@UserName;";
