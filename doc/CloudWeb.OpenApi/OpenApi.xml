@@ -306,9 +306,16 @@
             栏目管理
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.GetMenus">
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.#ctor(Microsoft.Extensions.Logging.ILogger{CloudWeb.OpenApi.Controllers.Web.ColumnController},CloudWeb.IServices.IColumnService)">
             <summary>
-            查询标题
+            
+            </summary>
+            <param name="log"></param>
+            <param name="service"></param>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.GetColumnsByParentId(System.Int32)">
+            <summary>
+            根据ParenId 获取子栏目
             </summary>
             <returns></returns>
         </member>
@@ -342,15 +349,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetAllNews(CloudWeb.Dto.Param.BaseParam)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetContentByColumnId(CloudWeb.Dto.Param.SearchPapers)">
             <summary>
-            新闻报导页面数据
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetPapers(CloudWeb.Dto.Param.SearchPapers)">
-            <summary>
-            教学研究与论文页面数据
+            根据一级栏目Id及查询条件查询内容
             </summary>
             <param name="param"></param>
             <returns></returns>

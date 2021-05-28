@@ -78,13 +78,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id);
-
-        /// <summary>
-        /// 获取学科下拉框
-        /// </summary>
-        /// <returns></returns>
-        ResponseResult<IEnumerable<ColumnDto>> GetObjectSelect();
+        ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id);    
 
         #endregion
     }
