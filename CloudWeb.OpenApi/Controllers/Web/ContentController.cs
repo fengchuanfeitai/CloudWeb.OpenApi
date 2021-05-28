@@ -4,6 +4,7 @@ using CloudWeb.Dto.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using CloudWeb.Dto.Param;
 
 namespace CloudWeb.OpenApi.Controllers.Web
 {
@@ -51,6 +52,17 @@ namespace CloudWeb.OpenApi.Controllers.Web
         public ResponseResult<IEnumerable<ContentDto>> GetWebContent()
         {
             return _service.GetCarouselNews();
+        }
+
+        /// <summary>
+        /// 根据一级栏目Id及查询条件查询内容
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param)
+        {
+            return _service.GetContentByColumnId(param);
         }
     }
 }

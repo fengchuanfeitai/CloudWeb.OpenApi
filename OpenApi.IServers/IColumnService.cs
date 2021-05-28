@@ -71,7 +71,7 @@ namespace CloudWeb.IServices
         /// 获取导航栏数据
         /// </summary>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ColumnDto>> GetMenus();
+        ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParentId(int parentId);
 
         /// <summary>
         /// 获取图标
@@ -80,8 +80,11 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id);
 
-
-
+        /// <summary>
+        /// 获取学科下拉框
+        /// </summary>
+        /// <returns></returns>
+        ResponseResult<IEnumerable<ColumnDto>> GetObjectSelect();
 
         #endregion
     }

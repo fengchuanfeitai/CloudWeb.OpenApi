@@ -342,6 +342,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetAllNews(CloudWeb.Dto.Param.BaseParam)">
+            <summary>
+            新闻报导页面数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetPapers(CloudWeb.Dto.Param.SearchPapers)">
+            <summary>
+            教学研究与论文页面数据
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.CorporationController">
             <summary>
             web公司接口

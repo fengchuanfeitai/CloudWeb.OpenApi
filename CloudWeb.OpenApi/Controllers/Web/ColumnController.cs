@@ -17,6 +17,12 @@ namespace CloudWeb.OpenApi.Controllers.Web
         //初始化日志
         private readonly ILogger<ColumnController> _log;
         private readonly IColumnService _service;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="log"></param>
+        /// <param name="service"></param>
         public ColumnController(ILogger<ColumnController> log, IColumnService service)
         {
             _log = log;
@@ -24,14 +30,15 @@ namespace CloudWeb.OpenApi.Controllers.Web
         }
 
         #region 网站接口
+
         /// <summary>
-        /// 查询标题
+        /// 根据ParenId 获取子栏目
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ColumnDto>> GetMenus()
+        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParentId(int parentId)
         {
-            return _service.GetMenus();
+            return _service.GetColumnsByParentId(parentId);
         }
 
         /// <summary>

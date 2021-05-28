@@ -206,10 +206,10 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { id = id }));
         }
 
-        public ResponseResult<IEnumerable<ColumnDto>> GetMenus()
+        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParentId(int parentId)
         {
-            string sql = "select * from Columns where isdel=0 and level=1 order by sort asc";
-            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql));
+            string sql = "SELECT * FROM dbo.[Columns] WHERE IsDel = 0 AND IsShow = 1 AND ParentId=@parentId";
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
         }
 
         #endregion

@@ -56,7 +56,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="contentDto"></param>
         /// <returns></returns>
-        ResponseResult<bool> AddContent(ContentParam contentParam);
+        ResponseResult<bool> AddContent(ContentParam contentParam);    
 
         /// <summary>
         /// 删除内容
@@ -87,7 +87,19 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<IEnumerable<ContentDto>> GetWebContent(int columnId);
 
+        /// <summary>
+        /// 查询新闻报导页数据
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        ResponseResult<IEnumerable<ContentDto>> GetAllNews(BaseParam param);
 
+        /// <summary>
+        /// 查询教学研究与论文
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param);
         #endregion
     }
 }
