@@ -1,6 +1,7 @@
 ﻿using CloudWeb.DataRepository;
 using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Dto;
 using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using System;
@@ -13,6 +14,28 @@ namespace CloudWeb.Services
     /// </summary>
     public class ColumnService : BaseDao, IColumnService
     {
+        #region 私有方法
+
+        private IList<CarouselDto> SplitCover(string cover)
+        {
+            var resData = new List<CarouselDto>();
+
+            if (cover == null)
+                return resData;
+
+            foreach (var item in cover.Split(','))
+            {
+                var data = new CarouselDto()
+                {
+                    CarouselUrl = item
+                };
+                resData.Add(data);
+            }
+            return resData;
+        }
+
+        #endregion
+
         #region 管理系统后台接口逻辑
 
         /// <summary>
@@ -199,19 +222,24 @@ namespace CloudWeb.Services
 
         #region 网站接口
 
-        public ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id)
-        {
-            string sql = "select * from Columns where isdel=0 and parentid=@id and level=2 order by sort asc";
-
-            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { id = id }));
-        }
-
         public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParentId(int parentId)
         {
             string sql = "SELECT * FROM dbo.[Columns] WHERE IsDel = 0 AND IsShow = 1 AND ParentId=@parentId";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
         }
 
+        public ResponseResult<IList<CarouselDto>> GetCarouselImg(int columnId)
+        {
+            var result = new ResponseResult<IList<CarouselDto>>();
+            string sql = "SELECT CoverUrl FROM dbo.[Columns] WHERE IsDel=0 AND IsShow=1 AND  ColumnId=@columnId";
+            var column = Find<ColumnDto>(sql, new { columnId = columnId });
+            if (column == null)
+                return result.SetFailMessage("获取轮播图失败，栏目编号不存在");
+
+            var Carousel = SplitCover(column.CoverUrl);
+
+            return result.SetData(Carousel);
+        }
         #endregion
     }
 }

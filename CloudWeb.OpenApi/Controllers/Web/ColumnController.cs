@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Dto;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -42,14 +43,14 @@ namespace CloudWeb.OpenApi.Controllers.Web
         }
 
         /// <summary>
-        /// 查询icon
+        /// 获取栏目轮播图
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="columnId"></param>
         /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id)
+        [HttpGet]
+        public ResponseResult<IList<CarouselDto>> GetCarouselImg(int columnId)
         {
-            return _service.GetIcons(id);
+            return _service.GetCarouselImg(columnId);
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Dto;
 using CloudWeb.Dto.Param;
 using System.Collections.Generic;
 
@@ -74,11 +75,11 @@ namespace CloudWeb.IServices
         ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParentId(int parentId);
 
         /// <summary>
-        /// 获取图标
+        /// 获取栏目轮播图
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ColumnDto>> GetIcons(int id);    
+        ResponseResult<IList<CarouselDto>> GetCarouselImg(int columnId);
 
         #endregion
     }
