@@ -102,11 +102,11 @@ namespace CloudWeb.Dto.Param
     /// <summary>
     /// 是否添加轮播
     /// </summary>
-    public class TopStatusParam : BaseColumnParam
+    public class CarouselStatusParam : BaseColumnParam
     {
         [Display(Name = "是否添加轮播状态")]
         [Required(ErrorMessage = "{0}必填")]
-        public int TopStatus { get; set; }
+        public int CarouselStatus { get; set; }
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ namespace CloudWeb.Dto.Param
     {
         [Display(Name = "是否发布状态")]
         [Required(ErrorMessage = "{0}必填")]
-        public int PublicStatus { get; set; }
+        public bool PublicStatus { get; set; }
     }
 
     /// <summary>
@@ -126,13 +126,12 @@ namespace CloudWeb.Dto.Param
     {
         [Display(Name = "添加首页状态")]
         [Required(ErrorMessage = "{0}必填")]
-        public int DefaultStatus { get; set; }
+        public bool DefaultStatus { get; set; }
     }
 
     public class BaseContentParam
     {
-        [Display(Name = "主键")]
-        [Required(ErrorMessage = "{0}必填")]
+        [Required(ErrorMessage = "主键必填")]
         public int Id { get; set; }
     }
 

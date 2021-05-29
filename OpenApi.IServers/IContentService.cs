@@ -21,7 +21,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="TopStatusParam">状态参数</param>
         /// <returns></returns>
-        ResponseResult ChangeTopStatus(TopStatusParam showStatusParam);
+        ResponseResult ChangeCarouselStatus(CarouselStatusParam carouselStatusParam);
 
         /// <summary>
         /// 改变发布状态

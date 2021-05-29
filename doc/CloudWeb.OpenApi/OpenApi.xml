@@ -88,11 +88,11 @@
             <param name="publicStatusParam">状态参数</param>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.ChangeTopStatus(CloudWeb.Dto.Param.TopStatusParam)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.ChangeCarouselStatus(CloudWeb.Dto.Param.CarouselStatusParam)">
             <summary>
              添加轮播
             </summary>
-            <param name="topStatusParam">状态参数</param>
+            <param name="carouselStatusParam">状态参数</param>
             <returns></returns>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.ContentController.GetContent(System.Int32)">

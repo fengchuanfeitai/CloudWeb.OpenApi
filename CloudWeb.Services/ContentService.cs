@@ -81,11 +81,11 @@ namespace CloudWeb.Services
         /// <param name="DefaultStatusParam">状态参数</param>
         /// <returns></returns>
 
-        public ResponseResult ChangeTopStatus(TopStatusParam topStatusParam)
+        public ResponseResult ChangeCarouselStatus(CarouselStatusParam carouselStatusParam)
         {
             ResponseResult result = new ResponseResult();
-            string sql = "UPDATE content SET IsCarousel = @TopStatus WHERE Id = @Id";
-            bool isSuccess = Update(sql, topStatusParam);
+            string sql = "UPDATE content SET IsCarousel = @CarouselStatus WHERE Id = @Id";
+            bool isSuccess = Update(sql, carouselStatusParam);
 
             if (isSuccess)
                 result.Set((int)HttpStatusCode.OK, "修改状态成功");

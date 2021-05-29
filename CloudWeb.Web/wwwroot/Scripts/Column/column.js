@@ -1,6 +1,5 @@
 ﻿layui.use(['form', 'laypage', 'layer', 'table', 'element'], function () {
     var form = layui.form
-        , layer = layui.layer //弹层
     //无token跳转登录
     checkToken();
     //列表加载
@@ -8,27 +7,12 @@
 
     //显示按钮状态事件
     form.on('switch(switchTest)', function (obj) {
-        //console.log(`我监听到的switch的值是：${obj.value}`);
-        //console.log(`我监听到的switch是否为checked：${obj.elem.checked}`);
         var apiurl = BaseApi + '/api/admin/Column/ChangeShowStatus';
         //改变状态
         var onoff = this.checked ? '1' : '0';
-        console.log(obj.value);
-        $.post(apiurl, { id: obj.value, ShowStatus: onoff }, function (res) {
-
-            console.log(res);
-            //判断是否等于200，否则提示错误信息
-            if (res.code === 200) {
-                layer.msg('显示状态修改成功', { icon: 1 });
-            }
-            else {
-                layer.msg('显示状态修改失败', { icon: 2 });
-                obj.elem.checked = !obj.elem.checked;
-            }
-            form.render();
-        });
+        var params = { id: obj.value, ShowStatus: onoff };
+        ChangeStatus(apiurl, params, form, obj);
     });
-
 });
 
 
@@ -41,8 +25,6 @@ function Starting_method() {
         var $ = layui.jquery;
         var layer = layui.layer;
         var treeTable = layui.treeTable;
-        var table = layui.table;
-        $('body').removeClass('layui-hide');
 
         // 渲染树形表格
         var insTb = treeTable.render({
@@ -52,7 +34,7 @@ function Starting_method() {
             cellMinWidth: 100,
             where: { pageIndex: 1, pageSize: 10 },//传递参数
             tree: {
-                iconIndex: 3,           // 折叠图标显示在第几列
+                iconIndex: 2,           // 折叠图标显示在第几列
                 isPidData: true,        // 是否是id、pid形式数据
                 idName: 'columnId',  // id字段名称
                 pidName: 'parentId',     // pid字段名称
@@ -63,17 +45,11 @@ function Starting_method() {
                 none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
             },
             cols: [[
-                { type: 'numbers' },
+                //{ type: 'numbers' },
                 { type: 'checkbox' },
                 { field: 'columnId', title: '编号', align: 'left' },
                 {
-                    field: 'colName', title: '栏目名称', align: 'left', templet: function (d) {
-                        //console.log(d.leavel)
-                        //if (d.level == 2)
-                        //    return '|-' + d.colName;
-                        //else
-                        return d.colName;
-                    }
+                    field: 'colName', title: '栏目名称', align: 'left'
                 },
                 { field: 'level', title: '栏目级别', align: 'center', hide: true },
                 { field: 'localUrl', title: '跳转链接', align: 'center' },
@@ -100,13 +76,7 @@ function Starting_method() {
             }
             , done: function (res, curr, count) {
                 //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                 console.log("接口返回data:" + res.data);
-
-                //得到当前页码
-                console.log("当前页码：" + curr);
-                //得到数据总量
-                console.log("数据总数：" + count);
             }
         });
 
@@ -122,45 +92,30 @@ function Starting_method() {
                 case 'add'://添加子级
                     {
                         //跳转编辑页面，携带id
-                        xadmin.open('添加栏目', '/Column/Edit?id=' + id + '&action=addSublevel', 800, 600)
+                        xadmin.open('添加栏目', '/Column/Edit?columnId=' + id + '&action=addSublevel', 800, 600)
                     }
                     break;
                 case 'del':
                     {
                         var level = obj.data.level;//获取栏目级别
+                        var ids = new Array();
+                        ids.push(id);
 
-                        layer.confirm(level === 1 ? '本操作会删除本类别及下属子类别，是否继续？' : '是否删除选中数据？', function (index) {
-                            var ids = new Array();
-                            ids.push(id)
-                            console.log("单选删除数据：" + ids);
-                            $.ajax({
-                                type: 'delete',
-                                url: BaseApi + '/api/admin/Column/DeleteColumn',
-                                dataType: 'json',
-                                data: { ids: ids },
-                                success: function (res) {
-                                    console.log(res)
-                                    if (res.code === 200) {
-                                        layer.msg('删除成功', { icon: 1 });
-                                        insTb.reload();//刷新表格
-                                    }
-                                    else
-                                        layer.msg('删除失败', { icon: 2 });
-                                }
-                            });
-                            layer.close(index);
-                        });
+                        var confirmMsg = level === 1 ? '本操作会删除本类别及下属子类别，是否继续？' : '是否删除选中数据？';
+                        var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
+                        DelAjax(delApi, 'delete', confirmMsg, { ids: ids }, insTb)
                     }
                     break;
                 case 'edit'://添加子级
                     {
-                        console.log("id:" + id)
+                        console.log("Column[edit],id:" + id)
                         //跳转编辑页面，携带id
-                        xadmin.open('编辑栏目', '/Column/Edit?id=' + id, 800, 600)
+                        xadmin.open('编辑栏目', '/Column/Edit?columnId=' + id + '&action=edit', 800, 600)
                     }
                     break;
             }
         });
+
         var ids = [];
         //全选删除
         treeTable.on('checkbox(columnTreeTb)', function (obj) {
@@ -190,27 +145,42 @@ function Starting_method() {
                 layer.msg('请先选择要删除的数据', { icon: 2 });
                 return false;
             }
-            layer.confirm('确认要删除所有选中数据吗？', function (index) {
-                $.ajax({
-                    type: 'delete',
-                    url: 'https://localhost:44377/api/admin/Column/DeleteColumn',
-                    dataType: 'json',
-                    data: { ids: ids },
-                    success: function (res) {
-                        console.log(res)
-                        if (res.code === 200) {
-                            layer.msg('删除成功', { icon: 1 });
-                            insTb.reload();//刷新表格
-                        }
-                        else
-                            layer.msg('删除失败', { icon: 2 });
-                    }
-                });
-                layer.close(index);
-            });
+
+            var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
+            DelAjax(delApi, 'delete', '确认要删除所有选中数据吗？', { ids: ids }, insTb)
+
         });
 
     });
 
 }
 
+/**
+ * ajax 删除、全选删除
+ * @param {string} delApi 删除接口地址
+ * @param {string} method ajax 模式
+ * @param {string} confirmMsg 弹出框确认信息
+ * @param {object} params 参数
+ * @param {object} insTb 表对象
+ */
+function DelAjax(delApi, method, confirmMsg, params, insTb) {
+    layer.confirm(confirmMsg, function (index) {
+
+        $.ajax({
+            type: method,
+            url: delApi,
+            dataType: 'json',
+            data: params,//'ids='+arr+'&_method=delete',
+            success: function (res) {
+                console.log(res)
+                if (res.code === 200) {
+                    layer.msg('删除成功', { icon: 1 });
+                    insTb.reload();//刷新表格
+                }
+                else
+                    layer.msg('删除失败', { icon: 2 });
+            }
+        });
+        layer.close(index);
+    });
+}

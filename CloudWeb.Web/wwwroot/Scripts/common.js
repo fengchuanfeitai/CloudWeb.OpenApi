@@ -1,7 +1,7 @@
 ﻿/**访问接口url,发布修改发布网址 */
 window.BaseApi = "https://localhost:44377"
 
-
+/* 判断是否登录，不登录访问页面时，默认跳转登录页面 */
 function checkToken() {
 
     //无token跳转登录
@@ -22,7 +22,7 @@ function getUrlParam(name) {
 }
 
 /**
- * ajax 公用方法
+ * ajax  添加、编辑公用方法
  * @param {string} path 地址
  * @param {string} method ajax方法
  * @param {object} params 传入参数
@@ -67,37 +67,70 @@ function ajax(path, method, params, msg) {
 }
 
 /**
- * 
- * @param {any} datetime
- * @param {any} fmt
+ * ajax 删除、全选删除
+ * @param {string} delApi 删除接口地址
+ * @param {string} method ajax 模式
+ * @param {string} confirmMsg 弹出框确认信息
+ * @param {object} params 参数
+ * @param {string} tableId 要刷新的表id
+ * @param {object} table 表对象
  */
-function Format(datetime, fmt) {
-    if (datetime != null) {
-        datetime = new Date(parseInt(datetime.replace("/Date(", "").replace(")/", ""), 10));
-        var o = {
-            "M+": datetime.getMonth() + 1,                 //月份   
-            "d+": datetime.getDate(),                    //日   
-            "H+": datetime.getHours(),                   //小时   
-            "m+": datetime.getMinutes(),                 //分   
-            "s+": datetime.getSeconds(),                 //秒   
-            "q+": Math.floor((datetime.getMonth() + 3) / 3), //季度   
-            "S": datetime.getMilliseconds()             //毫秒   
-        };
-        if (/(y+)/.test(fmt))
-            fmt = fmt.replace(RegExp.$1, (datetime.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (var k in o)
-            if (new RegExp("(" + k + ")").test(fmt))
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-        return fmt;
-    }
+function DelAjax(delApi, method, confirmMsg, params, tableId, table) {
+    layer.confirm(confirmMsg, function (index) {
+
+        $.ajax({
+            type: method,
+            url: delApi,
+            dataType: 'json',
+            data: params,//'ids='+arr+'&_method=delete',
+            success: function (res) {
+                console.log(res)
+                if (res.code === 200) {
+                    layer.msg('删除成功', { icon: 1 });
+                    table.reload(tableId, "", false);//刷新表格
+                }
+                else
+                    layer.msg('删除失败', { icon: 2 });
+            }
+        });
+        layer.close(index);
+    });
 }
 
-
-/// 生成指定长度的字符串,即生成strLong个str字符串
+/**
+ * 生成指定长度的字符串,即生成strLong个str字符串
+ * @param {number} strLong 字符长度
+ * @param {string} str 字符
+ */
 function StringOfChar(strLong, str) {
     var ReturnStr = "";
     for (var i = 0; i < strLong; i++) {
         ReturnStr += str;
     }
     return ReturnStr;
+}
+
+
+
+/**
+ * 改变状态公用方法
+ * @param {string} api 接口地址
+ * @param {object} params 参数
+ * @param {object} form form对象
+ * @param {object} obj form(checkbox)返回对象
+ */
+function ChangeStatus(api, params, form, obj) {
+    console.log('选中id:' + obj.value);
+    $.post(api, params, function (res) {
+        console.log('content[ChangeStatus],result:' + res);
+        //判断是否等于200，否则提示错误信息
+        if (res.code === 200) {
+            layer.msg('状态修改成功', { icon: 1 });
+        }
+        else {
+            layer.msg('状态修改失败', { icon: 2 });
+            obj.elem.checked = !obj.elem.checked;
+        }
+        form.render();//刷新表格
+    });
 }

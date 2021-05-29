@@ -178,6 +178,8 @@
 <script type="text/javascript">
 
     $(function () {
+        //无token跳转登录
+        checkToken();
         //设置用户名
         $('#account').text(sessionStorage.getItem('Account'));
         //退出

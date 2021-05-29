@@ -60,12 +60,12 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <summary>
         ///  添加轮播
         /// </summary>
-        /// <param name="topStatusParam">状态参数</param>
+        /// <param name="carouselStatusParam">状态参数</param>
         /// <returns></returns>
         [HttpPost]
-        public ResponseResult ChangeTopStatus(TopStatusParam topStatusParam)
+        public ResponseResult ChangeCarouselStatus(CarouselStatusParam carouselStatusParam)
         {
-            return _service.ChangeTopStatus(topStatusParam);
+            return _service.ChangeCarouselStatus(carouselStatusParam);
         }
 
         /// <summary>

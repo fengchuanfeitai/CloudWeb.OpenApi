@@ -2,161 +2,26 @@
     function () {
         $ = layui.jquery;
         var form = layui.form,
-            layer = layui.layer,
             laydate = layui.laydate
             , upload = layui.upload;
-        var ue = UE.getEditor('container', {
-            initialFrameHeight: 200
-        });
 
-        //对编辑器的操作最好在编辑器ready之后再做
-        ue.ready(function () {
-            ////设置编辑器的内容
-            //ue.setContent('');
-            ////获取html内容，返回: <p>hello</p>
-            //var html = ue.getContent();
-            ////获取纯文本内容，返回: hello
-            //var txt = ue.getContentTxt();
-        });
 
-        Category(id);
-        layui.form.render("select");
+        //根据action初始化页面
+        var action = getUrlParam("action");
+        ActionOperation(action, form);
 
-        //封面图片拖拽上传
-        upload.render({
-            elem: '#Img1Upload',
-            url: "https://localhost:44377/api/admin/upload", //上传接口
-            data: { path: 'content' },//请求上传接口的额外参数,判断文件从哪里传入
-            //headers: { token: 'sasasas' },//头部携带的参数，方便对接口做验证
-            method: 'Post',
-            type: 'images',
-            async: true,
-            accept: 'images',//指定允许上传时校验的文件类型
-            ext: 'jpg|png',//允许上传的文件后缀
-            acceptMime: 'image/jpg, image/png',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
-            size: "2048",
-            //成功后回调
-            done: function (res) {
-                if (res.code === 200) {
-                    layer.msg('上传成功');
-                    //绑定图片地址
-                    $("#ImgUrl1").val(res.data);
-                    layui.$('#Img1').removeClass('layui-hide').find('img').attr('src', res.data);
-                }
-                else {
-                    layer.msg('上传失败');
-                }
-                console.log(res)
-            }
-        });
-
-        //内页封面图片拖拽上传
-        upload.render({
-            elem: '#Img2Upload',
-            url: "https://localhost:44377/api/admin/upload", //上传接口
-            data: { path: 'content' },//请求上传接口的额外参数,判断文件从哪里传入
-            //headers: { token: 'sasasas' },//头部携带的参数，方便对接口做验证
-            method: 'Post',
-            type: 'images',
-            async: true,
-            accept: 'images',//指定允许上传时校验的文件类型
-            ext: 'jpg|png',//允许上传的文件后缀
-            acceptMime: 'image/jpg, image/png',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
-            size: "2048",
-            //成功后回调
-            done: function (res) {
-                if (res.code === 200) {
-                    layer.msg('上传成功');
-                    //绑定图片地址
-                    $("#ImgUrl2").val(res.data);
-                    layui.$('#Img2').removeClass('layui-hide').find('img').attr('src', res.data);
-
-                }
-                else {
-                    layer.msg('上传失败');
-                }
-                console.log(res)
-            }
-        });
-
-        //时间控件
-        var now = new Date();
+        //初始化时间控件
         laydate.render({
-            elem: '#start',
-            theme: 'molv',
-            type: 'datetime',
-            trigger: 'click',
-            max: 4073558400000, //公元3000年1月1日
-            value: new Date(),
-            ready: function (date) {
-                //console.log(date); //得到初始的日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-                this.dateTime.hours = now.getHours();
-                this.dateTime.minutes = now.getMinutes();
-                this.dateTime.seconds = now.getSeconds();
-            }
-        });
-        var id = getUrlParam("id");
-        ue.ready(function () {
-            ////设置编辑器的内容
-            //ue.setContent('');
-            ////获取html内容，返回: <p>hello</p>
-            //var html = ue.getContent();
-            ////获取纯文本内容，返回: hello
-            //var txt = ue.getContentTxt();
-
-            //编辑时加载方法
-            //判断url中是否携带id参数，携带参数则表示是编辑，否则是添加
-
-            console.log(id);
-            if (id != null) {
-                //保存id
-                $("#contentId").val(id);
-                console.log("asd")
-                $.ajax({
-                    type: "get"
-                    , url: "https://localhost:44377/api/admin/Content/GetContent"
-                    //url: '/scripts/Column/editData.json' //数据接口
-                    , data: { id: id }//传值
-                    , success: function (res) {
-                        console.log(res);
-                        if (res.code === 200) {
-                            //表单赋值
-                            $("#columnSelect").val(res.data.columnId);
-                            form.val("contentform", res.data);
-                            $('#Img1').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl1);
-                            if (res.data.content !== null && res.data.content !== '') {
-                                ue.setContent(res.data.content);
-                            }
-
-                        }
-                        else {
-                            //layer.msg("");
-                        }
-                    }
-                });
-
-            }
-        });
-        //检查项目添加到下拉框中
-        $.ajax({
-            url: '/service/select',
-            dataType: 'json',
-            type: 'post',
-            success: function (res) {
-                if (res.code === 200) {
-                    $("#columnSelect").empty();
-                    //$("#service").append(new Option("请选择服务", "0"));
-                    $.each(res.data, function (index, item) {
-                        $('#columnSelect').append(new Option(item));
-                    });
-                } else {
-                    $("#columnSelect").append(new Option("暂无数据", ""));
-                }
-                //重新渲染
-                form.render("select");
-            }
+            elem: '#start'
+            , type: 'datetime'
+            , value: new Date(),//获取前三天时间
         });
 
+        var uploadApi = BaseApi + '/api/admin/upload';
+        //封面图片拖拽上传
+        UploadPic(uploadApi, '#Img1Upload', '#ImgUrl1', '#Img1', upload);
+        //内页封面上传
+        UploadPic(uploadApi, '#Img2Upload', '#ImgUrl2', '#Img2', upload);
 
         //自定义验证规则
         form.verify({
@@ -164,68 +29,124 @@
 
         //监听提交
         form.on('submit(contentsubmit)', function (res) {
-            console.log(res.elem) //被执行事件的元素DOM对象，一般为button对象
-            console.log(res.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            console.log(res.field) //当前容器的全部表单字段，名值对形式：{name: value}
-            console.log("内容提交")
             var id = $("#contentId").val();
             //var id = 1;
             //id大于0，执行修改
             if (id > 0) {
-                var eidtApi = "https://localhost:44377/api/admin/Content/EditContent";
+                var eidtApi = BaseApi + '/api/admin/Content/EditContent';
                 ajax(eidtApi, "put", res.field, "修改");
             }
             else {
                 //id不存在执行添加
-                var addApi = 'https://localhost:44377/api/admin/Content/AddContent';
+                var addApi = BaseApi + '/api/admin/Content/AddContent';
                 ajax(addApi, "post", res.field, "添加");
             }
 
             return false;
         });
-
-        //提交方法
-        function ajax(api, method, params, msg) {
-            //提交
-            $.ajax({
-                type: method,
-                url: api,
-                data: params,
-                async: false,
-                success: function (res) {
-                    console.log(res);
-                    if (res.code === 200) {
-                        layer.alert(msg + "成功", {
-                            icon: 6
-                        }, function () {
-                            //关闭当前frame
-                            xadmin.close();
-
-                            // 可以对父窗口进行刷新 
-                            xadmin.father_reload();
-                        });
-                        return false;
-                    }
-                    else {
-                        layer.alert(res.msg, {
-                            icon: 2
-                        }, function () {
-                            //关闭当前frame
-                            xadmin.close();
-                        });
-                        return false;
-                    }
-                },
-                error: function (res) {
-                    console.log(res)
-                }
-            });
-        }
-
     });
 
+/**
+ * 上传图片公用方法
+ * @param {any} api 
+ * @param {any} uploadId
+ * @param {any} picHiddenId
+ * @param {any} picDivId
+ * @param {object} upload
+ */
+function UploadPic(api, uploadId, picHiddenId, picDivId, upload) {
+
+    upload.render({
+        elem: uploadId,
+        url: api, //上传接口
+        data: { path: 'content' },//请求上传接口的额外参数,判断文件从哪里传入
+        //headers: { token: 'sasasas' },//头部携带的参数，方便对接口做验证
+        method: 'Post',
+        type: 'images',
+        async: true,
+        accept: 'images',//指定允许上传时校验的文件类型
+        ext: 'jpg|png',//允许上传的文件后缀
+        acceptMime: 'image/jpg, image/png',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
+        size: "2048",
+        //成功后回调
+        done: function (res) {
+            if (res.code === 200) {
+                layer.msg('上传成功');
+                //绑定图片地址
+                $(picHiddenId).val(res.data);
+                layui.$(picDivId).removeClass('layui-hide').find('img').attr('src', res.data);
+            }
+            else {
+                layer.msg('上传失败');
+            }
+            console.log(res)
+        }
+    });
+}
+
+/**
+ * 根据传入的action做不同的操作
+ * @param {any} action
+ * @param {object} form
+ */
+function ActionOperation(action, form) {
+    //判断action,执行不同的操作
+    //初始化富文本
+    var ue = UE.getEditor('container', {
+        initialFrameHeight: 200
+    });
+    // 加载栏目分类所有数据下拉框
+    ColumnDropDown();
+
+    switch (action) {
+        case 'add': //作为添加页面操作
+            {
+            }
+            break;
+        case 'edit': //作为编辑页面操作
+            {
+                //获取url中携带的contentId参数
+                var contentId = getUrlParam("id");
+                $("#contentId").val(contentId);//保存contentId到隐藏控件，用于编辑时的主键
+                //数据库拉取数据，重新绑定form控件中
+                ue.ready(function () {
+                    $.ajax({
+                        type: 'get'
+                        , url: BaseApi + '/api/admin/Content/GetContent'
+                        //url: '/scripts/Column/editData.json' //数据接口
+                        , data: { id: contentId }//传值
+                        , success: function (res) {
+                            console.log(res);
+                            if (res.code === 200) {
+                                //表单赋值
+                                $("#columnSelect").val(res.data.columnId);
+                                form.val("contentform", res.data);
+                                if (res.data.imgUrl1 !== null && res.data.imgUrl1 !== '') {
+                                    $('#Img1').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl1);
+                                }
+
+                                //初始化富文本
+                                if (res.data.content !== null && res.data.content !== '') {
+                                    ue.setContent(res.data.content);
+                                }
+                            }
+                            else {
+                                layer.msg("数据加载失败");
+                            }
+                        }
+                    });
+                });
+
+            }
+            break;
+    }
+
+    form.render("select");//加载重新form
+}
+
+
 //类别下拉框
-function Category(columnid) {
+function ColumnDropDown(columnid) {
     console.log(columnid);
     $.ajax({
         type: "POST",
