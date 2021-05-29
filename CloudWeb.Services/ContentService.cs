@@ -165,8 +165,6 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql, para), Count(queryCountSql, para));
         }
 
-
-
         /// <summary>
         /// 根据id查询内容
         /// </summary>
@@ -181,18 +179,22 @@ namespace CloudWeb.Services
 
         #region 网站接口
 
-        public ResponseResult<IEnumerable<ContentDto>> GetCarouselNews()
+        public ResponseResult<IEnumerable<ContentDto>> GetIndexNews(bool isCarousel)
         {
-            string sql = "select * FROM[Ori_CloudWeb].[dbo].[Content] where isdel=0 and  IsCarousel=1 order by sort asc;";
+            int IsCarouselInt = isCarousel ? 1 : 0;
+
+            string sql = $"SELECT * FROM dbo.[Content] WHERE IsDel=0 AND IsPublic=1 AND IsDefault=1 AND IsCarousel={IsCarouselInt} AND ColumnId IN(SELECT ColumnId FROM dbo.[Columns] WHERE (ColumnId = 2 OR ParentId = 2) AND IsShow =1 AND IsDel =0) ORDER BY Sort ASC,CreateTime DESC";
+
             return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql));
         }
 
         public ResponseResult<IEnumerable<ContentDto>> GetDefaultNews()
         {
-            string sql = "select * FROM[Ori_CloudWeb].[dbo].[Content] where isdel=0 and  IsDefault=1 order by sort asc;";
+            string sql = "SELECT * FROM dbo.[Content] WHERE IsDel=0 AND IsPublic=1 AND IsDefault=1 AND IsCarousel=0 AND ColumnId IN(SELECT ColumnId FROM dbo.[Columns] WHERE (ColumnId = 2 OR ParentId = 2) AND IsShow =1 AND IsDel =0) ORDER BY Sort ASC,CreateTime DESC";
+
             return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql));
         }
-    
+
         public ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param)
         {
             var ColumnSearch = "";
@@ -201,9 +203,9 @@ namespace CloudWeb.Services
                 ColumnSearch = $" AND ColumnId={param.ObjId}";
 
             if (!string.IsNullOrEmpty(param.KeyWord))
-                KeywordSearch = " AND Title LIKE '%" + param.KeyWord + "%' OR Content LIKE '%" + param.KeyWord + "%'";
+                KeywordSearch = " (AND Title LIKE '%" + param.KeyWord + "%' OR Content LIKE '%" + param.KeyWord + "%')";
 
-            string AllPaPersSql = $"SELECT c2.[Index],c1.* FROM dbo.Content c1,(SELECT TOP(@PageIndex*@PageSize) ROW_NUMBER() OVER(ORDER BY Sort ASC, CreateTime DESC) AS[Index], Id FROM dbo.Content WHERE IsDel = 0 AND IsPublic = 1) c2  WHERE c1.Id = c2.Id AND c2.[Index] > ((@PageIndex -1)*@PageSize) {ColumnSearch} {KeywordSearch}  AND  c1.ColumnId IN (SELECT ColumnId FROM dbo.[Columns] WHERE ColumnId = {param.MasterId} OR ParentId = {param.MasterId} AND IsDel = 0 AND IsShow = 1)";
+            string AllPaPersSql = $"SELECT c2.[Index],c1.* FROM dbo.Content c1,(SELECT TOP(@PageIndex*@PageSize) ROW_NUMBER() OVER(ORDER BY Sort ASC, CreateTime DESC) AS[Index], Id,ColumnId FROM dbo.Content WHERE IsDel = 0 AND IsPublic = 1 {ColumnSearch} {KeywordSearch} AND ColumnId IN (SELECT ColumnId FROM dbo.[Columns] WHERE ColumnId = {param.MasterId} OR ParentId = {param.MasterId} AND IsDel = 0 AND IsShow = 1)) c2  WHERE c1.Id = c2.Id AND c2.[Index] > ((@PageIndex -1)*@PageSize) ";
 
             var CountSql = $"SELECT COUNT(*) FROM dbo.Content WHERE IsPublic = 1 AND IsDel = 0 {ColumnSearch} {KeywordSearch} AND ColumnId IN (SELECT ColumnId FROM dbo.[Columns] WHERE ColumnId = {param.MasterId} OR ParentId = {param.MasterId} AND IsDel = 0 AND IsShow = 1)";
 

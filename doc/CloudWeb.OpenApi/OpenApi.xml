@@ -331,22 +331,11 @@
             web内容接口
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetCarouselNews">
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetCarouselNews(System.Boolean)">
             <summary>
-            
+            获取首页新闻
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetDefaultNews">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetWebContent">
-            <summary>
-            
-            </summary>
+            <param name="isCarousel">是否为轮播图</param>
             <returns></returns>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetContentByColumnId(CloudWeb.Dto.Param.SearchPapers)">
@@ -361,11 +350,10 @@
             web公司接口
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.CorporationController.GetCorp(System.Int32)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.CorporationController.GetAllCorp">
             <summary>
-            查询公司
+            查询所有公司
             </summary>
-            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.CorpProductsController">

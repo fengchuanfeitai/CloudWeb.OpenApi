@@ -8,6 +8,9 @@ layui.use(['form', 'upload', 'layer'], function () {
         form = layui.form,
         upload = layui.upload,
         layer = layui.layer;
+
+    var ue = UE.getEditor('container');
+
     //无token跳转登录
     checkToken();
     //渲染Select
@@ -30,37 +33,42 @@ layui.use(['form', 'upload', 'layer'], function () {
     //如果是编辑页面则初始化数据
     $(function () {
         var id = getUrlParam('id');
-        console.log(id);
-        if (id != null) {
-            $.ajax({
-                type: 'GET',
-                url: getUrl,
-                data: { id: id },
-                success: function (res) {
-                    if (res.code != 200) {
-                        layer.open(res.msg);
-                        return false;
-                    }
-                    var product = res.data;
+        ue.ready(function () {
+            console.log(id);
+            if (id != null) {
+                $.ajax({
+                    type: 'GET',
+                    url: getUrl,
+                    data: { id: id },
+                    success: function (res) {
+                        if (res.code != 200) {
+                            layer.open(res.msg);
+                            return false;
+                        }
+                        var product = res.data;
 
-                    form.val('product-form', {
-                        "Id": product.id,
-                        "Name": product.name,
-                        "Cover": product.cover,
-                        "Content": product.content,
-                        "CorpId": product.corpId,
-                        "LocationUrl": product.locationUrl,
-                        "Sort": product.sort,
-                        "IsShow": product.isShow
-                    });
+                        form.val('product-form', {
+                            "Id": product.id,
+                            "Name": product.name,
+                            "Cover": product.cover,
+                            "Content": product.content,
+                            "CorpId": product.corpId,
+                            "LocationUrl": product.locationUrl,
+                            "Sort": product.sort,
+                            "IsShow": product.isShow
+                        });
 
-                    if (product.cover != null) {
-                        layui.$('#CoverImgDiv').removeClass('layui-hide');
-                        layui.$('#CoverImg').attr('src', product.cover);
+                        if (product.cover != null) {
+                            layui.$('#CoverImgDiv').removeClass('layui-hide');
+                            layui.$('#CoverImg').attr('src', product.cover);
+                        }
+                        if (product.content !== null && product.content !== '') {
+                            ue.setContent(res.data.content);
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
+        })
     });
 
     //自定义验证规则:待完善
@@ -95,7 +103,7 @@ layui.use(['form', 'upload', 'layer'], function () {
             if (res.code === 200) {
                 layer.msg('上传成功');
                 var file = res.data;
-                $("input[name='Cover']").val(file);              
+                $("input[name='Cover']").val(file);
                 layui.$('#CoverImgDiv').removeClass('layui-hide');
                 layui.$('#CoverImg').attr('src', file);
             } else {
@@ -108,6 +116,7 @@ layui.use(['form', 'upload', 'layer'], function () {
 
     form.on('submit(save-product)', function (res) {
         var frameIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
         $.ajax({
             type: "POST",
             url: PostUrl,
