@@ -169,11 +169,6 @@ namespace CloudWeb.Services
                 result.Set((int)HttpStatusCode.fail, "修改状态失败");
             return result;
         }
-
-        #endregion
-
-        #region 网站接口
-
         public ResponseResult<IEnumerable<CorporationDto>> GetCorpSelectList()
         {
             const string sql = @"SELECT CorpId,[Name] FROM dbo.Corporations WHERE IsShow=1 AND IsDel=0";
@@ -182,15 +177,17 @@ namespace CloudWeb.Services
 
         }
 
-        public ResponseResult<IEnumerable<CorporationDto>> GetCorp(int id)
-        {
-            string condition = "";
-            if (id > 0)
-                condition = " and CorpId=@id";
-            string sql = $"SELECT CorpId,[Name] FROM dbo.Corporations WHERE IsShow=1 AND IsDel=0 {condition};";
+        #endregion
 
-            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql, new { id = id }));
+        #region 网站接口
+
+        public ResponseResult<IEnumerable<CorporationDto>> GetAllCorp()
+        {
+            string sql = "SELECT * FROM dbo.Corporations WHERE IsShow = 1 AND IsDel = 0 ORDER BY Sort ASC, CreateTime DESC";
+
+            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql));
         }
+
 
         #endregion
 

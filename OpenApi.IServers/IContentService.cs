@@ -69,16 +69,13 @@ namespace CloudWeb.IServices
         #region 网站接口
 
         /// <summary>
-        /// 获取轮播新闻
+        /// 获取首页新闻
         /// </summary>
+        /// <param name="isCarousel">是否未轮播图</param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ContentDto>> GetCarouselNews();
+        ResponseResult<IEnumerable<ContentDto>> GetIndexNews(bool isCarousel);
 
-        /// <summary>
-        /// 首页展示新闻
-        /// </summary>
-        /// <returns></returns>
-        ResponseResult<IEnumerable<ContentDto>> GetDefaultNews();
+       
 
         /// <summary>
         /// 根据columnId查询内容

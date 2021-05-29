@@ -25,33 +25,14 @@ namespace CloudWeb.OpenApi.Controllers.Web
         }
 
         /// <summary>
-        /// 
+        /// 获取首页新闻
         /// </summary>
+        /// <param name="isCarousel">是否为轮播图</param>
         /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<IEnumerable<ContentDto>> GetCarouselNews()
+        [HttpGet]
+        public ResponseResult<IEnumerable<ContentDto>> GetCarouselNews(bool isCarousel)
         {
-            return _service.GetCarouselNews();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<IEnumerable<ContentDto>> GetDefaultNews()
-        {
-            return _service.GetCarouselNews();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<IEnumerable<ContentDto>> GetWebContent()
-        {
-            return _service.GetCarouselNews();
+            return _service.GetIndexNews(isCarousel);
         }
 
         /// <summary>

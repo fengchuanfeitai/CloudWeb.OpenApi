@@ -24,14 +24,13 @@ namespace CloudWeb.OpenApi.Controllers.Web
         }
 
         /// <summary>
-        /// 查询公司
+        /// 查询所有公司
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<IEnumerable<CorporationDto>> GetCorp(int id)
+        [HttpGet]
+        public ResponseResult<IEnumerable<CorporationDto>> GetAllCorp()
         {
-            return _service.GetCorp(id);
+            return _service.GetAllCorp();
         }
     }
 }
