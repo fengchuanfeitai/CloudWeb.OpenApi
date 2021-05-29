@@ -2,11 +2,9 @@
     var form = layui.form;
     $ = layui.jquery;
 
-    //$.get('https://localhost:44377/api/admin/User/VerifyImage', function (data) {
-    //    $("#VerifyImage").attr("src", "data:image/png;base64,"+data);
-    //});
-    //var a = $.cookie('LoginValidateCode');
-    //console.log(a);
+    var verifyApi = BaseApi + '/api/admin/User/VerifyImage';
+    $("#VerifyImage").attr('src', verifyApi);
+
     //监听提交
     form.on('submit(login)', function (data) {
         // alert(888)
@@ -20,23 +18,22 @@
             success: function (res) {
                 console.log(res);
                 if (res.code === 200) {
-                    layer.msg('登录成功');
                     //保存数据到session
-                    sessionStorage.setItem('token', res.data.token);
-                    sessionStorage.setItem('Account', res.data.userName);
-                    location.href = 'index'
+                    layer.msg("登录成功", function () {
+                        sessionStorage.setItem('token', res.data.token);
+                        sessionStorage.setItem('Account', res.data.userName);
+                        location.href = 'index'
+                    });
                 }
                 else {
                     layer.msg(res.msg);
+                    $("#VerifyImage").attr('src', verifyApi);
                 }
             },
             error: function (res) {
                 console.log(res)
+                $("#VerifyImage").attr('src', verifyApi);
             }
-            //layer.msg("登录成功", function () {
-            //    location.href = 'index.html'
-            //});
-
         });
 
         return false;
