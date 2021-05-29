@@ -82,8 +82,9 @@ namespace CloudWeb.OpenApi
                 options.Filters.Add<ModelValidateActionFilterAttribute>();
                 options.Filters.Add<ApiResultFilter>();
                 options.Filters.Add<ApiExceptionFilter>();
-              
-            }).AddJsonOptions((options) => {
+
+            }).AddJsonOptions((options) =>
+            {
                 options.JsonSerializerOptions.Converters.Add(new JsonDateConverter());
             });
             services.AddSingleton<IConfiguration>(Configuration);
@@ -121,24 +122,6 @@ namespace CloudWeb.OpenApi
                 //options.IncludeXmlComments("../doc/CloudWeb.OpenApi/OpenApi.xml");
 
             });
-
-            //services.AddCors(c =>
-            //{
-            //    c.AddPolicy("AllowAnyOrigin", policy =>
-            //    {
-            //        policy.AllowAnyOrigin()//允许任何源
-            //        .AllowAnyMethod()//允许任何方式
-            //        .AllowAnyHeader()//允许任何头
-            //        .AllowCredentials();//允许cookie
-            //    });
-            //    c.AddPolicy("AllowSpecificOrigin", policy =>
-            //    {
-            //        policy.WithOrigins("http://localhost:8083")
-            //        .WithMethods("GET", "POST", "PUT", "DELETE")
-            //        .WithHeaders("authorization");
-            //    });
-            //});
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -167,13 +150,13 @@ namespace CloudWeb.OpenApi
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=36000");
                 }
             });
-          
-  
+
             app.UseRouting();
             //开启跨域中间件
             app.UseCors(WebCoreExtensions.MyAllowSpecificOrigins);
 
             app.UseAuthentication();
+
             //授权中间件
             app.UseAuthorization();
 

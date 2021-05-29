@@ -25,7 +25,7 @@ namespace CloudWeb.OpenApi
                     builder
                     .WithOrigins(configuration.GetSection("Startup:Cors:AllowOrigins").Value.Split(','))
                     .AllowAnyHeader()
-                    .AllowAnyMethod();
+                    .AllowAnyMethod().AllowCredentials();
                 });
             });
             return services;

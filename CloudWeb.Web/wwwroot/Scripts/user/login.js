@@ -2,7 +2,8 @@
     var form = layui.form;
     $ = layui.jquery;
 
-    var verifyApi = BaseApi + '/api/admin/User/VerifyImage';
+    //初始化验证码
+    var verifyApi = BaseApi + '/api/admin/User/VerifyImage?r=' + Math.random();
     $("#VerifyImage").attr('src', verifyApi);
 
     //监听提交
@@ -15,6 +16,11 @@
             url: apiurl,
             contentType: 'application/json',
             data: JSON.stringify(data.field),
+            dataType: 'JSON',//注意哦，这一句要记得加上哦，我就是因为没加这句还查了好久的
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (res) {
                 console.log(res);
                 if (res.code === 200) {
@@ -27,12 +33,12 @@
                 }
                 else {
                     layer.msg(res.msg);
-                    $("#VerifyImage").attr('src', verifyApi);
+                    $("#VerifyImage").click();
                 }
             },
             error: function (res) {
                 console.log(res)
-                $("#VerifyImage").attr('src', verifyApi);
+                $("#VerifyImage").click();
             }
         });
 
