@@ -345,6 +345,13 @@
             <param name="param"></param>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetContent(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.CorporationController">
             <summary>
             web公司接口

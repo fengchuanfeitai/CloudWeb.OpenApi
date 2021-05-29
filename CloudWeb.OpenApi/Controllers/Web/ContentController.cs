@@ -45,5 +45,16 @@ namespace CloudWeb.OpenApi.Controllers.Web
         {
             return _service.GetContentByColumnId(param);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<ContentDto> GetContent(int id)
+        {
+            return _service.GetContent(id);
+        }
     }
 }
