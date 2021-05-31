@@ -48,7 +48,7 @@ namespace CloudWeb.OpenApi.Controllers.Web
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<ColumnDto> GetColumnById(int id)
+        public ResponseResult<ColumnSelectDto> GetColumnById(int id)
         {
             return _service.GetColumn(id);
         }

@@ -116,7 +116,7 @@ namespace CloudWeb.Dto.Param
     {
         [Display(Name = "是否发布状态")]
         [Required(ErrorMessage = "{0}必填")]
-        public bool PublicStatus { get; set; }
+        public int PublicStatus { get; set; }
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ namespace CloudWeb.Dto.Param
     {
         [Display(Name = "添加首页状态")]
         [Required(ErrorMessage = "{0}必填")]
-        public bool DefaultStatus { get; set; }
+        public int DefaultStatus { get; set; }
     }
 
     public class BaseContentParam

@@ -149,10 +149,6 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<ContentDto>> GetAll(SearchParam para)
         {
-            //string sql = @"SELECT w2.n, w1.* FROM Content w1,(
-            //SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) n, Id FROM Content where isdel=0) w2
-            //WHERE w1.Id = w2.Id AND w2.n > (@PageSize*(@PageIndex-1)) ORDER BY w2.n ASC";
-
             string columnCondition = "", titleCondition = "";
             if (para.ColumnId > 0)
                 columnCondition = " AND ColumnId=@ColumnId";
@@ -170,11 +166,11 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ResponseResult<ContentDto> GetContent(int id)
+        public ResponseResult<ContentSelectDto> GetContent(int id)
         {
-            const string sql = "SELECT [Id],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsCarousel],[IsDefault],[IsDel],[Sort] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 AND [Id]=@id";
+            const string sql = "SELECT [Id],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate],[IsPublic],[IsCarousel],[IsDefault],[IsDel],[Sort] FROM[Ori_CloudWeb].[dbo].[Content] WHERE [IsDel]=0 AND [Id]=@id";
 
-            return new ResponseResult<ContentDto>(Find<ContentDto>(sql, new { id = id }));
+            return new ResponseResult<ContentSelectDto>(Find<ContentSelectDto>(sql, new { id = id }));
         }
 
         #region 网站接口

@@ -42,7 +42,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        ResponseResult<ContentDto> GetContent(int id);
+        ResponseResult<ContentSelectDto> GetContent(int id);
 
         /// <summary>
         /// 修改内容

@@ -50,7 +50,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<ColumnDto> GetColumn(int id)
+        public ResponseResult<ColumnSelectDto> GetColumn(int id)
         {
             return _service.GetColumn(id);
         }

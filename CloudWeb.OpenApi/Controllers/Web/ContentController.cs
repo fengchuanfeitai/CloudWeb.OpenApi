@@ -52,7 +52,7 @@ namespace CloudWeb.OpenApi.Controllers.Web
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<ContentDto> GetContent(int id)
+        public ResponseResult<ContentSelectDto> GetContent(int id)
         {
             return _service.GetContent(id);
         }

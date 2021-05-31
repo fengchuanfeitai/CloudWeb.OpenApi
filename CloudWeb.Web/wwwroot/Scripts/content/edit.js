@@ -5,11 +5,13 @@
             laydate = layui.laydate
             , upload = layui.upload;
 
-
+       
         //根据action初始化页面
         var action = getUrlParam("action");
         ActionOperation(action, form);
-
+        form.on('select(brickType)', function (data) {
+            DisplayPic(data.value);
+        });
         //初始化时间控件
         laydate.render({
             elem: '#start'
@@ -30,6 +32,14 @@
         //监听提交
         form.on('submit(contentsubmit)', function (res) {
             var id = $("#contentId").val();
+
+            var columnId = $("#columnSelect").val();
+            console.log(columnId)
+            if (columnId === null) {
+                layer.msg('请先添加栏目', { icon: 2 });
+                return false;
+            }
+
             //var id = 1;
             //id大于0，执行修改
             if (id > 0) {
@@ -82,6 +92,11 @@ function UploadPic(api, uploadId, picHiddenId, picDivId, upload) {
             console.log(res)
         }
     });
+
+
+
+
+
 }
 
 /**
@@ -162,33 +177,55 @@ function ColumnDropDown(columnid) {
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
             console.log(res.data);
-            var ophtmls = '';
-            $("select[name=columnId]").html(ophtmls);
-            for (var i = 0; i < res.data.length; i++) {
+            if (res.code === 200) {
+                var ophtmls = '';
+                $("select[name=columnId]").html(ophtmls);
+                for (var i = 0; i < res.data.length; i++) {
 
-                var isNews = res.data[i].isNews
-                console.log(isNews)
-                if (isNews === 1) {
-                    $('#newscover').html('<label for="ImgUrl1" class="layui-form-label">< span class= "x-red" >*</span > 内页封面</label >< !--图片文件地址--><input type="hidden" value="" name="imgUrl2" lay-reqtext="请上传内页封面图片" id="ImgUrl2" /><div class="layui-input-block"><div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="Img2Upload"> <p>点击上传，或将图片拖拽到此处</p><p>尺寸建议上传139*103像素</p><div class="layui-hide" id="Img2"><hr><img src="" alt="上传成功后渲染" style="height:20%;width:20%;"></div></div></div>');
+           
+                    var Id = res.data[i].columnId;
+                    DisplayPic(Id);
+                    var ClassLayer = res.data[i].level;
+                    var Title = res.data[i].colName;
+                    if (ClassLayer == 1) {
+                        ophtmls += "<option value=" + Id + "  >" + Title + "</option>";
+                    } else {
+                        Title = "├ " + Title;
+                        Title = StringOfChar(ClassLayer - 1, "　") + Title;
+                        ophtmls += "<option value=" + Id + " >" + Title + "</option>";
+                    }
+                    console.log(ClassLayer);
+                }
+                $("#columnSelect").html(ophtmls);
+            }
+        }
+    });
+}
+
+
+function DisplayPic(columnid) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: {
+            id: columnid
+        },
+        url: BaseApi + '/api/admin/Column/GetDropDownList',
+        success: function (res) {
+            console.log(res.code);
+            if (res.code === 200) {
+                var isNews = res.data[0].isNews
+                console.log(res.isNews);
+                if (isNews) {
+                    $('#newscover').html('<label for="ImgUrl1" class="layui-form-label"><span class= "x-red" >*</span > 内页封面</label ><!--图片文件地址--><input type="hidden" value="" name="imgUrl2" lay-reqtext="请上传内页封面图片" id="ImgUrl2" /><div class="layui-input-block"><div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="Img2Upload"> <p>点击上传，或将图片拖拽到此处</p><p>尺寸建议上传139*103像素</p><div class="layui-hide" id="Img2"><hr><img src="" alt="上传成功后渲染" style="height:20%;width:20%;"></div></div></div>');
                 }
                 else {
-                    $('#newscover').html();//不显示
+                    $('#newscover').html('');//不显示
                 }
 
-                var Id = res.data[i].columnId;
-                var ClassLayer = res.data[i].level;
-                var Title = res.data[i].colName;
-                if (ClassLayer == 1) {
-                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
-                } else {
-                    Title = "├ " + Title;
-                    Title = StringOfChar(ClassLayer - 1, "　") + Title;
-                    ophtmls += "<option value=" + Id + ">" + Title + "</option>";
-                }
-                console.log(ClassLayer);
+
             }
-            $("#columnSelect").html(ophtmls);
-
         }
     });
 }

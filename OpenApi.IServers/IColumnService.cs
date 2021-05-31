@@ -28,7 +28,7 @@ namespace CloudWeb.IServices
         /// 查询栏目
         /// </summary>
         /// <returns></returns>
-        ResponseResult<ColumnDto> GetColumn(int id);
+        ResponseResult<ColumnSelectDto> GetColumn(int id);
 
         /// <summary>
         /// 根据父Id获取子栏目

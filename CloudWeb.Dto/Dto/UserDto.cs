@@ -23,11 +23,6 @@ namespace CloudWeb.Dto
         public string PassWord { get; set; }
 
         /// <summary>
-        /// 密钥
-        /// </summary>
-        public string Hash { get; set; }
-
-        /// <summary>
         /// 真实姓名
         /// </summary>
         public string RealName { get; set; }

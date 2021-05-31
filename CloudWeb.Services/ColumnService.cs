@@ -41,8 +41,8 @@ namespace CloudWeb.Services
         /// <summary>
         /// 添加栏目sql
         /// </summary>
-        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,ImgDesc1,ImgDesc2,Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
-            VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@CoverUrl,@ImgDesc1,@ImgDesc2,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
+        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
+            VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@CoverUrl,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
 
         /// <summary>
         /// 查询所有栏目
@@ -131,20 +131,21 @@ namespace CloudWeb.Services
             string getSql = "select * from Columns where  IsDel=0 and columnid=@id";
             ColumnDto column = Find<ColumnDto>(getSql, new { id = columnDto.ColumnId });
 
-            if (column.ColName != columnDto.ColName)
+            if (column != null)
             {
-                //判断栏目名称是否唯一
-                string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
-                int count = Count(colNameSql, new { ColName = columnDto.ColName });
+                if (column.ColName != columnDto.ColName)
+                {
+                    //判断栏目名称是否唯一
+                    string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
+                    int count = Count(colNameSql, new { ColName = columnDto.ColName });
 
-                if (count > 1)
-                    return result.SetFailMessage("栏目名称不能重复");
+                    if (count > 1)
+                        return result.SetFailMessage("栏目名称不能重复");
+                }
             }
-
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
                 SET [ModifyTime] = @ModifyTime
-                    ,[Creator] = @Creator
                     ,[Modifier] = @Modifier
                     ,[ColName] = @ColName
                     ,[Level] =@Level
@@ -182,10 +183,10 @@ namespace CloudWeb.Services
         /// 根据id查询数据
         /// </summary>
         /// <returns></returns>
-        public ResponseResult<ColumnDto> GetColumn(int id)
+        public ResponseResult<ColumnSelectDto> GetColumn(int id)
         {
-            const string sql = @"SELECT * FROM[Ori_CloudWeb].[dbo].[Columns] WHERE [IsShow]=1 AND [IsDel]=0  AND  [ColumnId]=@id";
-            return new ResponseResult<ColumnDto>(Find<ColumnDto>(sql, new { id = id }));
+            const string sql = @"SELECT ColumnId,ColName,Level,Summary,LocationUrl,CoverUrl,Icon,Video,ParentId,Sort,IsNews,IsShow FROM[Ori_CloudWeb].[dbo].[Columns] WHERE  [IsDel]=0  AND  [ColumnId]=@id";
+            return new ResponseResult<ColumnSelectDto>(Find<ColumnSelectDto>(sql, new { id = id }));
         }
 
         /// <summary>
@@ -214,7 +215,7 @@ namespace CloudWeb.Services
             string condition = "";
             if (id > 0)
                 condition = " and ColumnId=@id";
-            string sql = $"select ColumnId,ColName,Level,IsNews from  Columns where  IsDel=0 and IsShow=1 {condition}; ";
+            string sql = $"select ColumnId,ColName,Level,IsNews from  Columns where  IsDel=0  {condition}; ";
 
             return new ResponseResult<IEnumerable<ColumnDropDownDto>>(GetAll<ColumnDropDownDto>(sql, new { id = id }));
         }

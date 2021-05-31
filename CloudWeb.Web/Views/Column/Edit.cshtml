@@ -10,6 +10,7 @@
             <input id="columnId" type="hidden" value="0" name="columnId" />
             <input id="creator" type="hidden" value="0" name="creator" />
             <input id="modifier" type="hidden" value="0" name="modifier" />
+            <input id="level" type="hidden" value="0" name="level" />
             <div class="layui-form-item">
                 <label for="colName" class="layui-form-label">
                     <span class="x-red">*</span>栏目名称
@@ -43,10 +44,10 @@
             </div>
             <div class="layui-form-item">
                 <label for="title" class="layui-form-label">
-                    是否是新闻栏目
+                    是否新闻栏目
                 </label>
                 <div class="layui-input-inline">
-                    <input type="checkbox" checked name="isNews" value="true" lay-skin="switch" lay-text="显示|不显示">
+                    <input type="checkbox" checked name="isNews" value="true" lay-skin="switch" lay-text="是|不是">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>勾选，在添加内容页面展示上传内页封面
@@ -74,11 +75,11 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="locationUrl" placeholder="网络地址：格式http://as.com" lay-reqtext="输入格式不正确，请输入正确的网络地址" autocomplete="off" class="layui-input">
+                    <input type="text" name="locationUrl" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>
-                    填写后直接跳转到该网址
+                    填写后直接跳转到该网址或站内跳转
                 </div>
             </div>
             <div class="layui-form-item">

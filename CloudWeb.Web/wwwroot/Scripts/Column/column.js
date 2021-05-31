@@ -100,10 +100,13 @@ function Starting_method() {
                         var level = obj.data.level;//获取栏目级别
                         var ids = new Array();
                         ids.push(id);
-
-                        var confirmMsg = level === 1 ? '本操作会删除本类别及下属子类别，是否继续？' : '是否删除选中数据？';
-                        var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
-                        DelAjax(delApi, 'delete', confirmMsg, { ids: ids }, insTb)
+                        if (level === 1) {
+                            layer.msg('当前为一级栏目不能删除', { icon: 2 });
+                        } else {
+                            var confirmMsg = '是否删除选中数据？';
+                            var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
+                            DelAjax(delApi, 'delete', confirmMsg, { ids: ids }, insTb)
+                        }
                     }
                     break;
                 case 'edit'://添加子级

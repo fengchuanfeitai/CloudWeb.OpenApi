@@ -27,7 +27,7 @@
                     <span class="x-red">*</span>所属栏目类别
                 </label>
                 <div class="layui-input-inline">
-                    <select name="columnId" id="columnSelect" lay-verify="required">
+                    <select name="columnId" id="columnSelect" lay-verify="required" lay-filter="brickType">
                     </select>
                 </div>
             </div>
@@ -83,11 +83,11 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="linkUrl" placeholder="网络地址：格式http://as.com" lay-reqtext="输入格式不正确，请输入正确的网络地址" lay-verify="" autocomplete="off" class="layui-input">
+                    <input type="text" name="linkUrl" placeholder="" lay-verify="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>
-                    填写后直接跳转到该网址
+                    填写后直接跳转到该网址或站内跳转
                 </div>
             </div>
             <div class="layui-form-item">
@@ -107,12 +107,7 @@
                     </div>
                 </div>
             </div>
-
-
-
             <div class="layui-form-item" id="newscover">
-                
-
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">内容</label>
