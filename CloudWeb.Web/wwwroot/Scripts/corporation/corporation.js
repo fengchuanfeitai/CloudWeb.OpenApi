@@ -1,8 +1,8 @@
 ﻿//全局变量
 var Selected;
-var getListUrl = 'https://localhost:44377/api/Corporation/GetPageList';
-var deleteUrl = 'https://localhost:44377/api/Corporation/DelCorporation';
-var changeShowUrl = 'https://localhost:44377/api/Corporation/ChangeShowStatus';
+var getListUrl = BaseApi + '/api/Corporation/GetPageList';
+var deleteUrl = BaseApi + '/api/Corporation/DelCorporation';
+var changeShowUrl = BaseApi + '/api/Corporation/ChangeShowStatus';
 
 layui.use(['table', 'layer', 'form'], function () {
     var $ = layui.jquery,
@@ -64,7 +64,7 @@ layui.use(['table', 'layer', 'form'], function () {
 
         if (layEvent === 'del') {
             //删除          
-            layer.confirm('是否删除当前数据？', function (index) {
+            layer.confirm('您正在进行删除操作<br />删除时，公司下展品也会被联动删除。是否继续？', function (index) {
                 var ids = new Array();
                 ids.push(id)
                 delAjax(ids);
@@ -96,7 +96,7 @@ layui.use(['table', 'layer', 'form'], function () {
     });
 
     var active = {
-        reload: function () {            
+        reload: function () {
             table.reload('corpId', {
                 where: { CorpNameKeyword: $("#SearchName").val() }
             });
@@ -111,7 +111,7 @@ layui.use(['table', 'layer', 'form'], function () {
                 ids.push(value.corpId);
             });
             console.log(ids);
-            layer.confirm('确定删除所选公司吗？', function (index) {
+            layer.confirm('你正在进行批量删除操作<br />删除时，公司下展品也会被联动删除，是否继续？', function (index) {
                 delAjax(ids);
             });
         }

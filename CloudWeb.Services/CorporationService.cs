@@ -36,6 +36,13 @@ namespace CloudWeb.Services
             return MaxSort(MaxSortsql) + 1;
         }
 
+        private CorporationDto GetCorpByName(string name)
+        {
+            var sql = "SELECT * FROM dbo.Corporations WHERE  IsDel = 0 AND IsShow = 1 AND [Name] = @Name";
+            var Column = Find<CorporationDto>(sql, new { Name = name });
+            return Column;
+        }
+
         #endregion
 
         #region 公用方法
@@ -50,6 +57,13 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> AddCorporation(CorporationDto corporation)
         {
+            var result = new ResponseResult<bool>();
+            if (corporation == null)
+                return result.SetFailMessage("添加公司错误。公司信息不存在");
+            var corp = GetCorpByName(corporation.Name);
+            if (corp != null)
+                return result.SetFailMessage("公司名不能重复，请更换公司名！");
+
             corporation.CreateTime = DateTime.Now;
             corporation.ModifyTime = corporation.CreateTime;
             corporation.IsDel = 0;
@@ -79,18 +93,14 @@ namespace CloudWeb.Services
             if (ids.Length == 0)
                 return result.SetFailMessage("请选择公司！");
 
-            if (ids.Length == 1)
-            {
-                string delSql = "UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId= @ids";
-                return result.SetData(Delete(delSql, new { ids = ids }));
-            }
-            else
-            {
-                string idsStr = ConverterUtil.StringSplit(ids);
-                string delSql = $"UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId in ({idsStr})";
+            string sql = "";
+            string idsStr = ConverterUtil.StringSplit(ids);
+            if (ids.Length > 0)
+                sql = $"UPDATE dbo.CorpProducts SET IsDel = 1 WHERE IsDel=0 AND CorpId = {idsStr} ";
 
-                return result.SetData(Delete(delSql, new { ids = ids }));
-            }
+            string delSql = $"UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId in ({idsStr}) {sql}";
+
+            return result.SetData(Delete(delSql, new { ids = ids }));
         }
 
         /// <summary>
@@ -100,13 +110,19 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> UpdateCorporation(CorporationDto corporation)
         {
+            var result = new ResponseResult<bool>();
             var Corporation = GetCorporation(corporation.CorpId.Value);
-            if (Corporation == null)
-                return new ResponseResult<bool>(201, "修改失败，公司信息不存在。");
+            if (Corporation.data == null)
+                return result.SetFailMessage("修改失败，公司信息不存在。");
+            if (Corporation.data.Name != corporation.Name)
+            {
+                var corp = GetCorpByName(corporation.Name);
+                if (corp != null)
+                    return result.SetFailMessage("公司名不能重复，请更换公司名！");
+            }
 
             if (Equals(corporation, Corporation))
-                return new ResponseResult<bool>(200, "修改成功");
-
+                return result.SetData(true);
 
             corporation.ModifyTime = DateTime.Now;
             const string UpdateSql = @"UPDATE dbo.Corporations SET ModifyTime=@ModifyTime,Modifier=@Modifier,

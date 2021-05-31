@@ -1,8 +1,8 @@
 ﻿//全局变量
-var getListUrl = 'https://localhost:44377/api/CorpProduct/GetPageList';
-var deleteUrl = 'https://localhost:44377/api/CorpProduct/DelProduct';
-var changeShowUrl = 'https://localhost:44377/api/CorpProduct/ChangeShowStatus';
-var GetCorpsUrl = 'https://localhost:44377/api/Corporation/GetCorpSelectList';
+var getListUrl = BaseApi + '/api/CorpProduct/GetPageList';
+var deleteUrl = BaseApi + '/api/CorpProduct/DelProduct';
+var changeShowUrl = BaseApi + '/api/CorpProduct/ChangeShowStatus';
+var GetCorpsUrl = BaseApi + '/api/Corporation/GetCorpSelectList';
 
 
 layui.use(['table', 'layer', 'form'], function () {
@@ -54,7 +54,7 @@ layui.use(['table', 'layer', 'form'], function () {
             none: '暂无相关数据', //默认：无数据。注：该属性为 layui 2.2.5 开始新增
         },
         cols: [[ //表头
-            { type: 'checkbox', width: 50 },      
+            { type: 'checkbox', width: 50 },
             { field: 'id', title: '编号', width: 70, sort: true, align: 'center' },
             { field: 'name', title: '产品名', width: 150, align: 'center' },
             { field: 'corpName', title: '所属公司', width: 150, align: 'center' },

@@ -43,6 +43,17 @@ namespace CloudWeb.OpenApi.Controllers.Web
         }
 
         /// <summary>
+        /// 获取栏目信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<ColumnDto> GetColumnById(int id)
+        {
+            return _service.GetColumn(id);
+        }
+
+        /// <summary>
         /// 获取栏目轮播图
         /// </summary>
         /// <param name="columnId"></param>

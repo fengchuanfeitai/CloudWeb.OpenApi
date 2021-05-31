@@ -15,7 +15,7 @@
     <form class="layui-form" lay-filter="product-form">
         @*隐藏字段: Id, Cover*@
         <input type="text" name="Id" class="layui-input layui-hide" />
-        <input type="text" name="Cover" class="layui-input layui-hide" />
+        <input type="text" name="Cover" lay-verify="Cover" class="layui-input layui-hide" />
 
 
         @*Name*@
@@ -50,7 +50,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属公司</label>
             <div class="layui-input-inline">
-                <select name="CorpId" id="bindCorp">
+                <select name="CorpId" id="bindCorp" lay-verify="CorpId">
                     <option value=""></option>
                 </select>
             </div>
@@ -88,10 +88,10 @@
         @*上传封面图*@
         <div class="layui-form-item">
             <label for="Cover" class="layui-form-label">
-                <span class="x-red">*</span>封面图
+                封面图
             </label>
             <div class="layui-input-block">
-                <div class="layui-upload-drag" id="CoverUpload">
+                <div class="layui-upload-drag">
                     <p>
                         <span class="x-red">*</span>
                         点击上传，或将图片拖拽到此处
@@ -126,7 +126,7 @@
             <label for="submit" class="layui-form-label">
             </label>
             <button class="layui-btn" lay-submit lay-filter="save-product" style="background-color: #1b8fe4;">
-                保存修改
+                立即提交
             </button>
         </div>
     </form>
@@ -134,4 +134,5 @@
 <script src="~/lib/ueditor/ueditor.config.js"></script>
 <script src="~/lib/ueditor/ueditor.all.min.js"></script>
 <script src="~/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
-<script src="~/Scripts/corpProduct/produtEdit.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
+@* ?v=@DateTime.Now.ToString("yyyyMMddHHmmss") *@
+<script src="~/Scripts/corpProduct/produtEdit.js"></script>
