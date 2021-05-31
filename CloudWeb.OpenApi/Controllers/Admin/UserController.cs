@@ -45,7 +45,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
             //session中获取验证码
             string code = SessionHelper.GetSession(HttpContext.Session, "ValidateLogin");
             //不区分大小写
-            if (string.Compare(code.ToLower(), user.VerifyCode.ToLower()) == 0)
+            if (string.Compare(code.ToLower(), user.VerifyCode.ToLower()) != 0)
             {
                 return new ResponseResult<UserData>("请输入正确的验证码");
             }
