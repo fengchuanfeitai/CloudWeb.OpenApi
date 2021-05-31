@@ -43,8 +43,7 @@ namespace CloudWeb.Services
         {
             corpProduct.CreateTime = DateTime.Now;
             corpProduct.ModifyTime = corpProduct.CreateTime;
-            corpProduct.Creator = 0;
-            corpProduct.Modifier = corpProduct.Modifier;
+            corpProduct.Modifier = corpProduct.Creator;
             if (corpProduct.Sort == null)
                 corpProduct.Sort = GetSort();
 
@@ -99,7 +98,7 @@ namespace CloudWeb.Services
                 return new ResponseResult<bool>(200, "数据无更改");
 
             corpProduct.ModifyTime = DateTime.Now;
-            corpProduct.Modifier = 0;
+            corpProduct.Modifier = corpProduct.Creator;
             const string UpdateSql = @"UPDATE dbo.CorpProducts SET 
                   ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,Content=@Content,
                   CorpId=@CorpId,LocationUrl=@LocationUrl,Sort=@Sort,IsShow=@IsShow,IsDel=@IsDel 

@@ -58,8 +58,8 @@ namespace CloudWeb.Services
             {
                 var NewSiteInfo = new SiteInfoDto()
                 {
-                    Creator = 0,
-                    Modifier = 0,
+                    Creator = 1,
+                    Modifier = 1,
                     CreateTime = DateTime.Now,
                     ModifyTime = DateTime.Now,
                     SiteTitle = "网站标题",
@@ -101,7 +101,7 @@ namespace CloudWeb.Services
             if (Equals(siteInfo, SiteInfoRes.data))
                 return Result.Set(ResponseResult.Ok, 0, "", true);
 
-            siteInfo.Modifier = 0;
+            siteInfo.Modifier = siteInfo.Creator;
             siteInfo.ModifyTime = DateTime.Now;
 
             const string sql = @"UPDATE dbo.SiteInfo SET                  ModifyTime=@ModifyTime,Modifier=@Modifier,SiteTitle=@SiteTitle,

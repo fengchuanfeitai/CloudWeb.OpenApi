@@ -49,6 +49,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     //页面初始化给页面赋值
     $(function () {
         var id = getUrlParam("id");
+        $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
         if (id != null) {
             $.ajax({
                 type: 'GET',
@@ -278,7 +279,8 @@ layui.use(['form', 'upload', 'layer'], function () {
             "ContactUs": $("input[name='ContactUs']").val(),
             "ContactUsBg": $("input[name='ContactUsBg']").val(),
             "Sort": $("input[name='Sort']").val(),
-            "IsShow": $("input[name='IsShow']").val()
+            "IsShow": $("input[name='IsShow']").val(),
+            "Creator": $("input[name='Creator']").val(),
         };
 
         var frameIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引

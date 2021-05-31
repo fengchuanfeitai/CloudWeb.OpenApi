@@ -66,6 +66,7 @@ namespace CloudWeb.Services
 
             corporation.CreateTime = DateTime.Now;
             corporation.ModifyTime = corporation.CreateTime;
+            corporation.Modifier = corporation.Creator;
             corporation.IsDel = 0;
             if (corporation.Sort == null)
             {
@@ -125,6 +126,7 @@ namespace CloudWeb.Services
                 return result.SetData(true);
 
             corporation.ModifyTime = DateTime.Now;
+            corporation.Modifier = corporation.Creator;
             const string UpdateSql = @"UPDATE dbo.Corporations SET ModifyTime=@ModifyTime,Modifier=@Modifier,
                     [Name]=@Name,Cover=@Cover,Logo1=@Logo1, Logo2=@Logo2,ColumnId=@ColumnId,AboutUs=@AboutUs,
                     AboutUsCover=@AboutUsCover,ContactUs=@ContactUs,ContactUsBg=@ContactUsBg,Sort=@Sort,

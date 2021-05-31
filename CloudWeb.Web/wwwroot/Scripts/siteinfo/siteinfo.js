@@ -12,6 +12,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     checkToken();
     //页面初始化给页面元素赋值
     $(function () {
+        $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
         $.ajax({
             type: "GET",
             url: getUrl,

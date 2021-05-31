@@ -33,8 +33,8 @@ layui.use(['form', 'upload', 'layer'], function () {
     //如果是编辑页面则初始化数据
     $(function () {
         var id = getUrlParam('id');
+        $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
         ue.ready(function () {
-            console.log(id);
             if (id != null) {
                 $.ajax({
                     type: 'GET',
@@ -86,8 +86,8 @@ layui.use(['form', 'upload', 'layer'], function () {
                 return '请选择所属公司';
             };
         },
-        Cover: function (value) { 
-           
+        Cover: function (value) {
+
             if (cover.length <= 0) {
                 return '封面图必须上传';
             };
