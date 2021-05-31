@@ -14,11 +14,12 @@
     <div class="layui-row">
         <form class="layui-form" lay-filter="corp-form">
             <input type="text" name="CorpId" class="layui-input layui-hide" />
+            <input type="text" name="Creator" class="layui-input layui-hide" />
             <input type="text" name="Cover" lay-verify="Cover" class="layui-input layui-hide" />
             <input type="text" name="Logo1" lay-verify="Logo1" class="layui-input layui-hide" />
             <input type="text" name="Logo2" lay-verify="Logo2" class="layui-input layui-hide" />
             <input type="text" name="AboutUsCover" lay-verify="AboutUsCover" class="layui-input layui-hide" />
-            <input type="text" name="ContactUsBg" lay-verify="AboutUsCoverBg" class="layui-input layui-hide" />
+            <input type="text" name="ContactUsBg" lay-verify="ContactUsBg" class="layui-input layui-hide" />
 
             @*公司名Name*@
             <div class="layui-form-item">
@@ -235,7 +236,7 @@
                 <label for="L_repass" class="layui-form-label">
                 </label>
                 <button class="layui-btn" lay-submit lay-filter="save-corp" style="background-color: #1b8fe4;">
-                    保存修改
+                    立即提交
                 </button>
             </div>
         </form>

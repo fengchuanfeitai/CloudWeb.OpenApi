@@ -90,9 +90,9 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId)
+        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId, int? level)
         {
-            return _service.GetColumnsByParent(parentId);
+            return _service.GetColumnsByParent(parentId, level);
         }
 
         /// <summary>

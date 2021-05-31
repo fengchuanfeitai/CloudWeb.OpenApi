@@ -1,7 +1,8 @@
-﻿var getUrl = 'https://localhost:44377/api/Corporation/GetCorporation/id';
-var uploadUrl = 'https://localhost:44377/api/admin/upload';
-var PostUrl = 'https://localhost:44377/api/Corporation/AddCorporaion';
-var GetColumnsUrl = 'https://localhost:44377/api/admin/Column/GetColumnsByParent';
+﻿var selectData;
+var getUrl = BaseApi + '/api/Corporation/GetCorporation/id';
+var uploadUrl = BaseApi + '/api/admin/upload';
+var PostUrl = BaseApi + '/api/Corporation/AddCorporaion';
+var GetColumnsUrl = BaseApi + '/api/admin/Column/GetColumnsByParent';
 
 layui.use(['form', 'upload', 'layer'], function () {
     var $ = layui.jquery,
@@ -23,13 +24,22 @@ layui.use(['form', 'upload', 'layer'], function () {
     $.ajax({
         type: 'GET',
         url: GetColumnsUrl,
-        data: { parentId: 1 },
+        data: { parentId: 1, level: 2 },
         success: function (res) {
+            console.log(res);
+            if (res.data.length <= 0) {
+                layer.msg('所属栏目为空！<br />请先在一级栏目“仿真实验云”下，添加仿真实验云类别', {
+                    time: 10000, //10s后自动关闭
+                    btn: ['知道了']
+                });
+                return false;
+            }
             var colArr = new Array();
             $.each(res.data, function (index, value) {
                 var col = { name: value.colName, value: value.columnId }
                 colArr.push(col);
             });
+            selectData = colArr;
             columnSelect.update({
                 data: colArr
             })
@@ -39,6 +49,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     //页面初始化给页面赋值
     $(function () {
         var id = getUrlParam("id");
+        $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
         if (id != null) {
             $.ajax({
                 type: 'GET',
@@ -46,7 +57,7 @@ layui.use(['form', 'upload', 'layer'], function () {
                 data: { id: id },//请求参数
                 success: function (res) {
                     if (res.code != 200) {
-                        layer.open(res.msg);
+                        layer.msg(res.msg);
                         return false;
                     }
                     var corporation = res.data;
@@ -103,6 +114,22 @@ layui.use(['form', 'upload', 'layer'], function () {
                 return '公司名不能大于一百个字符';
             }
         },
+        Cover: function (value) {
+            if (value.length <= 0)
+                return '封面图必须上传'
+        },
+        Logo1: function (value) {
+            if (value.length <= 0)
+                return '灰色Logo必须上传'
+        },
+        Logo2: function (value) {
+            if (value.length <= 0)
+                return '正常Logo图必须上传'
+        },
+        AboutUsCover: function (value) {
+            if (value.length <= 0)
+                return '关于我们图片必须上传'
+        },      
         Sort: function (value) {
             if (value.length > 0) {
                 if (!(/^\d$/.test(value))) {
@@ -226,8 +253,20 @@ layui.use(['form', 'upload', 'layer'], function () {
 
     //监听提交
     form.on('submit(save-corp)', function (res) {
+        if (selectData.length <= 0) {
+            layer.msg('所属栏目为空！<br />请先在一级栏目“仿真实验云”下，添加仿真实验云类别', {
+                time: 10000, //10s后自动关闭
+                btn: ['知道了']
+            });
+            return false;
+        }
+
         //获取Columns数组
         var columnIds = columnSelect.getValue("value");
+        if (columnIds.length <= 0) {
+            layer.msg('请选择栏目！')
+            return false;
+        }
         var postData = {
             "CorpId": $("input[name='CorpId']").val(),
             "Name": $("input[name='Name']").val(),
@@ -240,7 +279,8 @@ layui.use(['form', 'upload', 'layer'], function () {
             "ContactUs": $("input[name='ContactUs']").val(),
             "ContactUsBg": $("input[name='ContactUsBg']").val(),
             "Sort": $("input[name='Sort']").val(),
-            "IsShow": $("input[name='IsShow']").val()
+            "IsShow": $("input[name='IsShow']").val(),
+            "Creator": $("input[name='Creator']").val(),
         };
 
         var frameIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引

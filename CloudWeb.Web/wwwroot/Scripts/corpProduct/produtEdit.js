@@ -1,7 +1,7 @@
-﻿var getUrl = 'https://localhost:44377/api/CorpProduct/GetProductById/id';
-var uploadUrl = 'https://localhost:44377/api/admin/upload';
-var PostUrl = 'https://localhost:44377/api/CorpProduct/AddProduct';
-var GetCorpsUrl = 'https://localhost:44377/api/Corporation/GetCorpSelectList';
+﻿var getUrl = BaseApi + '/api/CorpProduct/GetProductById/id';
+var uploadUrl = BaseApi + '/api/admin/upload';
+var PostUrl = BaseApi + '/api/CorpProduct/AddProduct';
+var GetCorpsUrl = BaseApi + '/api/Corporation/GetCorpSelectList';
 
 layui.use(['form', 'upload', 'layer'], function () {
     var $ = layui.jquery,
@@ -33,8 +33,8 @@ layui.use(['form', 'upload', 'layer'], function () {
     //如果是编辑页面则初始化数据
     $(function () {
         var id = getUrlParam('id');
+        $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
         ue.ready(function () {
-            console.log(id);
             if (id != null) {
                 $.ajax({
                     type: 'GET',
@@ -80,6 +80,17 @@ layui.use(['form', 'upload', 'layer'], function () {
             if (value.length > 200) {
                 return '展品名称长度不能大于200';
             }
+        },
+        CorpId: function (value) {
+            if (value.length <= 0) {
+                return '请选择所属公司';
+            };
+        },
+        Cover: function (value) {
+
+            if (cover.length <= 0) {
+                return '封面图必须上传';
+            };
         },
         Sort: function (value) {
             if (value.length > 0) {

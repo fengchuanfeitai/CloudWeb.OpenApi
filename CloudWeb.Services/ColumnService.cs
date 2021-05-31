@@ -150,9 +150,7 @@ namespace CloudWeb.Services
                     ,[Level] =@Level
                     ,[Summary] =@Summary
                     ,[LocationUrl] = @LocationUrl
-                    ,[CoverUrl] =@CoverUrl
-                    ,[ImgDesc1] = @ImgDesc1
-                    ,[ImgDesc2] = @ImgDesc2
+                    ,[CoverUrl] =@CoverUrl                    
                     ,[Icon] = @Icon
                     ,[Video] =@Video
                     ,[ParentId] =@ParentId
@@ -186,7 +184,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<ColumnDto> GetColumn(int id)
         {
-            const string sql = @"SELECT [ColumnId],[CreateTime],[ModifyTime],[Creator],[Modifier],[ColName],[Level],[Summary],[LocationUrl],[CoverUrl],[ImgDesc1],[ImgDesc2],[Icon],[Video],[ParentId],[Sort],[IsNews] ,[IsShow] ,[IsDel]FROM[Ori_CloudWeb].[dbo].[Columns] WHERE  [IsDel]=0  AND  [ColumnId]=@id";
+            const string sql = @"SELECT * FROM[Ori_CloudWeb].[dbo].[Columns] WHERE [IsShow]=1 AND [IsDel]=0  AND  [ColumnId]=@id";
             return new ResponseResult<ColumnDto>(Find<ColumnDto>(sql, new { id = id }));
         }
 
@@ -195,10 +193,14 @@ namespace CloudWeb.Services
         /// </summary>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId)
+        public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId, int? level)
         {
-            const string sql = @"SELECT ColumnId,ColName FROM dbo.[Columns]
-                  WHERE IsDel=0 AND IsShow=1 AND ParentId=@parentId";
+            var levelStr = "";
+            if (level != null)
+                levelStr = $" AND Level ={level}";
+
+            string sql = $"SELECT ColumnId,ColName FROM dbo.[Columns] WHERE IsDel=0 AND IsShow=1 AND ParentId=@parentId {levelStr}";
+
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
         }
 

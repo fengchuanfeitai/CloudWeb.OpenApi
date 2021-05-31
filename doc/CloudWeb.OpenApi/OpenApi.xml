@@ -51,7 +51,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetColumnsByParent(System.Int32)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetColumnsByParent(System.Int32,System.Nullable{System.Int32})">
             <summary>
             根据父Id获取子栏目
             </summary>
@@ -317,6 +317,13 @@
             <summary>
             根据ParenId 获取子栏目
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.GetColumnById(System.Int32)">
+            <summary>
+            获取栏目信息
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.GetCarouselImg(System.Int32)">

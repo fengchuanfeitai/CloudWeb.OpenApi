@@ -1,6 +1,6 @@
-﻿var getUrl = 'https://localhost:44377/api/SiteInfo/GetSiteInfo';
-var uploadUrl = 'https://localhost:44377/api/admin/upload';
-var putUrl = 'https://localhost:44377/api/SiteInfo/UpdateSiteInfo';
+﻿var getUrl = BaseApi + '/api/SiteInfo/GetSiteInfo';
+var uploadUrl = BaseApi + '/api/admin/upload';
+var putUrl = BaseApi + '/api/SiteInfo/UpdateSiteInfo';
 
 
 layui.use(['form', 'upload', 'layer'], function () {
@@ -12,6 +12,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     checkToken();
     //页面初始化给页面元素赋值
     $(function () {
+        $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
         $.ajax({
             type: "GET",
             url: getUrl,
@@ -156,7 +157,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     });
 
     //监听提交
-    form.on('submit(save-siteinfo)', function (res) {        
+    form.on('submit(save-siteinfo)', function (res) {
         $.ajax({
             type: "PUT",
             url: putUrl,
@@ -167,7 +168,7 @@ layui.use(['form', 'upload', 'layer'], function () {
                     layer.msg(data.msg)
                     return false;
                 }
-                layer.msg("保存成功");                
+                layer.msg("保存成功");
                 return true;
             }
         });

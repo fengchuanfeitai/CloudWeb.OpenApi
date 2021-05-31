@@ -35,7 +35,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId);
+        ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParent(int parentId, int? level);
 
 
         /// <summary>

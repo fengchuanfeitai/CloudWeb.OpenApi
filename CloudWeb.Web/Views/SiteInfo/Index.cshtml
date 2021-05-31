@@ -16,9 +16,10 @@
 
 <div class="x-body">
     <div class="layui-col-lg6 layui-col-md9 layui-col-sm10">
-        <form class="layui-form" lay-filter="siteInfo-form">
+        <form class="layui-form" lay-filter="siteInfo-form" style="margin-top:30px;">
             @*隐藏字段*@
             <input type="text" name="Id" class="layui-input layui-hide" />
+            <input type="text" name="Creator" class="layui-input layui-hide" />
             <input type="text" name="SiteLogo" lay-verify="SiteLogo" class="layui-input layui-hide" />
             <input type="text" name="WeChatPublicNo" lay-verify="WeChatPublicNo" class="layui-input layui-hide" />
 
@@ -99,7 +100,7 @@
                     联系方式
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" name="Tel" lay-verify="phone|Tel"
+                    <input type="text" name="Tel" lay-verify="Tel"
                            placeholder="请输入联系方式" autocomplete="off" class="layui-input" value="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -141,7 +142,7 @@
                         </p>
                         <div class="layui-hide" id="SiteLogoImgDiv">
                             <hr>
-                            <img  id="SiteLogoImg" src="" alt="网站Logo图片" style="height:60%;width:60%;">
+                            <img id="SiteLogoImg" src="" alt="网站Logo图片" style="height:60%;width:60%;">
                         </div>
                     </div>
                 </div>
@@ -173,7 +174,7 @@
                 <label for="repass" class="layui-form-label">
                 </label>
                 <button class="layui-btn" lay-submit lay-filter="save-siteinfo" style="background-color: #1b8fe4;">
-                    保存修改
+                    立即提交
                 </button>
             </div>
         </form>
