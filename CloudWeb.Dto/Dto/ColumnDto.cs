@@ -56,16 +56,6 @@ namespace CloudWeb.Dto
         public string CoverUrl { get; set; }
 
         /// <summary>
-        /// 内容模块上传封面描述
-        /// </summary>
-        public string ImgDesc1 { get; set; }
-
-        /// <summary>
-        /// 内容模块上传内页封面描述
-        /// </summary>
-        public string ImgDesc2 { get; set; }
-
-        /// <summary>
         /// 图标网络地址
         /// </summary>
         public string Icon { get; set; }
