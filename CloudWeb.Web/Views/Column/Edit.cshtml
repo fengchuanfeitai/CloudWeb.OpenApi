@@ -8,6 +8,8 @@
     <div class="layui-row">
         <form class="layui-form" action="" lay-filter="columnForm">
             <input id="columnId" type="hidden" value="0" name="columnId" />
+            <input id="creator" type="hidden" value="0" name="creator" />
+            <input id="modifier" type="hidden" value="0" name="modifier" />
             <div class="layui-form-item">
                 <label for="colName" class="layui-form-label">
                     <span class="x-red">*</span>栏目名称
@@ -37,6 +39,17 @@
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>不显示前台则无法显示
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="title" class="layui-form-label">
+                    是否是新闻栏目
+                </label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" checked name="isNews" value="true" lay-skin="switch" lay-text="显示|不显示">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>勾选，在添加内容页面展示上传内页封面
                 </div>
             </div>
             <div class="layui-form-item">

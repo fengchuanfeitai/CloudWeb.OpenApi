@@ -6,7 +6,8 @@ function checkToken() {
 
     //无token跳转登录
     var toke = sessionStorage.getItem('token');
-    if (toke === null) {
+    var userid = sessionStorage.getItem('UserId');
+    if (toke === null || userid === null) {
         window.location.href = '/home/login'
     }
 }

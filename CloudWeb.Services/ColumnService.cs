@@ -212,7 +212,7 @@ namespace CloudWeb.Services
             string condition = "";
             if (id > 0)
                 condition = " and ColumnId=@id";
-            string sql = $"select ColumnId,ColName,Level from  Columns where  IsDel=0 and IsShow=1 {condition}; ";
+            string sql = $"select ColumnId,ColName,Level,IsNews from  Columns where  IsDel=0 and IsShow=1 {condition}; ";
 
             return new ResponseResult<IEnumerable<ColumnDropDownDto>>(GetAll<ColumnDropDownDto>(sql, new { id = id }));
         }

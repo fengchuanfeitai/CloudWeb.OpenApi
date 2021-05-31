@@ -101,10 +101,14 @@ function ActionOperation(action, form) {
     switch (action) {
         case 'add': //作为添加页面操作
             {
+                //添加绑定用户id
+                $("#creator").val(sessionStorage.getItem('UserId'));
             }
             break;
         case 'edit': //作为编辑页面操作
             {
+                //修改绑定用户id
+                $("#modifier").val(sessionStorage.getItem('UserId'));
                 //获取url中携带的contentId参数
                 var contentId = getUrlParam("id");
                 $("#contentId").val(contentId);//保存contentId到隐藏控件，用于编辑时的主键
@@ -161,6 +165,16 @@ function ColumnDropDown(columnid) {
             var ophtmls = '';
             $("select[name=columnId]").html(ophtmls);
             for (var i = 0; i < res.data.length; i++) {
+
+                var isNews = res.data[i].isNews
+                console.log(isNews)
+                if (isNews === 1) {
+                    $('#newscover').html('<label for="ImgUrl1" class="layui-form-label">< span class= "x-red" >*</span > 内页封面</label >< !--图片文件地址--><input type="hidden" value="" name="imgUrl2" lay-reqtext="请上传内页封面图片" id="ImgUrl2" /><div class="layui-input-block"><div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="Img2Upload"> <p>点击上传，或将图片拖拽到此处</p><p>尺寸建议上传139*103像素</p><div class="layui-hide" id="Img2"><hr><img src="" alt="上传成功后渲染" style="height:20%;width:20%;"></div></div></div>');
+                }
+                else {
+                    $('#newscover').html();//不显示
+                }
+
                 var Id = res.data[i].columnId;
                 var ClassLayer = res.data[i].level;
                 var Title = res.data[i].colName;

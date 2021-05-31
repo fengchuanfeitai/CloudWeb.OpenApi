@@ -119,16 +119,22 @@
 
 //根据传入的action做不同的操作
 function ActionOperation(action, form) {
+    console.log(action);
     //判断action,执行不同的操作
     switch (action) {
         case 'add': //作为添加页面操作
             {
+                console.log(sessionStorage.getItem('UserId'));
+                //添加绑定用户id
+                $("#creator").val(sessionStorage.getItem('UserId'));
                 // 加载栏目分类所有数据下拉框
                 ColumnDropDown();
             }
             break;
         case 'addSublevel': //作为添加子级页面操作
             {
+                //添加绑定用户id
+                $("#creator").val(sessionStorage.getItem('UserId'));
                 //获取url中携带的columnId参数,不保存,加载从对应栏目对应的栏目的下拉框数据
                 var columnId = getUrlParam("columnId");
                 ColumnDropDown(columnId, action);
@@ -136,6 +142,9 @@ function ActionOperation(action, form) {
             break;
         case 'edit': //作为编辑页面操作
             {
+                //修改绑定用户id
+                console.log("edit:" + sessionStorage.getItem('UserId'));
+                $("#modifier").val(sessionStorage.getItem('UserId'));
                 //获取url中携带的columnId参数
                 var columnId = getUrlParam("columnId");
                 $("#columnId").val(columnId);//保存columnId到隐藏控件，用于编辑时的主键
@@ -197,7 +206,7 @@ $("body").on("click", ".close", function () {
 
 //栏目下拉框
 function ColumnDropDown(columnid, action) {
-    console.log('columnid:' + columnid);
+    console.log('[ColumnDropDown]columnid:' + columnid);
     $.ajax({
         type: "POST",
         dataType: "json",

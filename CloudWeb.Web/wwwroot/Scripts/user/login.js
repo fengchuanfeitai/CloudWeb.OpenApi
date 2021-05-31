@@ -28,6 +28,8 @@
                     layer.msg("登录成功", function () {
                         sessionStorage.setItem('token', res.data.token);
                         sessionStorage.setItem('Account', res.data.userName);
+                        sessionStorage.setItem('UserId', res.data.userId);
+
                         location.href = 'index'
                     });
                 }

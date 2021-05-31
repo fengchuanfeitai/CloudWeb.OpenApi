@@ -103,6 +103,11 @@ namespace CloudWeb.Dto
         /// 栏目级别
         /// </summary>
         public int Level { get; set; }
+
+        /// <summary>
+        /// 是否是新闻
+        /// </summary>
+        public bool IsNews { get; set; }
     }
 
 }
