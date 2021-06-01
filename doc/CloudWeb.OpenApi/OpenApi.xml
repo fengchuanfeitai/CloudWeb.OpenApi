@@ -344,23 +344,30 @@
             web内容接口
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetCarouselNews(System.Boolean)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetIndexNews(CloudWeb.Dto.Param.IndexNewsParam)">
             <summary>
             获取首页新闻
             </summary>
-            <param name="isCarousel">是否为轮播图</param>
+            <param name="param"></param>       
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetContentByColumnId(CloudWeb.Dto.Param.SearchPapers)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetColContent(CloudWeb.Dto.Param.ConSearchParam)">
             <summary>
-            根据一级栏目Id及查询条件查询内容
+            获取（新闻报导/教学研究与论文/活动交流）内容
+            </summary>
+            <param name="param"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetContentBycId(CloudWeb.Dto.Param.ConByColParam)">
+            <summary>
+            根据columnId 获取内容
             </summary>
             <param name="param"></param>
             <returns></returns>
         </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Web.ContentController.GetContent(System.Int32)">
             <summary>
-            
+            根据id查询内容
             </summary>
             <param name="id"></param>
             <returns></returns>

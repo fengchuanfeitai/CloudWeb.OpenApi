@@ -27,27 +27,38 @@ namespace CloudWeb.OpenApi.Controllers.Web
         /// <summary>
         /// 获取首页新闻
         /// </summary>
-        /// <param name="isCarousel">是否为轮播图</param>
+        /// <param name="param"></param>       
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ContentDto>> GetCarouselNews(bool isCarousel)
+        public ResponseResult<IEnumerable<ContentDto>> GetIndexNews(IndexNewsParam param)
         {
-            return _service.GetIndexNews(isCarousel);
+            return _service.GetIndexNews(param);
         }
 
         /// <summary>
-        /// 根据一级栏目Id及查询条件查询内容
+        /// 获取（新闻报导/教学研究与论文/活动交流）内容
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>        
+        [HttpGet]
+        public ResponseResult<IEnumerable<ContentDto>> GetColContent(ConSearchParam param)
+        {
+            return _service.GetColPageContent(param);
+        }
+
+        /// <summary>
+        /// 根据columnId 获取内容
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpGet]
-        public ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param)
+        public ResponseResult<IEnumerable<ContentDto>> GetContentBycId(ConByColParam param)
         {
-            return _service.GetContentByColumnId(param);
+            return _service.GetConByCol(param);
         }
 
         /// <summary>
-        /// 
+        /// 根据id查询内容
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

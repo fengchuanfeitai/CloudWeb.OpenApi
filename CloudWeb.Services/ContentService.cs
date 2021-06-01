@@ -11,12 +11,41 @@ namespace CloudWeb.Services
 {
     public class ContentService : BaseDao, IContentService
     {
+        #region 私有函数
+
         /// <summary>
         /// 插入sql
         /// </summary>
         private const string Insert_Content_Sql = @"INSERT INTO [Ori_CloudWeb].[dbo].[Content]
             ([CreateTime],[ModifyTime],[Creator],[Modifier],[ColumnId],[Title],[Content],[ImgUrl1],[ImgUrl2],[LinkUrl],[Hits],[CreateDate] ,[IsPublic]  ,[IsCarousel],[IsDefault] ,[IsDel],[Sort])
           VALUES(@CreateTime,@ModifyTime,@Creator,@Modifier,@ColumnId,@Title,@Content,@ImgUrl1,@ImgUrl2,@LinkUrl,@Hits,@CreateDate ,@IsPublic ,@IsCarousel,@IsDefault ,@IsDel,@Sort)";
+
+        private IEnumerable<ContentDto> DealWithContent(IEnumerable<ContentDto> contents,
+            bool filterHtml, int? titleCut, int? contentCut)
+        {
+            if (!filterHtml && titleCut == null && contentCut == null)
+                return contents;
+            foreach (var item in contents)
+            {
+                if (filterHtml)
+                {
+                    if (!string.IsNullOrEmpty(item.Content))
+                        item.Content = TextUtil.FilterHtml(item.Content);
+                }
+                if (titleCut != null)
+                {
+                    item.Title = TextUtil.StringTruncat(item.Title, titleCut.Value, "...");
+                }
+                if (contentCut != null)
+                {
+                    item.Content = TextUtil.StringTruncat(item.Content, contentCut.Value, "...");
+                }
+            }
+
+            return contents;
+        }
+
+        #endregion
 
         /// <summary>
         /// 添加内容
@@ -175,24 +204,46 @@ namespace CloudWeb.Services
 
         #region 网站接口
 
-        public ResponseResult<IEnumerable<ContentDto>> GetIndexNews(bool isCarousel)
+        public ResponseResult<IEnumerable<ContentDto>> GetIndexNews(IndexNewsParam param)
         {
-            int IsCarouselInt = isCarousel ? 1 : 0;
+            var result = new ResponseResult<IEnumerable<ContentDto>>();
 
-            string sql = $"SELECT * FROM dbo.[Content] WHERE IsDel=0 AND IsPublic=1 AND IsDefault=1 AND IsCarousel={IsCarouselInt} AND ColumnId IN(SELECT ColumnId FROM dbo.[Columns] WHERE (ColumnId = 2 OR ParentId = 2) AND IsShow =1 AND IsDel =0) ORDER BY Sort ASC,CreateTime DESC";
+            int isCarouselInt = param.IsCarousel ? 1 : 0;
 
-            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql));
+            string sql = $"SELECT * FROM dbo.[Content] WHERE IsDel=0 AND IsPublic=1 AND IsDefault=1 AND IsCarousel={isCarouselInt} AND ColumnId IN(SELECT ColumnId FROM dbo.[Columns] WHERE (ColumnId = 2 OR ParentId = 2) AND IsShow =1 AND IsDel =0) ORDER BY Sort ASC,CreateTime DESC";
+
+            var news = GetAll<ContentDto>(sql);
+            if (news == null)
+                return result.SetData(news);
+
+            var processedData = DealWithContent(news, param.FilterHtml, param.TitleCut, param.ContentCut);
+            return result.SetData(processedData);
         }
 
-        public ResponseResult<IEnumerable<ContentDto>> GetDefaultNews()
+        public ResponseResult<IEnumerable<ContentDto>> GetConByCol(ConByColParam param)
         {
-            string sql = "SELECT * FROM dbo.[Content] WHERE IsDel=0 AND IsPublic=1 AND IsDefault=1 AND IsCarousel=0 AND ColumnId IN(SELECT ColumnId FROM dbo.[Columns] WHERE (ColumnId = 2 OR ParentId = 2) AND IsShow =1 AND IsDel =0) ORDER BY Sort ASC,CreateTime DESC";
+            var result = new ResponseResult<IEnumerable<ContentDto>>();
+            var IsCarouselStr = "";
+            if (param.IsCarousel != null)
+            {
+                int IsCarouselInt = param.IsCarousel.Value ? 1 : 0;
+                IsCarouselStr = $" AND IsCarousel = {IsCarouselInt}";
+            }
+            string sql = $"SELECT * FROM dbo.Content WHERE IsDel = 0 AND IsPublic=1 AND ColumnId =@ColumnId {IsCarouselStr}";
 
-            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(sql));
+            var contents = GetAll<ContentDto>(sql, param);
+            if (contents == null)
+                return result.SetData(contents);
+
+            //处理数据
+            var processedData = DealWithContent(contents, param.FilterHtml, param.TitleCut, param.ContentCut);
+            return result.SetData(processedData);
         }
 
-        public ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param)
+        public ResponseResult<IEnumerable<ContentDto>> GetColPageContent(ConSearchParam param)
         {
+            var result = new ResponseResult<IEnumerable<ContentDto>>();
+
             var ColumnSearch = "";
             var KeywordSearch = "";
             if (param.ObjId != null)
@@ -205,7 +256,14 @@ namespace CloudWeb.Services
 
             var CountSql = $"SELECT COUNT(*) FROM dbo.Content WHERE IsPublic = 1 AND IsDel = 0 {ColumnSearch} {KeywordSearch} AND ColumnId IN (SELECT ColumnId FROM dbo.[Columns] WHERE ColumnId = {param.MasterId} OR ParentId = {param.MasterId} AND IsDel = 0 AND IsShow = 1)";
 
-            return new ResponseResult<IEnumerable<ContentDto>>(GetAll<ContentDto>(AllPaPersSql, param), Count(CountSql));
+            var contents = GetAll<ContentDto>(AllPaPersSql, param);
+            var count = Count(CountSql);
+            if (contents == null)
+                return result.SetData(contents, count);
+
+            var processedData = DealWithContent(contents, param.FilterHtml, param.TitleCut, param.ContentCut);
+
+            return result.SetData(contents, count);
         }
 
         #endregion
