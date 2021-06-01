@@ -78,7 +78,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
         public ResponseResult<bool> DelCorporation(int[] ids)
         {
             return _corporationService.DelCorporation(ids);

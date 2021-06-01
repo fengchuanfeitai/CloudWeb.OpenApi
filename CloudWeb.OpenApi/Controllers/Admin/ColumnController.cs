@@ -59,7 +59,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// 修改栏目
         /// </summary>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
         public ResponseResult<bool> EditColumn(ColumnDto columnDto)
         {
             return _service.EditColumn(columnDto);
@@ -79,7 +79,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// 删除栏目
         /// </summary>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
         public ResponseResult<bool> DeleteColumn(int[] ids)
         {
             return _service.DeleteColumn(ids);

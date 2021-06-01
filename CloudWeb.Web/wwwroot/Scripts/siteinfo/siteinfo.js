@@ -159,7 +159,7 @@ layui.use(['form', 'upload', 'layer'], function () {
     //监听提交
     form.on('submit(save-siteinfo)', function (res) {
         $.ajax({
-            type: "PUT",
+            type: "post",
             url: putUrl,
             async: false,
             data: res.field,

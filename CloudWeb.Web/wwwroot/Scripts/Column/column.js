@@ -105,7 +105,7 @@ function Starting_method() {
                         } else {
                             var confirmMsg = '是否删除选中数据？';
                             var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
-                            DelAjax(delApi, 'delete', confirmMsg, { ids: ids }, insTb)
+                            DelAjax(delApi, 'post', confirmMsg, { ids: ids }, insTb)
                         }
                     }
                     break;
@@ -150,7 +150,7 @@ function Starting_method() {
             }
 
             var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
-            DelAjax(delApi, 'delete', '确认要删除所有选中数据吗？', { ids: ids }, insTb)
+            DelAjax(delApi, 'post', '确认要删除所有选中数据吗？', { ids: ids }, insTb)
 
         });
 

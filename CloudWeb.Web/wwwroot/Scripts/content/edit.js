@@ -5,7 +5,7 @@
             laydate = layui.laydate
             , upload = layui.upload;
 
-       
+
         //根据action初始化页面
         var action = getUrlParam("action");
         ActionOperation(action, form);
@@ -44,7 +44,7 @@
             //id大于0，执行修改
             if (id > 0) {
                 var eidtApi = BaseApi + '/api/admin/Content/EditContent';
-                ajax(eidtApi, "put", res.field, "修改");
+                ajax(eidtApi, "post", res.field, "修改");
             }
             else {
                 //id不存在执行添加
@@ -177,14 +177,14 @@ function ColumnDropDown(columnid) {
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
             console.log(res.data);
-            if (res.code === 200) {
+            if (res.code === 200 & res.data !== null) {
                 var ophtmls = '';
                 $("select[name=columnId]").html(ophtmls);
                 for (var i = 0; i < res.data.length; i++) {
 
-           
+
                     var Id = res.data[i].columnId;
-                    DisplayPic(Id);
+                    DisplayPic(res.data[0].columnId);
                     var ClassLayer = res.data[i].level;
                     var Title = res.data[i].colName;
                     if (ClassLayer == 1) {
@@ -204,6 +204,7 @@ function ColumnDropDown(columnid) {
 
 
 function DisplayPic(columnid) {
+    console.log('DisplayPic' + columnid);
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -213,18 +214,16 @@ function DisplayPic(columnid) {
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
-            console.log(res.code);
+            console.log(res);
             if (res.code === 200) {
-                var isNews = res.data[0].isNews
-                console.log(res.isNews);
+                var isNews = res.data[0].isNews;
+                console.log('DisplayPic' + res.data[0].isNews);
                 if (isNews) {
-                    $('#newscover').html('<label for="ImgUrl1" class="layui-form-label"><span class= "x-red" >*</span > 内页封面</label ><!--图片文件地址--><input type="hidden" value="" name="imgUrl2" lay-reqtext="请上传内页封面图片" id="ImgUrl2" /><div class="layui-input-block"><div class="layui-upload-drag" style="border:1px dashed #c0ccda; border-radius:6px;padding:10px" id="Img2Upload"> <p>点击上传，或将图片拖拽到此处</p><p>尺寸建议上传139*103像素</p><div class="layui-hide" id="Img2"><hr><img src="" alt="上传成功后渲染" style="height:20%;width:20%;"></div></div></div>');
+                    $('#newscover').attr('style','display:none');
                 }
                 else {
-                    $('#newscover').html('');//不显示
+                    $('#newscover').attr('style','display:block');//不显示
                 }
-
-
             }
         }
     });

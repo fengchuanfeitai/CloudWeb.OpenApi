@@ -132,7 +132,7 @@ layui.use(['table', 'layer', 'form'], function () {
 //删除
 function delAjax(ids) {
     $.ajax({
-        type: 'delete',
+        type: 'post',
         url: deleteUrl,
         dataType: 'json',
         data: { ids: ids },

@@ -95,7 +95,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
         public ResponseResult<bool> DelProduct(int[] ids)
         {
             return _service.DelProduct(ids);

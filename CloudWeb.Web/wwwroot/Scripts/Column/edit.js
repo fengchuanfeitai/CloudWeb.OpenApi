@@ -108,7 +108,7 @@
                 case 'edit':
                     {
                         var eidtApi = BaseApi + "/api/admin/Column/EditColumn";
-                        ajax(eidtApi, "put", res.field, "修改");
+                        ajax(eidtApi, "post", res.field, "修改");
                     }
                     break;
 

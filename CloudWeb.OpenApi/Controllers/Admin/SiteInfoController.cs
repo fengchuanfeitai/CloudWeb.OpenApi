@@ -42,7 +42,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
         public ResponseResult<bool> UpdateSiteInfo(SiteInfoDto dto)
         {
             return _siteInfoService.UpdateSiteInfo(dto);

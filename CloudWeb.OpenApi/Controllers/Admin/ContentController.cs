@@ -82,7 +82,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// 修改内容
         /// </summary>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
         public ResponseResult<bool> EditContent(ContentDto contentDto)
         {
             return _service.EditContent(contentDto);
@@ -102,7 +102,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// 删除内容
         /// </summary>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
         public ResponseResult<bool> DeleteContent(int[] ids)
         {
             return _service.DeleteContent(ids);

@@ -46,4 +46,11 @@
 
         return false;
     });
+
+    $('#VerifyImage').click(function () {
+        $("#VerifyImage").attr('src', verifyApi);
+        return false;
+    })
 })
+
+
