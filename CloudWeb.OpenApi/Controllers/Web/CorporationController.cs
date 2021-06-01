@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,16 @@ namespace CloudWeb.OpenApi.Controllers.Web
         public ResponseResult<IEnumerable<CorporationDto>> GetAllCorp()
         {
             return _service.GetAllCorp();
+        }
+
+        /// <summary>
+        /// 根据栏目查询所在公司
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<IEnumerable<CorporationDto>> GetCorpByCol(CorpByColParam param)
+        {
+            return _service.GetCorpByCol(param);
         }
     }
 }

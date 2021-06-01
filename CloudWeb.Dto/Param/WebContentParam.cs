@@ -1,27 +1,11 @@
 ﻿namespace CloudWeb.Dto.Param
 {
-    public class BaseConParam : BaseParam
-    {
-        /// <summary>
-        /// 内容是否过滤Html
-        /// </summary>
-        public bool FilterHtml { get; set; }
-
-        /// <summary>
-        /// 标题截取长度
-        /// </summary>
-        public int? TitleCut { get; set; }
-
-        /// <summary>
-        /// 内容截取多少长度
-        /// </summary>
-        public int? ContentCut { get; set; }
-    }
+   
 
     /// <summary>
     /// 首页新闻列表Param
     /// </summary>
-    public class IndexNewsParam : BaseConParam
+    public class IndexNewsParam : BaseWebParam
     {
         /// <summary>
         /// 是否为轮播图
@@ -32,7 +16,7 @@
     /// <summary>
     /// （新闻报导/教学研究与论文/活动交流）列表Param
     /// </summary>
-    public class ConSearchParam : BaseConParam
+    public class ConSearchParam : BaseWebParam
     {
         /// <summary>
         /// 传入一级栏目Id
@@ -52,7 +36,7 @@
     /// <summary>
     /// 根据栏目Id获取内容列表
     /// </summary>
-    public class ConByColParam : BaseConParam
+    public class ConByColParam : BaseWebParam
     {
         /// <summary>
         /// 栏目Id

@@ -59,6 +59,8 @@ namespace CloudWeb.IServices
 
         ResponseResult<IEnumerable<CorporationDto>> GetAllCorp();
 
+        ResponseResult<IEnumerable<CorporationDto>> GetCorpByCol(CorpByColParam param);
+
         #endregion
     }
 }

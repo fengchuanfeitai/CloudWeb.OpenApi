@@ -383,6 +383,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.CorporationController.GetCorpByCol(CloudWeb.Dto.Param.CorpByColParam)">
+            <summary>
+            根据栏目查询所在公司
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.CorpProductsController">
             <summary>
             web内容接口
