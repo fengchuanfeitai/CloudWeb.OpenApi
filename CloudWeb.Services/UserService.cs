@@ -28,7 +28,12 @@ namespace CloudWeb.Services
         public ResponseResult<UserData> Login(UserParam dto)
         {
             //登录成功
-            var result = LoginValidate(dto);
+            ResponseResult<UserData> result = LoginValidate(dto);
+
+            if (result.code != (int)HttpStatusCode.OK)
+            {
+                return result;
+            }
             //返回token,user信息
             result.data.Token = _jwtService.BuildToken(_jwtService.BuildClaims(result.data));
             return new ResponseResult<UserData>(result.data);

@@ -18,7 +18,7 @@ layui.use('table', function () {
     }
 
     //接口
-    var getlistapi = "https://localhost:44377/api/admin/Content/GetAll";
+    var getlistapi = BaseApi + "/api/admin/Content/GetAll";
     table.render({
         elem: '#list'
         , url: getlistapi //数据接口
