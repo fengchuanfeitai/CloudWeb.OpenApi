@@ -1,5 +1,6 @@
 ﻿using CloudWeb.Dto;
 using CloudWeb.Dto.Common;
+using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -34,10 +35,10 @@ namespace CloudWeb.OpenApi.Controllers.Web
         /// 查询产品
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(int id)
+        [HttpGet]
+        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(ProductSearchParam param)
         {
-            return _service.GetPageProduct(id);
+            return _service.GetPageProduct(param);
         }
     }
 }

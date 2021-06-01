@@ -199,10 +199,13 @@ namespace CloudWeb.Services
 
         #region 网站接口
 
+        /// <summary>
+        /// 展示所有公司
+        /// </summary>
+        /// <returns></returns>
         public ResponseResult<IEnumerable<CorporationDto>> GetAllCorp()
         {
-            string sql = "SELECT * FROM dbo.Corporations WHERE IsShow = 1 AND IsDel = 0 ORDER BY Sort ASC, CreateTime DESC";
-
+            string sql = "SELECT * FROM dbo.Corporations WHERE IsShow = 1 AND IsDel = 0 ORDER BY Sort ASC;";
             return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql));
         }
 

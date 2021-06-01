@@ -191,10 +191,13 @@ namespace CloudWeb.Services
 
         #region 网站接口
 
-        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(int id)
+        public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(ProductSearchParam param)
         {
-            string sql = @"SELECT * FROM dbo.CorpProducts WHERE IsDel=0 and CorpId=@id";
-            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(sql, new { id = id }));
+
+            string sql = $"SELECT w2.num, w1.* FROM CorpProducts w1, (SELECT TOP(@PageIndex * @PageSize) row_number() OVER(ORDER BY Createtime DESC) num, id FROM CorpProducts where IsDel = 0 and IsShow = 1 and CorpId=@CorpId) w2  WHERE w1.id = w2.id AND w2.num > (@PageSize * (@PageIndex - 1))  ORDER BY w2.num ASC";
+            string queryCountSql = $"SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[CorpProducts] WHERE IsDel=0 and IsShow = 1 and CorpId=@CorpId;";
+
+            return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(sql, param), Count(queryCountSql, param));
         }
 
         #endregion

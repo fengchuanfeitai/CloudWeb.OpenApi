@@ -375,7 +375,7 @@
             web内容接口
             </summary>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Web.CorpProductsController.GetPageProduct(System.Int32)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.CorpProductsController.GetPageProduct(CloudWeb.Dto.Param.ProductSearchParam)">
             <summary>
             查询产品
             </summary>

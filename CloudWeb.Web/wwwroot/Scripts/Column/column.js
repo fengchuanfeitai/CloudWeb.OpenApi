@@ -52,7 +52,7 @@ function Starting_method() {
                     field: 'colName', title: '栏目名称', align: 'left'
                 },
                 { field: 'level', title: '栏目级别', align: 'center', hide: true },
-                { field: 'localUrl', title: '跳转链接', align: 'center' },
+                { field: 'locationUrl', title: '跳转链接', align: 'center' },
                 { field: 'sort', title: '排序', sort: true, align: 'center' },
                 {
                     field: 'createTime', title: '创建时间', sort: true, align: 'center'

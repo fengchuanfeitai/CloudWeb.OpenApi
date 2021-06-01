@@ -56,6 +56,6 @@ namespace CloudWeb.IServices
         ResponseResult ChangeShowStatus(ShowStatusParam showStatusParam);
 
 
-        ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(int id);
+        ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(ProductSearchParam param);
     }
 }
