@@ -75,7 +75,7 @@ namespace CloudWeb.Services
                 var AddResult = AddSiteInfo(NewSiteInfo);
                 if (AddResult.code != ResponseResult.Ok)
                     return Result.SetFailMessage("初始化站点信息失败！");
-                FindSiteInfo();
+                return FindSiteInfo();
             }
 
             return Result.SetData(SiteInfo);
