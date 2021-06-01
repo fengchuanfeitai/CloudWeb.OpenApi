@@ -9,7 +9,6 @@
   "imageCompressBorder": 1600, /* 图片压缩最长边限制 */
   "imageInsertAlign": "none", /* 插入的图片浮动方式 */
   "imageUrlPrefix": "https://localhost:44377/", /* 图片访问路径前缀 */
-  /* "imageUrlPrefix": "http://192.168.0.138:8085/", /* 图片访问路径前缀 */
   "imageSaveAbsolutePath": "", /* 文件保存路径 */
   "imageFtpUpload": true, /*是否FTP OSS上传*/
   "imagePathFormat": "upload/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */

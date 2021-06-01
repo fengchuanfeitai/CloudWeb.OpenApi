@@ -56,7 +56,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="contentDto"></param>
         /// <returns></returns>
-        ResponseResult<bool> AddContent(ContentParam contentParam);    
+        ResponseResult<bool> AddContent(ContentParam contentParam);
 
         /// <summary>
         /// 删除内容
@@ -71,18 +71,23 @@ namespace CloudWeb.IServices
         /// <summary>
         /// 获取首页新闻
         /// </summary>
-        /// <param name="isCarousel">是否未轮播图</param>
+        /// <param name="isCarousel">是否为轮播图</param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ContentDto>> GetIndexNews(bool isCarousel);
+        ResponseResult<IEnumerable<ContentDto>> GetIndexNews(IndexNewsParam param);
 
-       
+        /// <summary>
+        /// 根据栏目Id获取内容列表
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        ResponseResult<IEnumerable<ContentDto>> GetConByCol(ConByColParam param);
 
         /// <summary>
         /// 根据columnId查询内容
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ContentDto>> GetContentByColumnId(SearchPapers param);
+        ResponseResult<IEnumerable<ContentDto>> GetColPageContent(ConSearchParam param);
         #endregion
     }
 }

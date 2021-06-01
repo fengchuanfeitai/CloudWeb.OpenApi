@@ -64,6 +64,16 @@ namespace CloudWeb.OpenApi.Controllers.Web
             return _service.GetCarouselImg(columnId);
         }
 
+        /// <summary>
+        /// 获取实验云下菜单（level = 3）
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<IEnumerable<ColumnDto>> GetExperimentCol(int columnId, int level)
+        {
+            return _service.GetExperimentCol(columnId, level);
+        }
+
         #endregion
     }
 }

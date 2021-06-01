@@ -209,6 +209,22 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql));
         }
 
+        public ResponseResult<IEnumerable<CorporationDto>> GetCorpByCol(CorpByColParam param)
+        {
+            var result = new ResponseResult<IEnumerable<CorporationDto>>();
+            string sql = "Select * From Corporations Where IsDel = 0 AND IsShow = 1 AND CHARINDEX(',6,', ',' + cast(ColumnId as varchar) + ',') > 0";
+
+            var corps = GetAll<CorporationDto>(sql, param);
+            if (corps == null || param.TitleCut == null)
+                return result.SetData(corps);
+
+            foreach (var item in corps)
+            {
+                item.Name = TextUtil.StringTruncat(item.Name, param.TitleCut.Value, "...");
+            }
+
+            return result.SetData(corps);
+        }
 
         #endregion
 

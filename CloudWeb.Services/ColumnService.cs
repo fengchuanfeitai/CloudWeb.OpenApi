@@ -243,6 +243,13 @@ namespace CloudWeb.Services
 
             return result.SetData(Carousel);
         }
+
+        public ResponseResult<IEnumerable<ColumnDto>> GetExperimentCol(int columnId, int level)
+        {
+            string sql = "SELECT * FROM dbo.[Columns] WHERE IsDel=0 AND IsShow=1 AND ParentId = @ColumnId AND [Level]=@Level ORDER BY Sort ASC ";
+
+            return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { ColumnId = columnId, Level = level }));
+        }
         #endregion
     }
 }
