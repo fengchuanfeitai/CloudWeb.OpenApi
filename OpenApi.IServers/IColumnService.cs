@@ -81,6 +81,14 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<IList<CarouselDto>> GetCarouselImg(int columnId);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="columnId"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        ResponseResult<IEnumerable<ColumnDto>> GetExperimentCol(int columnId, int level);
+
         #endregion
     }
 }

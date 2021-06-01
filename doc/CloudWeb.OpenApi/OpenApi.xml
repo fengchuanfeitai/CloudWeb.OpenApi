@@ -333,6 +333,12 @@
             <param name="columnId"></param>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Web.ColumnController.GetExperimentCol(System.Int32,System.Int32)">
+            <summary>
+            获取实验云下菜单（level = 3）
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:CloudWeb.OpenApi.Controllers.Web.ContentController">
             <summary>
             web内容接口
