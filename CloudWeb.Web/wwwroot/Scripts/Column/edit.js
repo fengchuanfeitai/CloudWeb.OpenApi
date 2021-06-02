@@ -73,7 +73,12 @@
             , url: BaseApi + "/api/admin/upload"//上传接口
             , accept: 'video' //视频
             , data: { path: 'column' }
+            , size: 30000
+            , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            }
             , done: function (res) {
+                layer.closeAll('loading'); //关闭loading
                 if (res.code === 200) {
                     layer.msg('上传成功');
                     $("#Video").val(res.data);
@@ -81,6 +86,8 @@
                 else
                     layer.msg('上传失败');
                 console.log(res)
+            }, error: function (index, upload) {
+                layer.closeAll('loading'); //关闭loading
             }
         });
 

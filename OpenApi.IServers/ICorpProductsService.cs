@@ -57,5 +57,7 @@ namespace CloudWeb.IServices
 
 
         ResponseResult<IEnumerable<CorpProductsDto>> GetPageProduct(ProductSearchParam param);
+
+        ResponseResult<CorpProductsDto> GetProductContent(int id);
     }
 }

@@ -40,5 +40,15 @@ namespace CloudWeb.OpenApi.Controllers.Web
         {
             return _service.GetPageProduct(param);
         }
+
+        /// <summary>
+        /// 查询产品
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<CorpProductsDto> GetProductContent(int id)
+        {
+            return _service.GetProductContent(id);
+        }
     }
 }

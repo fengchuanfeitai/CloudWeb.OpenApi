@@ -133,7 +133,7 @@ layui.use('table', function () {
                     console.log('content[delete],id:' + id)
 
                     var delApi = BaseApi + '/api/admin/content/DeleteContent';
-                    DelAjax(delApi, 'delete', '是否删除当前数据？', { ids: ids }, 'id');
+                    DelAjax(delApi, 'post', '是否删除当前数据？', { ids: ids }, 'id');
                 }
                 break;
             case 'edit'://编辑
@@ -170,7 +170,7 @@ layui.use('table', function () {
             return false;
         }
         var delApi = BaseApi + '/api/admin/content/DeleteContent';
-        DelAjax(delApi, 'delete', '确认要删除所有选中数据吗', { ids: ids }, 'id');
+        DelAjax(delApi, 'post', '确认要删除所有选中数据吗', { ids: ids }, 'id');
     });
 
 });
