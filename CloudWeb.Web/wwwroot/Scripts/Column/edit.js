@@ -87,8 +87,22 @@
         //自定义验证规则
         form.verify({
             coverLinks: function (value) {
+                var cover = $("#coverUrl").val();
+                if (cover == "" && value != "") {
+                    return '未上传轮播图，不能填写轮播图跳转链接！'
+                }
+                if (cover == "" && value == "")
+                    return true;
                 var linkArr = value.split(',');
-                var coverArr = $("#coverUrl").val().split(',');
+                var coverArr = cover.split(',');
+                var tag = true;
+                $.each(linkArr, function (i, v) {
+                    if (v == '')
+                        tag = false;
+                })
+                if (!tag)
+                    return '占位需要”#“填位！'
+
                 if (linkArr.length != coverArr.length)
                     return '跳转链接个数不等于轮播图数量，请添加或删除！。无链接用‘#’占位'
             },
@@ -192,12 +206,12 @@ function ActionOperation(action, form) {
                         }
                     }
                 });
-                
+
             }
             break;
     }
     form.render("select");//加载重新form
-   
+
 }
 
 //移除图片
