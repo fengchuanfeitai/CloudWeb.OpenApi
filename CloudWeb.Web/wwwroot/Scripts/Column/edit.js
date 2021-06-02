@@ -91,6 +91,8 @@
                 if (cover == "" && value != "") {
                     return '未上传轮播图，不能填写轮播图跳转链接！'
                 }
+                if (cover == "" && value == "")
+                    return true;
                 var linkArr = value.split(',');
                 var coverArr = cover.split(',');
                 var tag = true;
