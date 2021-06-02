@@ -20,11 +20,11 @@ namespace CloudWeb.Services
         {
             var resData = new List<CarouselDto>();
 
+            if (cover == null || coverLinks == null)
+                return resData;
+
             var coverArr = cover.Split(',');
             var coverLinkArr = coverLinks.Split(',');
-
-            if (cover == null)
-                return resData;
 
             for (var i = 0; i < coverArr.Length; i++)
             {
