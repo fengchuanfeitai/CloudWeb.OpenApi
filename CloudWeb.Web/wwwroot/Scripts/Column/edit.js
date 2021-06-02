@@ -90,7 +90,7 @@
                 var linkArr = value.split(',');
                 var coverArr = $("#coverUrl").val().split(',');
                 if (linkArr.length != coverArr.length)
-                    return '跳转链接小于轮播图，请添加或用#号代替！'
+                    return '跳转链接个数不等于轮播图数量，请添加或删除！。无链接用‘#’占位'
             },
         });
 
