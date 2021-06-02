@@ -87,8 +87,7 @@ layui.use(['form', 'upload', 'layer'], function () {
             };
         },
         Cover: function (value) {
-
-            if (cover.length <= 0) {
+            if (value.length <= 0) {
                 return '封面图必须上传';
             };
         },
