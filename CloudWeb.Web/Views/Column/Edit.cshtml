@@ -86,7 +86,11 @@
                 <!--文件地址-->
                 <input type="hidden" value="" name="coverUrl" id="coverUrl" />
                 <div class="layui-form-item" id="pics">
-                    <div class="layui-form-label"><span class="x-red">*</span>封面</div>
+                    <div class="layui-form-label"><span class="x-red">*</span>轮播图</div>
+                    <div class="layui-form-mid layui-word-aux">
+                        <span class="x-red">*</span>
+                        支持多图上传，尺寸建议上传首页1920*547，内页1920*300像素
+                    </div>
                     <div class="layui-input-block" style="width: 70%;">
                         <div class="layui-upload">
                             <button type="button" class="layui-btn layui-btn-primary pull-left" id="slide-pc">添加多图</button>
@@ -96,10 +100,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">
-                        <span class="x-red">*</span>
-                        支持多图上传，尺寸建议上传首页1920*547，内页1920*300像素
-                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="CoverLinks" class="layui-form-label">
+                    <span class="x-red">*</span>轮播图
+                    <br />跳转链接
+                </label>
+                <div class="layui-input-block">
+                    <textarea name="coverLinks" lay-verify="coverLinks"
+                              placeholder="轮播图跳转链接，不允许为空，与轮播图对应，用英文半角:,隔开，无跳转用#符号占位。例：‘https://www.***.com,#,www.***.com’格式" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">

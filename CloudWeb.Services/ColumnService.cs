@@ -16,18 +16,22 @@ namespace CloudWeb.Services
     {
         #region 私有方法
 
-        private IList<CarouselDto> SplitCover(string cover)
+        private IList<CarouselDto> SplitCover(string cover, string coverLinks)
         {
             var resData = new List<CarouselDto>();
+
+            var coverArr = cover.Split(',');
+            var coverLinkArr = coverLinks.Split(',');
 
             if (cover == null)
                 return resData;
 
-            foreach (var item in cover.Split(','))
+            for (var i = 0; i < coverArr.Length; i++)
             {
                 var data = new CarouselDto()
                 {
-                    CarouselUrl = item
+                    CarouselUrl = coverArr[i],
+                    CarouselLink = coverLinkArr[i]
                 };
                 resData.Add(data);
             }
@@ -41,8 +45,8 @@ namespace CloudWeb.Services
         /// <summary>
         /// 添加栏目sql
         /// </summary>
-        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
-            VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@CoverUrl,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
+        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks，Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
+            VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@CoverUrl,@CoverLinks,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
 
         /// <summary>
         /// 查询所有栏目
@@ -151,7 +155,8 @@ namespace CloudWeb.Services
                     ,[Level] =@Level
                     ,[Summary] =@Summary
                     ,[LocationUrl] = @LocationUrl
-                    ,[CoverUrl] =@CoverUrl                    
+                    ,[CoverUrl] =@CoverUrl
+                    ,[CoverLinks]=@CoverLinks
                     ,[Icon] = @Icon
                     ,[Video] =@Video
                     ,[ParentId] =@ParentId
@@ -169,12 +174,6 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            //string sql = @"SELECT w2.num, w1.* FROM Columns w1,
-            //(SELECT TOP (@PageIndex*@PageSize) row_number() OVER(ORDER BY Createtime DESC) num, ColumnId  FROM Columns where IsDel=0) w2
-            //WHERE w1.ColumnId = w2.ColumnId AND w2.num > (@PageSize*(@PageIndex-1))  ORDER BY w2.num ASC";
-            //string queryCountSql = "SELECT COUNT(*) FROM [Ori_CloudWeb].[dbo].[Columns] WHERE IsDel=0";
-
-            //return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam), Count(queryCountSql));
             string sql = @"  SELECT * FROM Columns  where IsDel=0";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam));
         }
@@ -185,7 +184,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<ColumnSelectDto> GetColumn(int id)
         {
-            const string sql = @"SELECT ColumnId,ColName,Level,Summary,LocationUrl,CoverUrl,Icon,Video,ParentId,Sort,IsNews,IsShow FROM[Ori_CloudWeb].[dbo].[Columns] WHERE  [IsDel]=0  AND  [ColumnId]=@id";
+            const string sql = @"SELECT ColumnId,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks,Icon,Video,ParentId,Sort,IsNews,IsShow FROM[Ori_CloudWeb].[dbo].[Columns] WHERE  [IsDel]=0  AND  [ColumnId]=@id";
             return new ResponseResult<ColumnSelectDto>(Find<ColumnSelectDto>(sql, new { id = id }));
         }
 
@@ -215,7 +214,6 @@ namespace CloudWeb.Services
             string condition = "";
             if (id > 0)
                 condition = " where ColumnId=@id";
-            //string sql = $"select ColumnId,ColName,Level,IsNews from  Columns where  IsDel=0  {condition}; ";
 
             string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid)select columnid,colname,ParentID,IsNews,Level from columnsInfo {condition} order by Sort, Level; ";
 
@@ -236,12 +234,12 @@ namespace CloudWeb.Services
         public ResponseResult<IList<CarouselDto>> GetCarouselImg(int columnId)
         {
             var result = new ResponseResult<IList<CarouselDto>>();
-            string sql = "SELECT CoverUrl FROM dbo.[Columns] WHERE IsDel=0 AND IsShow=1 AND  ColumnId=@columnId";
+            string sql = "SELECT CoverUrl,CoverLinks FROM dbo.[Columns] WHERE IsDel=0 AND IsShow=1 AND  ColumnId=@columnId";
             var column = Find<ColumnDto>(sql, new { columnId = columnId });
             if (column == null)
                 return result.SetFailMessage("获取轮播图失败，栏目编号不存在");
 
-            var Carousel = SplitCover(column.CoverUrl);
+            var Carousel = SplitCover(column.CoverUrl, column.CoverLinks);
 
             return result.SetData(Carousel);
         }

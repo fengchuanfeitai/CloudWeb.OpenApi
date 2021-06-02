@@ -51,9 +51,14 @@ namespace CloudWeb.Dto
         public string LocationUrl { get; set; }
 
         /// <summary>
-        /// 封面网络地址
+        /// 轮播图网络地址
         /// </summary>
         public string CoverUrl { get; set; }
+
+        /// <summary>
+        /// 轮播图调整链接
+        /// </summary>
+        public string CoverLinks { get; set; }
 
         /// <summary>
         /// 图标网络地址
@@ -152,6 +157,11 @@ namespace CloudWeb.Dto
         /// 封面网络地址
         /// </summary>
         public string CoverUrl { get; set; }
+
+        /// <summary>
+        /// 跳转链接
+        /// </summary>
+        public string CoverLinks { get; set; }
 
         /// <summary>
         /// 图标网络地址

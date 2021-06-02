@@ -86,6 +86,12 @@
 
         //自定义验证规则
         form.verify({
+            coverLinks: function (value) {
+                var linkArr = value.split(',');
+                var coverArr = $("#coverUrl").val().split(',');
+                if (linkArr.length != coverArr.length)
+                    return '跳转链接小于轮播图，请添加或用#号代替！'
+            },
         });
 
         //监听提交
