@@ -215,11 +215,10 @@ namespace CloudWeb.Services
             if (id > 0)
                 condition = " where ColumnId=@id";
 
-            string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid)select columnid,colname,ParentID,IsNews,Level from columnsInfo {condition} order by Sort, Level; ";
+            string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsDel, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select  dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsDel,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid where dt.IsDel=0 and c.IsDel=0)select columnid,colname,ParentID,IsNews,Level,IsDel from columnsInfo {condition} order by Sort, Level; ";
 
             return new ResponseResult<IEnumerable<ColumnDropDownDto>>(GetAll<ColumnDropDownDto>(sql, new { id = id }));
         }
-
 
         #endregion
 
