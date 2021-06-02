@@ -45,7 +45,7 @@ namespace CloudWeb.Services
         /// <summary>
         /// 添加栏目sql
         /// </summary>
-        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks，Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
+        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks,Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
             VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@CoverUrl,@CoverLinks,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
 
         /// <summary>
