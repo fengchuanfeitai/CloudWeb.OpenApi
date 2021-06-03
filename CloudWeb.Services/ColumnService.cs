@@ -163,6 +163,16 @@ namespace CloudWeb.Services
                         return result.SetFailMessage("栏目名称不能重复");
                 }
             }
+
+            //如果父级为0 ，则是第一级
+            if (column.ParentId == 0)
+                column.Level = 1;
+            else
+            {
+                string levelSql = "select level from Columns where isdel=0 and ColumnId=@id";
+                column.Level = Count(levelSql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
+            }
+
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
                 SET [ModifyTime] = @ModifyTime

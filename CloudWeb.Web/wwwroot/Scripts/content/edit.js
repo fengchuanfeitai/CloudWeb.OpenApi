@@ -215,7 +215,6 @@ function DisplayPic(columnid) {
             console.log(res);
             if (res.code === 200) {
                 var isNews = res.data[0].isNews;
-                console.log('DisplayPic:' + res.data[0].isNews);
                 if (!isNews) {
                     $('#newscover').attr('style', 'display:none');//不显示
                 }
