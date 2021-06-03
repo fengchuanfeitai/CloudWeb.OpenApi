@@ -107,7 +107,14 @@ namespace CloudWeb.Services
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
                 return result.SetFailMessage("请选择栏目id");
+
             string idStr = Util.ConverterUtil.StringSplit(ids);
+            //判读当前栏目下是否存在内容，有则提示"当前栏目中包含内容数据，是否同时删除？"
+
+            string contentSql = $"select COUNT(1) from Content where columnid in  ({idStr});";
+
+            if (Count(contentSql) > 0)
+                return result.SetFailMessage("当前栏目中包含内容数据，是否同时删除？");
 
             string sql1 = $"select count(1) from Columns where ParentId in ({idStr});";
             string condition = "";
