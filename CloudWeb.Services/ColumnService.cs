@@ -60,11 +60,11 @@ namespace CloudWeb.Services
                 return result.SetFailMessage("请填栏目信息");
 
             //判断栏目名称是否唯一
-            string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
-            int count = Count(colNameSql, new { ColName = column.ColName });
+            string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName and parentId=@id;";
+            int count = Count(colNameSql, new { ColName = column.ColName, id = column.ParentId });
 
-            if (count >= 1)
-                return result.SetFailMessage("栏目名称不能重复");
+            if (count > 0)
+                return result.SetFailMessage("统一父级下栏目名称不能重复");
 
             //如果父级为0 ，则是第一级
             if (column.ParentId == 0)
@@ -156,21 +156,21 @@ namespace CloudWeb.Services
                 if (column.ColName != columnDto.ColName)
                 {
                     //判断栏目名称是否唯一
-                    string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
-                    int count = Count(colNameSql, new { ColName = columnDto.ColName });
+                    string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName and parentId=@id;";
+                    int count = Count(colNameSql, new { ColName = columnDto.ColName, id = columnDto.ParentId });
 
                     if (count > 0)
-                        return result.SetFailMessage("栏目名称不能重复");
+                        return result.SetFailMessage("统一父级下栏目名称不能重复");
                 }
             }
 
             //如果父级为0 ，则是第一级
-            if (column.ParentId == 0)
-                column.Level = 1;
+            if (columnDto.ParentId == 0)
+                columnDto.Level = 1;
             else
             {
                 string levelSql = "select level from Columns where isdel=0 and ColumnId=@id";
-                column.Level = Count(levelSql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
+                columnDto.Level = Count(levelSql, new { id = columnDto.ParentId }) + 1;//父级不为0，则查询父级level+1
             }
 
             string sql = @"
