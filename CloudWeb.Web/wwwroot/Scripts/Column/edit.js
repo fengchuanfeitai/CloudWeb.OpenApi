@@ -62,8 +62,6 @@
                 else {
                     layer.msg('上传失败');
                 }
-
-                console.log(res)
             }
         });
 
@@ -85,7 +83,6 @@
                 }
                 else
                     layer.msg('上传失败');
-                console.log(res)
             }, error: function (index, upload) {
                 layer.closeAll('loading'); //关闭loading
             }
@@ -146,7 +143,6 @@
 
 //根据传入的action做不同的操作
 function ActionOperation(action, form) {
-    console.log(action);
     //判断action,执行不同的操作
     var userId = sessionStorage.getItem('UserId');
     switch (action) {
@@ -187,8 +183,6 @@ function ActionOperation(action, form) {
                     //url: '/scripts/Column/editData.json' //数据接口
                     , data: { id: columnId }//传值
                     , success: function (res) {
-                        var result = res.data;
-                        console.log(result);
                         if (res.code === 200) {
                             //赋值
                             form.val("columnForm", res.data);
@@ -204,7 +198,7 @@ function ActionOperation(action, form) {
                                 var pics = res.data.coverUrl.split(",")
 
                                 for (var i = 0; i < pics.length; i++) {
-                                    $('#slide-pc-priview').append('<li class="item_img"><div class="operate"><i  class="close layui-icon">  <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></i></div><img src="' + pics[i] + '" class="img" ></li>');
+                                    $('#slide-pc-priview').append('<li class="item_img"><div class="operate"><i  class="close layui-icon">  <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></i></div><img src="' + pics[i] + '" class="img" ><input type="hidden" value="' + pics[i] + '" class="pic" /></li>');
                                 }
                             }
 
@@ -245,8 +239,6 @@ function ColumnDropDown(columnid, action) {
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
-            console.log(res.data);
-
             if (res.code === 200) {
                 if (action !== 'addSublevel') {
                     var ophtmls = '<option value="0">顶级</option>';
@@ -263,7 +255,6 @@ function ColumnDropDown(columnid, action) {
                         Title = StringOfChar(ClassLayer - 1, "　") + Title;
                         ophtmls += "<option value=" + Id + ">" + Title + "</option>";
                     }
-                    console.log(ClassLayer);
                 }
                 $("#parentIdSelect").html(ophtmls);
             }
