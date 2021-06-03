@@ -98,6 +98,22 @@ namespace CloudWeb.Services
         }
 
         /// <summary>
+        /// 栏目下级是否包含数据
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public ResponseResult<bool> IsContainsContent(int[] ids)
+        {
+            //判读当前栏目下是否存在内容，有则提示"当前栏目中包含内容数据，是否同时删除？"
+            string idStr = Util.ConverterUtil.StringSplit(ids);
+            string contentSql = $"select COUNT(1) from Content where IsDel=0 and columnid in  ({idStr});";
+
+            if (Count(contentSql) > 0)
+                return new ResponseResult<bool>("当前栏目中包含内容数据，是否同时删除？");
+            return new ResponseResult<bool>((int)HttpStatusCode.OK, "");
+        }
+
+        /// <summary>
         /// 删除：包括单条数据删除，多条数据删除
         /// </summary>
         /// <param name="ids"></param>
@@ -109,13 +125,6 @@ namespace CloudWeb.Services
                 return result.SetFailMessage("请选择栏目id");
 
             string idStr = Util.ConverterUtil.StringSplit(ids);
-            //判读当前栏目下是否存在内容，有则提示"当前栏目中包含内容数据，是否同时删除？"
-
-            string contentSql = $"select COUNT(1) from Content where columnid in  ({idStr});";
-
-            if (Count(contentSql) > 0)
-                return result.SetFailMessage("当前栏目中包含内容数据，是否同时删除？");
-
             string sql1 = $"select count(1) from Columns where ParentId in ({idStr});";
             string condition = "";
             if (Count(sql1) > 0)

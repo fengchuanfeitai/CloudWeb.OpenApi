@@ -107,12 +107,12 @@
                             tag = false;
                     })
                     if (!tag)
-                        return '占位需要”#“填位！'
+                        return '轮播图跳转链接占位需要”#“填位！'
 
                     if (linkArr.length != coverArr.length)
                         return '跳转链接个数不等于轮播图数量，请添加或删除！。无链接用‘#’占位'
                 }
-            },
+            }
         });
 
         //监听提交

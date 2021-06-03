@@ -76,6 +76,16 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         }
 
         /// <summary>
+        /// 栏目是否包含内容数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ResponseResult<bool> IsContainsContent(int[] ids)
+        {
+            return _service.IsContainsContent(ids);
+        }
+
+        /// <summary>
         /// 删除栏目
         /// </summary>
         /// <returns></returns>

@@ -53,6 +53,13 @@ namespace CloudWeb.IServices
 
 
         /// <summary>
+        /// 栏目下级是否包含数据
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        ResponseResult<bool> IsContainsContent(int[] ids);
+
+        /// <summary>
         /// 删除栏目
         /// </summary>
         /// <returns></returns>
@@ -64,6 +71,7 @@ namespace CloudWeb.IServices
         /// <param name="id">主键</param>
         /// <returns></returns>
         ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id);
+
         #endregion
 
         #region 网站接口
