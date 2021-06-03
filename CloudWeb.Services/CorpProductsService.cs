@@ -200,6 +200,13 @@ namespace CloudWeb.Services
             return new ResponseResult<IEnumerable<CorpProductsDto>>(GetAll<CorpProductsDto>(sql, param), Count(queryCountSql, param));
         }
 
+        //查询内容
+        public ResponseResult<CorpProductsDto> GetProductContent(int id)
+        {
+            string sql = $"SELECT * FROM CorpProducts where IsDel = 0 and IsShow = 1 and id=@id ;";
+            return new ResponseResult<CorpProductsDto>(Find<CorpProductsDto>(sql, new { id = id }));
+        }
+
         #endregion
     }
 }

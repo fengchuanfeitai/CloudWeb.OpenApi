@@ -143,7 +143,7 @@ namespace CloudWeb.Services
                     string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName;";
                     int count = Count(colNameSql, new { ColName = columnDto.ColName });
 
-                    if (count > 1)
+                    if (count > 0)
                         return result.SetFailMessage("栏目名称不能重复");
                 }
             }
