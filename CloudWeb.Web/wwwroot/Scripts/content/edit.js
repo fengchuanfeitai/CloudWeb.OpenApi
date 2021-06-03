@@ -75,8 +75,8 @@ function UploadPic(api, uploadId, picHiddenId, picDivId, upload) {
         type: 'images',
         async: true,
         accept: 'images',//指定允许上传时校验的文件类型
-        ext: 'jpg|png',//允许上传的文件后缀
-        acceptMime: 'image/jpg, image/png',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
+        ext: 'jpg|png|jpeg',//允许上传的文件后缀
+        //acceptMime: 'image/jpg, image/png,image/jpeg',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
         size: "2048",
         //成功后回调
         done: function (res) {
