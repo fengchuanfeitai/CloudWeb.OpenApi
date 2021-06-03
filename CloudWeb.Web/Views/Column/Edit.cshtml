@@ -75,7 +75,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="locationUrl" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="locationUrl" lay-verify="required" lay-reqtext="跳转链接为必填项，不能为空" placeholder="" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>
@@ -84,7 +84,7 @@
             </div>
             <div class="layui-form-item">
                 <!--文件地址-->
-                <input type="hidden" value="" name="coverUrl" id="coverUrl" />
+                <input type="hidden" value="" name="coverUrl" id="coverUrl" lay-verify="required" lay-reqtext="必须上传轮播图" />
                 <div class="layui-form-item" id="pics">
                     <div class="layui-form-label"><span class="x-red">*</span>轮播图</div>
                     <div class="layui-form-mid layui-word-aux">
@@ -114,7 +114,7 @@
             </div>
             <div class="layui-form-item">
                 <label for="ImgUrl1" class="layui-form-label">
-                    <span class="x-red">*</span>图标
+                    <span class="x-red"></span>图标
                 </label>
                 <!--文件地址-->
                 <input type="hidden" value="" name="icon" id="icon" />
