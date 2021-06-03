@@ -181,8 +181,6 @@ function ColumnDropDown(columnid) {
                 var ophtmls = '';
                 $("select[name=columnId]").html(ophtmls);
                 for (var i = 0; i < res.data.length; i++) {
-
-
                     var Id = res.data[i].columnId;
                     DisplayPic(res.data[0].columnId);
                     var ClassLayer = res.data[i].level;
@@ -217,12 +215,11 @@ function DisplayPic(columnid) {
             console.log(res);
             if (res.code === 200) {
                 var isNews = res.data[0].isNews;
-                console.log('DisplayPic' + res.data[0].isNews);
-                if (isNews) {
-                    $('#newscover').attr('style','display:none');
+                if (!isNews) {
+                    $('#newscover').attr('style', 'display:none');//不显示
                 }
                 else {
-                    $('#newscover').attr('style','display:block');//不显示
+                    $('#newscover').attr('style', 'display:block');
                 }
             }
         }

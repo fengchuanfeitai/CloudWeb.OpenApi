@@ -80,7 +80,10 @@ function Starting_method() {
             }
         });
 
-
+        //删除接口
+        var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
+        //查询是否包含内容接口
+        var api = BaseApi + '/api/admin/Column/IsContainsContent';
         //操作事件
         treeTable.on('tool(columnTreeTb)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var id = obj.data.columnId; //获得当前行数据
@@ -103,9 +106,24 @@ function Starting_method() {
                         if (level === 1) {
                             layer.msg('当前为一级栏目不能删除', { icon: 2 });
                         } else {
-                            var confirmMsg = '是否删除选中数据？';
-                            var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
-                            DelAjax(delApi, 'post', confirmMsg, { ids: ids }, insTb)
+
+                            $.ajax({
+                                type: 'post',
+                                url: api,
+                                dataType: 'json',
+                                data: { ids: ids },//'ids='+arr+'&_method=delete',
+                                success: function (res) {
+                                    console.log("ads" + res)
+                                    if (res.code === 200) {
+
+                                        DelAjax(delApi, 'post', '是否删除选中数据', { ids: ids }, insTb)
+                                    }
+                                    else {
+                                        DelAjax(delApi, 'post', res.msg, { ids: ids }, insTb)
+                                    }
+
+                                }
+                            });
                         }
                     }
                     break;
@@ -149,13 +167,25 @@ function Starting_method() {
                 return false;
             }
 
-            var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
-            DelAjax(delApi, 'post', '确认要删除所有选中数据吗？', { ids: ids }, insTb)
-
+            $.ajax({
+                type: 'post',
+                url: api,
+                dataType: 'json',
+                data: { ids: ids },//'ids='+arr+'&_method=delete',
+                success: function (res) {
+                    console.log("ads" + res)
+                    if (res.code === 200) {
+                        var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
+                        DelAjax(delApi, 'post', '确认要删除所有选中数据吗？', { ids: ids }, insTb)
+                    }
+                    else {
+                        DelAjax(delApi, 'post', res.msg, { ids: ids }, insTb)
+                    }
+                }
+            });
         });
 
     });
-
 }
 
 /**
@@ -187,3 +217,6 @@ function DelAjax(delApi, method, confirmMsg, params, insTb) {
         layer.close(index);
     });
 }
+
+
+

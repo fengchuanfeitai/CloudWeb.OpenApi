@@ -49,7 +49,7 @@ layui.use('table', function () {
             { field: 'id', title: '编号', width: 70, align: 'center' },
             { field: 'title', title: '标题', width: 200, align: 'center' },
             { field: 'colName', title: '所属栏目类别', width: 200, align: 'center' },
-            { field: 'localUrl', title: '跳转链接', width: 100, align: 'center' },
+            { field: 'linkUrl', title: '跳转链接', width: 100, align: 'center' },
             { field: 'sort', title: '排序', width: 80, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 180, sort: true, align: 'center' },
             {
@@ -133,7 +133,7 @@ layui.use('table', function () {
                     console.log('content[delete],id:' + id)
 
                     var delApi = BaseApi + '/api/admin/content/DeleteContent';
-                    DelAjax(delApi, 'post', '是否删除当前数据？', { ids: ids }, 'id');
+                    DelAjax(delApi, 'post', '是否删除当前数据？', { ids: ids }, 'id', table);
                 }
                 break;
             case 'edit'://编辑
@@ -170,7 +170,7 @@ layui.use('table', function () {
             return false;
         }
         var delApi = BaseApi + '/api/admin/content/DeleteContent';
-        DelAjax(delApi, 'post', '确认要删除所有选中数据吗', { ids: ids }, 'id');
+        DelAjax(delApi, 'post', '确认要删除所有选中数据吗', { ids: ids }, 'id', table);
     });
 
 });

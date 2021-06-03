@@ -59,9 +59,6 @@
                     <div class="layui-input-inline">
                         <input type="checkbox" name="isDefault" value="true" lay-skin="switch" lay-text="推荐|不推荐">
                     </div>
-                    @*<div class="layui-form-mid layui-word-aux">
-                            <span class="x-red">*</span>不发布前台则无法显示
-                        </div>*@
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">添加到轮播</label>
@@ -87,12 +84,12 @@
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>
-                    填写后直接跳转到该网址或站内跳转
+                    为空。默认跳网站详情页，填写<span class="x-red">三方链接</span>则优先打开三方链接
                 </div>
             </div>
             <div class="layui-form-item">
                 <label for="ImgUrl1" class="layui-form-label">
-                    <span class="x-red">*</span>封面
+                    <span class="x-red"></span>封面
                 </label>
                 <!--图片文件地址-->
                 <input type="hidden" value="" name="imgUrl1" id="ImgUrl1" />

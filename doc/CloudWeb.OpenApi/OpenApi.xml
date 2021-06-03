@@ -45,6 +45,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.IsContainsContent(System.Int32[])">
+            <summary>
+            栏目是否包含内容数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.DeleteColumn(System.Int32[])">
             <summary>
             删除栏目

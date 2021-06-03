@@ -98,6 +98,22 @@ namespace CloudWeb.Services
         }
 
         /// <summary>
+        /// 栏目下级是否包含数据
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public ResponseResult<bool> IsContainsContent(int[] ids)
+        {
+            //判读当前栏目下是否存在内容，有则提示"当前栏目中包含内容数据，是否同时删除？"
+            string idStr = Util.ConverterUtil.StringSplit(ids);
+            string contentSql = $"select COUNT(1) from Content where IsDel=0 and columnid in  ({idStr});";
+
+            if (Count(contentSql) > 0)
+                return new ResponseResult<bool>("当前栏目中包含内容数据，是否同时删除？");
+            return new ResponseResult<bool>((int)HttpStatusCode.OK, "");
+        }
+
+        /// <summary>
         /// 删除：包括单条数据删除，多条数据删除
         /// </summary>
         /// <param name="ids"></param>
@@ -107,8 +123,8 @@ namespace CloudWeb.Services
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
                 return result.SetFailMessage("请选择栏目id");
-            string idStr = Util.ConverterUtil.StringSplit(ids);
 
+            string idStr = Util.ConverterUtil.StringSplit(ids);
             string sql1 = $"select count(1) from Columns where ParentId in ({idStr});";
             string condition = "";
             if (Count(sql1) > 0)
@@ -147,6 +163,16 @@ namespace CloudWeb.Services
                         return result.SetFailMessage("栏目名称不能重复");
                 }
             }
+
+            //如果父级为0 ，则是第一级
+            if (column.ParentId == 0)
+                column.Level = 1;
+            else
+            {
+                string levelSql = "select level from Columns where isdel=0 and ColumnId=@id";
+                column.Level = Count(levelSql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
+            }
+
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
                 SET [ModifyTime] = @ModifyTime
