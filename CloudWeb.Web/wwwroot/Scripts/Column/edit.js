@@ -204,7 +204,7 @@ function ActionOperation(action, form) {
                                 var pics = res.data.coverUrl.split(",")
 
                                 for (var i = 0; i < pics.length; i++) {
-                                    $('#slide-pc-priview').append('<li class="item_img"><div class="operate"><i  class="close layui-icon">  <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></i></div><img src="' + pics[i] + '" class="img" ></li>');
+                                    $('#slide-pc-priview').append('<li class="item_img"><div class="operate"><i  class="close layui-icon">  <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></i></div><img src="' + pics[i] + '" class="img" ><input type="hidden" value="' + pics[i] + '" class="pic" /></li>');
                                 }
                             }
 
