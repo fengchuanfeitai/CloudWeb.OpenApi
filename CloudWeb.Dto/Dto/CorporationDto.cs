@@ -19,6 +19,11 @@ namespace CloudWeb.Dto
         public string Name { get; set; }
 
         /// <summary>
+        /// 截取后的公司名称
+        /// </summary>
+        public string TruncatName { get; set; }
+
+        /// <summary>
         /// 公司封面图
         /// </summary>
         public string Cover { get; set; }
