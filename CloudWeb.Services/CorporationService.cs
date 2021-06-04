@@ -220,7 +220,7 @@ namespace CloudWeb.Services
 
             foreach (var item in corps)
             {
-                item.Name = TextUtil.StringTruncat(item.Name, param.TitleCut.Value, "...");
+                item.TruncatName = TextUtil.StringTruncat(item.Name, param.TitleCut.Value, "");
             }
 
             return result.SetData(corps);

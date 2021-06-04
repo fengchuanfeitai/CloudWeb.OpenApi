@@ -102,7 +102,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 是否是新闻
         /// </summary>
-        public bool IsNews { get; set; }
+        public int IsNews { get; set; }
     }
 
     public class ColumnSelectDto

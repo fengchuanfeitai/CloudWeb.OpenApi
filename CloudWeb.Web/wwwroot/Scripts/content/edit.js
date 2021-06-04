@@ -31,8 +31,6 @@
 
         //监听提交
         form.on('submit(contentsubmit)', function (res) {
-            var id = $("#contentId").val();
-
             var columnId = $("#columnSelect").val();
             console.log(columnId)
             if (columnId === null) {
@@ -40,16 +38,31 @@
                 return false;
             }
 
-            //var id = 1;
-            //id大于0，执行修改
-            if (id > 0) {
-                var eidtApi = BaseApi + '/api/admin/Content/EditContent';
-                ajax(eidtApi, "post", res.field, "修改");
+            var isNews = $('#isNews').val();
+            console.log(isNews)
+            var img2 = $('#ImgUrl2').val();
+
+            if (isNews === '1') {
+                console.log('img2:' + img2)
+                if (img2 === '' || img2 === null) {
+                    layer.msg('请上传内页封面图片', { icon: 2 });
+                    return false;
+                }
             }
-            else {
-                //id不存在执行添加
-                var addApi = BaseApi + '/api/admin/Content/AddContent';
-                ajax(addApi, "post", res.field, "添加");
+
+            switch (action) {
+                case 'add':
+                    {
+                        var addApi = BaseApi + '/api/admin/Content/AddContent';
+                        ajax(addApi, "post", res.field, "添加");
+                    }
+                    break;
+                case 'edit':
+                    {
+                        var eidtApi = BaseApi + '/api/admin/Content/EditContent';
+                        ajax(eidtApi, "post", res.field, "修改");
+                    }
+                    break;
             }
 
             return false;
@@ -75,8 +88,8 @@ function UploadPic(api, uploadId, picHiddenId, picDivId, upload) {
         type: 'images',
         async: true,
         accept: 'images',//指定允许上传时校验的文件类型
-        ext: 'jpg|png|jpeg',//允许上传的文件后缀
-        //acceptMime: 'image/jpg, image/png,image/jpeg',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
+        ext: 'jpg|png',//允许上传的文件后缀
+        //acceptMime: 'image/jpg, image/png',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
         size: "2048",
         //成功后回调
         done: function (res) {
@@ -148,6 +161,16 @@ function ActionOperation(action, form) {
                                 if (res.data.content !== null && res.data.content !== '') {
                                     ue.setContent(res.data.content);
                                 }
+
+                                if (res.data.isNews === 0) {
+                                    $('#newscover').attr('style', 'display:none');//不显示
+                                }
+                                else {
+                                    $('#newscover').attr('style', 'display:block');
+                                    if (res.data.imgUrl2 !== null && res.data.imgUrl2 !== '') {
+                                        $('#Img2').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl2);
+                                    }
+                                }
                             }
                             else {
                                 layer.msg("数据加载失败");
@@ -166,7 +189,6 @@ function ActionOperation(action, form) {
 
 //类别下拉框
 function ColumnDropDown(columnid) {
-    console.log(columnid);
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -180,9 +202,11 @@ function ColumnDropDown(columnid) {
             if (res.code === 200 & res.data !== null) {
                 var ophtmls = '';
                 $("select[name=columnId]").html(ophtmls);
+                DisplayPic(res.data[0].columnId);
+                console.log('id:' + res.data[0].columnId)
                 for (var i = 0; i < res.data.length; i++) {
                     var Id = res.data[i].columnId;
-                    DisplayPic(res.data[0].columnId);
+
                     var ClassLayer = res.data[i].level;
                     var Title = res.data[i].colName;
                     if (ClassLayer == 1) {
@@ -192,7 +216,6 @@ function ColumnDropDown(columnid) {
                         Title = StringOfChar(ClassLayer - 1, "　") + Title;
                         ophtmls += "<option value=" + Id + " >" + Title + "</option>";
                     }
-                    console.log(ClassLayer);
                 }
                 $("#columnSelect").html(ophtmls);
             }
@@ -202,7 +225,6 @@ function ColumnDropDown(columnid) {
 
 
 function DisplayPic(columnid) {
-    console.log('DisplayPic' + columnid);
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -215,7 +237,8 @@ function DisplayPic(columnid) {
             console.log(res);
             if (res.code === 200) {
                 var isNews = res.data[0].isNews;
-                if (!isNews) {
+                $('#isNews').val(isNews)
+                if (isNews === 0) {
                     $('#newscover').attr('style', 'display:none');//不显示
                 }
                 else {

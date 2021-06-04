@@ -126,10 +126,10 @@ layui.use(['table', 'layer', 'form'], function () {
             xadmin.open('添加公司展品', '/CorpProduct/Edit', 800, 600)
         },
         delSelected: function () {
-            var checkStatus = table.checkStatus('corpId');
+            var checkStatus = table.checkStatus('id');
             var ids = new Array();
             $.each(checkStatus.data, function (index, value) {
-                ids.push(value.corpId);
+                ids.push(value.id);
             });
             console.log(ids);
             layer.confirm('确定删除所选展品吗？', function (index) {

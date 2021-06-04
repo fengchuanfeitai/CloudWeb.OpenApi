@@ -4,8 +4,10 @@ using CloudWeb.Dto.Common;
 using CloudWeb.Dto.Dto;
 using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CloudWeb.Services
 {
@@ -60,11 +62,11 @@ namespace CloudWeb.Services
                 return result.SetFailMessage("请填栏目信息");
 
             //判断栏目名称是否唯一
-            string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName and parentId=@id;";
-            int count = Count(colNameSql, new { ColName = column.ColName, id = column.ParentId });
+            string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName and ParentId=@ParentId;";
+            int count = Count(colNameSql, new { ColName = column.ColName, ParentId = column.ParentId });
 
             if (count > 0)
-                return result.SetFailMessage("统一父级下栏目名称不能重复");
+                return result.SetFailMessage("同一级别栏目，栏目名称不能重复");
 
             //如果父级为0 ，则是第一级
             if (column.ParentId == 0)
@@ -107,10 +109,13 @@ namespace CloudWeb.Services
             //判读当前栏目下是否存在内容，有则提示"当前栏目中包含内容数据，是否同时删除？"
             string idStr = Util.ConverterUtil.StringSplit(ids);
             string contentSql = $"select COUNT(1) from Content where IsDel=0 and columnid in  ({idStr});";
+            ResponseResult<bool> result = new ResponseResult<bool>();
 
             if (Count(contentSql) > 0)
-                return new ResponseResult<bool>("当前栏目中包含内容数据，是否同时删除？");
-            return new ResponseResult<bool>((int)HttpStatusCode.OK, "");
+                result.SetFailMessage(ContantMsg.DelColumn_ContainsContent_Msg);
+            else
+                result.SetData(true);
+            return result;
         }
 
         /// <summary>
@@ -122,7 +127,21 @@ namespace CloudWeb.Services
         {
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
-                return result.SetFailMessage("请选择栏目id");
+                return result.SetFailMessage("请选择栏目");
+            //判断是否包含预设栏目，如果存在，则提示“当前选项包含预设栏目，不允许删除”，栏目来源数据表中，配置再配置文件中
+            //获取配置文件中的数据
+            //添加 json 文件路径
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            //创建配置根对象
+            var configurationRoot = builder.Build();
+            //appsetting.json中获取图片的配置
+            string SystemcolumnsId = configurationRoot.GetSection("SystemColumnIds:ParentColumnId").Value;
+
+            foreach (int id in ids)
+            {
+                if (SystemcolumnsId.Contains(id.ToString()))
+                    return new ResponseResult<bool>($"当前选中栏目中包含预设数据编号{SystemcolumnsId},请重新选择");
+            }
 
             string idStr = Util.ConverterUtil.StringSplit(ids);
             string sql1 = $"select count(1) from Columns where ParentId in ({idStr});";
@@ -134,7 +153,13 @@ namespace CloudWeb.Services
             //业务逻辑：删除栏目的同时，删除对应栏目下的内容
 
             string sql = $"{condition}UPDATE [Ori_CloudWeb].[dbo].[Columns] SET[IsDel] = 1 WHERE  [ColumnId] in ({idStr});UPDATE Content set IsDel=1 where ColumnId in({idStr});";
-            return result.SetData(Delete(sql));
+            bool isSuccess = Delete(sql);
+
+            if (isSuccess)
+                result.Set((int)HttpStatusCode.OK, ContantMsg.DelColumn_Ok_Msg);
+            else
+                result.Set((int)HttpStatusCode.fail, ContantMsg.DelColumn_Fail_Msg);
+            return result;
         }
 
         /// <summary>
@@ -148,19 +173,19 @@ namespace CloudWeb.Services
             if (columnDto == null)
                 return result.SetFailMessage("请填写栏目信息");
 
-            string getSql = "select * from Columns where  IsDel=0 and columnid=@id";
-            ColumnDto column = Find<ColumnDto>(getSql, new { id = columnDto.ColumnId });
+            string getSql = "select ColName from Columns where  IsDel=0 and columnid=@id";
+            string colName = Find<string>(getSql, new { id = columnDto.ColumnId });
 
-            if (column != null)
+            if (!string.IsNullOrEmpty(colName))
             {
-                if (column.ColName != columnDto.ColName)
+                if (colName != columnDto.ColName)
                 {
                     //判断栏目名称是否唯一
-                    string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName and parentId=@id;";
-                    int count = Count(colNameSql, new { ColName = columnDto.ColName, id = columnDto.ParentId });
+                    string colNameSql = "select count(1) from  Columns where  IsDel=0 and ColName=@ColName and ParentId=@ParentId;";
+                    int count = Count(colNameSql, new { ColName = columnDto.ColName, ParentId = columnDto.ParentId });
 
                     if (count > 0)
-                        return result.SetFailMessage("统一父级下栏目名称不能重复");
+                        return result.SetFailMessage("同一级别栏目，栏目名称不能重复");
                 }
             }
 

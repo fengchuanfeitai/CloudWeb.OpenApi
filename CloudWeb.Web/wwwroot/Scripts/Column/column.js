@@ -103,28 +103,26 @@ function Starting_method() {
                         var level = obj.data.level;//获取栏目级别
                         var ids = new Array();
                         ids.push(id);
-                        if (level === 1) {
-                            layer.msg('当前为一级栏目不能删除', { icon: 2 });
-                        } else {
 
-                            $.ajax({
-                                type: 'post',
-                                url: api,
-                                dataType: 'json',
-                                data: { ids: ids },//'ids='+arr+'&_method=delete',
-                                success: function (res) {
-                                    console.log("ads" + res)
-                                    if (res.code === 200) {
+                        //删除的时候，判断是否是预定的栏目，预定栏目给出提示“当前选中为预定栏目不允许删除”
 
-                                        DelAjax(delApi, 'post', '是否删除选中数据', { ids: ids }, insTb)
-                                    }
-                                    else {
-                                        DelAjax(delApi, 'post', res.msg, { ids: ids }, insTb)
-                                    }
+                        $.ajax({
+                            type: 'post',
+                            url: api,
+                            dataType: 'json',
+                            data: { ids: ids },//'ids='+arr+'&_method=delete',
+                            success: function (res) {
+                                console.log("ads" + res)
+                                if (res.code === 200) {
 
+                                    DelAjax(delApi, 'post', '是否删除选中数据', { ids: ids }, insTb)
                                 }
-                            });
-                        }
+                                else {
+                                    DelAjax(delApi, 'post', res.msg, { ids: ids }, insTb)
+                                }
+
+                            }
+                        });
                     }
                     break;
                 case 'edit'://添加子级
@@ -211,7 +209,7 @@ function DelAjax(delApi, method, confirmMsg, params, insTb) {
                     insTb.reload();//刷新表格
                 }
                 else
-                    layer.msg('删除失败', { icon: 2 });
+                    layer.msg(res.msg, { icon: 2 });
             }
         });
         layer.close(index);

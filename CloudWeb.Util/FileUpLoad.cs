@@ -17,7 +17,7 @@ namespace CloudWeb.Util
             //创建配置根对象
             var configurationRoot = builder.Build();
             //appsetting.json中获取图片的配置
-            string imageTypes = configurationRoot.GetSection("FileConfig:ImgExts").Value; ;
+            string imageTypes = configurationRoot.GetSection("FileConfig:ImgExts").Value;
             if (imageTypes.Contains(extension))
             {
                 return true;
@@ -36,7 +36,7 @@ namespace CloudWeb.Util
             //创建配置根对象
             var configurationRoot = builder.Build();
             //appsetting.json中获取视频的配置
-            string videoTypes = configurationRoot.GetSection("FileConfig:VideoExts").Value; ;
+            string videoTypes = configurationRoot.GetSection("FileConfig:VideoExts").Value;
             if (videoTypes.Contains(extension))
             {
                 return true;

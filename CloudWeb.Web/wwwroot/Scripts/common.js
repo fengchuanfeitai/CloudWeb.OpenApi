@@ -9,7 +9,7 @@ function checkToken() {
     var toke = sessionStorage.getItem('token');
     var userid = sessionStorage.getItem('UserId');
     if (toke === null || userid === null) {
-        window.location.href = '/home/login'
+        parent.location.href = '/home/login';
     }
 }
 
