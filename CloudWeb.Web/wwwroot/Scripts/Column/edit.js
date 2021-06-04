@@ -10,7 +10,9 @@
         //判断是否是“添加子级”跳转
         var action = getUrlParam("action");
         ActionOperation(action, form);
-
+        form.on('select(parentIdChange)', function (data) {
+            DisplayPic(data.value);
+        });
         upload.render({
             elem: '#slide-pc',
             url: BaseApi + "/api/admin/upload", //上传接口
@@ -93,11 +95,36 @@
 
         //自定义验证规则
         form.verify({
-            coverLinks: function (value) {
+        });
+
+
+        //监听提交
+        form.on('submit(columnsubmit)', function (res) {
+            //点击提交按钮，限制按钮点击，防止重复提交
+
+            var level = $('#level').val();
+            console.log(level)
+
+
+            if (level < 2) {
                 var cover = $("#coverUrl").val();
-                if (cover == "" && value != "") {
-                    return '未上传轮播图，不能填写轮播图跳转链接！'
+                var value = $("#coverLinks").val();
+                if (cover === "") {
+                    layer.msg('请上传上传轮播图！', { icon: 2 });
+                    return false;
                 }
+                if (value === "") {
+                    layer.msg('请填写轮播图跳转链接！', { icon: 2 });
+                    return false;
+                }
+
+                console.log("cover:" + cover)
+                console.log("value:" + value)
+                if (cover === "" && value != "") {
+                    layer.msg('未上传轮播图，不能填写轮播图跳转链接！', { icon: 2 });
+                    return false;
+                }
+
                 if (!(cover == "" && value == "")) {
                     var linkArr = value.split(',');
                     var coverArr = cover.split(',');
@@ -106,18 +133,17 @@
                         if (v == '')
                             tag = false;
                     })
-                    if (!tag)
-                        return '轮播图跳转链接占位需要”#“填位！'
+                    if (!tag) {
+                        layer.msg('轮播图跳转链接占位需要”#“填位！', { icon: 2 });
+                        return false;
+                    }
 
-                    if (linkArr.length != coverArr.length)
-                        return '跳转链接个数不等于轮播图数量，请添加或删除！。无链接用‘#’占位'
+                    if (linkArr.length != coverArr.length) {
+                        layer.msg('跳转链接个数不等于轮播图数量，请添加或删除！。无链接用‘#’占位', { icon: 2 });
+                        return false;
+                    }
                 }
             }
-        });
-
-        //监听提交
-        form.on('submit(columnsubmit)', function (res) {
-            //点击提交按钮，限制按钮点击，防止重复提交
 
             switch (action) {
                 case 'addSublevel':
@@ -208,6 +234,16 @@ function ActionOperation(action, form) {
                                 }
                             }
 
+                            if (res.data.level > 2) {
+                                //隐藏上传轮播，链接输入框
+                                $('#coverUrlPic').attr('style', 'display:none');//不显示
+                                $('#picCoverLinks').attr('style', 'display:none');//不显示
+                            }
+                            else {
+                                $('#coverUrlPic').attr('style', 'display:block');
+                                $('#picCoverLinks').attr('style', 'display:block');//不显示
+                            }
+
                         } else {
                             layer.msg(res.msg);
                         }
@@ -247,11 +283,13 @@ function ColumnDropDown(columnid, action) {
         success: function (res) {
             console.log(res.data);
 
-            if (res.code === 200) {
+            if (res.code === 200 & res.data.length > 0) {
                 if (action !== 'addSublevel') {
                     var ophtmls = '<option value="0">顶级</option>';
                     $("select[name=parentId]").html(ophtmls);
                 }
+                DisplayPic(res.data[0].columnId);
+
                 for (var i = 0; i < res.data.length; i++) {
                     var Id = res.data[i].columnId;
                     var ClassLayer = res.data[i].level;
@@ -269,6 +307,35 @@ function ColumnDropDown(columnid, action) {
             }
             else {
                 layer.msg('下拉数据加载失败');
+            }
+        }
+    });
+}
+
+function DisplayPic(columnid) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: {
+            id: columnid
+        },
+        url: BaseApi + '/api/admin/Column/GetDropDownList',
+        success: function (res) {
+            console.log(res);
+            if (res.code === 200) {
+                var level = res.data[0].level;
+                console.log('level:' + level)
+                $('#level').val(level)
+                if (level > 1) {
+                    //隐藏上传轮播，链接输入框
+                    $('#coverUrlPic').attr('style', 'display:none');//不显示
+                    $('#picCoverLinks').attr('style', 'display:none');//不显示
+                }
+                else {
+                    $('#coverUrlPic').attr('style', 'display:block');
+                    $('#picCoverLinks').attr('style', 'display:block');//不显示
+                }
             }
         }
     });

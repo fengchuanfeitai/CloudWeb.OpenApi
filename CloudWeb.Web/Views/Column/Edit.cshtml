@@ -26,7 +26,7 @@
                     <span class="x-red">*</span>父级类别
                 </label>
                 <div class="layui-input-inline">
-                    <select name="parentId" id="parentIdSelect">
+                    <select name="parentId" id="parentIdSelect" lay-filter="parentIdChange">
                     </select>
                 </div>
             </div>
@@ -83,9 +83,9 @@
                     内部链接以<span class="x-red">“/”</span>开头的跳转地址。
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="coverUrlPic">
                 <!--文件地址-->
-                <input type="hidden" value="" name="coverUrl" id="coverUrl" lay-verify="required" lay-reqtext="必须上传轮播图" />
+                <input type="hidden" value="" name="coverUrl" id="coverUrl" lay-verify="" lay-reqtext="必须上传轮播图" />
                 <div class="layui-form-item" id="pics">
                     <div class="layui-form-label"><span class="x-red">*</span>轮播图</div>
                     <div class="layui-form-mid layui-word-aux">
@@ -103,14 +103,14 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="picCoverLinks">
                 <label for="CoverLinks" class="layui-form-label">
                     <span class="x-red">*</span>轮播图
                     <br />跳转链接
                 </label>
                 <div class="layui-input-block">
                     <textarea name="coverLinks" lay-verify="coverLinks"
-                              placeholder="轮播图跳转链接，不允许为空，与轮播图对应，用英文半角:,隔开，无跳转用#符号占位。例：‘https://www.***.com,#,www.***.com’格式" class="layui-textarea"></textarea>
+                              placeholder="轮播图跳转链接，不允许为空，与轮播图对应，用英文半角:,隔开，无跳转用#符号占位。例：‘https://www.***.com,#,www.***.com’格式" id="coverLinks" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">

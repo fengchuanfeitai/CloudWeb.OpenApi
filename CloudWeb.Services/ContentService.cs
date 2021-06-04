@@ -58,6 +58,15 @@ namespace CloudWeb.Services
             if (content == null)
                 return result.SetFailMessage("请输入内容信息");
 
+
+            //判断当前数据中栏目是否已经删除
+            bool isDel = ColumnIsDelete(content.ColumnId);
+
+            if (isDel)
+            {
+                return result.SetFailMessage(ContantMsg.EditContent_ColumnIsDel_Msg);
+            }
+
             //默认值
             content.CreateTime = DateTime.Now;
             content.ModifyTime = DateTime.Now;
@@ -80,9 +89,9 @@ namespace CloudWeb.Services
             bool isSuccess = Update(sql, defaultStatusParam);
 
             if (isSuccess)
-                result.Set((int)HttpStatusCode.OK, "修改状态成功");
+                result.Set((int)HttpStatusCode.OK, ContantMsg.ChangeStatus_OK_Msg);
             else
-                result.Set((int)HttpStatusCode.fail, "修改状态失败");
+                result.Set((int)HttpStatusCode.fail, ContantMsg.ChangeStatus_Fail_Msg);
             return result;
         }
 
@@ -98,9 +107,9 @@ namespace CloudWeb.Services
             bool isSuccess = Update(sql, publicStatusParam);
 
             if (isSuccess)
-                result.Set((int)HttpStatusCode.OK, "修改状态成功");
+                result.Set((int)HttpStatusCode.OK, ContantMsg.ChangeStatus_OK_Msg);
             else
-                result.Set((int)HttpStatusCode.fail, "修改状态失败");
+                result.Set((int)HttpStatusCode.fail, ContantMsg.ChangeStatus_Fail_Msg);
             return result;
         }
 
@@ -117,9 +126,9 @@ namespace CloudWeb.Services
             bool isSuccess = Update(sql, carouselStatusParam);
 
             if (isSuccess)
-                result.Set((int)HttpStatusCode.OK, "修改状态成功");
+                result.Set((int)HttpStatusCode.OK, ContantMsg.ChangeStatus_OK_Msg);
             else
-                result.Set((int)HttpStatusCode.fail, "修改状态失败");
+                result.Set((int)HttpStatusCode.fail, ContantMsg.ChangeStatus_Fail_Msg);
             return result;
         }
 
@@ -132,11 +141,22 @@ namespace CloudWeb.Services
         {
             ResponseResult<bool> result = new ResponseResult<bool>();
             if (ids.Length == 0)
-                return result.SetFailMessage("请选择要删除的内容");
+                return result.SetFailMessage(ContantMsg.DeleteContent_NoId_Msg);
 
             string idStr = ConverterUtil.StringSplit(ids);
             string sql = $"UPDATE  [Ori_CloudWeb].[dbo].[Content] SET [IsDel]=1 WHERE [ID] in({idStr}) ";
             return result.SetData(Delete(sql, new { ids = ids }));
+        }
+
+        /// <summary>
+        /// 判断项目是否删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool ColumnIsDelete(int id)
+        {
+            string sql = "select COUNT(1) from Columns where IsDel=1 and ColumnId=@id;";
+            return Count(sql, new { id = id }) > 0;
         }
 
         /// <summary>
@@ -146,8 +166,17 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<bool> EditContent(ContentDto contentDto)
         {
+            ResponseResult<bool> result = new ResponseResult<bool>();
             if (contentDto == null)
-                return new ResponseResult<bool>(201, "请输入内容信息");
+                return result.SetFailMessage(ContantMsg.EditContent_IsNull_Msg);
+
+            //判断当前数据中栏目是否已经删除
+            bool isDel = ColumnIsDelete(contentDto.ColumnId);
+
+            if (isDel)
+            {
+                return result.SetFailMessage(ContantMsg.EditContent_ColumnIsDel_Msg);
+            }
 
             const string sql = @"UPDATE [Ori_CloudWeb].[dbo].[Content]
                    SET
@@ -168,7 +197,9 @@ namespace CloudWeb.Services
                  WHERE [ID]=@Id";
             contentDto.ModifyTime = DateTime.Now;
             contentDto.Hits = 0;
-            return new ResponseResult<bool>(Update(sql, contentDto));
+
+            result.SetData(Update(sql, contentDto));
+            return result;
         }
 
         /// <summary>
