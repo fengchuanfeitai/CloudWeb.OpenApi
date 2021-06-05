@@ -38,7 +38,7 @@ namespace CloudWeb.Services
                 }
                 if (contentCut != null)
                 {
-                    item.Content = TextUtil.StringTruncat(item.Content, contentCut.Value, "...");
+                    item.Content = TextUtil.StringTruncat(item.Content, contentCut.Value, "......");
                 }
             }
 
