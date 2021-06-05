@@ -14,6 +14,11 @@ namespace CloudWeb.Dto
         public int? CorpId { get; set; }
 
         /// <summary>
+        /// 显示的图片
+        /// </summary>
+        public int DisPlayIndex { get; set; }
+
+        /// <summary>
         /// 公司名称
         /// </summary>
         public string Name { get; set; }

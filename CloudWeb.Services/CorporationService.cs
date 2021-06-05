@@ -206,7 +206,14 @@ namespace CloudWeb.Services
         public ResponseResult<IEnumerable<CorporationDto>> GetAllCorp()
         {
             string sql = "SELECT * FROM dbo.Corporations WHERE IsShow = 1 AND IsDel = 0 ORDER BY Sort ASC;";
-            return new ResponseResult<IEnumerable<CorporationDto>>(GetAll<CorporationDto>(sql));
+
+            var corporation = GetAll<CorporationDto>(sql);
+
+            foreach (var item in corporation)
+            {
+                item.DisPlayIndex = 1;
+            }
+            return new ResponseResult<IEnumerable<CorporationDto>>(corporation);
         }
 
         public ResponseResult<IEnumerable<CorporationDto>> GetCorpByCol(CorpByColParam param)
