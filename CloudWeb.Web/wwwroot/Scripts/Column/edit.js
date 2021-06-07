@@ -100,9 +100,6 @@
             //点击提交按钮，限制按钮点击，防止重复提交
 
             var level = $('#level').val();
-            console.log(level)
-
-
             if (level < 2) {
                 var cover = $("#coverUrl").val();
                 var value = $("#coverLinks").val();
@@ -114,9 +111,6 @@
                     layer.msg('请填写轮播图跳转链接！', { icon: 2 });
                     return false;
                 }
-
-                console.log("cover:" + cover)
-                console.log("value:" + value)
                 if (cover === "" && value != "") {
                     layer.msg('未上传轮播图，不能填写轮播图跳转链接！', { icon: 2 });
                     return false;
@@ -139,6 +133,10 @@
                         layer.msg('跳转链接个数不等于轮播图数量，请添加或删除！。无链接用‘#’占位', { icon: 2 });
                         return false;
                     }
+                }
+
+                if (level < 3) {
+
                 }
             }
 
@@ -232,10 +230,12 @@ function ActionOperation(action, form) {
                                 //隐藏上传轮播，链接输入框
                                 $('#coverUrlPic').attr('style', 'display:none');//不显示
                                 $('#picCoverLinks').attr('style', 'display:none');//不显示
+                                $('#divIsNews').attr('style', 'display:block')//显示
                             }
                             else {
                                 $('#coverUrlPic').attr('style', 'display:block');
-                                $('#picCoverLinks').attr('style', 'display:block');//不显示
+                                $('#picCoverLinks').attr('style', 'display:block');//显示
+                                $('#divIsNews').attr('style', 'display:none')//显示
                             }
 
                         } else {
@@ -328,6 +328,12 @@ function DisplayPic(columnid) {
                 else {
                     $('#coverUrlPic').attr('style', 'display:block');
                     $('#picCoverLinks').attr('style', 'display:block');//不显示
+                }
+                if (level < 3) {
+                    $('#divIsNews').attr('style', 'display:none');//不显示
+                }
+                else {
+                    $('#divIsNews').attr('style', 'display:block');
                 }
             }
         }

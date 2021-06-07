@@ -76,6 +76,10 @@ namespace CloudWeb.Services
                 string sql = "select level from Columns where isdel=0 and ColumnId=@id";
                 column.Level = Count(sql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
             }
+            if (column.Level < 3)
+            {
+                column.IsNews = false;
+            }
             column.CreateTime = DateTime.Now;
             column.ModifyTime = DateTime.Now;
             return result.SetData(Add(Insert_Column_Sql, column));
