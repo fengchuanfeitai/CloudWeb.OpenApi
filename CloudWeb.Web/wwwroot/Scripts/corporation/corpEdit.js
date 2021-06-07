@@ -26,7 +26,6 @@ layui.use(['form', 'upload', 'layer'], function () {
         url: GetColumnsUrl,
         data: { parentId: 1, level: 2 },
         success: function (res) {
-            console.log(res);
             if (res.data.length <= 0) {
                 layer.msg('所属栏目为空！<br />请先在一级栏目“仿真实验云”下，添加仿真实验云类别', {
                     time: 10000, //10s后自动关闭
@@ -43,14 +42,54 @@ layui.use(['form', 'upload', 'layer'], function () {
             columnSelect.update({
                 data: colArr
             })
+        },
+        complete: function () {
+            var id = getUrlParam("id");
+            if (id != null) {
+                active['initPage'].call(this)
+            }
         }
     });
 
-    //页面初始化给页面赋值
-    $(function () {
-        var id = getUrlParam("id");
-        $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
-        if (id != null) {
+    //自定义验证规则
+    form.verify({
+        Name: function (value) {
+            if (value.length <= 0) {
+                return '公司名不能为空';
+            };
+            if (value.length > 100) {
+                return '公司名不能大于一百个字符';
+            }
+        },
+        Cover: function (value) {
+            if (value.length <= 0)
+                return '封面图必须上传'
+        },
+        Logo1: function (value) {
+            if (value.length <= 0)
+                return '灰色Logo必须上传'
+        },
+        Logo2: function (value) {
+            if (value.length <= 0)
+                return '正常Logo图必须上传'
+        },
+        AboutUsCover: function (value) {
+            if (value.length <= 0)
+                return '关于我们图片必须上传'
+        },
+        Sort: function (value) {
+            if (value.length > 0) {
+                if (!(/^\d$/.test(value))) {
+                    return '排序只能是数字';
+                }
+            }
+        }
+    });
+    var active = {
+        //页面初始化给页面赋值
+        initPage: function () {
+            var id = getUrlParam("id");
+            $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
             $.ajax({
                 type: 'GET',
                 url: getUrl,
@@ -102,42 +141,7 @@ layui.use(['form', 'upload', 'layer'], function () {
                 }
             });
         }
-    });
-
-    //自定义验证规则
-    form.verify({
-        Name: function (value) {
-            if (value.length <= 0) {
-                return '公司名不能为空';
-            };
-            if (value.length > 100) {
-                return '公司名不能大于一百个字符';
-            }
-        },
-        Cover: function (value) {
-            if (value.length <= 0)
-                return '封面图必须上传'
-        },
-        Logo1: function (value) {
-            if (value.length <= 0)
-                return '灰色Logo必须上传'
-        },
-        Logo2: function (value) {
-            if (value.length <= 0)
-                return '正常Logo图必须上传'
-        },
-        AboutUsCover: function (value) {
-            if (value.length <= 0)
-                return '关于我们图片必须上传'
-        },      
-        Sort: function (value) {
-            if (value.length > 0) {
-                if (!(/^\d$/.test(value))) {
-                    return '排序只能是数字';
-                }
-            }
-        }
-    });
+    }
 
     //封面图拖拽上传   
     var CoverUpload = upload.render({
