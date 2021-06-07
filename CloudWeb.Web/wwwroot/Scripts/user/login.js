@@ -22,7 +22,6 @@
                 withCredentials: true
             },
             success: function (res) {
-                console.log(res);
                 if (res.code === 200) {
                     //保存数据到session
                     layer.msg("登录成功", function () {
@@ -39,7 +38,6 @@
                 }
             },
             error: function (res) {
-                console.log(res)
                 $("#VerifyImage").click();
             }
         });
@@ -48,8 +46,8 @@
     });
 
     $('#VerifyImage').click(function () {
+        verifyApi = BaseApi + '/api/admin/User/VerifyImage?r=' + Math.random();
         $("#VerifyImage").attr('src', verifyApi);
-        return false;
     })
 })
 
