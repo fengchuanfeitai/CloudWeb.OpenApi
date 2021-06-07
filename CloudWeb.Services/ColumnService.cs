@@ -201,6 +201,10 @@ namespace CloudWeb.Services
                 string levelSql = "select level from Columns where isdel=0 and ColumnId=@id";
                 columnDto.Level = Count(levelSql, new { id = columnDto.ParentId }) + 1;//父级不为0，则查询父级level+1
             }
+            if (column.Level < 3)
+            {
+                column.IsNews = false;
+            }
 
             string sql = @"
                 UPDATE [Ori_CloudWeb].[dbo].[Columns]
