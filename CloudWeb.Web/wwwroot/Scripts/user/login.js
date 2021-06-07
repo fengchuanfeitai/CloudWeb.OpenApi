@@ -1,4 +1,4 @@
-﻿layui.use(['form'], function () {
+﻿layui.use(['form', 'layer'], function () {
     var form = layui.form;
     $ = layui.jquery;
 
@@ -40,7 +40,7 @@
             },
             error: function (res) {
                 console.log(res)
-                $("#VerifyImage").attr('src', verifyApi); 
+                $("#VerifyImage").attr('src', verifyApi);
             }
         });
 
