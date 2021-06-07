@@ -25,6 +25,9 @@ layui.use('table', function () {
         //, url: '/script/Column/data.json' //数据接口
         //, contentType: 'application/json'//传值格式
         //, where: { columnId: $('').val(), title: $('title').val() }//传递参数
+        , headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem('token')
+        }
         , request: {
             pageName: 'PageIndex' //页码的参数名称，默认：page
             , limitName: 'PageSize' //每页数据量的参数名，默认：limit

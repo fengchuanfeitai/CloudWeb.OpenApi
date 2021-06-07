@@ -28,6 +28,7 @@ layui.use(['table', 'layer', 'form'], function () {
             countName: 'count',//规定数据总数的字段名称
             dataName: 'data' //规定数据列表的字段名称
         },
+        cellMinWidth: 200,
         page: true, //开启分页
         limit: 10,//每页显示数量
         limits: [10, 15, 20],//每页可以选择的展示数量
@@ -38,7 +39,7 @@ layui.use(['table', 'layer', 'form'], function () {
             { type: 'checkbox', width: 50 },
             { field: 'corpId', title: '编号', width: 70, sort: true, align: 'center' },
             { field: 'name', title: '公司名', sort: true, width: 200, align: 'center' },
-            { field: 'colTxtName', title: '所属栏目', width: 100, align: 'center' },
+            { field: 'colTxtName', title: '所属栏目', width: 400, align: 'center' },
             { field: 'sort', title: '序号', width: 70, sort: true, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 200, sort: true, align: 'center' },
             {

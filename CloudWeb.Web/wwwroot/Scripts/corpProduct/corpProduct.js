@@ -47,6 +47,7 @@ layui.use(['table', 'layer', 'form'], function () {
             countName: 'count',//规定数据总数的字段名称
             dataName: 'data' //规定数据列表的字段名称
         },
+        cellMinWidth: 200,
         page: true, //开启分页
         limit: 10,//每页显示数量
         limits: [10, 15, 20],//每页可以选择的展示数量

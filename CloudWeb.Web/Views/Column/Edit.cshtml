@@ -42,7 +42,7 @@
                     <span class="x-red">*</span>不显示前台则无法显示
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="divIsNews">
                 <label for="title" class="layui-form-label">
                     是否新闻栏目
                 </label>
@@ -144,5 +144,5 @@
         </form>
     </div>
 </div>
-@* ?v=@DateTime.Now.ToString("yyyyMMddHHmmss") *@
-<script src="~/Scripts/column/edit.js"></script>
+@*  *@
+<script src="~/Scripts/column/edit.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>

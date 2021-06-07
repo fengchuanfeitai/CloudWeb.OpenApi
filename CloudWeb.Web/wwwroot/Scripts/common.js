@@ -94,6 +94,13 @@ function DelAjax(delApi, method, confirmMsg, params, tableId, table) {
                 else
                     layer.msg('删除失败', { icon: 2 });
             }
+            , error: function (xhr, textStatus, errorThrown) {
+                if (xhr.status == 401) {
+                    layer.msg('你没有访问权限', { icon: 2 });
+                    console.log(401)
+                } else {
+                }
+            }
         });
         layer.close(index);
     });

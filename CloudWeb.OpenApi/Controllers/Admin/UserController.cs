@@ -19,7 +19,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
     [Produces("application/json")]
     [Route("api/admin/[controller]/[action]")]
     [ApiController]
-    public class UserController : Controller
+    public class UserController : AuthorizeController
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _service;
@@ -39,7 +39,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// <param name="user"></param>
         /// <returns></returns>bc
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public ResponseResult<UserData> Login(UserParam user)
         {
             //session中获取验证码
@@ -57,6 +57,7 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult VerifyImage()
         {
             var validate = new ValidateCodeUtil();

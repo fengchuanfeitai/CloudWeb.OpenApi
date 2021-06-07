@@ -32,6 +32,9 @@ function Starting_method() {
             //url: '/Scripts/column/data.json',
             url: BaseApi + '/api/admin/Column/getall',//数据接口
             cellMinWidth: 100,
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem('token')
+            },
             where: { pageIndex: 1, pageSize: 10 },//传递参数
             tree: {
                 iconIndex: 2,           // 折叠图标显示在第几列
