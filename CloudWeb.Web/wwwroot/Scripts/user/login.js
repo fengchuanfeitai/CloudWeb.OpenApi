@@ -35,12 +35,12 @@
                 }
                 else {
                     layer.msg(res.msg);
-                    $("#VerifyImage").click();
+                    $("#VerifyImage").attr('src', verifyApi);
                 }
             },
             error: function (res) {
                 console.log(res)
-                $("#VerifyImage").click();
+                $("#VerifyImage").attr('src', verifyApi); 
             }
         });
 

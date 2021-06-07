@@ -1,7 +1,7 @@
 ﻿/**访问接口url,发布修改发布网址 */
-window.BaseApi = "https://localhost:44377"
+//window.BaseApi = "https://localhost:44377"
 
-//window.BaseApi = "http://192.168.0.138:8085"
+window.BaseApi = "http://192.168.0.138:8085"
 /* 判断是否登录，不登录访问页面时，默认跳转登录页面 */
 function checkToken() {
 
