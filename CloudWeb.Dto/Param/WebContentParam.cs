@@ -1,6 +1,6 @@
 ﻿namespace CloudWeb.Dto.Param
 {
-   
+
 
     /// <summary>
     /// 首页新闻列表Param
@@ -47,5 +47,7 @@
         /// 是否是轮播图
         /// </summary>
         public bool? IsCarousel { get; set; }
+
+        public bool? IsDefault { get; set; }
     }
 }
