@@ -53,7 +53,7 @@ layui.use('table', function () {
             { field: 'title', title: '标题', width: 200, align: 'center' },
             { field: 'colName', title: '所属栏目类别', width: 200, align: 'center' },
             { field: 'linkUrl', title: '跳转链接', width: 100, align: 'center' },
-            { field: 'sort', title: '排序', width: 80, align: 'center' },
+            { field: 'sort', title: '排序', width: 80, sort: true, align: 'center' },
             { field: 'createTime', title: '创建时间', width: 180, sort: true, align: 'center' },
             {
                 field: 'isDefault', title: '是否推荐到首页', width: 120, templet: function (d) {

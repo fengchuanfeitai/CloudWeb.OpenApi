@@ -94,6 +94,18 @@
         //监听提交
         form.on('submit(columnsubmit)', function (res) {
             //点击提交按钮，限制按钮点击，防止重复提交
+            var sort = $('#sort').val()
+            if (sort === "") {
+                layer.msg('请填写排序！', { icon: 2 });
+                return false;
+            }
+            if (sort.length > 0) {
+                if (!(/^[0-9]*$/.test(sort))) {
+                    layer.msg('排序只能是数字！', { icon: 2 });
+                    return false;
+                }
+            }
+
             var level = $('#level').val();
             if (level < 2) {
                 var cover = $("#coverUrl").val();
@@ -138,6 +150,10 @@
                     return false;
                 }
             }
+            else {
+                res.field['module'] = 0;
+            }
+            console.log(res.field)
 
             switch (action) {
                 case 'addSublevel':

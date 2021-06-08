@@ -179,7 +179,7 @@ namespace CloudWeb.Services
             if (columnDto == null)
                 return result.SetFailMessage("请填写栏目信息");
 
-            string getSql = "select ColName from Columns where  IsDel=0 and columnid=@id";
+            string getSql = "select ColName,ColumnId from Columns where  IsDel=0 and columnid=@id";
             string colName = Find<string>(getSql, new { id = columnDto.ColumnId });
 
             if (!string.IsNullOrEmpty(colName))
@@ -195,6 +195,8 @@ namespace CloudWeb.Services
                 }
             }
 
+            if (columnDto.ParentId == columnDto.ColumnId)
+                return result.SetFailMessage("父级栏目，不能选择自己，请重新选择");
             //如果父级为0 ，则是第一级
             if (columnDto.ParentId == 0)
                 columnDto.Level = 1;

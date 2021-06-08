@@ -85,7 +85,7 @@
   /* 上传文件配置 */
   "fileActionName": "uploadfile", /* controller里,执行上传视频的action名称 */
   "fileFieldName": "upfile", /* 提交的文件表单名称 */
-  "filePathFormat": "{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+  "filePathFormat": "upload{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
   "fileUrlPrefix": "https://localhost:44357/", /* 文件访问路径前缀 */
   "fileSaveAbsolutePath": "upload", /* 文件保存路径 */
   "fileFtpUpload": true, /*是否FTP OSS上传*/
@@ -135,19 +135,19 @@
 
   /* 列出指定目录下的图片 */
   "imageManagerActionName": "listimage", /* 执行图片管理的action名称 */
-  "imageManagerListPath": "", /* 指定要列出图片的目录 */
+  "imageManagerListPath": "uploud", /* 指定要列出图片的目录 */
   "imageManagerListSize": 20, /* 每次列出文件数量 */
   "imageManagerUrlPrefix": "https://localhost:44357/", /* 图片访问路径前缀 */
-  "imageManagerSaveAbsolutePath": "", /* 文件保存路径 */
+  "imageManagerSaveAbsolutePath": "uploud", /* 文件保存路径 */
   "imageManagerFtpUpload": true, /*是否FTP  OSS上传*/
   "imageManagerInsertAlign": "none", /* 插入的图片浮动方式 */
   "imageManagerAllowFiles": [ ".png", ".jpg", ".jpeg", ".gif", ".bmp" ], /* 列出的文件类型 */
 
   /* 列出指定目录下的文件 */
   "fileManagerActionName": "listfile", /* 执行文件管理的action名称 */
-  "fileManagerListPath": "", /* 指定要列出文件的目录 */
+  "fileManagerListPath": "uploud", /* 指定要列出文件的目录 */
   "fileManagerUrlPrefix": "https://localhost:44357/", /* 文件访问路径前缀 */
-  "fileManagerSaveAbsolutePath": "", /* 文件保存路径 */
+  "fileManagerSaveAbsolutePath": "uploud", /* 文件保存路径 */
   "fileManagerFtpUpload": true, /*是否FTP OSS上传*/
   "fileManagerListSize": 20, /* 每次列出文件数量 */
   "fileManagerAllowFiles": [
