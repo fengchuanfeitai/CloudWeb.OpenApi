@@ -73,6 +73,7 @@ layui.use(['form', 'upload', 'layer'], function () {
             if (value.length <= 0)
                 return '正常Logo图必须上传'
         },
+        ContactUs: [/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/, '三方链接必须以https://或http://开头'],
         AboutUsCover: function (value) {
             if (value.length <= 0)
                 return '关于我们图片必须上传'

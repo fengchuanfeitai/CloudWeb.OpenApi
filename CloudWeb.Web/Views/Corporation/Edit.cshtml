@@ -84,7 +84,7 @@
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>
-                    此处填写三方链接
+                    此处填写三方链接,必须以<span class="x-red">https:// 或http://开头</span>
                 </div>
             </div>
 
@@ -242,5 +242,5 @@
         </form>
     </div>
 </div>
-@* ?v=@DateTime.Now.ToString("yyyyMMddHHmmss") *@
-<script src="~/Scripts/corporation/corpEdit.js"></script>
+@* *@
+<script src="~/Scripts/corporation/corpEdit.js?v=@DateTime.Now.ToString("yyyyMMddHHmmss") "></script>
