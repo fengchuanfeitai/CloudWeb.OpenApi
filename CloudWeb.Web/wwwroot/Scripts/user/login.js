@@ -34,13 +34,14 @@
                     });
                 }
                 else {
+
+                    $("#VerifyImage").click();
                     layer.msg(res.msg);
-                    $("#VerifyImage").attr('src', verifyApi);
                 }
             },
             error: function (res) {
                 console.log(res)
-                $("#VerifyImage").attr('src', verifyApi);
+                $("#VerifyImage").click();
             }
         });
 
