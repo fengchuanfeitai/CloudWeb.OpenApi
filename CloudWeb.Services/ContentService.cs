@@ -255,12 +255,19 @@ namespace CloudWeb.Services
         {
             var result = new ResponseResult<IEnumerable<ContentDto>>();
             var IsCarouselStr = "";
+            var IsDefaultStr = "";
             if (param.IsCarousel != null)
             {
                 int IsCarouselInt = param.IsCarousel.Value ? 1 : 0;
                 IsCarouselStr = $" AND IsCarousel = {IsCarouselInt}";
             }
-            string sql = $"SELECT * FROM dbo.Content WHERE IsDel = 0 AND IsPublic=1 AND ColumnId =@ColumnId {IsCarouselStr}";
+            if (param.IsDefault != null)
+            {
+                int IsDefaultInt = param.IsDefault.Value ? 1 : 0;
+                IsDefaultStr = $" AND IsDefault = {IsDefaultInt}";
+            }
+
+            string sql = $"SELECT * FROM dbo.Content WHERE IsDel = 0 AND IsPublic=1 AND ColumnId =@ColumnId {IsCarouselStr} {IsDefaultStr}";
 
             var contents = GetAll<ContentDto>(sql, param);
             if (contents == null)
