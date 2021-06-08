@@ -11,7 +11,8 @@
         var action = getUrlParam("action");
         ActionOperation(action, form);
         form.on('select(parentIdChange)', function (data) {
-            DisplayPic(data.value);
+            Display(data.value);
+            form.render("select");
         });
         upload.render({
             elem: '#slide-pc',
@@ -90,15 +91,9 @@
             }
         });
 
-        //自定义验证规则
-        form.verify({
-        });
-
-
         //监听提交
         form.on('submit(columnsubmit)', function (res) {
             //点击提交按钮，限制按钮点击，防止重复提交
-
             var level = $('#level').val();
             if (level < 2) {
                 var cover = $("#coverUrl").val();
@@ -134,9 +129,13 @@
                         return false;
                     }
                 }
+            }
 
-                if (level < 3) {
-
+            if (level > 2) {
+                var moduleVal = $("select[name='module']").val()
+                if (moduleVal == null) {
+                    layer.msg('请选择模块样式', { icon: 2 });
+                    return false;
                 }
             }
 
@@ -172,11 +171,12 @@ function ActionOperation(action, form) {
     switch (action) {
         case 'add': //作为添加页面操作
             {
-                console.log('add' + sessionStorage.getItem('UserId'));
                 //添加绑定用户id
                 $("#creator").val(userId);
                 // 加载栏目分类所有数据下拉框
                 ColumnDropDown();
+                //加载组件模板下拉框
+                ModuleDropDown();
             }
             break;
         case 'addSublevel': //作为添加子级页面操作
@@ -187,6 +187,8 @@ function ActionOperation(action, form) {
                 //获取url中携带的columnId参数,不保存,加载从对应栏目对应的栏目的下拉框数据
                 var columnId = getUrlParam("columnId");
                 ColumnDropDown(columnId, action);
+                //加载组件模板下拉框
+                ModuleDropDown();
             }
             break;
         case 'edit': //作为编辑页面操作
@@ -199,6 +201,9 @@ function ActionOperation(action, form) {
                 $("#columnId").val(columnId);//保存columnId到隐藏控件，用于编辑时的主键
                 // 加载栏目分类所有数据下拉框
                 ColumnDropDown();
+
+                //加载组件模板下拉框
+                ModuleDropDown();
 
                 //数据库拉取数据，重新绑定form控件中
                 $.ajax({
@@ -231,11 +236,13 @@ function ActionOperation(action, form) {
                                 $('#coverUrlPic').attr('style', 'display:none');//不显示
                                 $('#picCoverLinks').attr('style', 'display:none');//不显示
                                 $('#divIsNews').attr('style', 'display:block')//显示
+                                $('#moduleDiv').attr('style', 'display:block')//显示
                             }
                             else {
                                 $('#coverUrlPic').attr('style', 'display:block');
                                 $('#picCoverLinks').attr('style', 'display:block');//显示
                                 $('#divIsNews').attr('style', 'display:none')//显示
+                                $('#moduleDiv').attr('style', 'display:none')//显示
                             }
 
                         } else {
@@ -248,7 +255,6 @@ function ActionOperation(action, form) {
             break;
     }
     form.render("select");//加载重新form
-
 }
 
 //移除图片
@@ -265,7 +271,6 @@ $("body").on("click", ".close", function () {
 
 //栏目下拉框
 function ColumnDropDown(columnid, action) {
-    console.log('[ColumnDropDown]columnid:' + columnid);
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -282,7 +287,7 @@ function ColumnDropDown(columnid, action) {
                     var ophtmls = '<option value="0">顶级</option>';
                     $("select[name=parentId]").html(ophtmls);
                 }
-                DisplayPic(res.data[0].columnId);
+                Display(res.data[0].columnId);
 
                 for (var i = 0; i < res.data.length; i++) {
                     var Id = res.data[i].columnId;
@@ -305,7 +310,7 @@ function ColumnDropDown(columnid, action) {
     });
 }
 
-function DisplayPic(columnid) {
+function Display(columnid) {
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -320,6 +325,7 @@ function DisplayPic(columnid) {
                 var level = res.data[0].level;
                 console.log('level:' + level)
                 $('#level').val(level)
+                ModuleDropDown()
                 if (level > 1) {
                     //隐藏上传轮播，链接输入框
                     $('#coverUrlPic').attr('style', 'display:none');//不显示
@@ -329,13 +335,38 @@ function DisplayPic(columnid) {
                     $('#coverUrlPic').attr('style', 'display:block');
                     $('#picCoverLinks').attr('style', 'display:block');//不显示
                 }
-                if (level < 3) {
+
+                if (level < 2) {
                     $('#divIsNews').attr('style', 'display:none');//不显示
+                    $('#moduleDiv').attr('style', 'display:none');
                 }
                 else {
                     $('#divIsNews').attr('style', 'display:block');
+                    $('#moduleDiv').attr('style', 'display:block');
                 }
             }
         }
     });
+}
+
+function ModuleDropDown() {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: false,
+        data: {},
+        url: BaseApi + '/api/admin/Column/GetModuleDownList',
+        success: function (res) {
+            console.log(res)
+            if (res.code === 200) {
+                var str = '';
+                $("#bindModule option:gt(0)").remove();
+                $.each(res.data, function (i, val) {
+                    str += '<option value="' + val.value + '">' + val.text + '</option>';
+                });
+                $(str).appendTo("#bindModule");
+                $("#bindModule option:eq(0)").attr("selected", 'selected');
+            }
+        }
+    })
 }

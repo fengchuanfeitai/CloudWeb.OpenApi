@@ -114,5 +114,15 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         {
             return _service.GetDropDownList(id);
         }
+
+        /// <summary>
+        /// 获取样式组件下拉列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResponseResult<IList<SelectListItem>> GetModuleDownList()
+        {
+            return _service.GetModuleDownList();
+        }
     }
 }
