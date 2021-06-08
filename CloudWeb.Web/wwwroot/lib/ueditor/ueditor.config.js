@@ -30,9 +30,9 @@
         UEDITOR_HOME_URL: URL
 
         // 服务器统一请求接口路径
-        , serverUrl: "https://localhost:44377/api/admin/uploads"
+        //, serverUrl: "https://localhost:44377/api/admin/uploads"
         //修改正式地址
-       //, serverUrl: "http://192.168.0.138:8085/api/admin/uploads"
+        , serverUrl: "http://192.168.0.138:8085/api/admin/uploads"
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         , toolbars: [[
             'fullscreen', 'source', '|', 'undo', 'redo', '|',
