@@ -48,8 +48,8 @@
     });
 
     $('#VerifyImage').click(function () {
+        verifyApi = BaseApi + '/api/admin/User/VerifyImage?r=' + Math.random();
         $("#VerifyImage").attr('src', verifyApi);
-        return false;
     })
 })
 
