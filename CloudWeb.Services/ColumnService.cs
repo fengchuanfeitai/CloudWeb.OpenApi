@@ -4,6 +4,7 @@ using CloudWeb.Dto.Common;
 using CloudWeb.Dto.Dto;
 using CloudWeb.Dto.Param;
 using CloudWeb.IServices;
+using CloudWeb.Util;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -47,8 +48,8 @@ namespace CloudWeb.Services
         /// <summary>
         /// 添加栏目sql
         /// </summary>
-        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks,Icon,Video,ParentId,Sort,IsNews,IsShow,IsDel)
-            VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@CoverUrl,@CoverLinks,@Icon ,@Video,@ParentId,@Sort,@IsNews,@IsShow,@IsDel)";
+        private const string Insert_Column_Sql = @"INSERT INTO Columns(CreateTime,ModifyTime ,Creator,Modifier ,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks,Icon,Video,ParentId,Sort,IsNews,Module,IsShow,IsDel)
+            VALUES (@CreateTime,@ModifyTime,@Creator,@Modifier,@ColName,@Level,@Summary,@LocationUrl,@CoverUrl,@CoverLinks,@Icon ,@Video,@ParentId,@Sort,@IsNews,@Module,@IsShow,@IsDel)";
 
         /// <summary>
         /// 查询所有栏目
@@ -79,6 +80,7 @@ namespace CloudWeb.Services
             if (column.Level < 3)
             {
                 column.IsNews = false;
+                column.Module = 0;
             }
             column.CreateTime = DateTime.Now;
             column.ModifyTime = DateTime.Now;
@@ -204,6 +206,7 @@ namespace CloudWeb.Services
             if (columnDto.Level < 3)
             {
                 columnDto.IsNews = false;
+                columnDto.Module = 0;
             }
 
             string sql = @"
@@ -221,6 +224,7 @@ namespace CloudWeb.Services
                     ,[ParentId] =@ParentId
                     ,[Sort] =@Sort
                     ,[IsNews] =@IsNews
+                    ,[Module] =@Module
                     ,[IsShow] = @IsShow
                 WHERE [ColumnId]=@ColumnId";
             columnDto.ModifyTime = DateTime.Now;
@@ -243,7 +247,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<ColumnSelectDto> GetColumn(int id)
         {
-            const string sql = @"SELECT ColumnId,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks,Icon,Video,ParentId,Sort,IsNews,IsShow FROM[Ori_CloudWeb].[dbo].[Columns] WHERE  [IsDel]=0  AND  [ColumnId]=@id";
+            const string sql = @"SELECT ColumnId,ColName,Level,Summary,LocationUrl,CoverUrl,CoverLinks,Icon,Video,ParentId,Sort,IsNews,IsShow,Module FROM[Ori_CloudWeb].[dbo].[Columns] WHERE  [IsDel]=0  AND  [ColumnId]=@id";
             return new ResponseResult<ColumnSelectDto>(Find<ColumnSelectDto>(sql, new { id = id }));
         }
 
@@ -277,6 +281,13 @@ namespace CloudWeb.Services
             string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsDel, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select  dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsDel,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid where dt.IsDel=0 and c.IsDel=0)select columnid,colname,ParentID,IsNews,Level,IsDel from columnsInfo {condition} order by Sort, Level; ";
 
             return new ResponseResult<IEnumerable<ColumnDropDownDto>>(GetAll<ColumnDropDownDto>(sql, new { id = id }));
+        }
+
+
+        public ResponseResult<IList<SelectListItem>> GetModuleDownList()
+        {
+            var list = EnumUtil.GetSelectListItem<ModuleType>();
+            return new ResponseResult<IList<SelectListItem>>(list);
         }
 
         #endregion

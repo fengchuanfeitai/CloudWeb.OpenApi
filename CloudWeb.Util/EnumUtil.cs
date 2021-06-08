@@ -1,6 +1,8 @@
-﻿using System;
+﻿using CloudWeb.Dto.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -68,9 +70,26 @@ namespace CloudWeb.Util
                     return ((DescriptionAttribute)attrs[0]).Description;
             }
             return item.ToString();//如果不存在描述，则返回枚举名称
+        }
 
+        public static List<SelectListItem> GetSelectListItem<T>(Enum language = null) where T : struct
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            Array array = typeof(T).GetEnumValues();
+            foreach (var t in array)
+            {
+                var type = t.GetType();//先获取这个枚举的类型
+                var field = type.GetField(t.ToString());//通过这个类型获取到值
+                var obj = (DisplayAttribute)field.GetCustomAttribute(typeof(DisplayAttribute));//得到特性
 
-
+                var listItem = new SelectListItem()
+                {
+                    Value = t.GetHashCode(),
+                    Text = obj.Name ?? t.ToString()
+                };
+                list.Add(listItem);
+            }
+            return list;
         }
     }
 }

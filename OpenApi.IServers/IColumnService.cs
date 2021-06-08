@@ -72,6 +72,9 @@ namespace CloudWeb.IServices
         /// <returns></returns>
         ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id);
 
+
+        ResponseResult<IList<SelectListItem>> GetModuleDownList();
+
         #endregion
 
         #region 网站接口

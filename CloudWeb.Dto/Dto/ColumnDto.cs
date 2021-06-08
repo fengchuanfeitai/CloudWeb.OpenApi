@@ -79,6 +79,11 @@ namespace CloudWeb.Dto
         /// 是否显示
         /// </summary>
         public bool IsShow { get; set; }
+
+        /// <summary>
+        /// 模块样式
+        /// </summary>
+        public int Module { get; set; }
     }
 
     public class ColumnDropDownDto
@@ -182,5 +187,10 @@ namespace CloudWeb.Dto
         /// 是否显示
         /// </summary>
         public bool IsShow { get; set; }
+
+        /// <summary>
+        /// 模块样式
+        /// </summary>
+        public int Module { get; set; }
     }
 }
