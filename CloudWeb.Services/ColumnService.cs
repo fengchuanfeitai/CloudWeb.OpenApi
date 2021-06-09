@@ -256,7 +256,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            string sql = @"  SELECT * FROM Columns  where IsDel=0";
+            string sql = @"  SELECT * FROM Columns  where IsDel=0 order by sort asc;";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam));
         }
 
@@ -333,7 +333,7 @@ namespace CloudWeb.Services
 
         public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParentId(int parentId)
         {
-            string sql = "SELECT * FROM dbo.[Columns] WHERE IsDel = 0 AND IsShow = 1 AND ParentId=@parentId";
+            string sql = "SELECT * FROM dbo.[Columns] WHERE IsDel = 0 AND IsShow = 1 AND ParentId=@parentId order by sort asc;";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
         }
 
