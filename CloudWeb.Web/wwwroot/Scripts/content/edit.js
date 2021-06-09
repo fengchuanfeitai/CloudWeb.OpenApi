@@ -208,11 +208,12 @@ function ActionOperation(action, form) {
 //类别下拉框
 function ColumnDropDown(columnid) {
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "json",
         async: false,
         data: {
-            id: columnid
+            id: columnid,
+            existTopLevel: false
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
