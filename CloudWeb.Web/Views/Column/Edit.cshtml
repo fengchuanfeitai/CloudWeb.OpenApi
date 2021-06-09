@@ -78,16 +78,16 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">排序</label>
+                <label class="layui-form-label"><span class="x-red">*</span>排序</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="sort" lay-verify="number" lay-reqtext="格式不正确，请输入数字" value="99" placeholder="请填写大于0的数字" maxlength="5" autocomplete="off" class="layui-input">
+                    <input type="text" name="sort" id="sort" lay-reqtext="" value="" placeholder="请填写大于0的数字" maxlength="4" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>数字越小排序越靠前，不填写，默认最后展示
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">*跳转链接</label>
+                <label class="layui-form-label"><span class="x-red">*</span>跳转链接</label>
                 <div class="layui-input-inline">
                     <input type="text" name="locationUrl" lay-verify="required" lay-reqtext="跳转链接为必填项，不能为空" placeholder="" autocomplete="off" class="layui-input">
                 </div>

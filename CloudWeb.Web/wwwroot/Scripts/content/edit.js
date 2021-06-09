@@ -27,10 +27,28 @@
 
         //自定义验证规则
         form.verify({
+            Sort: function (value) {
+                if (value.length > 0) {
+                    if (!(/^\d$/.test(value))) {
+                        return '排序只能是数字';
+                    }
+                }
+            }
         });
 
         //监听提交
         form.on('submit(contentsubmit)', function (res) {
+            var sort = $('#sort').val()
+            if (sort === "") {
+                layer.msg('请填写排序！', { icon: 2 });
+                return false;
+            }
+            if (sort.length > 0) {
+                if (!(/^[0-9]*$/.test(sort))) {
+                    layer.msg('排序只能是数字！', { icon: 2 });
+                    return false;
+                }
+            }
             var columnId = $("#columnSelect").val();
             console.log(columnId)
             if (columnId === null) {
