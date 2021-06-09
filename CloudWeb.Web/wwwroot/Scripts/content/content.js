@@ -212,6 +212,13 @@ function ColumnDropDown(columnid) {
 
         }
     });
+
+
+
+}
+//编辑时，子页面调用的方法
+function search() {
+    $('#search').click();
 }
 
 $('#search').click(function () {

@@ -8,7 +8,7 @@
   "imageCompressEnable": true, /* 是否压缩图片,默认是true */
   "imageCompressBorder": 1000, /* 图片压缩最长边限制 */
   "imageInsertAlign": "none", /* 插入的图片浮动方式 */
-  "imageUrlPrefix": "https://localhost:44357/", /* 图片访问路径前缀 */
+  "imageUrlPrefix": "http://192.168.0.138:8085/", /* 图片访问路径前缀 */
   "imageSaveAbsolutePath": "upload/test", /* 文件保存路径 */
   "imageFtpUpload": true, /*是否FTP OSS上传*/
   "imagePathFormat": "upload/images/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
@@ -30,7 +30,7 @@
   "scrawlFieldName": "upfile", /* 提交的图片表单名称 */
   "scrawlPathFormat": "upload/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
   "scrawlMaxSize": 2048000, /* 上传大小限制，单位B */
-  "scrawlUrlPrefix": "https://localhost:44357/", /* 图片访问路径前缀 */
+  "scrawlUrlPrefix": "http://192.168.0.138:8085/", /* 图片访问路径前缀 */
   "scrawlSaveAbsolutePath": "", /* 文件保存路径 */
   "scrawlFtpUpload": true, /*是否FTP  OSS上传*/
   "scrawlInsertAlign": "none",
@@ -38,7 +38,7 @@
   /* 截图工具上传 */
   "snapscreenActionName": "uploadimage", /* 执行上传截图的action名称 */
   "snapscreenPathFormat": "{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-  "snapscreenUrlPrefix": "https://localhost:44357/", /* 图片访问路径前缀 */
+  "snapscreenUrlPrefix": "http://192.168.0.138:8085/", /* 图片访问路径前缀 */
   "snapscreenSaveAbsolutePath": "", /* 文件保存路径 */
   "snapscreenFtpUpload": true, /*是否FTP 上传*/
   "snapscreenInsertAlign": "none", /* 插入的图片浮动方式 */
@@ -48,7 +48,7 @@
   "catcherActionName": "catchimage", /* 执行抓取远程图片的action名称 */
   "catcherFieldName": "source", /* 提交的图片列表表单名称 */
   "catcherPathFormat": "upload/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-  "catcherUrlPrefix": "https://localhost:44357/", /* 图片访问路径前缀 */
+  "catcherUrlPrefix": "http://192.168.0.138:8085/", /* 图片访问路径前缀 */
   "catcherSaveAbsolutePath": "", /* 文件保存路径 */
   "catcherFtpUpload": true, /*是否FTP 上传*/
   "catcherMaxSize": 2048000, /* 上传大小限制，单位B */
@@ -58,7 +58,7 @@
   "videoActionName": "uploadvideo", /* 执行上传视频的action名称 */
   "videoFieldName": "upfile", /* 提交的视频表单名称 */
   "videoPathFormat": "upload/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-  "videoUrlPrefix": "https://localhost:44357/", /* 视频访问路径前缀 */
+  "videoUrlPrefix": "http://192.168.0.138:8085/", /* 视频访问路径前缀 */
   "videoSaveAbsolutePath": "", /* 文件保存路径 */
   "videoFtpUpload": true, /*是否FTP OSS上传*/
   "videoMaxSize": 102400000, /* 上传大小限制，单位B，默认100MB */
@@ -86,7 +86,7 @@
   "fileActionName": "uploadfile", /* controller里,执行上传视频的action名称 */
   "fileFieldName": "upfile", /* 提交的文件表单名称 */
   "filePathFormat": "upload/file/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-  "fileUrlPrefix": "https://localhost:44357/", /* 文件访问路径前缀 */
+  "fileUrlPrefix": "http://192.168.0.138:8085/", /* 文件访问路径前缀 */
   "fileSaveAbsolutePath": "upload", /* 文件保存路径 */
   "fileFtpUpload": true, /*是否FTP OSS上传*/
   "fileMaxSize": 51200000, /* 上传大小限制，单位B，默认50MB */
@@ -137,7 +137,7 @@
   "imageManagerActionName": "listimage", /* 执行图片管理的action名称 */
   "imageManagerListPath": "uploud/file", /* 指定要列出图片的目录 */
   "imageManagerListSize": 20, /* 每次列出文件数量 */
-  "imageManagerUrlPrefix": "https://localhost:44357/", /* 图片访问路径前缀 */
+  "imageManagerUrlPrefix": "http://192.168.0.138:8085/", /* 图片访问路径前缀 */
   "imageManagerSaveAbsolutePath": "uploud", /* 文件保存路径 */
   "imageManagerFtpUpload": true, /*是否FTP  OSS上传*/
   "imageManagerInsertAlign": "none", /* 插入的图片浮动方式 */
@@ -146,7 +146,7 @@
   /* 列出指定目录下的文件 */
   "fileManagerActionName": "listfile", /* 执行文件管理的action名称 */
   "fileManagerListPath": "uploud", /* 指定要列出文件的目录 */
-  "fileManagerUrlPrefix": "https://localhost:44357/", /* 文件访问路径前缀 */
+  "fileManagerUrlPrefix": "http://192.168.0.138:8085/", /* 文件访问路径前缀 */
   "fileManagerSaveAbsolutePath": "uploud", /* 文件保存路径 */
   "fileManagerFtpUpload": true, /*是否FTP OSS上传*/
   "fileManagerListSize": 20, /* 每次列出文件数量 */

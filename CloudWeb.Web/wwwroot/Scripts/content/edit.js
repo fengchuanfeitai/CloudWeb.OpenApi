@@ -78,7 +78,7 @@
                 case 'edit':
                     {
                         var eidtApi = BaseApi + '/api/admin/Content/EditContent';
-                        ajax(eidtApi, "post", res.field, "修改");
+                        editAjax(eidtApi, "post", res.field, "修改");
                     }
                     break;
             }
@@ -204,6 +204,42 @@ function ActionOperation(action, form) {
     form.render("select");//加载重新form
 }
 
+function editAjax(path, method, params, msg) {
+    var frameIndex = parent.layer.getFrameIndex(window.name);
+    $.ajax({
+        type: method,
+        url: path,
+        data: params,
+        async: false,
+        success: function (res) {
+            console.log(res);
+            if (res.code === 200) {
+
+                layer.alert(msg + "成功", {
+                    icon: 6
+                }, function () {
+                    //关闭当前frame
+                    parent.layer.close(frameIndex);
+                    parent.search();
+                });
+                return false;
+            }
+            else {
+
+                layer.alert(res.msg, {
+                    icon: 2
+                }, function () {
+                    //关闭当前frame
+                    xadmin.close();
+                });
+                return false;
+            }
+        },
+        error: function (res) {
+            console.log(res)
+        }
+    });
+}
 
 //类别下拉框
 function ColumnDropDown(columnid) {
