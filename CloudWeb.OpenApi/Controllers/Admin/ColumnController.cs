@@ -109,10 +109,10 @@ namespace CloudWeb.OpenApi.Controllers.Admin
         /// 获取栏目下拉数据
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        public ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id)
+        [HttpGet]
+        public ResponseResult<IList<ColumnDropDownDto>> GetDropDownList(int? id, bool existTopLevel)
         {
-            return _service.GetDropDownList(id);
+            return _service.GetDropDownList(id, existTopLevel);
         }
 
         /// <summary>

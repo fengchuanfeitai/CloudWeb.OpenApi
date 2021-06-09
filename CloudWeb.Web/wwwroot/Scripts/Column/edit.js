@@ -94,11 +94,11 @@
         //监听提交
         form.on('submit(columnsubmit)', function (res) {
             //点击提交按钮，限制按钮点击，防止重复提交
-            var sort = $('#sort').val()
-            if (sort === "") {
-                layer.msg('请填写排序！', { icon: 2 });
-                return false;
-            }
+            //var sort = $('#sort').val()
+            //if (sort === "") {
+            //    layer.msg('请填写排序！', { icon: 2 });
+            //    return false;
+            //}
             if (sort.length > 0) {
                 if (!(/^[0-9]*$/.test(sort))) {
                     layer.msg('排序只能是数字！', { icon: 2 });
@@ -107,7 +107,7 @@
             }
 
             var level = $('#level').val();
-            if (level < 2) {
+            if (level <= 2) {
                 var cover = $("#coverUrl").val();
                 var value = $("#coverLinks").val();
                 if (cover === "") {
@@ -145,15 +145,11 @@
 
             if (level > 2) {
                 var moduleVal = $("select[name='module']").val()
-                if (moduleVal == null) {
+                if (moduleVal == null || moduleVal == "") {
                     layer.msg('请选择模块样式', { icon: 2 });
                     return false;
                 }
             }
-            else {
-                res.field['module'] = 0;
-            }
-            console.log(res.field)
 
             switch (action) {
                 case 'addSublevel':
@@ -190,7 +186,7 @@ function ActionOperation(action, form) {
                 //添加绑定用户id
                 $("#creator").val(userId);
                 // 加载栏目分类所有数据下拉框
-                ColumnDropDown();
+                ColumnDropDown(null, true);
                 //加载组件模板下拉框
                 ModuleDropDown();
             }
@@ -202,7 +198,7 @@ function ActionOperation(action, form) {
                 $("#creator").val(userId);
                 //获取url中携带的columnId参数,不保存,加载从对应栏目对应的栏目的下拉框数据
                 var columnId = getUrlParam("columnId");
-                ColumnDropDown(columnId, action);
+                ColumnDropDown(columnId, false);
                 //加载组件模板下拉框
                 ModuleDropDown();
             }
@@ -216,7 +212,7 @@ function ActionOperation(action, form) {
                 var columnId = getUrlParam("columnId");
                 $("#columnId").val(columnId);//保存columnId到隐藏控件，用于编辑时的主键
                 // 加载栏目分类所有数据下拉框
-                ColumnDropDown();
+                ColumnDropDown(null, true);
 
                 //加载组件模板下拉框
                 ModuleDropDown();
@@ -286,30 +282,26 @@ $("body").on("click", ".close", function () {
 });
 
 //栏目下拉框
-function ColumnDropDown(columnid, action) {
+function ColumnDropDown(columnid, existTopLevel) {
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "json",
         async: false,
         data: {
-            id: columnid
+            id: columnid,
+            existTopLevel: existTopLevel
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
             console.log(res.data);
-
             if (res.code === 200 & res.data.length > 0) {
-                if (action !== 'addSublevel') {
-                    var ophtmls = '<option value="0">顶级</option>';
-                    $("select[name=parentId]").html(ophtmls);
-                }
                 Display(res.data[0].columnId);
-
+                var ophtmls = '';
                 for (var i = 0; i < res.data.length; i++) {
                     var Id = res.data[i].columnId;
                     var ClassLayer = res.data[i].level;
                     var Title = res.data[i].colName;
-                    if (ClassLayer == 1) {
+                    if (ClassLayer == 1 || ClassLayer == 0) {
                         ophtmls += "<option value=" + Id + ">" + Title + "</option>";
                     } else {
                         Title = "├ " + Title;
@@ -328,11 +320,12 @@ function ColumnDropDown(columnid, action) {
 
 function Display(columnid) {
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "json",
         async: false,
         data: {
-            id: columnid
+            id: columnid,
+            existTopLevel: false
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
@@ -340,11 +333,12 @@ function Display(columnid) {
 
 
             if (res.code === 200) {
-                var level = res.data[0].level;
+                var plevel = res.data[0].level;
+                var level = plevel + 1;
                 console.log('level:' + level)
                 $('#level').val(level)
                 ModuleDropDown()
-                if (level > 1) {
+                if (level > 2) {
                     //隐藏上传轮播，链接输入框
                     $('#coverUrlPic').attr('style', 'display:none');//不显示
                     $('#picCoverLinks').attr('style', 'display:none');//不显示
@@ -354,7 +348,7 @@ function Display(columnid) {
                     $('#picCoverLinks').attr('style', 'display:block');//不显示
                 }
 
-                if (level < 2) {
+                if (level <= 2) {
                     $('#divIsNews').attr('style', 'display:none');//不显示
                     $('#moduleDiv').attr('style', 'display:none');
                 }

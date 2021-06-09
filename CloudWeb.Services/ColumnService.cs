@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace CloudWeb.Services
 {
@@ -41,6 +42,15 @@ namespace CloudWeb.Services
             return resData;
         }
 
+        private int GetSort(int? columnId)
+        {
+            var idStr = "";
+            if (columnId != null)
+                idStr = $"AND ColumnId != {columnId.Value}";
+            var MaxSortsql = $"SELECT ISNULL(MAX(Sort),0) FROM dbo.[Columns] WHERE 1=1 {idStr}";
+            return MaxSort(MaxSortsql) + 1;
+        }
+
         #endregion
 
         #region 管理系统后台接口逻辑
@@ -69,14 +79,18 @@ namespace CloudWeb.Services
             if (count > 0)
                 return result.SetFailMessage("同一级别栏目，栏目名称不能重复");
 
+            if (column.Sort == null)
+                column.Sort = GetSort(null);
+
+
             //如果父级为0 ，则是第一级
-            if (column.ParentId == 0)
-                column.Level = 1;
-            else
-            {
-                string sql = "select level from Columns where isdel=0 and ColumnId=@id";
-                column.Level = Count(sql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
-            }
+            //if (column.ParentId == 0)
+            //    column.Level = 1;
+            //else
+            //{
+            //    string sql = "select level from Columns where isdel=0 and ColumnId=@id";
+            //    column.Level = Count(sql, new { id = column.ParentId }) + 1;//父级不为0，则查询父级level+1
+            //}
             if (column.Level < 3)
             {
                 column.IsNews = false;
@@ -197,14 +211,17 @@ namespace CloudWeb.Services
 
             if (columnDto.ParentId == columnDto.ColumnId)
                 return result.SetFailMessage("父级栏目，不能选择自己，请重新选择");
+
+            if (columnDto.Sort == null)
+                columnDto.Sort = GetSort(columnDto.ColumnId);
             //如果父级为0 ，则是第一级
-            if (columnDto.ParentId == 0)
-                columnDto.Level = 1;
-            else
-            {
-                string levelSql = "select level from Columns where isdel=0 and ColumnId=@id";
-                columnDto.Level = Count(levelSql, new { id = columnDto.ParentId }) + 1;//父级不为0，则查询父级level+1
-            }
+            //if (columnDto.ParentId == 0)
+            //    columnDto.Level = 1;
+            //else
+            //{
+            //    string levelSql = "select level from Columns where isdel=0 and ColumnId=@id";
+            //    columnDto.Level = Count(levelSql, new { id = columnDto.ParentId }) + 1;//父级不为0，则查询父级level+1
+            //}
             if (columnDto.Level < 3)
             {
                 columnDto.IsNews = false;
@@ -239,7 +256,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<ColumnDto>> GetAll(BaseParam pageParam)
         {
-            string sql = @"  SELECT * FROM Columns  where IsDel=0 order by sort asc;";
+            string sql = @"  SELECT * FROM Columns  where IsDel=0";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, pageParam));
         }
 
@@ -273,17 +290,34 @@ namespace CloudWeb.Services
         /// 下拉框数据
         /// </summary>
         /// <param name="id">主键</param>
+        /// <param name="existTopLevel">是否存在顶级</param>
         /// <returns></returns>
-        public ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id)
+        public ResponseResult<IList<ColumnDropDownDto>> GetDropDownList(int? id, bool existTopLevel)
         {
+            var list = new List<ColumnDropDownDto>();
             string condition = "";
             if (id > 0)
                 condition = " where ColumnId=@id";
 
-            string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsDel, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select  dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsDel,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid where dt.IsDel=0 and c.IsDel=0)select columnid,colname,ParentID,IsNews,Level,IsDel from columnsInfo {condition} order by Sort, Level; ";
+            if (id != 0)
+            {
+                string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsDel, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select  dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsDel,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid where dt.IsDel=0 and c.IsDel=0)select columnid,colname,ParentID,IsNews,Level,IsDel from columnsInfo {condition} order by Sort, Level; ";
 
-
-            return new ResponseResult<IEnumerable<ColumnDropDownDto>>(GetAll<ColumnDropDownDto>(sql, new { id = id }));
+                var downEnumerable = GetAll<ColumnDropDownDto>(sql, new { id = id });
+                list = downEnumerable.ToList();
+            }
+            if (existTopLevel)
+            {
+                var first = new ColumnDropDownDto()
+                {
+                    ColumnId = 0,
+                    ColName = "顶级",
+                    Level = 0,
+                    IsNews = 0
+                };
+                list.Insert(0, first);
+            }
+            return new ResponseResult<IList<ColumnDropDownDto>>(list);
         }
 
 
@@ -299,7 +333,7 @@ namespace CloudWeb.Services
 
         public ResponseResult<IEnumerable<ColumnDto>> GetColumnsByParentId(int parentId)
         {
-            string sql = "SELECT * FROM dbo.[Columns] WHERE IsDel = 0 AND IsShow = 1 AND ParentId=@parentId order by sort asc;";
+            string sql = "SELECT * FROM dbo.[Columns] WHERE IsDel = 0 AND IsShow = 1 AND ParentId=@parentId";
             return new ResponseResult<IEnumerable<ColumnDto>>(GetAll<ColumnDto>(sql, new { parentId = parentId }));
         }
 

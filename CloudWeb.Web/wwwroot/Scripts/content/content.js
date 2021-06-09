@@ -183,16 +183,16 @@ layui.use('table', function () {
 function ColumnDropDown(columnid) {
     console.log(columnid);
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "json",
         async: false,
         data: {
-            id: columnid
+            id: columnid,
+            existTopLevel: false
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
             console.log(res.data);
-            //category_name = json;
             var ophtmls = '<option value="0">全部</option>';
             $("select[name=columnId]").html(ophtmls);
             for (var i = 0; i < res.data.length; i++) {

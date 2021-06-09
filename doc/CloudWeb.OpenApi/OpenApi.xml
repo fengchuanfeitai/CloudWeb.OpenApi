@@ -63,7 +63,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetDropDownList(System.Int32)">
+        <member name="M:CloudWeb.OpenApi.Controllers.Admin.ColumnController.GetDropDownList(System.Nullable{System.Int32},System.Boolean)">
             <summary>
             获取栏目下拉数据
             </summary>

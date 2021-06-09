@@ -70,7 +70,7 @@ namespace CloudWeb.IServices
         /// </summary>
         /// <param name="id">主键</param>
         /// <returns></returns>
-        ResponseResult<IEnumerable<ColumnDropDownDto>> GetDropDownList(int id);
+        ResponseResult<IList<ColumnDropDownDto>> GetDropDownList(int? id, bool existTopLevel);
 
 
         ResponseResult<IList<SelectListItem>> GetModuleDownList();

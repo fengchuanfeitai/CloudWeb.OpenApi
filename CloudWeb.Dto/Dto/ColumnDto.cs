@@ -83,7 +83,7 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 模块样式
         /// </summary>
-        public int Module { get; set; }
+        public int? Module { get; set; }
     }
 
     public class ColumnDropDownDto
@@ -191,6 +191,6 @@ namespace CloudWeb.Dto
         /// <summary>
         /// 模块样式
         /// </summary>
-        public int Module { get; set; }
+        public int? Module { get; set; }
     }
 }
