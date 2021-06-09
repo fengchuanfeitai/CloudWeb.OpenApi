@@ -30,9 +30,12 @@ namespace CloudWeb.Services
             return ColTxt;
         }
 
-        private int GetSort()
+        private int GetSort(int? id)
         {
-            var MaxSortsql = "SELECT ISNULL(MAX(Sort),0) FROM dbo.Corporations";
+            var idStr = "";
+            if (id != null)
+                idStr = $"AND CorpId!={id.Value}";
+            var MaxSortsql = $"SELECT ISNULL(MAX(Sort),0) FROM dbo.Corporations WHERE 1=1 {idStr}";
             return MaxSort(MaxSortsql) + 1;
         }
 
@@ -70,7 +73,7 @@ namespace CloudWeb.Services
             corporation.IsDel = 0;
             if (corporation.Sort == null)
             {
-                corporation.Sort = GetSort();
+                corporation.Sort = GetSort(null);
             }
 
             const string InsertSql = @"INSERT INTO dbo.Corporations
@@ -127,6 +130,10 @@ namespace CloudWeb.Services
 
             corporation.ModifyTime = DateTime.Now;
             corporation.Modifier = corporation.Creator;
+            if (corporation.Sort == null)
+            {
+                corporation.Sort = GetSort(corporation.CorpId.Value);
+            }
             const string UpdateSql = @"UPDATE dbo.Corporations SET ModifyTime=@ModifyTime,Modifier=@Modifier,
                     [Name]=@Name,Cover=@Cover,Logo1=@Logo1, Logo2=@Logo2,ColumnId=@ColumnId,AboutUs=@AboutUs,
                     AboutUsCover=@AboutUsCover,ContactUs=@ContactUs,ContactUsBg=@ContactUsBg,Sort=@Sort,
