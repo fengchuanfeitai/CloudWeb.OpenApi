@@ -20,9 +20,12 @@ namespace CloudWeb.Services
             return Corporation.Name;
         }
 
-        private int GetSort()
+        private int GetSort(int? id)
         {
-            var MaxSortsql = "SELECT ISNULL(MAX(Sort),0) FROM dbo.CorpProducts";
+            var idStr = "";
+            if (id != null)
+                idStr = $"AND id != {id.Value}";
+            var MaxSortsql = $"SELECT ISNULL(MAX(Sort),0) FROM dbo.CorpProducts WHERE 1=1 {idStr}";
             return MaxSort(MaxSortsql) + 1;
         }
 
@@ -45,7 +48,7 @@ namespace CloudWeb.Services
             corpProduct.ModifyTime = corpProduct.CreateTime;
             corpProduct.Modifier = corpProduct.Creator;
             if (corpProduct.Sort == null)
-                corpProduct.Sort = GetSort();
+                corpProduct.Sort = GetSort(null);
 
             const string InsertSql = @"INSERT INTO dbo.CorpProducts
                  (CreateTime,ModifyTime,Creator,Modifier,[Name],Cover,
@@ -99,6 +102,9 @@ namespace CloudWeb.Services
 
             corpProduct.ModifyTime = DateTime.Now;
             corpProduct.Modifier = corpProduct.Creator;
+            if (corpProduct.Sort == null)
+                corpProduct.Sort = GetSort(corpProduct.Id.Value);
+
             const string UpdateSql = @"UPDATE dbo.CorpProducts SET 
                   ModifyTime=@ModifyTime,Modifier=@Modifier,[Name]=@Name,Cover=@Cover,Content=@Content,
                   CorpId=@CorpId,LocationUrl=@LocationUrl,Sort=@Sort,IsShow=@IsShow,IsDel=@IsDel 
