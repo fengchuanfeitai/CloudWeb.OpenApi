@@ -245,11 +245,12 @@ function ColumnDropDown(columnid) {
 
 function DisplayPic(columnid) {
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "json",
         async: false,
         data: {
-            id: columnid
+            id: columnid,
+            existTopLevel: false
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
