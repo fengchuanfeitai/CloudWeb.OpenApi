@@ -39,10 +39,6 @@
         //监听提交
         form.on('submit(contentsubmit)', function (res) {
             var sort = $('#sort').val()
-            if (sort === "") {
-                layer.msg('请填写排序！', { icon: 2 });
-                return false;
-            }
             if (sort.length > 0) {
                 if (!(/^[0-9]*$/.test(sort))) {
                     layer.msg('排序只能是数字！', { icon: 2 });
