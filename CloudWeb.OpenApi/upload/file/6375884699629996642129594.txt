@@ -1,0 +1,53 @@
+## sql注入修改
+
+- **新增文件：旧版资源库\新建文件夹\Global.asax**
+- **新增文件：旧版资源库\新建文件夹\App_Code\Common\CommonLib\USTCORI.CommonLib\Utility\SQLInjectionHelper.cs**
+
+
+
+## 上传插件修改
+
+- **修改文件：旧版资源库\新建文件夹\PRL\UserControl\Resource\PRL002002.ascx**
+
+~~~js
+  var returnValue = window.open('../../Pages/Common/UpLoad1.aspx?t=' + Math.random() + "&rid=" + resourceID);
+~~~
+
+- **新增js文件：旧版资源库\新建文件夹\PRL\JS\easyUpload**：
+
+- **新增webform文件：旧版资源库\新建文件夹\PRL\Pages\Common\Upload1.aspx**
+
+- **修改文件：旧版资源库\新建文件夹\PRL\common\Control.ashx**
+
+  ~~~c#
+   //2021.4.27 修改上传控件： 转化字节
+  info.AccessorySize = file.ContentLength<1024?file.ContentLength.ToString():(Math.Round(  file.ContentLength/(float)1024,2)).ToString();
+        
+  //2021.4.28 修改上传控件：增加一次上传一个文件，每次清空之前的session
+          if (Session["attchList"] != null)
+          {
+              Session["attchList"] = null;
+          }
+  
+       //2021.4.27 修改上传控件： 返回参数修改.json格式
+          returnStr = "{\"code\":\"200\"}";
+  ~~~
+
+  
+
+- **web.Config文件修改**
+
+  ~~~xml
+  <!--2021.4.27 修改上传控件，新增文件上传格式-->
+  <add key="UploadFileType" value=".png,.jpg,.jpeg,.gif,.bmp,.flv,.swf,.mkv,.avi,.rm,.rmvb,.mpeg,.mpg,.ogg,.ogv,.mov,.wmv,.mp4,.webm,.mp3,.wav,.mid,.rar,.zip,.tar,.gz,.7z,.bz2,.cab,.iso,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.txt,.md,.xml"/>
+  	
+  ~~~
+
+  
+
+  
+
+  
+
+
+

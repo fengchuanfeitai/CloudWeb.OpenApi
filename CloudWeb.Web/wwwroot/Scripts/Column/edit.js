@@ -336,7 +336,9 @@ function Display(columnid) {
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
-            console.log(res);
+            console.log('Display:' + columnid);
+
+
             if (res.code === 200) {
                 var level = res.data[0].level;
                 console.log('level:' + level)
