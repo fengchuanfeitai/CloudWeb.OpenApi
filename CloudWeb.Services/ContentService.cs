@@ -13,6 +13,15 @@ namespace CloudWeb.Services
     {
         #region 私有函数
 
+        private int GetSort(int? id)
+        {
+            var idStr = "";
+            if (id != null)
+                idStr = $"AND Id != {id.Value}";
+            var MaxSortsql = $"SELECT ISNULL(MAX(Sort),0) FROM dbo.Content WHERE 1=1 {idStr}";
+            return MaxSort(MaxSortsql) + 1;
+        }
+
         /// <summary>
         /// 插入sql
         /// </summary>
@@ -66,6 +75,9 @@ namespace CloudWeb.Services
             {
                 return result.SetFailMessage(ContantMsg.EditContent_ColumnIsDel_Msg);
             }
+            if (content.Sort == null)
+                content.Sort = GetSort(null);
+
 
             //默认值
             content.CreateTime = DateTime.Now;
@@ -177,6 +189,9 @@ namespace CloudWeb.Services
             {
                 return result.SetFailMessage(ContantMsg.EditContent_ColumnIsDel_Msg);
             }
+
+            if (contentDto.Sort == null)
+                contentDto.Sort = GetSort(contentDto.Id);
 
             const string sql = @"UPDATE [Ori_CloudWeb].[dbo].[Content]
                    SET

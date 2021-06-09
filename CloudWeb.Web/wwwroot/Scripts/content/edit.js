@@ -39,10 +39,6 @@
         //监听提交
         form.on('submit(contentsubmit)', function (res) {
             var sort = $('#sort').val()
-            if (sort === "") {
-                layer.msg('请填写排序！', { icon: 2 });
-                return false;
-            }
             if (sort.length > 0) {
                 if (!(/^[0-9]*$/.test(sort))) {
                     layer.msg('排序只能是数字！', { icon: 2 });
@@ -281,11 +277,12 @@ function ColumnDropDown(columnid) {
 
 function DisplayPic(columnid) {
     $.ajax({
-        type: "POST",
+        type: "GET",
         dataType: "json",
         async: false,
         data: {
-            id: columnid
+            id: columnid,
+            existTopLevel: false
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
