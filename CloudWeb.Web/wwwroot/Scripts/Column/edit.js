@@ -127,15 +127,28 @@
                     var linkArr = value.split(',');
                     var coverArr = cover.split(',');
                     var tag = true;
+                    var tag1 = true;
                     $.each(linkArr, function (i, v) {
-                        if (v == '')
+                        if (v == '') {
                             tag = false;
+                        }
+                        else {
+                            //判断链接是否有http://
+                            if (v != '#') {
+                                if (!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/).test(v)) {
+                                    tag1 = false;
+                                }
+                            }
+                        }
                     })
                     if (!tag) {
                         layer.msg('轮播图跳转链接占位需要”#“填位！', { icon: 2 });
                         return false;
                     }
-
+                    if (!tag1) {
+                        layer.msg('第三方链接必须以https://或http://开头', { icon: 2 });
+                        return false;
+                    }
                     if (linkArr.length != coverArr.length) {
                         layer.msg('跳转链接个数不等于轮播图数量，请添加或删除！。无链接用‘#’占位', { icon: 2 });
                         return false;
@@ -325,7 +338,7 @@ function Display(columnid) {
         async: false,
         data: {
             id: columnid,
-            existTopLevel: false
+            existTopLevel: true
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
@@ -333,6 +346,7 @@ function Display(columnid) {
 
 
             if (res.code === 200) {
+                console.log(res.data);
                 var plevel = res.data[0].level;
                 var level = plevel + 1;
                 console.log('level:' + level)
@@ -342,19 +356,14 @@ function Display(columnid) {
                     //隐藏上传轮播，链接输入框
                     $('#coverUrlPic').attr('style', 'display:none');//不显示
                     $('#picCoverLinks').attr('style', 'display:none');//不显示
+                    $('#divIsNews').attr('style', 'display:block');
+                    $('#moduleDiv').attr('style', 'display:block');
                 }
                 else {
                     $('#coverUrlPic').attr('style', 'display:block');
-                    $('#picCoverLinks').attr('style', 'display:block');//不显示
-                }
-
-                if (level <= 2) {
+                    $('#picCoverLinks').attr('style', 'display:block');//显示
                     $('#divIsNews').attr('style', 'display:none');//不显示
                     $('#moduleDiv').attr('style', 'display:none');
-                }
-                else {
-                    $('#divIsNews').attr('style', 'display:block');
-                    $('#moduleDiv').attr('style', 'display:block');
                 }
             }
         }

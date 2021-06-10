@@ -295,17 +295,17 @@ namespace CloudWeb.Services
         public ResponseResult<IList<ColumnDropDownDto>> GetDropDownList(int? id, bool existTopLevel)
         {
             var list = new List<ColumnDropDownDto>();
-            string condition = "";
-            if (id > 0)
-                condition = " where ColumnId=@id";
+            //string condition = "";
+            //if (id > 0)
+            //    condition = " where ColumnId=@id";
 
-            if (id != 0)
-            {
-                string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsDel, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select  dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsDel,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid where dt.IsDel=0 and c.IsDel=0)select columnid,colname,ParentID,IsNews,Level,IsDel from columnsInfo {condition} order by Sort, Level; ";
+            //if (id != 0)
+            //{
+            string sql = $"with columnsInfo as(select columnid, colname, ParentID, Level, IsDel, IsNews,right('00' + cast(Sort as varchar(max)), 3) as Sort from columns where ParentID = 0 and IsDel = 0   union all select  dt.columnid,dt.colname,dt.ParentID,dt.Level,dt.IsDel,dt.IsNews, c.Sort + '-' + right('00' + cast(dt.Sort as varchar(max)), 3) as Sort from columnsInfo as c join columns as dt on dt.ParentID = c.columnid where dt.IsDel=0 and c.IsDel=0)select columnid,colname,ParentID,IsNews,Level,IsDel from columnsInfo  order by Sort, Level; ";
 
-                var downEnumerable = GetAll<ColumnDropDownDto>(sql, new { id = id });
-                list = downEnumerable.ToList();
-            }
+            var downEnumerable = GetAll<ColumnDropDownDto>(sql);
+            list = downEnumerable.ToList();
+            //}
             if (existTopLevel)
             {
                 var first = new ColumnDropDownDto()
@@ -317,9 +317,11 @@ namespace CloudWeb.Services
                 };
                 list.Insert(0, first);
             }
-            return new ResponseResult<IList<ColumnDropDownDto>>(list);
+            if (id > 0)
+                return new ResponseResult<IList<ColumnDropDownDto>>(list.Where(c => c.ColumnId == id).ToList());
+            else
+                return new ResponseResult<IList<ColumnDropDownDto>>(list);
         }
-
 
         public ResponseResult<IList<SelectListItem>> GetModuleDownList()
         {

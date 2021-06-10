@@ -27,18 +27,16 @@
 
         //自定义验证规则
         form.verify({
-            Sort: function (value) {
-                if (value.length > 0) {
-                    if (!(/^\d$/.test(value))) {
-                        return '排序只能是数字';
-                    }
-                }
-            }
         });
 
         //监听提交
         form.on('submit(contentsubmit)', function (res) {
             var sort = $('#sort').val()
+            if (sort.length === 0) {
+                layer.msg('请填写排序！', { icon: 2 });
+                return false;
+            }
+
             if (sort.length > 0) {
                 if (!(/^[0-9]*$/.test(sort))) {
                     layer.msg('排序只能是数字！', { icon: 2 });
@@ -50,6 +48,15 @@
             if (columnId === null) {
                 layer.msg('请先添加栏目', { icon: 2 });
                 return false;
+            }
+
+            var linkUrl = $('#linkUrl').val();
+
+            if (linkUrl.length > 0) {
+                if (!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/).test(linkUrl)) {
+                    layer.msg('第三方链接必须以https://或http://开头', { icon: 2 });
+                    return false;
+                }
             }
 
             var isNews = $('#isNews').val();
@@ -137,12 +144,12 @@ function ActionOperation(action, form) {
     var ue = UE.getEditor('container', {
         initialFrameHeight: 200
     });
-    // 加载栏目分类所有数据下拉框
-    ColumnDropDown();
 
+    ColumnDropDown();
     switch (action) {
         case 'add': //作为添加页面操作
             {
+                // 加载栏目分类所有数据下拉框
                 //添加绑定用户id
                 $("#creator").val(sessionStorage.getItem('UserId'));
             }
@@ -154,6 +161,8 @@ function ActionOperation(action, form) {
                 //获取url中携带的contentId参数
                 var contentId = getUrlParam("id");
                 $("#contentId").val(contentId);//保存contentId到隐藏控件，用于编辑时的主键
+                // 加载栏目分类所有数据下拉框
+
                 //数据库拉取数据，重新绑定form控件中
                 ue.ready(function () {
                     $.ajax({
@@ -162,11 +171,13 @@ function ActionOperation(action, form) {
                         //url: '/scripts/Column/editData.json' //数据接口
                         , data: { id: contentId }//传值
                         , success: function (res) {
-                            console.log(res);
+                            console.log('ue.ready:' + JSON.stringify(res));
                             if (res.code === 200) {
                                 //表单赋值
                                 $("#columnSelect").val(res.data.columnId);
+                                //DisplayPic();
                                 form.val("contentform", res.data);
+                                ColumnDropDown(res.data.columnId);
                                 if (res.data.imgUrl1 !== null && res.data.imgUrl1 !== '') {
                                     $('#Img1').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl1);
                                 }
@@ -175,11 +186,13 @@ function ActionOperation(action, form) {
                                 if (res.data.content !== null && res.data.content !== '') {
                                     ue.setContent(res.data.content);
                                 }
-
-                                if (res.data.isNews === 0) {
+                                var isNews = $('#isNews').val();
+                                console.log('#isNews:' + isNews);
+                                if (isNews === '0') {
                                     $('#newscover').attr('style', 'display:none');//不显示
                                 }
                                 else {
+                                    console.log('#isNews:' + isNews);
                                     $('#newscover').attr('style', 'display:block');
                                     if (res.data.imgUrl2 !== null && res.data.imgUrl2 !== '') {
                                         $('#Img2').removeClass('layui-hide').find('img').attr('src', res.data.imgUrl2);
@@ -286,9 +299,10 @@ function DisplayPic(columnid) {
         },
         url: BaseApi + '/api/admin/Column/GetDropDownList',
         success: function (res) {
-            console.log(res);
+            console.log('DisplayPic:' + JSON.stringify(res));
             if (res.code === 200) {
                 var isNews = res.data[0].isNews;
+                console.log('DisplayPicisNews:' + isNews);
                 $('#isNews').val(isNews)
                 if (isNews === 0) {
                     $('#newscover').attr('style', 'display:none');//不显示

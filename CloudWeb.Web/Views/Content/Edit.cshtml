@@ -71,7 +71,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>排序</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="sort" lay-verify="" id="sort" value="" lay-reqtext="" placeholder="请填写数字" maxlength="4" autocomplete="off" class="layui-input">
+                    <input type="text" name="sort" id="sort" value="" lay-verify="true" lay-reqtext="请填写排序" placeholder="请填写数字" maxlength="4" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>数字越小排序越靠前
@@ -80,11 +80,11 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="linkUrl" placeholder="" lay-verify="" autocomplete="off" class="layui-input">
+                    <input type="text" name="linkUrl" placeholder="" id="linkUrl" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red">*</span>
-                    为空。默认跳网站详情页，填写<span class="x-red">第三方链接</span>则优先打开第三方链接
+                    为空。默认跳网站详情页，填写<span class="x-red">第三方链接,必须以https:// 或http://开头</span>,优先打开第三方链接
                 </div>
             </div>
             <div class="layui-form-item">
@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-form-item" id="newscover">
+            <div class="layui-form-item" id="newscover" style="display:none;">
                 <label for="ImgUrl1" class="layui-form-label">
                     <span class="x-red">*</span> 内页封面
                 </label>
