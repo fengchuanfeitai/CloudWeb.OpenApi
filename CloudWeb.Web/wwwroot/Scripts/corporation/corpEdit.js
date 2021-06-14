@@ -80,17 +80,17 @@ layui.use(['form', 'upload', 'layer'], function () {
         },
         Sort: function (value) {
             if (value.length > 0) {
-                if (!(/^\d$/.test(value))) {
+                if (!(/^[0-9]*$/.test(value))) {
                     return '排序只能是数字';
                 }
             }
         }
     });
+    $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
     var active = {
         //页面初始化给页面赋值
         initPage: function () {
             var id = getUrlParam("id");
-            $("input[name='Creator']").val(sessionStorage.getItem("UserId"));
             $.ajax({
                 type: 'GET',
                 url: getUrl,
@@ -288,6 +288,7 @@ layui.use(['form', 'upload', 'layer'], function () {
             "Creator": $("input[name='Creator']").val(),
         };
 
+        console.log(postData)
         var frameIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
         $.ajax({

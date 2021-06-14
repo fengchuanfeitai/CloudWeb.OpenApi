@@ -93,7 +93,7 @@ layui.use(['form', 'upload', 'layer'], function () {
         },
         Sort: function (value) {
             if (value.length > 0) {
-                if (!(/^\d$/.test(value))) {
+                if (!(/^[0-9]*$/.test(value))) {
                     return '排序只能是数字';
                 }
             }

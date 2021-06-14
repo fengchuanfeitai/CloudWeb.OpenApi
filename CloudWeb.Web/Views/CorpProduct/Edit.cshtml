@@ -22,7 +22,7 @@
         @*Name*@
         <div class="layui-form-item">
             <label for="Name" class="layui-form-label">
-                展品名称
+                <span class="x-red">*</span> 展品名称
             </label>
             <div class="layui-input-inline">
                 <input type="text" name="Name" lay-verify="Name"
@@ -49,7 +49,7 @@
 
         @*CorpId 下拉选择框*@
         <div class="layui-form-item">
-            <label class="layui-form-label">所属公司</label>
+            <label class="layui-form-label"><span class="x-red">*</span>所属公司</label>
             <div class="layui-input-inline">
                 <select name="CorpId" id="bindCorp" lay-verify="CorpId">
                     <option value=""></option>
@@ -89,7 +89,7 @@
         @*上传封面图*@
         <div class="layui-form-item">
             <label for="Cover" class="layui-form-label">
-                封面图
+                <span class="x-red">*</span>    封面图
             </label>
             <div class="layui-input-block">
                 <div class="layui-upload-drag" id="CoverUpload">
