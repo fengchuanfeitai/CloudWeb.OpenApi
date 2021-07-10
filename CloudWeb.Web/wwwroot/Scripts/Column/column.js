@@ -115,7 +115,7 @@ function Starting_method() {
                             dataType: 'json',
                             data: { ids: ids },//'ids='+arr+'&_method=delete',
                             success: function (res) {
-                                console.log("ads" + res)
+                                console.log("ads1" + JSON.stringify(res))
                                 if (res.code === 200) {
 
                                     DelAjax(delApi, 'post', '是否删除选中数据', { ids: ids }, insTb)
@@ -174,9 +174,10 @@ function Starting_method() {
                 dataType: 'json',
                 data: { ids: ids },//'ids='+arr+'&_method=delete',
                 success: function (res) {
-                    console.log("ads" + res)
+                    console.log("ads" + JSON.stringify(res))
+                    var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
                     if (res.code === 200) {
-                        var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
+
                         DelAjax(delApi, 'post', '确认要删除所有选中数据吗？', { ids: ids }, insTb)
                     }
                     else {

@@ -94,7 +94,7 @@
         //监听提交
         form.on('submit(columnsubmit)', function (res) {
             //点击提交按钮，限制按钮点击，防止重复提交
-            //var sort = $('#sort').val()
+            var sort = $('#sort').val()
             //if (sort === "") {
             //    layer.msg('请填写排序！', { icon: 2 });
             //    return false;
@@ -104,6 +104,11 @@
                     layer.msg('排序只能是数字！', { icon: 2 });
                     return false;
                 }
+            }
+            var summary = $('#summary').val()
+            if (summary.length > 900) {
+                layer.msg('描述最多只能输入500字符之内！', { icon: 2 });
+                return false;
             }
 
             var level = $('#level').val();
