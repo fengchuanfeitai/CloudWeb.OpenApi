@@ -79,7 +79,7 @@ function Starting_method() {
             }
             , done: function (res, curr, count) {
                 //如果是异步请求数据方式，res即为你接口返回的信息。
-                console.log("接口返回data:" + res.data);
+                /*    console.log("接口返回data:" + res.data);*/
             }
         });
 
@@ -115,7 +115,7 @@ function Starting_method() {
                             dataType: 'json',
                             data: { ids: ids },//'ids='+arr+'&_method=delete',
                             success: function (res) {
-                                console.log("ads1" + JSON.stringify(res))
+                                console.log("普通删除，返回结果：" + JSON.stringify(res))
                                 if (res.code === 200) {
 
                                     DelAjax(delApi, 'post', '是否删除选中数据', { ids: ids }, insTb)
@@ -139,30 +139,19 @@ function Starting_method() {
         });
 
         var ids = [];
-        //全选删除
-        treeTable.on('checkbox(columnTreeTb)', function (obj) {
-            //存在bug,全选按钮问题，待修改
-            var data = insTb.checkStatus(true);
-
-            console.log(data);
-            ids = new Array();//每次加载时间，重新初始化数组
-
-            for (var i = 0; i < data.length; i++) {
-                var id = data[i].columnId;
-                ids.push(id);
-            }
-
-            console.log("事件全选删除选中数据：" + ids);
-        })
-
-
         //全部删除
         $("#delall").click(function () {
+            ids = new Array();
+            //获取复选框选中的状态
+            insTb.checkStatus().map(function (d) {
+                if (d.isIndeterminate === false)
+                    ids.push(d.columnId);
+            });
 
             //判断是否存在选中数据
             console.log("全选删除选中数据：" + ids);
-            //判读是否选择数据
 
+            //判读是否选择数据
             if (ids.length === 0) {
                 layer.msg('请先选择要删除的数据', { icon: 2 });
                 return false;
@@ -174,10 +163,9 @@ function Starting_method() {
                 dataType: 'json',
                 data: { ids: ids },//'ids='+arr+'&_method=delete',
                 success: function (res) {
-                    console.log("ads" + JSON.stringify(res))
-                    var delApi = BaseApi + '/api/admin/Column/DeleteColumn';
-                    if (res.code === 200) {
+                    console.log("是否包含内容接口返回：" + JSON.stringify(res))
 
+                    if (res.code === 200) {
                         DelAjax(delApi, 'post', '确认要删除所有选中数据吗？', { ids: ids }, insTb)
                     }
                     else {

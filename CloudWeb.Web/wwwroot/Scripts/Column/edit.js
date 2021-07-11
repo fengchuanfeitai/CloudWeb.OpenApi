@@ -107,7 +107,7 @@
             }
             var summary = $('#summary').val()
             if (summary.length > 900) {
-                layer.msg('描述最多只能输入500字符之内！', { icon: 2 });
+                layer.msg('描述最多只能输入900字符之内！', { icon: 2 });
                 return false;
             }
 

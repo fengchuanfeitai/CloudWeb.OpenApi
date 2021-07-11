@@ -129,7 +129,7 @@ function StringOfChar(strLong, str) {
  * @param {object} obj form(checkbox)返回对象
  */
 function ChangeStatus(api, params, form, obj) {
-    console.log('选中id:' + obj.value);
+    console.log('改变状态选中id:' + obj.value);
     $.post(api, params, function (res) {
         console.log('content[ChangeStatus],result:' + res);
         //判断是否等于200，否则提示错误信息
