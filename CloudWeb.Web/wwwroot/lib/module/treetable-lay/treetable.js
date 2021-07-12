@@ -522,13 +522,13 @@ layui.define(['laytpl', 'form', 'util'], function (exports) {
                 that.checkSubCB($tr, checked);  // 联动子级
             }
             var indent = parseInt($tr.data('indent'));
-            $tr.prevAll('tr').each(function () {
-                var tInd = parseInt($(this).data('indent'));
-                if (tInd < indent) {
-                    that.checkParentCB($(this));  // 联动父级
-                    indent = tInd;
-                }
-            });
+            //$tr.prevAll('tr').each(function () {
+            //    var tInd = parseInt($(this).data('indent'));
+            //    if (tInd < indent) {
+            //        that.checkParentCB($(this));  // 联动父级
+            //        indent = tInd;
+            //    }
+            //});
             that.checkChooseAllCB();  // 联动全选框
             // 回调事件
             layui.event.call(this, MOD_NAME, 'checkbox(' + components.filter + ')',
