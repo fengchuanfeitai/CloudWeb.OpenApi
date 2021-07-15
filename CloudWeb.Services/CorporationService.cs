@@ -100,9 +100,9 @@ namespace CloudWeb.Services
             string sql = "";
             string idsStr = ConverterUtil.StringSplit(ids);
             if (ids.Length > 0)
-                sql = $"UPDATE dbo.CorpProducts SET IsDel = 1 WHERE IsDel=0 AND CorpId = {idsStr} ";
+                sql = $"UPDATE dbo.CorpProducts SET IsDel = 1 WHERE IsDel=0 AND CorpId in ({idsStr})";
 
-            string delSql = $"UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId in ({idsStr}) {sql}";
+            string delSql = $"UPDATE dbo.Corporations SET IsDel = 1 WHERE CorpId in ({idsStr}) ;{sql};";
 
             return result.SetData(Delete(delSql, new { ids = ids }));
         }

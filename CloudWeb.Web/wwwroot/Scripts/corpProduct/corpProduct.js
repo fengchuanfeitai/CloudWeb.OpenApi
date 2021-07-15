@@ -93,7 +93,7 @@ layui.use(['table', 'layer', 'form'], function () {
         }
         else if (layEvent === 'edit') {
             //编辑
-            xadmin.open('编辑公司信息', '/CorpProduct/Edit?id=' + id, 800, 600)
+            xadmin.open('编辑公司展品', '/CorpProduct/Edit?id=' + id, 800, 600)
         } else if (layEvent === 'LAYTABLE_TIPS') {
             layer.alert('Hi，头部工具栏扩展的右侧图标。');
         }
