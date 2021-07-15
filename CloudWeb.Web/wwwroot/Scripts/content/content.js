@@ -10,7 +10,9 @@ layui.use('table', function () {
         reload: function () {
 
             table.reload('id', {
+                page: { curr: 1 },
                 where: {
+
                     columnId: $('#columnSelect').val(), TitleKeyword: $('#title').val()
                 }
             });
@@ -83,7 +85,7 @@ layui.use('table', function () {
         , done: function (res, curr, count) {
             //如果是异步请求数据方式，res即为你接口返回的信息。
             //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-            console.log("接口返回data:" + res);
+            console.log("接口返回data:" + JSON.stringify(res));
             //得到当前页码
             console.log("当前页码：" + curr);
             //得到数据总量
