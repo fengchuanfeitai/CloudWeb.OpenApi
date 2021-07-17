@@ -164,9 +164,9 @@ namespace CloudWeb.Services
             if (!string.IsNullOrEmpty(pageParam.CorpNameKeyword))
                 SearchName = " AND Name like '%" + pageParam.CorpNameKeyword + "%'";
 
-            string SelSql = $"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsShow,c1.CreateTime FROM dbo.Corporations c1,(SELECT TOP (@PageIndex*@PageSize) ROW_NUMBER() OVER(ORDER BY CreateTime DESC ) [Index],CorpId FROM dbo.Corporations) c2 WHERE c1.CorpId = c2.CorpId {SearchName} AND c1.IsDel = 0 AND c2.[Index] >(@PageSize*(@PageIndex-1)) ORDER BY c2.[Index] ASC";
+            string SelSql = $"SELECT c2.[Index],c1.CorpId,c1.[Name],c1.ColumnId,c1.Sort,c1.IsShow,c1.CreateTime FROM dbo.Corporations c1,(SELECT TOP (@PageIndex*@PageSize) ROW_NUMBER() OVER(ORDER BY CreateTime DESC ) [Index],CorpId FROM dbo.Corporations where IsDel = 0) c2 WHERE c1.CorpId = c2.CorpId {SearchName}  AND c2.[Index] >(@PageSize*(@PageIndex-1)) ORDER BY c2.[Index] ASC";
 
-            const string CountSql = @"SELECT COUNT(*) FROM dbo.Corporations WHERE IsDel=0";
+            string CountSql = $"SELECT COUNT(*) FROM dbo.Corporations WHERE IsDel=0 {SearchName}";
             var List = GetAll<CorporationDto>(SelSql, pageParam);
 
             foreach (var corp in List)

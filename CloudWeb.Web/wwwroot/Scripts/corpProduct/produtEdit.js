@@ -97,7 +97,15 @@ layui.use(['form', 'upload', 'layer'], function () {
                     return '排序只能是数字';
                 }
             }
+        },
+        LocationUrl: function (value) {
+            if (value.length > 0) {
+                if (!(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/).test(value)) {
+                    return '跳转链接为第三方链接必须以https://或http://开头';
+                }
+            }
         }
+
     });
 
     //封面图拖拽上传

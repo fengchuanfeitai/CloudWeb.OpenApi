@@ -148,7 +148,7 @@ namespace CloudWeb.Services
         /// <returns></returns>
         public ResponseResult<IEnumerable<CorpProductsDto>> GetPageProductList(ProductSearchParam pageParam)
         {
-            string SearchCorpId = null;
+            string SearchCorpId = "";
             string SearchName = "";
 
             if (pageParam.CorpId != null)
@@ -161,7 +161,7 @@ namespace CloudWeb.Services
                 SearchName = " AND Name like '%" + pageParam.NameKeyword + "%'";
             }
 
-            string SelSql = $"SELECT cp1.Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,LocationUrl,CorpId,Sort,IsShow,IsDel FROM dbo.CorpProducts cp1,(SELECT TOP (@PageIndex * @Pagesize) ROW_NUMBER() OVER(ORDER BY CreateTime DESC) AS [Index],Id FROM CorpProducts) cp2 WHERE cp1.Id = cp2.Id AND cp1.IsDel=0 {SearchCorpId} {SearchName} AND cp2.[Index] > (@PageSize * (@PageIndex - 1)) ORDER BY cp2.[Index] asc";
+            string SelSql = $"SELECT cp1.Id,CreateTime,ModifyTime,Creator,ModifyTime,[Name],Cover,Content,LocationUrl,CorpId,Sort,IsShow,IsDel FROM dbo.CorpProducts cp1,(SELECT TOP (@PageIndex * @Pagesize) ROW_NUMBER() OVER(ORDER BY CreateTime DESC) AS [Index],Id FROM CorpProducts where IsDel=0) cp2 WHERE cp1.Id = cp2.Id {SearchCorpId} {SearchName} AND cp2.[Index] > (@PageSize * (@PageIndex - 1)) ORDER BY cp2.[Index] asc";
 
             var List = GetAll<CorpProductsDto>(SelSql, pageParam);
             foreach (var item in List)
@@ -169,7 +169,7 @@ namespace CloudWeb.Services
                 //获取公司名
                 item.CorpName = GetCorpName(item.CorpId);
             }
-            const string CountSql = @"SELECT COUNT(*) FROM dbo.CorpProducts WHERE IsDel=0";
+            string CountSql = $"SELECT COUNT(*) FROM dbo.CorpProducts WHERE IsDel=0 {SearchCorpId} {SearchName}";
             return new ResponseResult<IEnumerable<CorpProductsDto>>(List, Count(CountSql));
         }
 
